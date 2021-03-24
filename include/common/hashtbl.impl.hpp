@@ -1,6 +1,6 @@
 //
 // file:			hashtbl.impl.hpp
-// path:			include/devsheet/common/util/hashtbl.impl.hpp
+// path:			include/common/hashtbl.impl.hpp
 // created on:		2017 Jul 21
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
@@ -390,7 +390,7 @@ const typename Base<KeyType,void>::iterator  Base<KeyType,void>::s_endIter(CPPUT
 
 
 template <typename KeyType>
-Base<KeyType,void>::Base(size_t a_tInitSize, typename Funcs<KeyType>::Hash a_funcHash)
+Base<KeyType,void>::Base(size_t a_tInitSize, typename FuncsT<KeyType>::Hash a_funcHash)
 	:
 	  m_funcHash(a_funcHash),
 	  m_pFirstItem(CPPUTILS_NULL),
@@ -464,7 +464,7 @@ typename Base<KeyType,void>::iterator Base<KeyType,void>::AddEntryWithKnownHash(
 
 template <typename KeyType>
 typename Base<KeyType,void>::iterator Base<KeyType,void>::FindEntry(const KeyType& a_key,size_t* a_hashPtr,
-																	void* a_clbkData,typename Funcs<KeyType>::FindVoid a_fnc)
+																	void* a_clbkData,typename FuncsT<KeyType>::Find a_fnc)
 {
 	__private::common::HashItemFull<KeyType,void>* pItemToRet;
 	size_t unHashForNull;
@@ -518,7 +518,7 @@ size_t Base<KeyType,void>::size()const
 template <typename KeyType>
 Base<KeyType,void>::HashItem::HashItem(const KeyType& a_key)
 	:
-	  key(a_key)
+	  first(a_key)
 {
 }
 
@@ -552,7 +552,68 @@ typename Base<KeyType,void>::iterator& Base<KeyType,void>::iterator::operator++(
 }
 
 template <typename KeyType>
-typename Base<KeyType,void>::iterator& Base<KeyType,void>::iterator::operator++(int)
+typename Base<KeyType,void>::iterator Base<KeyType,void>::iterator::operator++(int)
+{
+	typename Base<KeyType,void>::iterator iterToRet(this->m_pItem);
+	this->operator++();
+	return iterToRet;
+}
+
+template <typename KeyType>
+typename Base<KeyType,void>::iterator& Base<KeyType,void>::iterator::operator--()
+{
+	__private::common::HashItemFull<KeyType,void>* pItem = static_cast<__private::common::HashItemFull<KeyType,void>*>(m_pItem);
+	m_pItem = pItem->prevInTheList;
+	return *this;
+}
+
+template <typename KeyType>
+typename Base<KeyType,void>::iterator Base<KeyType,void>::iterator::operator--(int)
+{
+	typename Base<KeyType,void>::iterator iterToRet(this->m_pItem);
+	this->operator--();
+	return iterToRet;
+}
+
+template <typename KeyType>
+typename Base<KeyType,void>::HashItem* Base<KeyType,void>::iterator::operator->()const
+{
+	return m_pItem;
+}
+
+template <typename KeyType>
+Base<KeyType,void>::iterator::operator typename Base<KeyType,void>::HashItem*()const
+{
+	return m_pItem;
+}
+
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename KeyType>
+Base<KeyType,void>::const_iterator::const_iterator()
+	:
+	  m_pItem(CPPUTILS_NULL)
+{
+}
+
+template <typename KeyType>
+Base<KeyType,void>::const_iterator::const_iterator(const HashItem* a_pItem)
+	:
+	  m_pItem(const_cast< typename Base<KeyType,void>::HashItem* >(a_pItem))
+{
+}
+
+template <typename KeyType>
+Base<KeyType,void>::const_iterator::const_iterator(const iterator& a_iter)
+    :
+      m_pItem(a_iter.operator->())
+{
+}
+
+template <typename KeyType>
+typename Base<KeyType,void>::const_iterator& Base<KeyType,void>::const_iterator::operator++()
 {
 	__private::common::HashItemFull<KeyType,void>* pItem = static_cast<__private::common::HashItemFull<KeyType,void>*>(m_pItem);
 	m_pItem = pItem->nextInTheList;
@@ -560,25 +621,38 @@ typename Base<KeyType,void>::iterator& Base<KeyType,void>::iterator::operator++(
 }
 
 template <typename KeyType>
-typename Base<KeyType,void>::HashItem* Base<KeyType,void>::iterator::operator->()
+typename Base<KeyType,void>::const_iterator Base<KeyType,void>::const_iterator::operator++(int)
+{
+	typename Base<KeyType,void>::const_iterator iterToRet(this->m_pItem);
+	this->operator++();
+	return iterToRet;
+}
+
+template <typename KeyType>
+typename Base<KeyType,void>::const_iterator& Base<KeyType,void>::const_iterator::operator--()
+{
+	__private::common::HashItemFull<KeyType,void>* pItem = static_cast<__private::common::HashItemFull<KeyType,void>*>(m_pItem);
+	m_pItem = pItem->prevInTheList;
+	return *this;
+}
+
+template <typename KeyType>
+typename Base<KeyType,void>::const_iterator Base<KeyType,void>::const_iterator::operator--(int)
+{
+	typename Base<KeyType,void>::const_iterator iterToRet(this->m_pItem);
+	this->operator--();
+	return iterToRet;
+}
+
+
+template <typename KeyType>
+const typename Base<KeyType,void>::HashItem* Base<KeyType,void>::const_iterator::operator->()const
 {
 	return m_pItem;
 }
 
 template <typename KeyType>
-Base<KeyType,void>::iterator::operator typename Base<KeyType,void>::HashItem*()
-{
-	return m_pItem;
-}
-
-template <typename KeyType>
-const typename Base<KeyType,void>::HashItem* Base<KeyType,void>::iterator::operator->()const
-{
-	return m_pItem;
-}
-
-template <typename KeyType>
-Base<KeyType,void>::iterator::operator const typename Base<KeyType,void>::HashItem*()const
+Base<KeyType,void>::const_iterator::operator const typename Base<KeyType,void>::HashItem*()const
 {
 	return m_pItem;
 }
@@ -598,8 +672,17 @@ bool Funcs<KeyType,DataType>::DefaultFind(void*,const KeyType&, const DataType&)
 	return true;
 }
 
-template <typename KeyType,typename DataType>
-bool Funcs<KeyType,DataType>::DefaultFindVoid(void*,const KeyType&)
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+template <typename KeyType>
+size_t Funcs<KeyType,void>::DefaultHash(const KeyType& a_key)
+{
+	return __private::common::hash1_(&a_key,sizeof(KeyType));
+}
+
+
+template <typename KeyType>
+bool Funcs<KeyType,void>::DefaultFind(void*,const KeyType&)
 {
 	return true;
 }
