@@ -41,5 +41,11 @@ CPPUTILS_EXPORT void OperatorPlus(uint64_t a_numberOfQwords, uint64_t* a_res, co
 	}  // for(uint64_t i(0); i<a_numberOfQwords;++i){
 }
 
+//void Dummy(void)
+//{
+//	common::BigInt<1> aInt;
+//	static_cast<void>(aInt);
+//}
+
 
 }}  // namespace __private { namespace common {

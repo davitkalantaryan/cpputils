@@ -37,14 +37,16 @@ int main()
 	}
 	
 	{
-		common::BigUInt<1> a1(2);
-		common::BigUInt<1> a2(1);
+		common::BigInt<1> a1(2);
+		common::BigInt<1> a2(5);
 		int ia1 = static_cast<int>(a1+a2);
 		int ia2 = static_cast<int>(a1-a2);
 		//std::make_unsigned< common::BigInt<1> > ua;
 		std::cout << "ia1="<<ia1<<std::endl;
 		std::cout << "ia2="<<ia2<<std::endl;
 		std::cout << "a1+a2="<<a1+a2<<std::endl;
+		std::cout << "a1-a2="<<a1-a2<<std::endl;
+		std::cout << "2*a1-a2="<<a1-a2<<std::endl;
 	}
 	
 	
