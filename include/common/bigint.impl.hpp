@@ -39,9 +39,10 @@ BigUInt<NUM_QWORDS_DEGR>::BigUInt()
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-BigUInt<NUM_QWORDS_DEGR>::BigUInt(uint64_t a_val)
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>::BigUInt(const NumType& a_val)
 {
-	m_buff[0] = a_val;
+	m_buff[0] = static_cast<uint64_t>(a_val);
 	for(uint64_t i(1); i<s_numberOfQwords; ++i){
 		m_buff[i] = 0;
 	}	
@@ -54,9 +55,10 @@ BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigInt<NUM_QWORDS_DEGR>& a_cM)
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator=(uint64_t a_val)
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator=(const NumType& a_val)
 {
-	m_buff[0] = a_val;
+	m_buff[0] = static_cast<uint64_t>(a_val);
 	for(uint64_t i(1); i<s_numberOfQwords; ++i){
 		m_buff[i] = 0;
 	}	
@@ -71,10 +73,10 @@ BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator=(const BigInt<NUM_Q
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-template <typename IntType>
-BigUInt<NUM_QWORDS_DEGR>::operator IntType()const
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>::operator NumType()const
 {	
-	return static_cast<IntType>(m_buff[0]);
+	return static_cast<NumType>(m_buff[0]);
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -138,6 +140,75 @@ BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator%=(const BigUInt& a_
 	OpratorDiv(a_rS,&aLs);
 	return *this;
 }
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator+=(const BigInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator+=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator-=(const BigInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator-=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator*=(const BigInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator*=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator/=(const BigInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator/=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator%=(const BigInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator%=(BigUInt(a_rs));
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator+=(const NumType& a_rs)
+{
+	return this->operator+=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator-=(const NumType& a_rs)
+{
+	return this->operator-=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator*=(const NumType& a_rs)
+{
+	return this->operator*=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator/=(const NumType& a_rs)
+{
+	return this->operator/=(BigUInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator%=(const NumType& a_rs)
+{
+	return this->operator%=(BigUInt(a_rs));
+}
+
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator++()
@@ -262,10 +333,11 @@ BigInt<NUM_QWORDS_DEGR>::BigInt()
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-BigInt<NUM_QWORDS_DEGR>::BigInt(int64_t a_val)
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>::BigInt(const NumType& a_val)
 {
 	if(a_val>=0){
-		this->m_buff[0]=a_val;
+		this->m_buff[0]=static_cast<uint64_t>(static_cast<int64_t>(a_val));
 		for(uint64_t i(1); i<BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords; ++i){
 			this->m_buff[i] = 0;
 		}
@@ -286,10 +358,11 @@ BigInt<NUM_QWORDS_DEGR>::BigInt(const BigUInt<NUM_QWORDS_DEGR>& a_cM)
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(int64_t a_val)
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const NumType& a_val)
 {
 	if(a_val>=0){
-		this->m_buff[0] = a_val;
+		this->m_buff[0]=static_cast<uint64_t>(static_cast<int64_t>(a_val));
 		for(uint64_t i(1); i<BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords; ++i){
 			this->m_buff[i] = 0;
 		}
@@ -313,10 +386,10 @@ BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const BigUInt<NUM_QW
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-template <typename IntType>
-BigInt<NUM_QWORDS_DEGR>::operator IntType()const
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>::operator NumType()const
 {
-	return static_cast<IntType>(this->m_buff[0]);
+	return static_cast<NumType>(static_cast<int64_t>(this->m_buff[0]));
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -402,6 +475,77 @@ BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator%=(const BigInt& a_rs)
 	*this = isMinusRet?(-BigInt(divRes)) : BigInt(divRes);
 	return *this;
 }
+
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator+=(const BigUInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator+=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator-=(const BigUInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator-=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator*=(const BigUInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator*=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator/=(const BigUInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator/=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator%=(const BigUInt<NUM_QWORDS_DEGR>& a_rs)
+{
+	return this->operator%=(BigInt(a_rs));
+}
+
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator+=(const NumType& a_rs)
+{
+	return this->operator+=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator-=(const NumType& a_rs)
+{
+	return this->operator-=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator*=(const NumType& a_rs)
+{
+	return this->operator*=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator/=(const NumType& a_rs)
+{
+	return this->operator/=(BigInt(a_rs));
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
+template <typename NumType>
+BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator%=(const NumType& a_rs)
+{
+	return this->operator%=(BigInt(a_rs));
+}
+
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 bool BigInt<NUM_QWORDS_DEGR>::operator<(const BigInt& a_rs)const

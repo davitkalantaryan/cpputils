@@ -31,23 +31,45 @@ public:
 	static const uint64_t	s_numberOfQwords;
 public:
 	BigUInt();
-	BigUInt(uint64_t val);
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt(const NumType& val);
 	BigUInt(const BigInt<NUM_QWORDS_DEGR>& cM);
 	
-	BigUInt& operator=(uint64_t val);
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt& operator=(const NumType& val);
 	BigUInt& operator=(const BigInt<NUM_QWORDS_DEGR>& cM);
-	template <typename IntType>
-	operator IntType()const;
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	operator NumType()const;
 	BigUInt  operator-()const;
+	
 	BigUInt& operator+=(const BigUInt& a_rs);
 	BigUInt& operator-=(const BigUInt& a_rs);
 	BigUInt& operator*=(const BigUInt& a_rs);
 	BigUInt& operator/=(const BigUInt& a_rs);
 	BigUInt& operator%=(const BigUInt& a_rs);
+	
+	BigUInt& operator+=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
+	BigUInt& operator-=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
+	BigUInt& operator*=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
+	BigUInt& operator/=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
+	BigUInt& operator%=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
+	
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt& operator+=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt& operator-=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt& operator*=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt& operator/=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to uint64_t
+	BigUInt& operator%=(const NumType& a_rs);
+	
 	BigUInt& operator++();
 	BigUInt  operator++(int);
 	BigUInt& operator--();
 	BigUInt  operator--(int);
+	
 	bool operator<(const BigUInt& rS)const;
 	bool operator>(const BigUInt& rS)const;
 	bool operator==(const BigUInt& rS)const;
@@ -67,19 +89,40 @@ class BigInt : public BigUInt<NUM_QWORDS_DEGR>
 {
 public:
 	BigInt();
-	BigInt(int64_t val);
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt(const NumType& val);
 	BigInt(const BigUInt<NUM_QWORDS_DEGR>& cM);
 	
-	BigInt& operator=(int64_t val);
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt& operator=(const NumType& val);
 	BigInt& operator=(const BigUInt<NUM_QWORDS_DEGR>& val);
-	template <typename IntType>
-	operator IntType()const;
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	operator NumType()const;
 	BigInt  operator-()const;
+	
 	BigInt& operator+=(const BigInt& a_rs);
 	BigInt& operator-=(const BigInt& a_rs);
 	BigInt& operator*=(const BigInt& a_rs);
 	BigInt& operator/=(const BigInt& a_rs);
 	BigInt& operator%=(const BigInt& a_rs);
+	
+	BigInt& operator+=(const BigUInt<NUM_QWORDS_DEGR>& a_rs);
+	BigInt& operator-=(const BigUInt<NUM_QWORDS_DEGR>& a_rs);
+	BigInt& operator*=(const BigUInt<NUM_QWORDS_DEGR>& a_rs);
+	BigInt& operator/=(const BigUInt<NUM_QWORDS_DEGR>& a_rs);
+	BigInt& operator%=(const BigUInt<NUM_QWORDS_DEGR>& a_rs);
+	
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt& operator+=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt& operator-=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt& operator*=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt& operator/=(const NumType& a_rs);
+	template <typename NumType>  // any type, that is possible to convert to int64_t
+	BigInt& operator%=(const NumType& a_rs);
+	
 	bool operator<(const BigInt& rS)const;
 	bool operator>(const BigInt& rS)const;
 };
@@ -87,6 +130,9 @@ public:
 
 }  // namespace common { 
 
+
+template <typename CharType,uint64_t NUM_QWORDS_DEGR>
+std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& os, const common::BigUInt<NUM_QWORDS_DEGR>& bi);
 
 template <uint64_t NUM_QWORDS_DEGR>
 common::BigUInt<NUM_QWORDS_DEGR> operator+(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
@@ -98,13 +144,13 @@ template <uint64_t NUM_QWORDS_DEGR>
 common::BigUInt<NUM_QWORDS_DEGR> operator/(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
 template <uint64_t NUM_QWORDS_DEGR>
 common::BigUInt<NUM_QWORDS_DEGR> operator%(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
+
+
 template <typename CharType,uint64_t NUM_QWORDS_DEGR>
-std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& os, const common::BigUInt<NUM_QWORDS_DEGR>& bi);
+std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& os, const common::BigInt<NUM_QWORDS_DEGR>& bi);
 
 template <uint64_t NUM_QWORDS_DEGR>
 common::BigInt<NUM_QWORDS_DEGR> operator+(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-//template <typename TypeInt,uint64_t NUM_QWORDS_DEGR>
-//common::BigInt<NUM_QWORDS_DEGR> operator+(TypeInt lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
 template <uint64_t NUM_QWORDS_DEGR>
 common::BigInt<NUM_QWORDS_DEGR> operator-(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
 template <uint64_t NUM_QWORDS_DEGR>
@@ -113,8 +159,6 @@ template <uint64_t NUM_QWORDS_DEGR>
 common::BigInt<NUM_QWORDS_DEGR> operator/(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
 template <uint64_t NUM_QWORDS_DEGR>
 common::BigInt<NUM_QWORDS_DEGR> operator%(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <typename CharType,uint64_t NUM_QWORDS_DEGR>
-std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& os, const common::BigInt<NUM_QWORDS_DEGR>& bi);
 
 
 #ifndef CPPUTILS_INCLUDE_COMMON_BIGINT_IMPL_HPP

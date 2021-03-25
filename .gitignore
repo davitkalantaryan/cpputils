@@ -32,6 +32,9 @@
 *.app
 
 
+/sys
+
+
 /workspaces/*/*
 !/workspaces/*_qt/*.pro
 !/workspaces/*_qt/*.pri
