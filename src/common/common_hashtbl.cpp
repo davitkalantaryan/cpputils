@@ -11,11 +11,11 @@
 #include <string.h>
 #include <stdint.h>
 
-namespace __private { namespace common {
+namespace __private { namespace __implementation {
 
 CPPUTILS_EXPORT const void* GenerateDataBasedOnData(const void* a_data, size_t a_dataSize);
 
-}}  // namespace __private { namespace common {
+}}  // namespace __private { namespace __implementation {
 
 /* The mixing step */
 #define mix2(a,b,c) \
@@ -36,7 +36,7 @@ namespace common { namespace hashtbl {
 
 VoidPtrKey::VoidPtrKey(const void* a_key, size_t a_keyLen,bool a_shouldDelete)
 	:
-	  key(a_shouldDelete?__private::common::GenerateDataBasedOnData(a_key,a_keyLen):a_key),
+	  key(a_shouldDelete?__private::__implementation::GenerateDataBasedOnData(a_key,a_keyLen):a_key),
 	  keyLen(a_keyLen),
 	  m_shouldDFree(a_shouldDelete)
 {
@@ -44,19 +44,27 @@ VoidPtrKey::VoidPtrKey(const void* a_key, size_t a_keyLen,bool a_shouldDelete)
 
 VoidPtrKey::VoidPtrKey(const VoidPtrKey& a_cM)
 	:
-	  key(__private::common::GenerateDataBasedOnData(a_cM.key,a_cM.keyLen)),
+	  key(__private::__implementation::GenerateDataBasedOnData(a_cM.key,a_cM.keyLen)),
 	  keyLen(a_cM.keyLen),
 	  m_shouldDFree(true)
 {
 }
 
-VoidPtrKey::VoidPtrKey(VoidPtrKey&& a_cM,bool a_shouldDelete)
+VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) noexcept
 	:
-	  key(a_shouldDelete?__private::common::GenerateDataBasedOnData(a_cM.key,a_cM.keyLen):a_cM.key),
-	  keyLen(a_cM.keyLen),
-	  m_shouldDFree(a_shouldDelete)
+	key(a_shouldDelete ? __private::__implementation::GenerateDataBasedOnData(a_cM.key, a_cM.keyLen) : a_cM.key),
+	keyLen(a_cM.keyLen),
+	m_shouldDFree(a_shouldDelete)
 {
 }
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+VoidPtrKey::VoidPtrKey(VoidPtrKey&& a_cM,bool a_shouldDelete) noexcept
+	:
+	  VoidPtrKey(a_cM,1, a_shouldDelete)
+{
+}
+#endif
 
 VoidPtrKey::~VoidPtrKey()
 {
@@ -74,7 +82,7 @@ bool VoidPtrKey::operator==(const VoidPtrKey &a_aM) const
 
 
 
-namespace __private { namespace common {
+namespace __private { namespace __implementation {
 
 
 CPPUTILS_EXPORT const void* GenerateDataBasedOnData(const void* a_data, size_t a_dataSize)
@@ -85,6 +93,22 @@ CPPUTILS_EXPORT const void* GenerateDataBasedOnData(const void* a_data, size_t a
 	}
 	
 	return pReturnData;
+}
+
+
+CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize)
+{
+	size_t i(0);
+	size_t tRet(a_tInitSize);
+
+	if (!a_tInitSize) { return DEFAULT_TABLE_SIZE;}
+	
+	for (; tRet; tRet = (a_tInitSize >> ++i))
+		;
+	tRet = static_cast<size_t>(1) << static_cast<size_t>(i - 1);
+	if (tRet != a_tInitSize) { tRet <<= 1; }
+
+	return tRet;
 }
 
 
@@ -139,4 +163,4 @@ CPPUTILS_EXPORT size_t hash1_( const void* a_pKey, size_t a_unKeySize )
 }
 
 
-}}
+}}  // namespace __private { namespace __implementation {

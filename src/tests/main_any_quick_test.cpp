@@ -26,7 +26,7 @@ int main()
 	}
 	
 	{
-		common::hashtbl::Map<int> aHash;
+		common::hashtbl::Set<int> aHash;
 		//common::hashtbl:: Base<int,void> aHash;
 		
 		size_t unHash;
@@ -39,6 +39,7 @@ int main()
 	{
 		common::BigInt<1> a1(2);
 		common::BigInt<1> a2(5);
+		//common::BigInt<1> a3 = ;
 		int ia1 = static_cast<int>(a1+a2);
 		int ia2 = static_cast<int>(a1-a2);
 		//std::make_unsigned< common::BigInt<1> > ua;
@@ -46,7 +47,7 @@ int main()
 		std::cout << "ia2="<<ia2<<std::endl;
 		std::cout << "a1+a2="<<a1+a2<<std::endl;
 		std::cout << "a1-a2="<<a1-a2<<std::endl;
-		std::cout << "2*a1-a2="<<a1-a2<<std::endl;
+		std::cout << "2*a1-a2*3="<<2*a1-a2*3<<std::endl;
 	}
 	
 	
