@@ -68,6 +68,8 @@ public:
 	
 	bool operator<(const BigUInt& rS)const;
 	bool operator>(const BigUInt& rS)const;
+	bool operator<=(const BigUInt& rS)const;
+	bool operator>=(const BigUInt& rS)const;
 	bool operator==(const BigUInt& rS)const;
 	
 public:
@@ -122,10 +124,34 @@ public:
 	
 	bool operator<(const BigInt& rS)const;
 	bool operator>(const BigInt& rS)const;
+	bool operator<=(const BigInt& rS)const;
+	bool operator>=(const BigInt& rS)const;
 };
 
 
 }  // namespace common { 
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+
+common::BigInt<1> operator"" _bi01(const char* n);
+common::BigInt<2> operator"" _bi02(const char* n);
+common::BigInt<3> operator"" _bi03(const char* n);
+common::BigInt<4> operator"" _bi04(const char* n);
+common::BigInt<5> operator"" _bi05(const char* n);
+common::BigInt<6> operator"" _bi06(const char* n);
+common::BigInt<7> operator"" _bi07(const char* n);
+common::BigInt<8> operator"" _bi08(const char* n);
+//
+common::BigUInt<1> operator"" _bui01(const char* n);
+common::BigUInt<2> operator"" _bui02(const char* n);
+common::BigUInt<3> operator"" _bui03(const char* n);
+common::BigUInt<4> operator"" _bui04(const char* n);
+common::BigUInt<5> operator"" _bui05(const char* n);
+common::BigUInt<6> operator"" _bui06(const char* n);
+common::BigUInt<7> operator"" _bui07(const char* n);
+common::BigUInt<8> operator"" _bui08(const char* n);
+
+#endif
 
 
 #if 0

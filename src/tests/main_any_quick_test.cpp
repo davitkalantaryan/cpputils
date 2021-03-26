@@ -7,6 +7,7 @@
 #include <iostream>
 
 
+
 int main()
 {
 	{
@@ -39,6 +40,7 @@ int main()
 	{
 		common::BigInt<1> a1(2);
 		common::BigInt<1> a2(5);
+		common::BigInt<1> a4 = 100000000000000000000_bi01 / 1000000000000000000_bi01;
 		//common::BigInt<1> a3 = ;
 		int ia1 = static_cast<int>(a1+a2);
 		int ia2 = static_cast<int>(a1-a2);

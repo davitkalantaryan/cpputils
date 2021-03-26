@@ -53,6 +53,9 @@
     <ClCompile Include="..\..\..\src\common\common_hashtbl.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\common\bigint.hpp">

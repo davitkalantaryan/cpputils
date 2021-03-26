@@ -27,6 +27,7 @@
     <ClCompile Include="..\..\..\src\common\common_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\common\bigint.hpp" />
