@@ -421,8 +421,9 @@ BigInt<NUM_QWORDS_DEGR>::BigInt()
 
 template <uint64_t NUM_QWORDS_DEGR>
 BigInt<NUM_QWORDS_DEGR>::BigInt(const BigInt& a_cM)
+    :
+      BigUInt<NUM_QWORDS_DEGR>(a_cM)
 {
-	memcpy(this->m_buff, a_cM.buff(), static_cast<size_t>(BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords) * sizeof(uint64_t));
 }
 
 template <uint64_t NUM_QWORDS_DEGR>

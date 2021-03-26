@@ -50,6 +50,7 @@ int main()
 		std::cout << "a1+a2="<<a1+a2<<std::endl;
 		std::cout << "a1-a2="<<a1-a2<<std::endl;
 		std::cout << "2*a1-a2*3="<<2*a1-a2*3<<std::endl;
+		std::cout << "a4=" << a4 << std::endl;
 	}
 	
 	
