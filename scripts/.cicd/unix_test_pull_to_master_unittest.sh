@@ -33,5 +33,5 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 #else
 fi
 
-cd ${repositoryRoot}/sys/tricia/Debug/test
+cd ${repositoryRoot}/sys/${lsbCode}/Debug/test
 ./unittest
