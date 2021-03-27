@@ -12,6 +12,7 @@ SUBDIRS		+=	$${PWD}/../../prj/tests/googletest_mult/googletest_getter.pro
 OTHER_FILES	+=	\
 	$${PWD}/../../.gitignore											\
 	$${PWD}/../../README.md												\
+	$${PWD}/../../docs/questions.md										\
 	$${PWD}/../../scripts/.cicd/unix_prebuild.sh						\
 	$${PWD}/../../scripts/.cicd/unix_test_pull_to_master_build.sh		\
 	$${PWD}/../../scripts/.cicd/unix_test_pull_to_master_unittest.sh	\

@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <common/endian.hpp>
 #include <iostream>
+#include <typeinfo>
 
 
 
@@ -51,6 +52,35 @@ int main()
 		std::cout << "a1-a2="<<a1-a2<<std::endl;
 		std::cout << "2*a1-a2*3="<<2*a1-a2*3<<std::endl;
 		std::cout << "a4=" << a4 << std::endl;
+	}
+	
+	{
+		long a = 1;
+		unsigned long int b = 1;
+		typeof (a+b) c = 3;
+		typeof (a-b) d = 3;
+		typeof (a*b) e = 3;
+		typeof (a/b) f = 3;
+		
+		typeof (b+a) g = 3;
+		typeof (b-a) h = 3;
+		typeof (b*a) i = 3;
+		typeof (b/a) j = 3;
+		
+		std::cout<<"\n\n";
+		
+		std::cout << "typeid(a).name() = "<<typeid (a).name() << std::endl;
+		std::cout << "typeid(b).name() = "<<typeid (b).name() << std::endl;
+		
+		std::cout << "typeid(c).name() = "<<typeid (c).name() << std::endl;
+		std::cout << "typeid(d).name() = "<<typeid (d).name() << std::endl;
+		std::cout << "typeid(e).name() = "<<typeid (e).name() << std::endl;
+		std::cout << "typeid(f).name() = "<<typeid (f).name() << std::endl;
+		
+		std::cout << "typeid(g).name() = "<<typeid (g).name() << std::endl;
+		std::cout << "typeid(h).name() = "<<typeid (h).name() << std::endl;
+		std::cout << "typeid(i).name() = "<<typeid (i).name() << std::endl;
+		std::cout << "typeid(j).name() = "<<typeid (j).name() << std::endl;
 	}
 	
 	

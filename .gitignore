@@ -66,3 +66,4 @@ vc140.*
 !/prj/*/*_mult/packages.config
 !/prj/*/*_mult/*Makefile*
 !/prj/*/*_mult/*.pro
+/prj/tests/googletest_mult/Makefile*googletest_getter
