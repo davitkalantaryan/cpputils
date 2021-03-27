@@ -5,15 +5,18 @@ TEMPLATE = subdirs
 
 
 SUBDIRS		+=	$${PWD}/../../prj/tests/any_quick_test_qt/any_quick_test.pro
+SUBDIRS		+=	$${PWD}/../../prj/tests/googletest_mult/googletest_getter.pro
 
 # devsheetlang.g4
 
 OTHER_FILES	+=	\
-	$${PWD}/../../.gitignore										\
-	$${PWD}/../../README.md											\
-	$${PWD}/../../scripts/.cicd/debian_prebuild.sh					\
-	$${PWD}/../../scripts/linux_per_session.sh						\
-	$${PWD}/../../scripts/part_debian_per_host_using_apt.sh			\
-	$${PWD}/../../prj/contrib/antlr_mkfl/unix.antlrrt.Makefile		\
-	$${PWD}/../../prj/common/common_mkfl/unix.common.Makefile		\
-	$${PWD}/../../src/core/lang/devsheetlang.g4
+	$${PWD}/../../.gitignore											\
+	$${PWD}/../../README.md												\
+	$${PWD}/../../scripts/.cicd/unix_prebuild.sh						\
+	$${PWD}/../../scripts/.cicd/unix_test_pull_to_master_build.sh		\
+	$${PWD}/../../scripts/.cicd/unix_test_pull_to_master_unittest.sh	\
+	$${PWD}/../../.github/workflows/test_pull_to_master.yml				\
+	$${PWD}/../../prj/common/common_mkfl/unix.common.Makefile			\
+	$${PWD}/../../prj/common/common_mkfl/windows.common.Makefile		\
+	$${PWD}/../../prj/tests/googletest_mult/unix.Makefile				\
+	$${PWD}/../../prj/tests/googletest_mult/windows.Makefile			\

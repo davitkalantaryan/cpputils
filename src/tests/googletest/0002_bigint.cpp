@@ -16,7 +16,13 @@ TEST(f_0002_bigint, t0000_basic)
 	// let's declare very big integer
 #ifdef CPPUTILS_CPP_11_DEFINED
 	common::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
+	
+	ASSERT_EQ(static_cast<int64_t>(a4/100000000000),static_cast<int64_t>(100000000000000000000_bi01/100000000000));	
+	
+#ifdef _WIN32
 	ASSERT_EQ(a4, 100000000000000000000_bi01);
+#endif
+	
 #else
 	common::BigInt<1> a4 = 10000000000;
 	a4 *= 10000000000;
@@ -44,7 +50,7 @@ template <uint64_t BiSize>
 static void TestBigInteger()
 {
 	common::BigInt<BiSize> bi1(2);
-	ASSERT_EQ(sizeof(bi1), 8*(1<< BiSize));
+	ASSERT_EQ(size_t(sizeof(bi1)), size_t(8*(1<< BiSize)));
 
 	bi1 *= 2;
 	ASSERT_EQ(static_cast<int64_t>(bi1), 4);

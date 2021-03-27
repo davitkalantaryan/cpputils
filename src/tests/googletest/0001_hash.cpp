@@ -18,10 +18,10 @@ TEST(f_0001_hash, t0001_base)
 	aHash.AddEntry(1, 1);
 	aHash.AddEntryEvenIfExists(1, 1);
 
-	ASSERT_EQ(aHash.size(), 2);
+	ASSERT_EQ(aHash.size(), size_t(2));
 	ASSERT_EQ(aHash[1],1);
 	aHash.RemoveEntry(aHash.begin());
-	ASSERT_EQ(aHash.size(), 1);
+	ASSERT_EQ(aHash.size(), size_t(1));
 }
 
 TEST(f_0001_hash, t0002_key_is_any_void_ptr)
@@ -32,7 +32,7 @@ TEST(f_0001_hash, t0002_key_is_any_void_ptr)
 	aHash.AddEntry({ &a,4 }, 1);
 	aHash.AddEntryEvenIfExists({ &a,4 }, 1);
 	common::hashtbl::HashTbl<int>::iterator iter = aHash.FindEntry({ &a,4 });
-	ASSERT_EQ(aHash.size(), 2);
+	ASSERT_EQ(aHash.size(), size_t(2));
 	ASSERT_FALSE(iter== common::hashtbl::HashTbl<int>::s_endIter);
 	ASSERT_EQ(iter->second, 1);
 }
@@ -44,12 +44,12 @@ TEST(f_0001_hash, t0003_map)
 
 	size_t unHash;
 	aHash.AddEntry(1);
-	ASSERT_EQ(aHash.size(), 1);
+	ASSERT_EQ(aHash.size(), size_t(1));
 
 	common::hashtbl::Set<int>::iterator iter = aHash.FindEntry(2, &unHash);
 	ASSERT_TRUE(iter == common::hashtbl::Set<int>::s_endIter);
 	aHash.AddEntryWithKnownHash(2, unHash);
-	ASSERT_EQ(aHash.size(), 2);
+	ASSERT_EQ(aHash.size(),size_t(2));
 }
 
 
@@ -61,7 +61,7 @@ TEST(f_0001_hash, t0004_map_with_any_void_ptr_key)
 	aHash.AddEntry({ &a,4 });
 	aHash.AddEntryEvenIfExists({ &a,4 });
 	common::hashtbl::SetHash::iterator iter = aHash.FindEntry({ &a,4 });
-	ASSERT_EQ(aHash.size(), 2);
+	ASSERT_EQ(aHash.size(), size_t(2));
 	ASSERT_FALSE(iter == common::hashtbl::SetHash::s_endIter);
 }
 
@@ -86,12 +86,12 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashIn.AddEntry(ARG_FROM(i)) == endIter);
 	}
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	//
 	HashType aHashFn1(aHashIn);
-	ASSERT_EQ(aHashFn1.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashFn1.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn1.FindEntry(i)== endIter);
@@ -101,8 +101,8 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 	}
 
 	HashType aHashFn2(aHashIn,1);
-	ASSERT_EQ(aHashFn2.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), 0);
+	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(0));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn2.FindEntry(i) == endIter);
@@ -111,8 +111,8 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 
 	/*///////////////////////////*/
 	aHashIn.ReplaceWithOther(aHashFn2);
-	ASSERT_EQ(aHashFn2.size(), 0);
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashFn2.size(), size_t(0));
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashIn.FindEntry(i) == endIter);
@@ -121,8 +121,8 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 
 	//
 	aHashFn1=aHashIn;
-	ASSERT_EQ(aHashFn1.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashFn1.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn1.FindEntry(i) == endIter);
@@ -133,8 +133,8 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 	aHashFn2 = std::move(aHashIn);
-	ASSERT_EQ(aHashFn2.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), 0);
+	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(0));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn2.FindEntry(i) == endIter);
@@ -163,12 +163,12 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashIn.AddEntry(ARG_FROM(i)) == endIter);
 	}
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	//
 	HashType aHashFn1(aHashIn);
-	ASSERT_EQ(aHashFn1.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashFn1.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn1.FindEntry(i)== endIter);
@@ -178,8 +178,8 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 	}
 
 	HashType aHashFn2(aHashIn,1);
-	ASSERT_EQ(aHashFn2.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), 0);
+	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(0));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn2.FindEntry(i) == endIter);
@@ -188,8 +188,8 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 
 	/*///////////////////////////*/
 	aHashIn.ReplaceWithOther(aHashFn2);
-	ASSERT_EQ(aHashFn2.size(), 0);
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashFn2.size(), size_t(0));
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashIn.FindEntry(i) == endIter);
@@ -198,8 +198,8 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 
 	//
 	aHashFn1=aHashIn;
-	ASSERT_EQ(aHashFn1.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), NUMBER_OF_ENTRIES);
+	ASSERT_EQ(aHashFn1.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn1.FindEntry(i) == endIter);
@@ -210,8 +210,8 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 	aHashFn2 = std::move(aHashIn);
-	ASSERT_EQ(aHashFn2.size(), NUMBER_OF_ENTRIES);
-	ASSERT_EQ(aHashIn.size(), 0);
+	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
+	ASSERT_EQ(aHashIn.size(), size_t(0));
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
 		ASSERT_FALSE(aHashFn2.FindEntry(i) == endIter);

@@ -7,6 +7,11 @@
 
 include ( $${PWD}/../../common/common_qt/sys_common.pri )
 
+QT -= gui
+QT -= core
+QT -= widgets
+CONFIG -= qt
+
 INCLUDEPATH += $${PWD}/../../../include
 DEFINES += CPPUTILS_USING_STATIC_LIB_OR_OBJECTS
 

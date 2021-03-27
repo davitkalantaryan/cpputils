@@ -65,3 +65,4 @@ vc140.*
 !/prj/*/*_mult/*.vcxproj.filters
 !/prj/*/*_mult/packages.config
 !/prj/*/*_mult/*Makefile*
+!/prj/*/*_mult/*.pro

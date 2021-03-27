@@ -45,16 +45,30 @@ win32 {
 } else:android {
     CODENAME = android
     SYSTEM_PATH = sys/android
-} else {
+} else:linux {
     DEFINES += LINUX
     CODENAME = $$system(lsb_release -c | cut -f 2)
     SYSTEM_PATH = sys/$$CODENAME
+} else:ios {
+    CODENAME = ios
+    SYSTEM_PATH = sys/$$CODENAME
+} else:wasm {
+    CODENAME = wasm
+    SYSTEM_PATH = sys/$$CODENAME
+} else {
+    CODENAME = unknownCodeName
+    SYSTEM_PATH = sys/$$CODENAME
 }
 
+CONFIGURATION=Profile
+Release|release:CONFIGURATION=Release
+Debug|debug:CONFIGURATION=Debug
 
 message("!!! sys_common.pri: SYSTEM_PATH=$${PRJ_PWD}/$${SYSTEM_PATH}")
 
 # Debug:DESTDIR = debug1
+SYSTEM_PATH=$$SYSTEM_PATH/$$CONFIGURATION
+MAKEFILE = Makefile.$${TARGET}.$${CODENAME}
 DESTDIR = $${PRJ_PWD}/$${SYSTEM_PATH}/$${TARGET_PATH}
 OBJECTS_DIR = $${PRJ_PWD}/$${SYSTEM_PATH}/.objects/$${TARGET}
 
