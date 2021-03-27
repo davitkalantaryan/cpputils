@@ -47,4 +47,6 @@ common::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
 
 All (or almost all, you see something missing, please inform and it will be implemented) opreators valid for builtin 
 integers valid also for these classes.  
-Currently multiplication and division takes a bit longer, but soon will be improved to make these operations faster.
+Currently multiplication and division takes a bit longer, but soon will be improved to make these operations faster.  
+  
+Example of using these classes one can find in test source file [0002_bigint.cpp](src/tests/googletest/0002_bigint.cpp) .
