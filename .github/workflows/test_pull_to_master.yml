@@ -58,11 +58,10 @@ jobs:
 
             - name: Preparing 3rd party libraries for mac
               run: echo "will be implemented"
-		    
+
             - name: Compiling for mac
               run: echo "will be implemented"
               #working-directory: blabla
-		    
+
             - name: running unittest for mac
               run: echo "will be implemented"
-
