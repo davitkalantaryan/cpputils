@@ -55,12 +55,26 @@ int main()
 	}
 
 	{
-		common::BigUInt<1> aMask;
+		common::BigUInt<1> aMask2, aMask;
 
-		for (uint64_t i(0); i < common::BigUInt<1>::s_lastIndexInBuff; ++i) { aMask.buff2()[i] = 0; }
-		aMask.buff2()[common::BigUInt<1>::s_lastIndexInBuff] = MASK_SIGN_BIT;
+		for (uint64_t i(0); i < common::BigUInt<1>::s_lastIndexInBuff; ++i) { aMask.buff()[i] = 0; }
+		aMask.buff()[common::BigUInt<1>::s_lastIndexInBuff] = MASK_SIGN_BIT;
+		
+		aMask2 = aMask;
 
-		aMask >>= 66;
+		aMask = aMask2;
+		aMask >>= 63;
+
+		aMask = aMask2;
+		aMask >>= 127;
+
+		aMask2 = aMask;
+
+		aMask = aMask2;
+		aMask <<= 63;
+
+		aMask = aMask2;
+		aMask <<= 127;
 
 		common::BigUInt<1> bui1 = 100000000000000000000_bui01;
 		bui1 /= 10;
