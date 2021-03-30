@@ -848,10 +848,10 @@ template <typename CharType>
 
 	if (isMinus) {
 		retStr.push_back('-');
-		retStr += ::common::BigUInt<NUM_QWORDS_DEGR>(-::common::BigInt<NUM_QWORDS_DEGR>(*this)).to_string<CharType>(a_fmt);
+		retStr += ::common::BigUInt<NUM_QWORDS_DEGR>(-::common::BigInt<NUM_QWORDS_DEGR>(*this)).template to_string<CharType>(a_fmt);
 	}
 	else {
-		retStr =  reinterpret_cast<const common::BigUInt<NUM_QWORDS_DEGR>*>(this)->to_string<CharType>(a_fmt);
+		retStr =  reinterpret_cast<const common::BigUInt<NUM_QWORDS_DEGR>*>(this)->template to_string<CharType>(a_fmt);
 	}
 
 	return retStr;
@@ -867,19 +867,19 @@ template <typename CharType>
 template <uint64_t NUM_QWORDS_DEGR>
 ::std::string std::to_string(const common::BigUInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	return a_bi.to_string<char>( ::std::ios_base::dec );
+	return a_bi.template to_string<char>( ::std::ios_base::dec );
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
 ::std::wstring std::to_wstring(const common::BigUInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	return a_bi.to_string<wchar_t>( ::std::ios_base::dec );
+	return a_bi.template to_string<wchar_t>( ::std::ios_base::dec );
 }
 
 template <typename CharType, uint64_t NUM_QWORDS_DEGR>
 std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& a_os, const common::BigUInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	::std::basic_string<CharType> retStr = a_bi.to_string<CharType>(a_os.flags());
+	::std::basic_string<CharType> retStr = a_bi.template to_string<CharType>(a_os.flags());
 	a_os << retStr;
 	return a_os;
 }
@@ -1131,19 +1131,19 @@ common::BigUInt<NUM_QWORDS_DEGR> operator%(const NumType& a_rS, const common::Bi
 template <uint64_t NUM_QWORDS_DEGR>
 ::std::string std::to_string(const common::BigInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	return a_bi.to_string<char>( ::std::ios_base::dec );
+	return a_bi.template to_string<char>( ::std::ios_base::dec );
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
 ::std::wstring std::to_wstring(const common::BigInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	return a_bi.to_string<wchar_t>( ::std::ios_base::dec );
+	return a_bi.template to_string<wchar_t>( ::std::ios_base::dec );
 }
 
 template <typename CharType, uint64_t NUM_QWORDS_DEGR>
 std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& a_os, const common::BigInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	a_os << a_bi.to_string<CharType>(a_os.flags());
+	a_os << a_bi.template to_string<CharType>(a_os.flags());
 	return a_os;
 }
 //
