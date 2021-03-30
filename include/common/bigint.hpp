@@ -25,6 +25,7 @@ class BigUInt
 public:
 	static const uint64_t	s_lastIndexInBuff;
 	static const uint64_t	s_numberOfQwords;
+	static const uint64_t	s_numberOfDwords;
 public:
 	BigUInt();
 	BigUInt(const BigUInt& cM);
@@ -43,6 +44,9 @@ public:
 	BigUInt& operator*=(const BigUInt& a_rs);
 	BigUInt& operator/=(const BigUInt& a_rs);
 	BigUInt& operator%=(const BigUInt& a_rs);
+	
+	BigUInt& operator<<=(uint64_t a_rs);
+	BigUInt& operator>>=(uint64_t a_rs);
 	
 	BigUInt& operator+=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
 	BigUInt& operator-=(const BigInt<NUM_QWORDS_DEGR>& a_rs);
@@ -73,12 +77,20 @@ public:
 	bool operator==(const BigUInt& rS)const;
 	
 public:
-	uint64_t* buff();
-	const uint64_t* buff()const;
-	BigUInt& OpratorDiv(const BigUInt& rS, BigUInt* divResult);
+	static void OperatorPlus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void OperatorMinus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void OpratorDiv(BigUInt* remn, BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	
+private:
+	uint64_t* buff2();
+	const uint64_t* buff2()const;
 	
 protected:
-	uint64_t	m_buff[1<<NUM_QWORDS_DEGR];
+	union{
+		uint64_t	b64[1<<NUM_QWORDS_DEGR];
+		uint32_t	b32[1<<(NUM_QWORDS_DEGR+1)];
+	}m_u;
 };
 
 
@@ -151,108 +163,7 @@ common::BigUInt<6> operator"" _bui06(const char* n);
 common::BigUInt<7> operator"" _bui07(const char* n);
 common::BigUInt<8> operator"" _bui08(const char* n);
 
-#endif
-
-
-#if 0
-
-template <typename CharType,uint64_t NUM_QWORDS_DEGR>
-std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& os, const common::BigUInt<NUM_QWORDS_DEGR>& bi);
-
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator+(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator-(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator*(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator/(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator%(const common::BigUInt<NUM_QWORDS_DEGR>& lS,const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator+(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator-(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator*(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator/(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator%(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-
-template <typename NumType,uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator+(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator-(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator*(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator/(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator%(const common::BigUInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator+(const NumType& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator-(const NumType& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator*(const NumType& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator/(const NumType& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigUInt<NUM_QWORDS_DEGR> operator%(const NumType& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-
-
-
-template <typename CharType,uint64_t NUM_QWORDS_DEGR>
-std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& os, const common::BigInt<NUM_QWORDS_DEGR>& bi);
-
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator+(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator-(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator*(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator/(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator%(const common::BigInt<NUM_QWORDS_DEGR>& lS,const common::BigInt<NUM_QWORDS_DEGR>& rS);
-
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator+(const common::BigInt<NUM_QWORDS_DEGR>& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator-(const common::BigInt<NUM_QWORDS_DEGR>& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator*(const common::BigInt<NUM_QWORDS_DEGR>& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator/(const common::BigInt<NUM_QWORDS_DEGR>& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-template <uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator%(const common::BigInt<NUM_QWORDS_DEGR>& lS, const common::BigUInt<NUM_QWORDS_DEGR>& rS);
-
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator+(const common::BigInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator-(const common::BigInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator*(const common::BigInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator/(const common::BigInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator%(const common::BigInt<NUM_QWORDS_DEGR>& lS, const NumType& rS);
-
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator+(const NumType& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator-(const NumType& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator*(const NumType& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator/(const NumType& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-template <typename NumType, uint64_t NUM_QWORDS_DEGR>
-common::BigInt<NUM_QWORDS_DEGR> operator%(const NumType& lS, const common::BigInt<NUM_QWORDS_DEGR>& rS);
-
-#endif
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 
 
 #ifndef CPPUTILS_INCLUDE_COMMON_BIGINT_IMPL_HPP
