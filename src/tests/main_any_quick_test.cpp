@@ -53,19 +53,32 @@ int main()
 		std::cout << "2*a1-a2*3="<<2*a1-a2*3<<std::endl;
 		std::cout << "a4=" << a4 << std::endl;
 	}
+
+	{
+		common::BigUInt<1> aMask;
+
+		for (uint64_t i(0); i < common::BigUInt<1>::s_lastIndexInBuff; ++i) { aMask.buff2()[i] = 0; }
+		aMask.buff2()[common::BigUInt<1>::s_lastIndexInBuff] = MASK_SIGN_BIT;
+
+		aMask >>= 66;
+
+		common::BigUInt<1> bui1 = 100000000000000000000_bui01;
+		bui1 /= 10;
+		std::cout << bui1/10;
+	}
 	
 	{
 		long a = 1;
 		unsigned long int b = 1;
-		typeof (a+b) c = 3;
-		typeof (a-b) d = 3;
-		typeof (a*b) e = 3;
-		typeof (a/b) f = 3;
+		decltype (a+b) c = 3;
+		decltype (a-b) d = 3;
+		decltype (a*b) e = 3;
+		decltype (a/b) f = 3;
 		
-		typeof (b+a) g = 3;
-		typeof (b-a) h = 3;
-		typeof (b*a) i = 3;
-		typeof (b/a) j = 3;
+		decltype (b+a) g = 3;
+		decltype (b-a) h = 3;
+		decltype (b*a) i = 3;
+		decltype (b/a) j = 3;
 		
 		std::cout<<"\n\n";
 		

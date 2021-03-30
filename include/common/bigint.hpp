@@ -81,8 +81,9 @@ public:
 	static void OperatorMinus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void OpratorDiv(BigUInt* remn, BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	
-private:
+public:
 	uint64_t* buff2();
 	const uint64_t* buff2()const;
 	
@@ -138,6 +139,8 @@ public:
 	bool operator>(const BigInt& rS)const;
 	bool operator<=(const BigInt& rS)const;
 	bool operator>=(const BigInt& rS)const;
+
+	uint64_t isMinus()const;
 };
 
 
