@@ -16,6 +16,7 @@ set "repositoryRoot=%cd%\"
 
 cd "%repositoryRoot%prj\tests\googletest_mult"
 msbuild -t:restore -p:RestorePackagesConfig=true
+if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
 
 rem cd "%repositoryRoot%workspaces\cpputils_vs"
 call msbuild "%repositoryRoot%workspaces\cpputils_vs\cpputils.sln" /t:%ActionConfirm% /p:Configuration=%Configuration% /p:Platform=%Platform% -m:2
