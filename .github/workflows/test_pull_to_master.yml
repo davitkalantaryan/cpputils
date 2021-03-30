@@ -44,7 +44,7 @@ jobs:
               run: echo "will be implemented"
 
             - name: Compiling for windows
-              run: echo "will be implemented"
+              run: .\scripts\.cicd\windows_test_pull_to_master_build.bat
               #working-directory: blabla
 
             - name: running unittest for windows
