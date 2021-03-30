@@ -24,6 +24,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "any_quick_test", "..\..\prj
 		{C0D41E3C-2BF2-40B0-BC52-9686247700E5} = {C0D41E3C-2BF2-40B0-BC52-9686247700E5}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{2B8D31CF-84D2-4A09-95AE-6B023637747B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".cicd", ".cicd", "{45F25F9A-A889-41EA-BF7B-C5C5D93F806A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\scripts\.cicd\windows_test_pull_to_master_build.bat = ..\..\scripts\.cicd\windows_test_pull_to_master_build.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8E5F3B3B-8724-4BB5-B690-1294CB5F0B7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{7E7C1601-2A2C-47C7-9DC8-DF2543C0DF3B}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.github\workflows\test_pull_to_master.yml = ..\..\.github\workflows\test_pull_to_master.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -87,6 +101,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E6F8B6C2-4CA9-4B3A-9A00-83D011DE88FA} = {10A707CB-594F-48A8-881C-4EA7BA7E7F4F}
 		{18849B43-2B9A-4C68-8622-13B4068973FC} = {10A707CB-594F-48A8-881C-4EA7BA7E7F4F}
+		{2B8D31CF-84D2-4A09-95AE-6B023637747B} = {7267426D-0B95-4A5C-8E55-EAB8B1C25312}
+		{45F25F9A-A889-41EA-BF7B-C5C5D93F806A} = {2B8D31CF-84D2-4A09-95AE-6B023637747B}
+		{8E5F3B3B-8724-4BB5-B690-1294CB5F0B7F} = {7267426D-0B95-4A5C-8E55-EAB8B1C25312}
+		{7E7C1601-2A2C-47C7-9DC8-DF2543C0DF3B} = {8E5F3B3B-8724-4BB5-B690-1294CB5F0B7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {016B0FFE-ED04-428E-AB73-167DC365A98E}
