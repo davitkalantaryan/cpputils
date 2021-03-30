@@ -14,6 +14,9 @@ set scriptDirectory=%~dp0
 cd /D %scriptDirectory%..\..
 set "repositoryRoot=%cd%\"
 
+cd "%repositoryRoot%prj\tests\googletest_mult"
+msbuild -t:restore -p:RestorePackagesConfig=true
+
 rem cd "%repositoryRoot%workspaces\cpputils_vs"
 call msbuild "%repositoryRoot%workspaces\cpputils_vs\cpputils.sln" /t:%ActionConfirm% /p:Configuration=%Configuration% /p:Platform=%Platform% -m:2
 if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
