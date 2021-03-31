@@ -297,6 +297,9 @@
     <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils_internal_header.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\any_quick_test_qt\any_quick_test.pro" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

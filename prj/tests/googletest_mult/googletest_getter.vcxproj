@@ -28,11 +28,15 @@
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0003_function_old.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\common\bigint.hpp" />
     <ClInclude Include="..\..\..\include\common\bigint.impl.hpp" />
     <ClInclude Include="..\..\..\include\common\endian.hpp" />
+    <ClInclude Include="..\..\..\include\common\functional.hpp" />
+    <ClInclude Include="..\..\..\include\common\functional_old.hpp" />
+    <ClInclude Include="..\..\..\include\common\functional_old.impl.hpp" />
     <ClInclude Include="..\..\..\include\common\hashtbl.def.hpp" />
     <ClInclude Include="..\..\..\include\common\hashtbl.hpp" />
     <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp" />

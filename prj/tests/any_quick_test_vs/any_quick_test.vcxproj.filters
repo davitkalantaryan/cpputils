@@ -19,6 +19,9 @@
     <Filter Include="Header Files\include\common">
       <UniqueIdentifier>{c838491c-060e-4887-8580-9804fa0e1816}</UniqueIdentifier>
     </Filter>
+    <Filter Include="files">
+      <UniqueIdentifier>{1446a31f-1a1a-4f0e-b3bd-3705ead6d556}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp">
@@ -50,5 +53,10 @@
     <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp">
       <Filter>Header Files\include\common</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\any_quick_test_qt\any_quick_test.pro">
+      <Filter>files</Filter>
+    </None>
   </ItemGroup>
 </Project>
