@@ -1,6 +1,6 @@
 //
-// file:			common_bigint.hpp
-// path:			src/common/common_hashtbl.hpp
+// file:			common_bigint.cpp
+// path:			src/common/common_hashtbl.cpp
 // created on:		2021 Mar 22
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //

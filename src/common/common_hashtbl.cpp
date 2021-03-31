@@ -1,6 +1,6 @@
 //
-// file:			common_hashtbl.hpp
-// path:			src/common/common_hashtbl.hpp
+// file:			common_hashtbl.cpp
+// path:			src/common/common_hashtbl.cpp
 // created on:		2021 Mar 05
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //

@@ -62,7 +62,7 @@ const typename Base<KeyType,DataType>::const_iterator  Base<KeyType,DataType>::s
 template <typename KeyType,typename DataType>
 Base<KeyType,DataType>::Base(size_t a_tInitSize, typename FuncsT<KeyType,DataType>::Hash a_funcHash)
 	:
-	  m_funcHash(a_funcHash? a_funcHash:(&Funcs<KeyType, DataType>::DefaultHash)),
+	  m_funcHash(a_funcHash? a_funcHash: (typename FuncsT<KeyType,DataType>::Hash(&Funcs<KeyType, DataType>::DefaultHash))),
 	  m_unRoundedTableSizeMin1(__private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1),
 	  m_pFirstItem(CPPUTILS_NULL),
 	  m_unSize(0)
@@ -499,7 +499,7 @@ const typename Base<KeyType,void>::iterator  Base<KeyType,void>::s_endIter(CPPUT
 template <typename KeyType>
 Base<KeyType,void>::Base(size_t a_tInitSize, typename FuncsT<KeyType>::Hash a_funcHash)
 	:
-	  m_funcHash(a_funcHash? a_funcHash:(&Funcs<KeyType>::DefaultHash)),
+	  m_funcHash(a_funcHash? a_funcHash: (typename FuncsT<KeyType>::Hash(&Funcs<KeyType>::DefaultHash)) ),
 	  m_unRoundedTableSizeMin1(__private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1),
 	  m_pFirstItem(CPPUTILS_NULL),
 	  m_unSize(0)

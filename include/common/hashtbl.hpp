@@ -10,11 +10,7 @@
 
 
 #include <cpputils_internal_header.h>
-#if defined(CPPUTILS_CPP_11_DEFINED) && !defined(DO_NOT_USE_STD_FUNCTION)
-#define STD_FUNCTION_IS_USED
-#include <functional>
-#else
-#endif
+#include <common/functional.hpp>
 #include <stdint.h>
 #include <stddef.h>
 
@@ -26,15 +22,9 @@ template <typename KeyType, typename DataType=int>
 class FuncsT
 {
 public:
-#ifdef STD_FUNCTION_IS_USED
-	typedef std::function<size_t(const KeyType& key)> Hash;
-	typedef std::function<bool(void* clbkData,const KeyType& key, const DataType& data)> Find;
-	typedef std::function<bool(void* clbkData,const KeyType& key)> FindVoid;
-#else
-	typedef size_t (*Hash)(const KeyType& key);
-	typedef bool (*Find)(void* clbkData,const KeyType& key, const DataType* data_ptr);
-	typedef bool (*FindVoid)(void* clbkData,const KeyType& key);
-#endif
+	typedef ::common::function< FUNC_ARGS(size_t,const KeyType& key) >   Hash;
+	typedef ::common::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key, const DataType& data) > Find;
+	typedef ::common::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key) > FindVoid;
 };
 
 

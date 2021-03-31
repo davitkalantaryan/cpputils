@@ -2,8 +2,9 @@
 
 #include <common/hashtbl.hpp>
 #include <common/bigint.hpp>
-#include <type_traits>
+#include <common/functional_old.hpp>
 #include <common/endian.hpp>
+#include <type_traits>
 #include <iostream>
 #include <typeinfo>
 
@@ -108,6 +109,20 @@ int main()
 		std::cout << "typeid(h).name() = "<<typeid (h).name() << std::endl;
 		std::cout << "typeid(i).name() = "<<typeid (i).name() << std::endl;
 		std::cout << "typeid(j).name() = "<<typeid (j).name() << std::endl;
+	}
+	
+	{
+		//std::function<FUNC_ARGS(void,int)> aFn1;
+		//common::function<FUNC_ARGS_OLD(void,int)> aFn;
+		//aFn.m_fclbl = [](int){};
+		//
+		//aFn.m_fclbl(1);
+		
+		common::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn([](const int& a_val){
+			return static_cast<size_t>(a_val);
+		});
+		
+		aFn(1);
 	}
 	
 	

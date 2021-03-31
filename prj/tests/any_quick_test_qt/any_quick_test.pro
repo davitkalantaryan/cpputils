@@ -19,12 +19,16 @@ DEFINES += CPPUTILS_USING_STATIC_LIB_OR_OBJECTS
 SOURCES	+=		\
 	$${PWD}/../../../src/tests/main_any_quick_test.cpp					\
 	$${PWD}/../../../src/common/common_hashtbl.cpp						\
+	$${PWD}/../../../src/common/common_functional.cpp					\
 	$${PWD}/../../../src/common/common_bigint.cpp
 
 
 HEADERS	+=		\
 	$${PWD}/../../../include/cpputils_internal_header.h					\
 	$${PWD}/../../../include/common/endian.hpp							\
+	$${PWD}/../../../include/common/functional.hpp						\
+	$${PWD}/../../../include/common/functional_old.hpp					\
+	$${PWD}/../../../include/common/functional_old.impl.hpp				\
 	$${PWD}/../../../include/common/hashtbl.hpp							\
 	$${PWD}/../../../include/common/hashtbl.impl.hpp					\
 	$${PWD}/../../../include/common/bigint.hpp							\
