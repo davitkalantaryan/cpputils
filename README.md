@@ -119,3 +119,15 @@ int main()
 ```  
 Other examples one can find from [`0003_function_old.cpp`](src/tests/googletest/0003_function_old.cpp)  
   
+  
+### SharedPtr class  
+This is like [`std:;shared_ptr`](https://en.cppreference.com/w/cpp/memory/shared_ptr). 
+Use cases of this:  
+ 1. cppstandard is olller than c++ 11  
+ 2. Callback is needed for all number of references  
+ 
+  
+Details will be provided later.  
+  
+### InScopeCleaner class  
+Will be documented later

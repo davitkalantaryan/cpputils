@@ -1034,7 +1034,7 @@ common::BigUInt<NUM_QWORDS_DEGR> operator+(const common::BigUInt<NUM_QWORDS_DEGR
 {
 	const common::BigUInt<NUM_QWORDS_DEGR> aRs(a_rS);
 	common::BigUInt<NUM_QWORDS_DEGR> ret;
-	common::BigUInt<NUM_QWORDS_DEGR>::OpreatorPlus(&ret, a_lS, aRs);
+	common::BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(&ret, a_lS, aRs);
 	return ret;
 }
 

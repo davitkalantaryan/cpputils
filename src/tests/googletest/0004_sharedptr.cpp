@@ -26,7 +26,7 @@ TEST(f_0004_sharedptr, t0000_first)
 {
 	bool bIsDeleted = false;
 	
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CPPUTILS_STD_FUNCTION_IS_USED
 	
 	{
 		s_expectedPrevRef = 0;

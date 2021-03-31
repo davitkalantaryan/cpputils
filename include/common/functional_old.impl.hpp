@@ -53,6 +53,16 @@ function_old_base<Signature>::operator Signature()
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+template <typename Signature>
+function_old<Signature>::function_old(Signature a_fclbl)
+	:
+	  function_old_base<Signature>(a_fclbl)
+{
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 template <typename InputType, typename ReturnType>
 function_old< FUNC_ARGS_OLD(ReturnType,InputType) >::function_old(FnType a_fclbl)
 	:
@@ -188,6 +198,46 @@ void function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03) >::operator()(ITy
 	}
 	
 	this->m_fclbl(a_inp01,a_inp02,a_inp03);
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename IType01,typename IType02,typename IType03,typename IType04, typename RType>
+function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::function_old(FnType a_fclbl)
+	:
+	  function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) > (a_fclbl)
+{
+}
+
+template <typename IType01,typename IType02,typename IType03, typename IType04, typename RType>
+RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03, IType04 a_inp04)const
+{
+	if(!this->m_fclbl){
+		throw "bad function call";  // todo: replace this with proper exception
+	}
+	
+	return this->m_fclbl(a_inp01,a_inp02,a_inp03, a_inp04);
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename IType01,typename IType02,typename IType03,typename IType04>
+function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::function_old(FnType a_fclbl)
+	:
+	  function_old_base< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) > (a_fclbl)
+{
+}
+
+template <typename IType01,typename IType02,typename IType03, typename IType04>
+void function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03, IType04 a_inp04)const
+{
+	if(!this->m_fclbl){
+		throw "bad function call";  // todo: replace this with proper exception
+	}
+	
+	this->m_fclbl(a_inp01,a_inp02,a_inp03, a_inp04);
 }
 
 

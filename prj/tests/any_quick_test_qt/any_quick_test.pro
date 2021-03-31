@@ -18,9 +18,10 @@ DEFINES += CPPUTILS_USING_STATIC_LIB_OR_OBJECTS
 
 SOURCES	+=		\
 	$${PWD}/../../../src/tests/main_any_quick_test.cpp					\
-	$${PWD}/../../../src/common/common_hashtbl.cpp						\
+	$${PWD}/../../../src/common/common_bigint.cpp						\
 	$${PWD}/../../../src/common/common_functional_old.cpp				\
-	$${PWD}/../../../src/common/common_bigint.cpp
+	$${PWD}/../../../src/common/common_hashtbl.cpp						\
+	$${PWD}/../../../src/common/common_inscopecleaner.cpp				
 
 
 HEADERS	+=		\
@@ -33,6 +34,7 @@ HEADERS	+=		\
 	$${PWD}/../../../include/common/functional_old.impl.hpp				\
 	$${PWD}/../../../include/common/hashtbl.hpp							\
 	$${PWD}/../../../include/common/hashtbl.impl.hpp					\
+	$${PWD}/../../../include/common/inscopecleaner.hpp					\
 	$${PWD}/../../../include/common/sharedptr.hpp						\
 	$${PWD}/../../../include/common/sharedptr.impl.hpp					\
 	
