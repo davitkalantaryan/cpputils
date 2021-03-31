@@ -25,12 +25,14 @@ SOURCES	+=		\
 
 HEADERS	+=		\
 	$${PWD}/../../../include/cpputils_internal_header.h					\
+	$${PWD}/../../../include/common/bigint.hpp							\
+	$${PWD}/../../../include/common/bigint.impl.hpp						\
 	$${PWD}/../../../include/common/endian.hpp							\
 	$${PWD}/../../../include/common/functional.hpp						\
 	$${PWD}/../../../include/common/functional_old.hpp					\
 	$${PWD}/../../../include/common/functional_old.impl.hpp				\
 	$${PWD}/../../../include/common/hashtbl.hpp							\
 	$${PWD}/../../../include/common/hashtbl.impl.hpp					\
-	$${PWD}/../../../include/common/bigint.hpp							\
-	$${PWD}/../../../include/common/bigint.impl.hpp						\
+	$${PWD}/../../../include/common/sharedptr.hpp						\
+	$${PWD}/../../../include/common/sharedptr.impl.hpp					\
 	

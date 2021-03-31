@@ -4,7 +4,6 @@
 //
 
 #include "gtest/gtest.h"
-#include <stdio.h>
 #include <common/functional_old.hpp>
 
 static size_t SumStatic(int a_val1, int a_val2, int a_val3);

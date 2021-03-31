@@ -117,3 +117,5 @@ int main()
 }  
   
 ```  
+Other examples one can find from [`0003_function_old.cpp`](src/tests/googletest/0003_function_old.cpp)  
+  

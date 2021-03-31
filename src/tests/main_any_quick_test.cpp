@@ -3,10 +3,12 @@
 #include <common/hashtbl.hpp>
 #include <common/bigint.hpp>
 #include <common/functional_old.hpp>
+#include <common/sharedptr.hpp>
 #include <common/endian.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
+#include <memory>
 
 
 
@@ -111,18 +113,20 @@ int main()
 		std::cout << "typeid(j).name() = "<<typeid (j).name() << std::endl;
 	}
 	
-	{
-		//std::function<FUNC_ARGS(void,int)> aFn1;
-		//common::function<FUNC_ARGS_OLD(void,int)> aFn;
-		//aFn.m_fclbl = [](int){};
-		//
-		//aFn.m_fclbl(1);
-		
+	{		
 		common::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn([](const int& a_val){
 			return static_cast<size_t>(a_val);
 		});
 		
 		aFn(1);
+	}
+	
+	{
+		common::SharedPtr<int> aPtr02 ( new int);
+		
+		*aPtr02 = 1;
+		
+		std::cout << *aPtr02 << std::endl;
 	}
 	
 	

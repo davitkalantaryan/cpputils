@@ -10,6 +10,7 @@ SUBDIRS		+=	$${PWD}/../../prj/tests/googletest_mult/googletest_getter.pro
 # devsheetlang.g4
 
 OTHER_FILES	+=	\
+	$${PWD}/../../.gitattributes										\
 	$${PWD}/../../.gitignore											\
 	$${PWD}/../../README.md												\
 	$${PWD}/../../docs/questions.md										\

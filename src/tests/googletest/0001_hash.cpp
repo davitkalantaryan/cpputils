@@ -5,7 +5,6 @@
 
 #include "gtest/gtest.h"
 #include <common/hashtbl.hpp>
-#include <stdio.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <utility>
 #endif
