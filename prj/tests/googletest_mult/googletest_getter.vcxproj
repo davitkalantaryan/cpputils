@@ -24,11 +24,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\common\common_bigint.cpp" />
+    <ClCompile Include="..\..\..\src\common\common_functional_old.cpp" />
     <ClCompile Include="..\..\..\src\common\common_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0003_function_old.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0004_sharedptr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\common\bigint.hpp" />
@@ -40,6 +42,8 @@
     <ClInclude Include="..\..\..\include\common\hashtbl.def.hpp" />
     <ClInclude Include="..\..\..\include\common\hashtbl.hpp" />
     <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\common\sharedptr.hpp" />
+    <ClInclude Include="..\..\..\include\common\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils_internal_header.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -59,6 +59,12 @@
     <ClCompile Include="..\..\..\src\tests\googletest\0003_function_old.cpp">
       <Filter>Source Files\tests\googletest</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0004_sharedptr.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\common\common_functional_old.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\common\bigint.hpp">
@@ -89,6 +95,12 @@
       <Filter>Header Files\incude\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\common\functional_old.impl.hpp">
+      <Filter>Header Files\incude\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\common\sharedptr.hpp">
+      <Filter>Header Files\incude\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\common\sharedptr.impl.hpp">
       <Filter>Header Files\incude\common</Filter>
     </ClInclude>
   </ItemGroup>
