@@ -22,11 +22,11 @@ jobs:
               run: ./scripts/.cicd/unix_prebuild.sh
 
             - name: Compiling for ${{ matrix.os }}
-              run: ./scripts/.cicd/unix_test_pull_to_master_build.sh
+              run: ./scripts/.cicd/unix_test_pull_to_master_build.sh DEVSHEET_DEBUG=1
               #working-directory: blabla
 
             - name: running unittest for ${{ matrix.os }}
-              run: ./scripts/.cicd/unix_test_pull_to_master_unittest.sh
+              run: ./scripts/.cicd/unix_test_pull_to_master_unittest.sh	Debug
             
     # This is for windows
     windows:

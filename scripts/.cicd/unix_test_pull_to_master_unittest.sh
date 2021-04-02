@@ -16,6 +16,12 @@ echo scriptDirectory=$scriptDirectory
 cd ../..
 repositoryRoot=`pwd`
 
+if [ $# -gt 0 ]; then
+	Configuration=$1
+else
+	Configuration=Debug
+fi
+
 
 # thanks to https://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -33,5 +39,5 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 #else
 fi
 
-cd ${repositoryRoot}/sys/${lsbCode}/Debug/test
+cd ${repositoryRoot}/sys/${lsbCode}/${Configuration}/test
 ./unittest
