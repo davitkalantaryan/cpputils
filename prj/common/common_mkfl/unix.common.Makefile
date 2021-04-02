@@ -1,35 +1,42 @@
 
-mkfile_path    = $(abspath $(lastword $(MAKEFILE_LIST)))
-mkfile_dir     = $(shell dirname $(mkfile_path))
-repoRootPath  := $(shell curDir=`pwd` && cd $(mkfile_dir)/../../.. && pwd && cd ${curDir})
+
+mkfile_path				=  $(abspath $(lastword $(MAKEFILE_LIST)))
+mkfile_dir				=  $(shell dirname $(mkfile_path))
+repoRootPathCppUtils	:= $(shell curDir=`pwd` && cd $(mkfile_dir)/../../.. && pwd && cd ${curDir})
+ifndef repoRootPath
+	repoRootPath		:= $(repoRootPathCppUtils)
+endif
 osSystem	  := $(shell uname)
 ifeq ($(osSystem),"Darwin")
 	lsbCode			:= mac
-	DEFAULT_CC		:= gcc
-	DEFAULT_CXX		:= g++
-	DEFAULT_LINK	:= g++
-else
-	lsbCode			:= $(shell lsb_release -sc)
 	DEFAULT_CC		:= clang
 	DEFAULT_CXX		:= clang++
 	DEFAULT_LINK	:= clang++
+else
+	lsbCode			:= $(shell lsb_release -sc)
+	DEFAULT_CC		:= gcc
+	DEFAULT_CXX		:= g++
+	DEFAULT_LINK	:= g++
 endif
 
 MAKEFLAGS=-j 2
 
 #CXX=ccache g++
-ifndef CC
-	CC=$(DEFAULT_CC)
+ifndef CC_IN_USE
+	CC_IN_USE=$(DEFAULT_CC)
 endif
-ifndef CXX
-	CXX=$(DEFAULT_CXX)
+ifndef CXX_IN_USE
+	CXX_IN_USE=$(DEFAULT_CXX)
 endif
-ifndef LINK
-	LINK=$(DEFAULT_LINK)
+ifdef LINK_IN_USE
+	LINK = $(LINK_IN_USE)
+else
+	LINK = $(DEFAULT_LINK)
 endif
 EMXX=env CCACHE_CPP2=1 ccache em++
 
-CPPFLAGS=$(COMMON_FLAGS) -fPIC
+CPPFLAGS	=  $(COMMON_FLAGS) -fPIC
+CPPFLAGS	+= -I$(repoRootPathCppUtils)/include
 
 DEBUG_FLAGS_DEBUG=-O0 -g
 DEBUG_FLAGS_RELEASE=-O3
@@ -51,11 +58,11 @@ EMFLAGS+=-s USE_BOOST_HEADERS=1
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : %.cc
 	mkdir -p $(dir $@)
-	$(CXX) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cpp.o : %.cpp
 	mkdir -p $(dir $@)
-	$(CXX) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
 $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cc.bc : %.cc
 	mkdir -p $(dir $@)
