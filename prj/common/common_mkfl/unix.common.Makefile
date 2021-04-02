@@ -2,19 +2,30 @@
 mkfile_path    = $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir     = $(shell dirname $(mkfile_path))
 repoRootPath  := $(shell curDir=`pwd` && cd $(mkfile_dir)/../../.. && pwd && cd ${curDir})
-lsbCode		  := $(shell lsb_release -sc)
+osSystem	  := $(shell uname)
+ifeq ($(osSystem),"Darwin")
+	lsbCode			:= mac
+	DEFAULT_CC		:= gcc
+	DEFAULT_CXX		:= g++
+	DEFAULT_LINK	:= g++
+else
+	lsbCode			:= $(shell lsb_release -sc)
+	DEFAULT_CC		:= clang
+	DEFAULT_CXX		:= clang++
+	DEFAULT_LINK	:= clang++
+endif
 
 MAKEFLAGS=-j 2
 
 #CXX=ccache g++
 ifndef CC
-	CC=gcc
+	CC=$(DEFAULT_CC)
 endif
 ifndef CXX
-	CC=g++
+	CXX=$(DEFAULT_CXX)
 endif
 ifndef LINK
-	LINK=g++
+	LINK=$(DEFAULT_LINK)
 endif
 EMXX=env CCACHE_CPP2=1 ccache em++
 
@@ -37,7 +48,6 @@ EMFLAGS+=-s MODULARIZE=1 -s USE_ES6_IMPORT_META=0
 EMFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 EMFLAGS+=-s ALLOW_MEMORY_GROWTH=1
 EMFLAGS+=-s USE_BOOST_HEADERS=1
-
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : %.cc
 	mkdir -p $(dir $@)
