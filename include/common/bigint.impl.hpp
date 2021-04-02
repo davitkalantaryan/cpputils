@@ -664,12 +664,12 @@ BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const NumType& a_val
 	return *this;
 }
 
-template <uint64_t NUM_QWORDS_DEGR>
-BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const BigUInt<NUM_QWORDS_DEGR>& a_cM)
-{
-	BigUInt<NUM_QWORDS_DEGR>::operator=(a_cM);
-	return *this;
-}
+//template <uint64_t NUM_QWORDS_DEGR>
+//BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const BigUInt<NUM_QWORDS_DEGR>& a_cM)
+//{
+//	BigUInt<NUM_QWORDS_DEGR>::operator=(a_cM);
+//	return *this;
+//}
 
 //// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
 //// we have operator=
