@@ -115,9 +115,10 @@ public:
 	template <typename NumType>  // any type, that is possible to convert to int64_t
 	BigInt& operator=(const NumType& val);
 	BigInt& operator=(const BigUInt<NUM_QWORDS_DEGR>& val);
-	// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
-	// we have below operator=
-	BigInt& operator=(const BigInt& val);
+	
+	//// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
+	//// we have below operator=
+	//BigInt& operator=(const BigInt& val);
 	
 	template <typename NumType>  // any type, that is possible to convert to int64_t
 	operator NumType()const;

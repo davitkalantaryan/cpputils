@@ -671,14 +671,14 @@ BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const BigUInt<NUM_QW
 	return *this;
 }
 
-// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
-// we have operator=
-template <uint64_t NUM_QWORDS_DEGR>
-BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const BigInt& a_cM)
-{
-	BigUInt<NUM_QWORDS_DEGR>::operator=(a_cM);
-	return *this;
-}
+//// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
+//// we have operator=
+//template <uint64_t NUM_QWORDS_DEGR>
+//BigInt<NUM_QWORDS_DEGR>& BigInt<NUM_QWORDS_DEGR>::operator=(const BigInt& a_cM)
+//{
+//	BigUInt<NUM_QWORDS_DEGR>::operator=(a_cM);
+//	return *this;
+//}
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
