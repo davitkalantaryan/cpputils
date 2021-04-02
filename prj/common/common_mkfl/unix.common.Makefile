@@ -61,13 +61,13 @@ $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : 
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cpp.o : %.cpp
-	mkdir -p $(dir $@)
+	mkdir -p $(@D)
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
 $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cc.bc : %.cc
-	mkdir -p $(dir $@)
+	mkdir -p $(@D)
 	$(EMXX) -c $(EMFLAGS) -o $@ $<
 
 $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cpp.bc : %.cpp
-	mkdir -p $(dir $@)
+	mkdir -p $(@D)
 	$(EMXX) -c $(EMFLAGS) -o $@ $<

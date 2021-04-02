@@ -27,11 +27,11 @@ all: $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/$(targetName): \
 			$(GTEST_SRCS:%=$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)	\
 			$(COMMON_SRCS:%=$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)
-	@mkdir -p $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test
+	@mkdir -p $(@D)
 	@$(LINK) $^ $(LIBS) $(LFLAGS) -o $@
 
 .PHONY: clean
 clean:
-	@rm -rf $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/googletest
-	@rm -f  $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/googletest
+	@rm -rf $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)
+	@rm -f  $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
 	@echo "  " cleaning of googletest complete !!!
