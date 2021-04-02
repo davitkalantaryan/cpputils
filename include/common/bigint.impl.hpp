@@ -91,6 +91,15 @@ BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator=(const BigInt<NUM_Q
 	return *this;
 }
 
+// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
+// we have below operator=
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator=(const BigUInt& a_cM)
+{
+	memcpy(&m_u,&(a_cM.m_u), sizeof(m_u));
+	return *this;
+}
+
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
 BigUInt<NUM_QWORDS_DEGR>::operator NumType()const
