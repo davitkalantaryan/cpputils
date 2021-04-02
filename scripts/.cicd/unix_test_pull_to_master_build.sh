@@ -34,4 +34,4 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 fi
 
 cd ${repositoryRoot}/prj/tests/googletest_mult
-make -f unix.Makefile
+make -f unix.Makefile $@
