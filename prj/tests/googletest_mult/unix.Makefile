@@ -14,7 +14,6 @@ COMMON_SRC_DIR=$(repoRootPath)/src/common
 UNIT_TEST_SRCS=$(shell find $(SRC_DIR) -name "*.cpp")
 COMMON_SRCS=$(shell find $(COMMON_SRC_DIR) -name "*.cpp")
 
-#CPPFLAGS = -Wno-sign-compare
 CPPFLAGS += -I$(repoRootPath)/contrib/googletest/googletest/include -I$(repoRootPath)/include
 
 LIBS += $(repoRootPath)/contrib/googletest/lib/libgtest_main.a
@@ -31,6 +30,6 @@ $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/$(targetName): \
 
 .PHONY: clean
 clean:
-	@rm -rf $(repoRootPath)/sys/$(lsbCode)/Debug/.objects/googletest
-	@rm -f  $(repoRootPath)/sys/$(lsbCode)/Debug/test/googletest
+	@rm -rf $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/googletest
+	@rm -f  $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/googletest
 	@echo "  " cleaning of googletest complete !!!

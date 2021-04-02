@@ -1,11 +1,9 @@
-# non-recursive Makefile https://github.com/AndreRenaud/non-recursive-make
 
 mkfile_path    = $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir     = $(shell dirname $(mkfile_path))
 repoRootPath  := $(shell curDir=`pwd` && cd $(mkfile_dir)/../../.. && pwd && cd ${curDir})
 lsbCode		  := $(shell lsb_release -sc)
 
-#MAKEFLAGS=-j 8
 MAKEFLAGS=-j 2
 
 #CXX=ccache g++
@@ -34,15 +32,10 @@ endif
 
 EMFLAGS=$(COMMON_FLAGS) -isystem cpp/_system -Os
 EMFLAGS+=-s ASSERTIONS=1 -s ENVIRONMENT=web -s EXPORT_ES6=1
-EMFLAGS+=-s MODULARIZE=1 -s EXPORT_NAME=SSS -s USE_ES6_IMPORT_META=0
+EMFLAGS+=-s MODULARIZE=1 -s USE_ES6_IMPORT_META=0
 EMFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 EMFLAGS+=-s ALLOW_MEMORY_GROWTH=1
 EMFLAGS+=-s USE_BOOST_HEADERS=1
-EMFLAGS+=-Wno-overloaded-virtual
-EMFLAGS+=-Wno-potentially-evaluated-expression
-EMFLAGS+=-Wno-deprecated-copy 
-EMFLAGS+=-DGOOGLE_PROTOBUF_NO_THREAD_SAFETY
-EMFLAGS+=-DNO_DEBUG_IKU
 
 # generate .o .bc relative to Makefile
 
