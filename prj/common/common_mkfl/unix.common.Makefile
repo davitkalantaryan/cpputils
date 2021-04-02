@@ -18,10 +18,6 @@ ifndef LINK
 endif
 EMXX=env CCACHE_CPP2=1 ccache em++
 
-#COMMON_FLAGS=-g -Wall -Wextra -Werror -std=c++14 -Icpp 
-#COMMON_FLAGS+=-Wno-attributes
-#COMMON_FLAGS+=-Wno-format
-
 CPPFLAGS=$(COMMON_FLAGS) -fPIC
 
 DEBUG_FLAGS_DEBUG=-O0 -g
