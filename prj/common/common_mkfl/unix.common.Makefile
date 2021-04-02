@@ -7,22 +7,27 @@ lsbCode		  := $(shell lsb_release -sc)
 MAKEFLAGS=-j 2
 
 #CXX=ccache g++
-CC=gcc
-CXX=g++
-LINK=g++
+ifndef CC
+	CC=gcc
+endif
+ifndef CXX
+	CC=g++
+endif
+ifndef LINK
+	LINK=g++
+endif
 EMXX=env CCACHE_CPP2=1 ccache em++
 
-COMMON_FLAGS=-g -Wall -Wextra -Werror -std=c++14 -Icpp 
-COMMON_FLAGS+=-Wno-attributes
-COMMON_FLAGS+=-Wno-format
+#COMMON_FLAGS=-g -Wall -Wextra -Werror -std=c++14 -Icpp 
+#COMMON_FLAGS+=-Wno-attributes
+#COMMON_FLAGS+=-Wno-format
 
 CPPFLAGS=$(COMMON_FLAGS) -fPIC
 
 DEBUG_FLAGS_DEBUG=-O0 -g
 DEBUG_FLAGS_RELEASE=-O3
 
-#ifdef $(DEVSHEET_DEBUG)
-ifdef DEVSHEET_DEBUG
+ifdef CPPUTILS_DEBUG
 	DEBUG_FLAGS=$(DEBUG_FLAGS_DEBUG)
 	Configuration=Debug
 else
@@ -37,7 +42,6 @@ EMFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 EMFLAGS+=-s ALLOW_MEMORY_GROWTH=1
 EMFLAGS+=-s USE_BOOST_HEADERS=1
 
-# generate .o .bc relative to Makefile
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : %.cc
 	mkdir -p $(dir $@)
