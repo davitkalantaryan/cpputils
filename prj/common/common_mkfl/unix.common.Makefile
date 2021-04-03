@@ -35,8 +35,9 @@ else
 endif
 EMXX=env CCACHE_CPP2=1 ccache em++
 
-CPPFLAGS	=  $(COMMON_FLAGS) -fPIC
-CPPFLAGS	+= -I$(repoRootPathCppUtils)/include
+COMMON_FLAGS	+= -I$(repoRootPathCppUtils)/include
+
+CPPFLAGS		=  $(COMMON_FLAGS)
 
 DEBUG_FLAGS_DEBUG=-O0 -g
 DEBUG_FLAGS_RELEASE=-O3
@@ -54,7 +55,7 @@ EMFLAGS+=-s ASSERTIONS=1 -s ENVIRONMENT=web -s EXPORT_ES6=1
 EMFLAGS+=-s MODULARIZE=1 -s USE_ES6_IMPORT_META=0
 EMFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 EMFLAGS+=-s ALLOW_MEMORY_GROWTH=1
-EMFLAGS+=-s USE_BOOST_HEADERS=1
+#EMFLAGS+=-s USE_BOOST_HEADERS=1
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : %.cc
 	mkdir -p $(dir $@)
