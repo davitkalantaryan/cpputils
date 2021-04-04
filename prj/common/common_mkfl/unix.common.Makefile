@@ -33,7 +33,8 @@ ifdef LINK_IN_USE
 else
 	LINK = $(DEFAULT_LINK)
 endif
-EMXX=env CCACHE_CPP2=1 ccache em++
+#EMXX=env CCACHE_CPP2=1 ccache em++
+EMXX=em++
 
 COMMON_FLAGS	+= -I$(repoRootPathCppUtils)/include
 
