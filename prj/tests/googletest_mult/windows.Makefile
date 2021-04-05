@@ -50,9 +50,10 @@ GoogleTestConfiguration	= d
 
 RepoRootDir				= $(MakeFileDir)\..\..\..
 SrcBaseDir				= $(MakeFileDir)\..\..\..\src
-GoogleTestDir			= $(MakeFileDir)\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.3
+#GoogleTestDir			= $(MakeFileDir)\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.3
+GoogleTestDir			= $(RepoRootDir)\contrib\googletest
 
-TargetName				= googletest
+TargetName				= unittest
 TargetExtension			= exe
 TargetFileName			= $(TargetName).$(TargetExtension)
 TargetDirectory			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\test
@@ -66,9 +67,8 @@ CPPC           			= cl -Zc:__cplusplus
 LINKER        			= link
 PDB_FILE_PATH			= $(TargetDirectory)\$(TargetName).pdb
 DEFINES       			= $(DEFINES) /D "_WINDLL" /D "_MBCS" /D "CPPUTILS_USING_STATIC_LIB_OR_OBJECTS"
-#INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(RepoRootDir)\contrib\googletest\googletest\include"
-INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(GoogleTestDir)\build\native\include"
-INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(UDOOCSBASEDIRCLT)\contrib\clientlib\include"
+INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(GoogleTestDir)\googletest\include"
+#INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(GoogleTestDir)\build\native\include"
 INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(RepoRootDir)\include"
 #CFLAGS					= $(CFLAGS) $(INCLUDE_PATHS) $(DEFINES) /bigobj /MTd /nologo
 CFLAGS					= $(CFLAGS) $(INCLUDE_PATHS) $(DEFINES) /MDd /nologo
@@ -77,14 +77,10 @@ CXXFLAGS				= $(CXXFLAGS) /JMC /permissive- /GS /W3 /Zc:wchar_t  /ZI /Gm- /Od /s
 #CXXFLAGS				= $(CXXFLAGS) /Fd"$(PDB_FILE_PATH)" /FI"libsss_api.h" 
 CXXFLAGS				= $(CXXFLAGS) /Zc:inline /fp:precise /errorReport:prompt /WX- /Zc:forScope /RTC1 /Gd 
 CXXFLAGS				= $(CXXFLAGS) /FC /EHsc /diagnostics:column
-#LIBPATHS				= $(LIBPATHS) /LIBPATH:"$(RepoRootDir)\contrib\googletest\lib\$(Configuration)"
-LIBPATHS				= $(LIBPATHS) /LIBPATH:"$(GoogleTestDir)\lib\native\v140\windesktop\msvcstl\static\rt-dyn\$(Platform)\$(Configuration)"
-LIBPATHS				= $(LIBPATHS) /LIBPATH:"$(UDOOCSBASEDIRCLT)\sys\win_$(Platform)\$(Configuration)\lib"
+LIBPATHS				= $(LIBPATHS) /LIBPATH:"$(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\lib"
+#LIBPATHS				= $(LIBPATHS) /LIBPATH:"$(GoogleTestDir)\lib\native\v140\windesktop\msvcstl\static\rt-dyn\$(Platform)\$(Configuration)"
 LIBS					=
 
-#LIBS					= $(LIBS) "DOOCSapi.lib"
-#LIBS					= $(LIBS) "tine.lib"
-#LIBS					= $(LIBS) "gul.lib"
 LIBS					= $(LIBS) "gtest_main$(GoogleTestConfiguration).lib"
 LIBS					= $(LIBS) "gtest$(GoogleTestConfiguration).lib"
 

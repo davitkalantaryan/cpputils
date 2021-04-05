@@ -49,7 +49,7 @@ jobs:
               #working-directory: blabla
 
             - name: running unittest for windows
-              run: echo "will be implemented"
+              run: .\scripts\.cicd\windows_test_pull_to_master_unittest.bat
 
     # do we need mac ?
     mac:

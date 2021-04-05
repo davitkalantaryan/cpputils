@@ -36,7 +36,7 @@
     <None Include="windows.Makefile">
       <Filter>files</Filter>
     </None>
-    <None Include="packages.config">
+    <None Include="packages.config.locked">
       <Filter>files</Filter>
     </None>
   </ItemGroup>

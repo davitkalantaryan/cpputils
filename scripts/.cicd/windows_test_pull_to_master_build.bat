@@ -6,21 +6,21 @@ setlocal EnableDelayedExpansion
 rem some definations
 set "Platform=x64"
 set "Configuration=Debug"
-set "ActionConfirm=build"
-
-
+rem set "ActionConfirm=build"
 
 set scriptDirectory=%~dp0
 cd /D %scriptDirectory%..\..
 set "repositoryRoot=%cd%\"
 
-rem cd "%repositoryRoot%prj\tests\googletest_mult"
+cd "%repositoryRoot%prj\tests\googletest_mult"
 rem msbuild -t:restore -p:RestorePackagesConfig=true
 rem if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
-
-cd "%repositoryRoot%workspaces\cpputils_vs"
-call msbuild "%repositoryRoot%workspaces\cpputils_vs\cpputils.sln" /t:%ActionConfirm% /p:Configuration=%Configuration% /p:Platform=%Platform% -m:2
+nmake -f windows.Makefile Platform=!Platform! Configuration=!Configuration!
 if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
+
+rem cd "%repositoryRoot%workspaces\cpputils_vs"
+rem call msbuild "%repositoryRoot%workspaces\cpputils_vs\cpputils.sln" /t:%ActionConfirm% /p:Configuration=%Configuration% /p:Platform=%Platform% -m:2
+rem if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
 
 rem do we need to compile makefile projects, then init env and do
 rem if not "!VSCMD_ARG_HOST_ARCH!"=="!Platform!" (
