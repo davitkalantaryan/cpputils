@@ -131,7 +131,7 @@ __buildRaw: __buildGoogleTestLib __preparationForBuildRaw $(Objects)
 #	@cmake --build .
 __buildGoogleTestLib:
 	@cd $(MakeFileDir)
-	@msbuild -t:restore -p:RestorePackagesConfig=true
+	@echo "!!!!!! 'msbuild -t:restore -p:RestorePackagesConfig=true' is not necessary anymore"
 
 __preparationForSetObjectsForClean:
 	@echo -=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-= __preparationForSetObjectsForBuild
