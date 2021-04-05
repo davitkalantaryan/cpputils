@@ -1,7 +1,7 @@
 
 #* text=false
 
-*.h			text
-*.cpp		text
-*.cc		text
-*.sh		text
+#*.h			text
+#*.cpp		text
+#*.cc		text
+#*.sh		text
