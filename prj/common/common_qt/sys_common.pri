@@ -61,8 +61,12 @@ win32 {
 }
 
 CONFIGURATION=Profile
+nameExtension=
 Release|release:CONFIGURATION=Release
-Debug|debug:CONFIGURATION=Debug
+Debug|debug{
+	nameExtension=d
+	CONFIGURATION=Debug
+}
 
 message("!!! sys_common.pri: SYSTEM_PATH=$${PRJ_PWD}/$${SYSTEM_PATH}")
 

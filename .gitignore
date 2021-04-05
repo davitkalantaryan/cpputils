@@ -36,6 +36,8 @@ vc140.*
 
 /sys
 
+/build
+/tests
 
 /workspaces/*/*
 

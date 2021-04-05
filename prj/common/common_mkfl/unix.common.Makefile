@@ -46,9 +46,11 @@ DEBUG_FLAGS_RELEASE=-O3
 ifdef CPPUTILS_DEBUG
 	DEBUG_FLAGS=$(DEBUG_FLAGS_DEBUG)
 	Configuration=Debug
+	nameExtension=d
 else
 	DEBUG_FLAGS=$(DEBUG_FLAGS_RELEASE)
 	Configuration=Release
+	nameExtension=
 endif
 
 EMFLAGS=$(COMMON_FLAGS) -isystem cpp/_system -Os
