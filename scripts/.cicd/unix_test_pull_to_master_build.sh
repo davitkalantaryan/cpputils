@@ -2,18 +2,9 @@
 
 # script to prepare developer host, to work with the code on this repo
 
-scriptDirectoryBase=`dirname ${0}`
-scriptFileName=`basename ${0}`
-cd ${scriptDirectoryBase}
-fileOrigin=`readlink ${scriptFileName}`
-if [ ! -z "$fileOrigin" ]; then
-	relativeSourceDir=`dirname ${fileOrigin}`
-	cd ${relativeSourceDir}
-fi
-scriptDirectory=`pwd`
-echo scriptDirectory=$scriptDirectory
-
-cd ../..
+scriptFileFullPath=`readlink -f ${0}`
+scriptDirectory=`dirname ${scriptFileFullPath}`
+cd ${scriptDirectory}/../..
 repositoryRoot=`pwd`
 
 
@@ -21,11 +12,9 @@ repositoryRoot=`pwd`
 if [[ "$(uname)" == "Darwin" ]]; then
 	# Do something under Mac OS X platform
 	lsbCode=mac
-	qtTarget=clang_64
 elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 	# Do something under GNU/Linux platform
 	lsbCode=`lsb_release -sc`
-	qtTarget=gcc_64
 #elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]]; then
 #	# Do something under 32 bits Windows NT platform
 #elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]]; then
@@ -34,6 +23,7 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 fi
 
 cd ${repositoryRoot}/prj/tests/googletest_mult
-make -f unix.Makefile $@
+unset CPPUTILS_DEBUG
+make -f unix.Makefile all
 # to make debug use line below
-#make -f unix.Makefile  DEVSHEET_DEBUG=1
+make -f unix.Makefile all CPPUTILS_DEBUG=1

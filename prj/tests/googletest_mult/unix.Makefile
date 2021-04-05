@@ -18,8 +18,8 @@ COMMON_SRCS	= $(shell find $(COMMON_SRC_DIR) -name "*.cpp")
 
 CPPFLAGS += -I$(repoRootPath)/contrib/googletest/googletest/include
 
-LIBS += $(repoRootPath)/contrib/googletest/lib/libgtest_main.a
-LIBS += $(repoRootPath)/contrib/googletest/lib/libgtest.a
+LIBS += $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/lib/libgtest_main$(nameExtension).a
+LIBS += $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/lib/libgtest$(nameExtension).a
 LIBS += -pthread
 
 all: $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
