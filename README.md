@@ -12,7 +12,9 @@ can be usefull
  1. `CPPUTILS_NARGS`. This macros calculates number of argumets. `CPPUTILS_NARGS(1,a,"hi")` is `3`. Number of 
 args will be properly calculated is in this range `[1..99]`.  
  2. `CPPUTILS_NAMES`. This macros stringifies all provided arguments and delimates thgem by coma.
-`CPPUTILS_NAMES(a,b,c)` is `"a","b","c"`. Number of arguments properly handled by this macros is `[0..99]`  
+`CPPUTILS_NAMES(a,b,c)` is `"a","b","c"`. Number of arguments properly handled by this macros is `[0..99]`. 
+be aware, if you have `CPPUTILS_NAMES(a,b,"c")`, then resulting string will be `"ab\"c\""`. 
+See examples in [0005_macroses.cpp](src/tests/googletest/0005_macroses.cpp)
   
   
 ### Hash tables  

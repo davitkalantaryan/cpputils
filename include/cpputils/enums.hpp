@@ -68,6 +68,8 @@ public:																																									\
 	_Name& operator=(const _Name& a_cM) { m_enVal = a_cM.m_enVal; return *this; }																						\
 	_Name& operator=(Type a_val) { m_enVal = a_val; return *this; }																										\
 	operator _integralType (){return static_cast<_integralType>(m_enVal);}																								\
+	bool operator==(const _Name& a_o)const { return m_enVal==a_o.m_enVal; }																								\
+	bool operator==(Type a_val)const { return m_enVal==a_val; }																											\
 	const char* toString()const {																																		\
 		size_t unIndex = static_cast<size_t>( static_cast<_integralType>(m_enVal) );																					\
 		if( unIndex< ::cpputils::enums::Base< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >::ms_data.m_numberOfEnumFields ) {									\
