@@ -4,18 +4,18 @@
 //
 
 #include "gtest/gtest.h"
-#include <common/bigint.hpp>
+#include <cpputils/bigint.hpp>
 
 template <uint64_t BiSize>
 static void TestBigInteger();
 
 TEST(f_0002_bigint, t0000_basic)
 {
-	common::BigInt<1> a1(2);
+	cpputils::BigInt<1> a1(2);
 	
 	// let's declare very big integer
 #ifdef CPPUTILS_CPP_11_DEFINED
-	common::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
+	cpputils::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
 	
 	ASSERT_EQ(static_cast<int64_t>(a4/100000000000),static_cast<int64_t>(100000000000000000000_bi01/100000000000));	
 	
@@ -24,7 +24,7 @@ TEST(f_0002_bigint, t0000_basic)
 #endif
 	
 #else
-	common::BigInt<1> a4 = 10000000000;
+	cpputils::BigInt<1> a4 = 10000000000;
 	a4 *= 10000000000;
 	ASSERT_EQ(static_cast<int64_t>(a4/ 10000000000), 10000000000);
 #endif  // #ifdef CPPUTILS_CPP_11_DEFINED
@@ -50,7 +50,7 @@ TEST(f_0002_bigint, t0002_test_arithmetic)
 {
 #ifdef CPPUTILS_CPP_11_DEFINED
 
-	common::BigInt<2> bi1 = 1000000000000000000000000000000_bi02; // 10^30
+	cpputils::BigInt<2> bi1 = 1000000000000000000000000000000_bi02; // 10^30
 	ASSERT_EQ(bi1.to_string<char>(), std::string("1000000000000000000000000000000"));  
 
 	bi1 /= 100;  // 10^28
@@ -66,7 +66,7 @@ TEST(f_0002_bigint, t0002_test_arithmetic)
 template <uint64_t BiSize>
 static void TestBigInteger()
 {
-	common::BigInt<BiSize> bi1(2);
+	cpputils::BigInt<BiSize> bi1(2);
 	ASSERT_EQ(size_t(sizeof(bi1)), size_t(8*(1<< BiSize)));
 
 	bi1 *= 2;
@@ -75,6 +75,6 @@ static void TestBigInteger()
 	bi1 -= 5;
 	ASSERT_EQ(static_cast<int64_t>(bi1), -1);
 
-	common::BigInt<BiSize> bi2 = 2000;
+	cpputils::BigInt<BiSize> bi2 = 2000;
 	ASSERT_EQ(static_cast<int64_t>(bi1+2* bi2), 3999);
 }

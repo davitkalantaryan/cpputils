@@ -1,30 +1,30 @@
 //
 // file:			hashtbl.hpp
-// path:			include/common/hashtbl.hpp
+// path:			include/cpputils/hashtbl.hpp
 // created on:		2017 Jul 21
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef COMMON_HASHTBL_HPP
-#define COMMON_HASHTBL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_HPP
 
 
 #include <cpputils_internal_header.h>
-#include <common/functional.hpp>
+#include <cpputils/functional.hpp>
 #include <stdint.h>
 #include <stddef.h>
 
 #define DEFAULT_TABLE_SIZE	256
 
-namespace common { namespace hashtbl {
+namespace cpputils { namespace hashtbl {
 
 template <typename KeyType, typename DataType=int>
 class FuncsT
 {
 public:
-	typedef ::common::function< FUNC_ARGS(size_t,const KeyType& key) >   Hash;
-	typedef ::common::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key, const DataType& data) > Find;
-	typedef ::common::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key) > FindVoid;
+	typedef ::cpputils::function< FUNC_ARGS(size_t,const KeyType& key) >   Hash;
+	typedef ::cpputils::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key, const DataType& data) > Find;
+	typedef ::cpputils::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key) > FindVoid;
 };
 
 
@@ -253,13 +253,13 @@ class Set : public Base<KeyType,void>{};
 class SetHash : public Base<VoidPtrKey, void> {};
 
 
-}}  // namespace common { namespace hashtbl {
+}}  // namespace cpputils { namespace hashtbl {
 
 
-#ifndef COMMON_HASHTBL_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_IMPL_HPP
 #include "hashtbl.impl.hpp"
 #endif
 
 
 
-#endif  // #ifndef COMMON_HASHTBL_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_HPP

@@ -5,7 +5,7 @@ Repository for some general purpose classes
 Following is the list of already created classes  
   
 ### Hash tables  
-Hash table related classes can be found in the header [hashtbl.hpp](include/common/hashtbl.hpp). 
+Hash table related classes can be found in the header [hashtbl.hpp](include/cpputils/hashtbl.hpp). 
 These containers are associative with average constant-time complexity of search, insertion, and removal (`O(1)`).
 In general this class will beheave very similar to [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map).  
   
@@ -20,7 +20,7 @@ Example of using these classes one can find in test source file [0001_hash.cpp](
   
 ### Big integers  
 Implemented compatible big integers (signed and unsigned). The clases are template classes, with `size_t` template argument 
-(see [bigint.hpp](include/common/bigint.hpp)). The meaning of template argument one can see from code snippet below  
+(see [bigint.hpp](include/cpputils/bigint.hpp)). The meaning of template argument one can see from code snippet below  
   
 ``` cpp  
   
@@ -41,7 +41,7 @@ In the case if `C++ 11` or newer compiler is used, one can also use literals for
   
 ``` cpp  
   
-common::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
+cpputils::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
     
 ```  
 
@@ -53,8 +53,8 @@ Example of using these classes one can find in test source file [0002_bigint.cpp
   
 ### function class  
 This is like c++ 11 [`std::function`](https://en.cppreference.com/w/cpp/utility/functional/function). 
-This class defined in the header [`common/functional_old.hpp`](include/common/functional_old.hpp). 
-One can use this when old compiler is in use. The header [`common/functional.hpp`](include/common/functional.hpp) makes 
+This class defined in the header [`cpputils/functional_old.hpp`](include/cpputils/functional_old.hpp). 
+One can use this when old compiler is in use. The header [`cpputils/functional.hpp`](include/cpputils/functional.hpp) makes 
 corresponding calcutaion of compiler version and uses `std::function` when c++11 or higher is used. In this file you will find something like this  
 ```cpp  
     
@@ -75,7 +75,7 @@ Example of usage
 ``` cpp  
   
 // this is bad example, because lambda function is used, this means you can use std::function  
-common::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn01([](const int& a_val){  
+cpputils::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn01([](const int& a_val){  
 	return static_cast<size_t>(a_val);  
 });  
   
@@ -86,7 +86,7 @@ static size_t SumStatic(int a_val1, int a_val2, int a_val3)
   
 int main()  
 {  
-	common::function_old< FUNC_ARGS_OLD(size_t,int,int,int) > aFn02;  
+	cpputils::function_old< FUNC_ARGS_OLD(size_t,int,int,int) > aFn02;  
 	aFn02 = &SumStatic;  
 	  
 	std::cout<<aFn02(1,2,3);  // this will output 6  
@@ -96,10 +96,10 @@ int main()
   
 ```  
   
-Example that illustrates of usage header  [`common/functional.hpp`](include/common/functional.hpp)  
+Example that illustrates of usage header  [`cpputils/functional.hpp`](include/cpputils/functional.hpp)  
 ``` cpp  
   
-#include <common/functional.hpp>  
+#include <cpputils/functional.hpp>  
   
 static size_t SumStatic(int a_val1, int a_val2, int a_val3)  
 {  
@@ -108,8 +108,8 @@ static size_t SumStatic(int a_val1, int a_val2, int a_val3)
   
 int main()  
 {  
-	// line below will use std::function for c++11 and newer compiler and common::function_old for old compilers    
-	common::function< FUNC_ARGS_OLD(size_t,int,int,int) > aFn02(&SumStatic);  
+	// line below will use std::function for c++11 and newer compiler and cpputils::function_old for old compilers    
+	cpputils::function< FUNC_ARGS_OLD(size_t,int,int,int) > aFn02(&SumStatic);  
   	  
 	std::cout<<aFn02(1,2,3);  // this will output 6  
 	  

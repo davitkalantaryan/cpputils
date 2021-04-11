@@ -1,20 +1,20 @@
 //
 // file:			sharedptr.hpp
-// path:			include/common/sharedptr.hpp
+// path:			include/cpputils/sharedptr.hpp
 // created on:		2021 Mar 31
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_COMMON_SHAREDPTR_HPP
-#define CPPUTILS_INCLUDE_COMMON_SHAREDPTR_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_HPP
 
 #include <cpputils_internal_header.h>
-#include <common/functional.hpp>
+#include <cpputils/functional.hpp>
 #include <stddef.h>
 
 
 
-namespace common {
+namespace cpputils {
 
 
 template <typename PtrType>
@@ -22,7 +22,7 @@ class SharedPtr
 {
 public:
 	struct Core;
-	typedef ::common::function< FUNC_ARGS(void,void* clbkData,PtrType* pData,size_t numberOfPreviousReferences,size_t numberOfReferences) > TypeClbk;
+	typedef ::cpputils::function< FUNC_ARGS(void,void* clbkData,PtrType* pData,size_t numberOfPreviousReferences,size_t numberOfReferences) > TypeClbk;
 public:
 	SharedPtr();
 	SharedPtr(PtrType* pPtr, TypeClbk a_fnClbk=CPPUTILS_NULL, void* clbkData=CPPUTILS_NULL);
@@ -50,13 +50,13 @@ public:
 };
 
 
-}  // namespace common {
+}  // namespace cpputils {
 
 
-#ifndef CPPUTILS_INCLUDE_COMMON_SHAREDPTR_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP
 #include "sharedptr.impl.hpp"
 #endif
 
 
 
-#endif  // #ifndef CPPUTILS_INCLUDE_COMMON_SHAREDPTR_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_HPP

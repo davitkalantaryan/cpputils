@@ -1,20 +1,20 @@
 //
 // file:			functional_old.impl.hpp
-// path:			include/common/functional_old.impl.hpp
+// path:			include/cpputils/functional_old.impl.hpp
 // created on:		2021 Mar 31
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_IMPL_HPP
-#define CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_IMPL_HPP
 
 
-#ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 #include "functional_old.hpp"
 #endif
 
 
-namespace common {
+namespace cpputils {
 
 template <typename Signature>
 function_old_base<Signature>::function_old_base(Signature a_fclbl)
@@ -242,7 +242,7 @@ void function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::operat
 
 
 
-}  // namespace common {
+}  // namespace cpputils {
 
 
-#endif  // #ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_IMPL_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_IMPL_HPP

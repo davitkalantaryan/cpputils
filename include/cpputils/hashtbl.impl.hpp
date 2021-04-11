@@ -1,15 +1,15 @@
 //
 // file:			hashtbl.impl.hpp
-// path:			include/common/hashtbl.impl.hpp
+// path:			include/cpputils/hashtbl.impl.hpp
 // created on:		2017 Jul 21
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef COMMON_HASHTBL_IMPL_HPP
-#define COMMON_HASHTBL_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_IMPL_HPP
 
 
-#ifndef COMMON_HASHTBL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_HPP
 //#error do not include this header directly
 #include "hashtbl.hpp"
 #endif
@@ -24,7 +24,7 @@ namespace __private { namespace __implementation {
 
 
 template <typename KeyType,typename DataType>
-struct HashItemFull : public ::common::hashtbl::Base<KeyType,DataType>::HashItem {
+struct HashItemFull : public ::cpputils::hashtbl::Base<KeyType,DataType>::HashItem {
 public:
 	HashItemFull(const KeyType& key, const DataType& data);
 	~HashItemFull();
@@ -35,7 +35,7 @@ public:
 };
 
 template <typename KeyType>
-struct HashItemFull<KeyType,void> : public ::common::hashtbl::Base<KeyType,void>::HashItem {
+struct HashItemFull<KeyType,void> : public ::cpputils::hashtbl::Base<KeyType,void>::HashItem {
 public:
 	HashItemFull(const KeyType& key);
 	~HashItemFull();
@@ -51,7 +51,7 @@ CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize);
 
 }}  // namespace __private { namespace __implementation {
 
-namespace common { namespace hashtbl {
+namespace cpputils { namespace hashtbl {
 
 template <typename KeyType,typename DataType>
 const typename Base<KeyType,DataType>::iterator  Base<KeyType,DataType>::s_endIter(CPPUTILS_NULL);
@@ -921,7 +921,7 @@ bool Funcs<VoidPtrKey, DataType>::DefaultFindVoid(void*, const VoidPtrKey&)
 }
 
 
-}}  // namespace common { namespace hashtbl {
+}}  // namespace cpputils { namespace hashtbl {
 
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -931,7 +931,7 @@ namespace __private { namespace __implementation {
 template <typename KeyType,typename DataType>
 HashItemFull<KeyType,DataType>::HashItemFull(const KeyType& a_key, const DataType& a_data)
     :	
-	  ::common::hashtbl::Base<KeyType,DataType>::HashItem(a_key,a_data),
+	  ::cpputils::hashtbl::Base<KeyType,DataType>::HashItem(a_key,a_data),
 	  prev(CPPUTILS_NULL),
 	  next(CPPUTILS_NULL),
 	  prevInTheList(CPPUTILS_NULL),
@@ -965,7 +965,7 @@ HashItemFull<KeyType,DataType>::~HashItemFull()
 template <typename KeyType>
 HashItemFull<KeyType,void>::HashItemFull(const KeyType& a_key)
     :	
-	  ::common::hashtbl::Base<KeyType,void>::HashItem(a_key),
+	  ::cpputils::hashtbl::Base<KeyType,void>::HashItem(a_key),
 	  prev(CPPUTILS_NULL),
 	  next(CPPUTILS_NULL),
 	  prevInTheList(CPPUTILS_NULL),
@@ -997,4 +997,4 @@ HashItemFull<KeyType,void>::~HashItemFull()
 }}  // namespace __private { namespace __implementation {
 
 
-#endif  // #ifndef COMMON_HASHTBL_IMPL_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_IMPL_HPP

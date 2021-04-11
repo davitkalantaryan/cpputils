@@ -1,12 +1,12 @@
 //
 // file:			functional_old.hpp
-// path:			include/common/functional_old.hpp
+// path:			include/cpputils/functional_old.hpp
 // created on:		2021 Mar 31
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_HPP
-#define CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 
 #include <cpputils_internal_header.h>
 #include <stddef.h>
@@ -15,7 +15,7 @@
 #define FUNC_ARGS_OLD(_ret,...)		_ret (*)(__VA_ARGS__)
 
 
-namespace common {
+namespace cpputils {
 
 template <typename Signature>
 class function_old_base
@@ -162,13 +162,13 @@ public:
 
 
 
-}  // namespace common {
+}  // namespace cpputils {
 
 
-#ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_IMPL_HPP
 #include "functional_old.impl.hpp"
 #endif
 
 
 
-#endif  // #ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP

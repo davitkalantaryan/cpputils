@@ -18,23 +18,23 @@ DEFINES += CPPUTILS_USING_STATIC_LIB_OR_OBJECTS
 
 SOURCES	+=		\
 	$${PWD}/../../../src/tests/main_any_quick_test.cpp					\
-	$${PWD}/../../../src/common/common_bigint.cpp						\
-	$${PWD}/../../../src/common/common_functional_old.cpp				\
-	$${PWD}/../../../src/common/common_hashtbl.cpp						\
-	$${PWD}/../../../src/common/common_inscopecleaner.cpp				
+	$${PWD}/../../../src/core/cpputils_bigint.cpp						\
+	$${PWD}/../../../src/core/cpputils_functional_old.cpp				\
+	$${PWD}/../../../src/core/cpputils_hashtbl.cpp						\
+	$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp				
 
 
 HEADERS	+=		\
 	$${PWD}/../../../include/cpputils_internal_header.h					\
-	$${PWD}/../../../include/common/bigint.hpp							\
-	$${PWD}/../../../include/common/bigint.impl.hpp						\
-	$${PWD}/../../../include/common/endian.hpp							\
-	$${PWD}/../../../include/common/functional.hpp						\
-	$${PWD}/../../../include/common/functional_old.hpp					\
-	$${PWD}/../../../include/common/functional_old.impl.hpp				\
-	$${PWD}/../../../include/common/hashtbl.hpp							\
-	$${PWD}/../../../include/common/hashtbl.impl.hpp					\
-	$${PWD}/../../../include/common/inscopecleaner.hpp					\
-	$${PWD}/../../../include/common/sharedptr.hpp						\
-	$${PWD}/../../../include/common/sharedptr.impl.hpp					\
+	$${PWD}/../../../include/cpputils/bigint.hpp						\
+	$${PWD}/../../../include/cpputils/bigint.impl.hpp					\
+	$${PWD}/../../../include/cpputils/endian.hpp						\
+	$${PWD}/../../../include/cpputils/functional.hpp					\
+	$${PWD}/../../../include/cpputils/functional_old.hpp				\
+	$${PWD}/../../../include/cpputils/functional_old.impl.hpp			\
+	$${PWD}/../../../include/cpputils/hashtbl.hpp						\
+	$${PWD}/../../../include/cpputils/hashtbl.impl.hpp					\
+	$${PWD}/../../../include/cpputils/inscopecleaner.hpp				\
+	$${PWD}/../../../include/cpputils/sharedptr.hpp						\
+	$${PWD}/../../../include/cpputils/sharedptr.impl.hpp				\
 	

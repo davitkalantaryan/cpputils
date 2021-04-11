@@ -1,15 +1,15 @@
 //
 // file:			sharedptr.impl.hpp
-// path:			include/common/sharedptr.impl.hpp
+// path:			include/cpputils/sharedptr.impl.hpp
 // created on:		2021 Mar 31
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_COMMON_SHAREDPTR_IMPL_HPP
-#define CPPUTILS_INCLUDE_COMMON_SHAREDPTR_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP
 
 
-#ifndef CPPUTILS_INCLUDE_COMMON_FUNCTIONAL_OLD_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 #include "sharedptr.hpp"
 #endif
 
@@ -26,7 +26,7 @@ public:
 }}  // namespace __private{ namespace __implementation{
 
 
-namespace common {
+namespace cpputils {
 
 
 template <typename PtrType>
@@ -167,7 +167,7 @@ int SharedPtr<PtrType>::getReferences()const
 }
 
 
-}  // namespace common {
+}  // namespace cpputils {
 
 
-#endif  // #ifndef CPPUTILS_INCLUDE_COMMON_SHAREDPTR_IMPL_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP

@@ -1,25 +1,25 @@
 //
 // file:			inscopecleaner.hpp
-// path:			include/common/inscopecleaner.hpp
+// path:			include/cpputils/inscopecleaner.hpp
 // created on:		2021 Mar 31
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_COMMON_INSCOPECLEANER_HPP
-#define CPPUTILS_INCLUDE_COMMON_INSCOPECLEANER_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_INSCOPECLEANER_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_INSCOPECLEANER_HPP
 
 #include <cpputils_internal_header.h>
-#include <common/functional.hpp>
+#include <cpputils/functional.hpp>
 
 
 
-namespace common {
+namespace cpputils {
 
 
 class InScopeCleaner
 {
 public:
-	typedef ::common::function< FUNC_ARGS(void,void*) > TypeDeleteFunc;
+	typedef ::cpputils::function< FUNC_ARGS(void,void*) > TypeDeleteFunc;
 	
 public:
 	InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData=CPPUTILS_NULL);
@@ -31,9 +31,9 @@ private:
 };
 
 
-}  // namespace common {
+}  // namespace cpputils {
 
 
 
 
-#endif  // #ifndef CPPUTILS_INCLUDE_COMMON_INSCOPECLEANER_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_INSCOPECLEANER_HPP

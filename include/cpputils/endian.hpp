@@ -1,6 +1,6 @@
 //
 // file:			endian.hpp
-// path:			include/common/endian.hpp
+// path:			include/cpputils/endian.hpp
 // created on:		2021 Mar 24
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //

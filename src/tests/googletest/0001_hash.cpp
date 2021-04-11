@@ -4,7 +4,7 @@
 //
 
 #include "gtest/gtest.h"
-#include <common/hashtbl.hpp>
+#include <cpputils/hashtbl.hpp>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <utility>
 #endif
@@ -12,7 +12,7 @@
 
 TEST(f_0001_hash, t0001_base)
 {
-	common::hashtbl::Base<int, int> aHash;
+	cpputils::hashtbl::Base<int, int> aHash;
 
 	aHash.AddEntry(1, 1);
 	aHash.AddEntryEvenIfExists(1, 1);
@@ -26,27 +26,27 @@ TEST(f_0001_hash, t0001_base)
 TEST(f_0001_hash, t0002_key_is_any_void_ptr)
 {
 	int a = 1;
-	common::hashtbl::HashTbl<int> aHash;
+	cpputils::hashtbl::HashTbl<int> aHash;
 
 	aHash.AddEntry({ &a,4 }, 1);
 	aHash.AddEntryEvenIfExists({ &a,4 }, 1);
-	common::hashtbl::HashTbl<int>::iterator iter = aHash.FindEntry({ &a,4 });
+	cpputils::hashtbl::HashTbl<int>::iterator iter = aHash.FindEntry({ &a,4 });
 	ASSERT_EQ(aHash.size(), size_t(2));
-	ASSERT_FALSE(iter== common::hashtbl::HashTbl<int>::s_endIter);
+	ASSERT_FALSE(iter== cpputils::hashtbl::HashTbl<int>::s_endIter);
 	ASSERT_EQ(iter->second, 1);
 }
 
 
 TEST(f_0001_hash, t0003_map)
 {
-	common::hashtbl::Set<int> aHash;
+	cpputils::hashtbl::Set<int> aHash;
 
 	size_t unHash;
 	aHash.AddEntry(1);
 	ASSERT_EQ(aHash.size(), size_t(1));
 
-	common::hashtbl::Set<int>::iterator iter = aHash.FindEntry(2, &unHash);
-	ASSERT_TRUE(iter == common::hashtbl::Set<int>::s_endIter);
+	cpputils::hashtbl::Set<int>::iterator iter = aHash.FindEntry(2, &unHash);
+	ASSERT_TRUE(iter == cpputils::hashtbl::Set<int>::s_endIter);
 	aHash.AddEntryWithKnownHash(2, unHash);
 	ASSERT_EQ(aHash.size(),size_t(2));
 }
@@ -55,13 +55,13 @@ TEST(f_0001_hash, t0003_map)
 TEST(f_0001_hash, t0004_map_with_any_void_ptr_key)
 {
 	int a = 1;
-	common::hashtbl::SetHash aHash;
+	cpputils::hashtbl::SetHash aHash;
 
 	aHash.AddEntry({ &a,4 });
 	aHash.AddEntryEvenIfExists({ &a,4 });
-	common::hashtbl::SetHash::iterator iter = aHash.FindEntry({ &a,4 });
+	cpputils::hashtbl::SetHash::iterator iter = aHash.FindEntry({ &a,4 });
 	ASSERT_EQ(aHash.size(), size_t(2));
-	ASSERT_FALSE(iter == common::hashtbl::SetHash::s_endIter);
+	ASSERT_FALSE(iter == cpputils::hashtbl::SetHash::s_endIter);
 }
 
 #define NUMBER_OF_ENTRIES	10
@@ -76,7 +76,7 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 #undef OP_SQ_BR_DEF
 #endif
 #define OP_SQ_BR_DEF(_exp)	_exp
-	typedef common::hashtbl::Base<int, int> HashType;
+	typedef cpputils::hashtbl::Base<int, int> HashType;
 
 	int i;
 	HashType aHashIn;
@@ -153,7 +153,7 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 #undef OP_SQ_BR_DEF
 #endif
 #define OP_SQ_BR_DEF(_exp) 
-	typedef common::hashtbl::Base<int, void> HashType;
+	typedef cpputils::hashtbl::Base<int, void> HashType;
 
 	int i;
 	HashType aHashIn;

@@ -1,10 +1,10 @@
 
 
-#include <common/hashtbl.hpp>
-#include <common/bigint.hpp>
-#include <common/functional_old.hpp>
-#include <common/sharedptr.hpp>
-#include <common/endian.hpp>
+#include <cpputils/hashtbl.hpp>
+#include <cpputils/bigint.hpp>
+#include <cpputils/functional_old.hpp>
+#include <cpputils/sharedptr.hpp>
+#include <cpputils/endian.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -15,7 +15,7 @@
 int main()
 {
 	{
-		common::hashtbl::Base<int,int> aHash;
+		cpputils::hashtbl::Base<int,int> aHash;
 		
 		aHash.AddEntry(1,1);
 		aHash.AddEntryEvenIfExists(1,1);
@@ -23,7 +23,7 @@ int main()
 	
 	{
 		int a=1;
-		common::hashtbl::HashTbl<int> aHash;
+		cpputils::hashtbl::HashTbl<int> aHash;
 		
 		aHash.AddEntry({&a,4},1);
 		aHash.AddEntryEvenIfExists({&a,4},1);
@@ -31,8 +31,8 @@ int main()
 	}
 	
 	{
-		common::hashtbl::Set<int> aHash;
-		//common::hashtbl:: Base<int,void> aHash;
+		cpputils::hashtbl::Set<int> aHash;
+		//cpputils::hashtbl:: Base<int,void> aHash;
 		
 		size_t unHash;
 		aHash.AddEntry(1);
@@ -42,13 +42,13 @@ int main()
 	}
 	
 	{
-		common::BigInt<1> a1(2);
-		common::BigInt<1> a2(5);
-		common::BigInt<1> a4 = 100000000000000000000_bi01 / 1000000000000000000_bi01;
-		//common::BigInt<1> a3 = ;
+		cpputils::BigInt<1> a1(2);
+		cpputils::BigInt<1> a2(5);
+		cpputils::BigInt<1> a4 = 100000000000000000000_bi01 / 1000000000000000000_bi01;
+		//cpputils::BigInt<1> a3 = ;
 		int ia1 = static_cast<int>(a1+a2);
 		int ia2 = static_cast<int>(a1-a2);
-		//std::make_unsigned< common::BigInt<1> > ua;
+		//std::make_unsigned< cpputils::BigInt<1> > ua;
 		std::cout << "ia1="<<ia1<<std::endl;
 		std::cout << "ia2="<<ia2<<std::endl;
 		std::cout << "a1+a2="<<a1+a2<<std::endl;
@@ -58,10 +58,10 @@ int main()
 	}
 
 	{
-		common::BigUInt<1> aMask2, aMask;
+		cpputils::BigUInt<1> aMask2, aMask;
 
-		for (uint64_t i(0); i < common::BigUInt<1>::s_lastIndexInBuff; ++i) { aMask.buff()[i] = 0; }
-		aMask.buff()[common::BigUInt<1>::s_lastIndexInBuff] = MASK_SIGN_BIT;
+		for (uint64_t i(0); i < cpputils::BigUInt<1>::s_lastIndexInBuff; ++i) { aMask.buff()[i] = 0; }
+		aMask.buff()[cpputils::BigUInt<1>::s_lastIndexInBuff] = MASK_SIGN_BIT;
 		
 		aMask2 = aMask;
 
@@ -79,7 +79,7 @@ int main()
 		aMask = aMask2;
 		aMask <<= 127;
 
-		common::BigUInt<1> bui1 = 100000000000000000000_bui01;
+		cpputils::BigUInt<1> bui1 = 100000000000000000000_bui01;
 		bui1 /= 10;
 		std::cout << bui1/10;
 	}
@@ -114,7 +114,7 @@ int main()
 	}
 	
 	{		
-		common::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn([](const int& a_val){
+		cpputils::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn([](const int& a_val){
 			return static_cast<size_t>(a_val);
 		});
 		
@@ -122,7 +122,7 @@ int main()
 	}
 	
 	{
-		common::SharedPtr<int> aPtr02 ( new int);
+		cpputils::SharedPtr<int> aPtr02 ( new int);
 		
 		*aPtr02 = 1;
 		

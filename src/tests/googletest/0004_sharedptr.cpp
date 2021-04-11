@@ -4,7 +4,7 @@
 //
 
 #include "gtest/gtest.h"
-#include <common/sharedptr.hpp>
+#include <cpputils/sharedptr.hpp>
 
 class MyTestClass
 {
@@ -32,7 +32,7 @@ TEST(f_0004_sharedptr, t0000_first)
 		s_expectedPrevRef = 0;
 		s_expectedRef = 1;
 		
-		common::SharedPtr< MyTestClass > ptr01( new MyTestClass(&bIsDeleted),[](void* a1,MyTestClass* a2,size_t a_prevRefs,size_t a_refs){
+		cpputils::SharedPtr< MyTestClass > ptr01( new MyTestClass(&bIsDeleted),[](void* a1,MyTestClass* a2,size_t a_prevRefs,size_t a_refs){
 			ReferenceChangeClbk(a1,a2,a_prevRefs,a_refs);
 		});
 		ASSERT_EQ(ptr01.getReferences(),1);
@@ -47,18 +47,18 @@ TEST(f_0004_sharedptr, t0000_first)
 	
 	s_expectedPrevRef = 0;
 	s_expectedRef = 1;
-	common::SharedPtr< MyTestClass > ptr02( new MyTestClass(&bIsDeleted),&ReferenceChangeClbk);
+	cpputils::SharedPtr< MyTestClass > ptr02( new MyTestClass(&bIsDeleted),&ReferenceChangeClbk);
 	ASSERT_EQ(ptr02.getReferences(),1);
 	
 	s_expectedPrevRef = 1;
 	s_expectedRef = 2;
-	common::SharedPtr< MyTestClass > ptr03(ptr02);
+	cpputils::SharedPtr< MyTestClass > ptr03(ptr02);
 	ASSERT_EQ(ptr02.getReferences(),ptr03.getReferences());
 	ASSERT_EQ(ptr02.getReferences(),2);
 	
 	s_expectedPrevRef = 2;
 	s_expectedRef = 3;
-	common::SharedPtr< MyTestClass > ptr04;
+	cpputils::SharedPtr< MyTestClass > ptr04;
 	ptr04 = ptr03;
 	ASSERT_EQ(ptr02.getReferences(),ptr03.getReferences());
 	ASSERT_EQ(ptr02.getReferences(),ptr04.getReferences());

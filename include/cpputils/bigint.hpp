@@ -1,19 +1,19 @@
 //
 // file:			bigint.hpp
-// path:			include/common/bigint.hpp
+// path:			include/cpputils/bigint.hpp
 // created on:		2021 Mar 22
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_COMMON_BIGINT_HPP
-#define CPPUTILS_INCLUDE_COMMON_BIGINT_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_BIGINT_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_BIGINT_HPP
 
 #include <cpputils_internal_header.h>
 #include <stdint.h>
 #include <string>
 #include <ios>
 
-namespace common {
+namespace cpputils {
 
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -148,29 +148,29 @@ public:
 };
 
 
-}  // namespace common { 
+}  // namespace cpputils { 
 
 
 namespace std {
 
 template <uint64_t NUM_QWORDS_DEGR>
-::std::string to_string( const common::BigUInt<NUM_QWORDS_DEGR>& ubi);
+::std::string to_string( const cpputils::BigUInt<NUM_QWORDS_DEGR>& ubi);
 template <uint64_t NUM_QWORDS_DEGR>
-::std::wstring to_wstring(const common::BigUInt<NUM_QWORDS_DEGR>& ubi);
+::std::wstring to_wstring(const cpputils::BigUInt<NUM_QWORDS_DEGR>& ubi);
 
 template <uint64_t NUM_QWORDS_DEGR>
-::std::string to_string(const common::BigInt<NUM_QWORDS_DEGR>& ubi);
+::std::string to_string(const cpputils::BigInt<NUM_QWORDS_DEGR>& ubi);
 template <uint64_t NUM_QWORDS_DEGR>
-::std::wstring to_wstring(const common::BigInt<NUM_QWORDS_DEGR>& ubi);
+::std::wstring to_wstring(const cpputils::BigInt<NUM_QWORDS_DEGR>& ubi);
 
 }  // namespace std {
 
 
 
-#ifndef CPPUTILS_INCLUDE_COMMON_BIGINT_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_BIGINT_IMPL_HPP
 #include "bigint.impl.hpp"
 #endif
 
 
 
-#endif  // #ifndef COMMON_HASHTBL_HPP
+#endif  // #ifndef CPPUTILS_HASHTBL_HPP
