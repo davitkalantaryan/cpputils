@@ -1,11 +1,11 @@
 //
-// file:			common_hashtbl.cpp
-// path:			src/common/common_hashtbl.cpp
+// file:			cpputils_hashtbl.cpp
+// path:			src/core/cpputils_hashtbl.cpp
 // created on:		2021 Mar 05
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#include <common/hashtbl.hpp>
+#include <cpputils/hashtbl.hpp>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +32,7 @@ CPPUTILS_EXPORT const void* GenerateDataBasedOnData(const void* a_data, size_t a
 }
 
 
-namespace common { namespace hashtbl {
+namespace cpputils { namespace hashtbl {
 
 VoidPtrKey::VoidPtrKey(const void* a_key, size_t a_keyLen,bool a_shouldDelete)
 	:
@@ -78,7 +78,7 @@ bool VoidPtrKey::operator==(const VoidPtrKey &a_aM) const
 	return (this->keyLen ==a_aM.keyLen) && (memcmp(this->key,a_aM.key,this->keyLen)==0);
 }
 
-}}  // namespace common { namespace hashtbl {
+}}  // namespace cpputils { namespace hashtbl {
 
 
 
