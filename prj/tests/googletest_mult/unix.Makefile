@@ -11,7 +11,7 @@ firstTarget: all
 include $(mkfile_dir)/../../common/common_mkfl/unix.common.Makefile
 
 GTEST_SRC_DIR=$(repoRootPath)/src/tests/googletest
-COMMON_SRC_DIR=$(repoRootPath)/src/common
+COMMON_SRC_DIR=$(repoRootPath)/src/core
 
 GTEST_SRCS	= $(shell find $(GTEST_SRC_DIR) -name "*.cpp")
 COMMON_SRCS	= $(shell find $(COMMON_SRC_DIR) -name "*.cpp")

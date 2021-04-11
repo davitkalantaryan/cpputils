@@ -28,7 +28,7 @@ SRC_DIR=$${repoRootPath}/src/tests/googletest
 INCLUDEPATH += $${PWD}/../../../include
 INCLUDEPATH += $${PWD}/../../../contrib/googletest/googletest/include
 
-COMMON_SRCS   = $$system($${PWD}/../../../scripts/findfiles $${repoRootPath}/src/common .cpp)
+COMMON_SRCS   = $$system($${PWD}/../../../scripts/findfiles $${repoRootPath}/src/core .cpp)
 COMMON_HDRS   = $$system($${PWD}/../../../scripts/findfiles $${repoRootPath}/include .h)
 COMMON_HDRSPP = $$system($${PWD}/../../../scripts/findfiles $${repoRootPath}/include .hpp)
 

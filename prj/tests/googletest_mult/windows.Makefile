@@ -96,7 +96,7 @@ LFLAGS					= $(LFLAGS) /ERRORREPORT:PROMPT /NOLOGO $(LIBPATHS) /TLBID:1
 DirectoriesToCompile	=
 #DirectoriesToCompile	= $(DirectoriesToCompile) nr-build\gen\cpp\sss\ssslang\antlr
 DirectoriesToCompile	= tests\googletest
-DirectoriesToCompile	= $(DirectoriesToCompile) common
+DirectoriesToCompile	= $(DirectoriesToCompile) core
 
 default: googletest
 
