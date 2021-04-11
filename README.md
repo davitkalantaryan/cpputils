@@ -1,8 +1,19 @@
 # cpputils
 Repository for some general purpose classes  
   
-## existing classes  
-Following is the list of already created classes  
+## existing classes and utils    
+Following is the list of already created classes and utils (macroses)  
+  
+  
+### Macroses  
+There are some macroses can be used to ease several problems. These macroses are 
+defined in the header [macroses.h](include/cpputils/macroses.h). Following is the list of macroses those 
+can be usefull  
+ 1. `CPPUTILS_NARGS`. This macros calculates number of argumets. `CPPUTILS_NARGS(1,a,"hi")` is `3`. Number of 
+args will be properly calculated is in this range `[1..99]`.  
+ 2. `CPPUTILS_NAMES`. This macros stringifies all provided arguments and delimates thgem by coma.
+`CPPUTILS_NAMES(a,b,c)` is `"a","b","c"`. Number of arguments properly handled by this macros is `[0..99]`  
+  
   
 ### Hash tables  
 Hash table related classes can be found in the header [hashtbl.hpp](include/cpputils/hashtbl.hpp). 
@@ -130,4 +141,19 @@ Use cases of this:
 Details will be provided later.  
   
 ### InScopeCleaner class  
-Will be documented later
+Will be documented later  
+  
+  
+### macros CPPUTILS_ENUM01  
+Implementation is in the file [enums.hpp](include/cpputils/ens.hpp).  
+For similar implementation look  
+ 1. https://github.com/aantron/better-enums  
+ 2. https://github.com/Neargye/magic_enum  
+  
+Cases when you will preffer to use this.  
+ 1. No c++ 11 or higher (magic enum requires c++ 17 and higher).  
+ 2. In the case of better enum, there is no possibility to declare enum 
+inside class or inside function, because in the macros there is a declaration of namespaces.  
+  
+#### limitations  
+For now thiwl work only in the case if we sequential enumeration  

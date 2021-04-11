@@ -21,7 +21,7 @@ SOURCES	+=		\
 	$${PWD}/../../../src/core/cpputils_bigint.cpp						\
 	$${PWD}/../../../src/core/cpputils_functional_old.cpp				\
 	$${PWD}/../../../src/core/cpputils_hashtbl.cpp						\
-	$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp				
+	$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp			
 
 
 HEADERS	+=		\
@@ -29,12 +29,15 @@ HEADERS	+=		\
 	$${PWD}/../../../include/cpputils/bigint.hpp						\
 	$${PWD}/../../../include/cpputils/bigint.impl.hpp					\
 	$${PWD}/../../../include/cpputils/endian.hpp						\
+	$${PWD}/../../../include/cpputils/enums.hpp							\
+	$${PWD}/../../../include/cpputils/enums.impl.hpp					\
 	$${PWD}/../../../include/cpputils/functional.hpp					\
 	$${PWD}/../../../include/cpputils/functional_old.hpp				\
 	$${PWD}/../../../include/cpputils/functional_old.impl.hpp			\
 	$${PWD}/../../../include/cpputils/hashtbl.hpp						\
 	$${PWD}/../../../include/cpputils/hashtbl.impl.hpp					\
 	$${PWD}/../../../include/cpputils/inscopecleaner.hpp				\
+	$${PWD}/../../../include/cpputils/macroses.h						\
 	$${PWD}/../../../include/cpputils/sharedptr.hpp						\
 	$${PWD}/../../../include/cpputils/sharedptr.impl.hpp				\
 	

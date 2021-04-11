@@ -5,6 +5,7 @@
 #include <cpputils/functional_old.hpp>
 #include <cpputils/sharedptr.hpp>
 #include <cpputils/endian.hpp>
+#include <cpputils/enums.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -127,6 +128,14 @@ int main()
 		*aPtr02 = 1;
 		
 		std::cout << *aPtr02 << std::endl;
+	}
+	
+	{
+		CPPUTILS_ENUM01(Enum1,int,Red,Blue);
+		
+		Enum1 aBlue = Enum1::Blue;
+		
+		std::cout << aBlue.toString() << std::endl;
 	}
 	
 	
