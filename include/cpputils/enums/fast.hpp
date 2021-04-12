@@ -51,9 +51,9 @@ protected:
 #define CPPUTILS_ENUM_FAST_RAW(_IntSeed,_Name,_integralType,...)																							\
 class _Name : public ::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed > {													\
 public:																																						\
-	CPPUTILS_ENUM_TYPED(Type,_integralType,__VA_ARGS__);																									\
+	CPPUTILS_ENUM_TYPED(__Type,_integralType,__VA_ARGS__);																									\
 public:																																						\
-	_Name(Type a_val) : 																																	\
+	_Name(__Type a_val) : 																																	\
 		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_NAMES(__VA_ARGS__)),			\
 		m_enVal(a_val)																																		\
 	{}																																						\
@@ -61,19 +61,20 @@ public:																																						\
 		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_NAMES(__VA_ARGS__))			\
 	{}																																						\
 	_Name(const _Name& a_cM) : /* here no need to create static array, because copy const means other object did this*/ 									\
+		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(),																\
 		m_enVal(a_cM.m_enVal)																																\
 	{}																																						\
 	_Name& operator=(const _Name& a_cM) { m_enVal = a_cM.m_enVal; return *this; }																			\
-	_Name& operator=(Type a_val) { m_enVal = a_val; return *this; }																							\
+	_Name& operator=(__Type a_val) { m_enVal = a_val; return *this; }																						\
 	operator _integralType (){return static_cast<_integralType>(m_enVal);}																					\
 	bool operator==(const _Name& a_o)const { return m_enVal==a_o.m_enVal; }																					\
-	bool operator==(Type a_val)const { return m_enVal==a_val; }																								\
+	bool operator==(__Type a_val)const { return m_enVal==a_val; }																							\
 	const char* toString()const {																															\
 		size_t unIndex = static_cast<size_t>( static_cast<_integralType>(m_enVal) );																		\
 		return  ::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >::ms_data.getName(unIndex);								\
 	}																																						\
 public:																																						\
-	Type	m_enVal;																																		\
+	__Type	m_enVal;																																		\
 }
 
 

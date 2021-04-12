@@ -50,9 +50,9 @@ protected:
 #define CPPUTILS_ENUM_FULL_RAW(_ISeed,_Name,_iType,...)																										\
 class _Name : public ::cpputils::enums::BaseFull< _iType,CPPUTILS_NARGS(__VA_ARGS__),_ISeed > {																\
 public:																																						\
-	CPPUTILS_ENUM_TYPED(Type,_iType,__VA_ARGS__);																											\
+	CPPUTILS_ENUM_TYPED(__Type,_iType,__VA_ARGS__);																											\
 public:																																						\
-	_Name(Type a_val) : 																																	\
+	_Name(__Type a_val) : 																																	\
 		::cpputils::enums::BaseFull< _iType,CPPUTILS_NARGS(__VA_ARGS__),_ISeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_SINGLE_ARGS(_Name,__VA_ARGS__)),		\
 		m_enVal(a_val)																																		\
 	{}																																						\
@@ -60,19 +60,20 @@ public:																																						\
 		::cpputils::enums::BaseFull< _iType,CPPUTILS_NARGS(__VA_ARGS__),_ISeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_SINGLE_ARGS(_Name,__VA_ARGS__))		\
 	{}																																						\
 	_Name(const _Name& a_cM) : /* here no need to create static array, because copy const means other object did this*/ 									\
+		::cpputils::enums::BaseFull< _iType,CPPUTILS_NARGS(__VA_ARGS__),_ISeed >(),																			\
 		m_enVal(a_cM.m_enVal)																																\
 	{}																																						\
 	_Name& operator=(const _Name& a_cM) { m_enVal = a_cM.m_enVal; return *this; }																			\
-	_Name& operator=(Type a_val) { m_enVal = a_val; return *this; }																							\
+	_Name& operator=(__Type a_val) { m_enVal = a_val; return *this; }																						\
 	operator _iType (){return static_cast<_iType>(m_enVal);}																								\
 	bool operator==(const _Name& a_o)const { return m_enVal==a_o.m_enVal; }																					\
-	bool operator==(Type a_val)const { return m_enVal==a_val; }																								\
+	bool operator==(__Type a_val)const { return m_enVal==a_val; }																							\
 	const char* toString()const {																															\
 		int64_t unIndex = static_cast<int64_t>( static_cast<_iType>(m_enVal) );																				\
 		return ::cpputils::enums::BaseFull< _iType,CPPUTILS_NARGS(__VA_ARGS__),_ISeed >::ms_data.getName( unIndex ) ;										\
 	}																																						\
 public:																																						\
-	Type	m_enVal;																																		\
+	__Type	m_enVal;																																		\
 }
 
 
