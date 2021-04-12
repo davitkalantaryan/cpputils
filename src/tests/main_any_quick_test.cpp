@@ -6,6 +6,8 @@
 #include <cpputils/sharedptr.hpp>
 #include <cpputils/endian.hpp>
 #include <cpputils/enums.hpp>
+#include <cpputils/enums/fast.hpp>
+#include <cpputils/enums/full.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -131,11 +133,11 @@ int main()
 	}
 	
 	{
-		CPPUTILS_ENUM01(Enum1,int,Red,Blue);
-		
+		CPPUTILS_ENUM_FAST(Enum1,int,Red,Blue);		
 		Enum1 aBlue = Enum1::Blue;
-		
 		std::cout << aBlue.toString() << std::endl;
+
+		CPPUTILS_ENUM_FULL(Enum2, int, Red, Blue);
 	}
 	
 	

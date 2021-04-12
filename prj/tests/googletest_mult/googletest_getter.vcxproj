@@ -39,27 +39,34 @@
     <None Include="windows.Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\common\common_bigint.cpp" />
-    <ClCompile Include="..\..\..\src\common\common_functional_old.cpp" />
-    <ClCompile Include="..\..\..\src\common\common_hashtbl.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0003_function_old.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0004_sharedptr.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0005_macroses.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0006_enums.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\bigint.hpp" />
-    <ClInclude Include="..\..\..\include\common\bigint.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\endian.hpp" />
-    <ClInclude Include="..\..\..\include\common\functional.hpp" />
-    <ClInclude Include="..\..\..\include\common\functional_old.hpp" />
-    <ClInclude Include="..\..\..\include\common\functional_old.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\hashtbl.def.hpp" />
-    <ClInclude Include="..\..\..\include\common\hashtbl.hpp" />
-    <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\sharedptr.hpp" />
-    <ClInclude Include="..\..\..\include\common\sharedptr.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\endian.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\functional.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\macroses.h" />
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils_internal_header.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

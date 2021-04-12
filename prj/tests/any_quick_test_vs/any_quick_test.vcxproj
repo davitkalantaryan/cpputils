@@ -285,16 +285,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\common\common_bigint.cpp" />
-    <ClCompile Include="..\..\..\src\common\common_hashtbl.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\bigint.hpp" />
-    <ClInclude Include="..\..\..\include\common\bigint.impl.hpp" />
-    <ClInclude Include="..\..\..\include\common\endian.hpp" />
-    <ClInclude Include="..\..\..\include\common\hashtbl.hpp" />
-    <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\endian.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\base.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\full.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\full.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\fullslow.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\fullslow.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\functional.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\macroses.h" />
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils_internal_header.h" />
   </ItemGroup>
   <ItemGroup>

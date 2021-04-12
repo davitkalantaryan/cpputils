@@ -7,13 +7,26 @@
 #include <cpputils/enums.hpp>
 #include <iostream>
 
-CPPUTILS_ENUM01(Color,char,Red,Blue);
-CPPUTILS_ENUM_RAW(0,Auto,char,Wolkswagen,Renault,Bmw,Mers);
+CPPUTILS_ENUM(Enum1, int, Field1, Field2);
+CPPUTILS_ENUM_RAW(1,Enum2, int, Field1, Field2);
+
+CPPUTILS_ENUM_FAST(Enum3, int, Field1, Field2);
+CPPUTILS_ENUM_FAST_RAW(2, Enum4, int, Field1, Field2);
+
+CPPUTILS_ENUM_FULL(Enum5, int, Field1, Field2);
+CPPUTILS_ENUM_FULL_RAW(3, Enum6, int, Field1, Field2);
+
+CPPUTILS_ENUM_FULLSLOW(Enum7, int, Field1, Field2);
+CPPUTILS_ENUM_FULLSLOW_RAW(4, Enum8, int, Field1, Field2);
+
+//
+CPPUTILS_ENUM_FAST(Color, char, Red, Blue);
+CPPUTILS_ENUM_FAST_RAW(0, Auto, char, Wolkswagen, Renault, Bmw, Mers);
 
 class TestClass{
 public:
-	CPPUTILS_ENUM01(Color,int,Red,Blue);
-	CPPUTILS_ENUM_RAW(1,Auto,char,Wolkswagen,Renault,Bmw,Mers);
+	CPPUTILS_ENUM_FAST(Color,int,Red,Blue);
+	CPPUTILS_ENUM_FAST_RAW(1,Auto,char,Wolkswagen,Renault,Bmw,Mers);
 };
 
 
@@ -48,7 +61,7 @@ TEST(f_0006_enums, t0000_enum01)
 	// this is not possible in the case of better enum, because with defination of BETTER_ENUM, 
 	// namespace also declared
 	
-	CPPUTILS_ENUM01(Animal,int,Dog,Cat,Elephant);
+	CPPUTILS_ENUM_FAST(Animal,int,Dog,Cat,Elephant);
 	Animal aAnimal;
 	
 	aAnimal = Animal::Dog;

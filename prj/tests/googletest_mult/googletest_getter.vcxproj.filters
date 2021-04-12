@@ -16,9 +16,6 @@
     <Filter Include="files">
       <UniqueIdentifier>{8eb74553-5734-4b77-a2e2-621d8fe10aaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\common">
-      <UniqueIdentifier>{429adb94-1d6f-4f99-911e-a8c82285230a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\tests">
       <UniqueIdentifier>{139ee4ad-4dfe-44b9-aacb-6652b0957ba5}</UniqueIdentifier>
     </Filter>
@@ -28,8 +25,11 @@
     <Filter Include="Header Files\incude">
       <UniqueIdentifier>{3033059e-d64c-4cf6-8d6a-78278f262a93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\incude\common">
+    <Filter Include="Header Files\incude\cpputils">
       <UniqueIdentifier>{6311382d-1408-4205-b426-4c5280e51f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{429adb94-1d6f-4f99-911e-a8c82285230a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,12 +47,6 @@
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp">
       <Filter>Source Files\tests\googletest</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\common\common_bigint.cpp">
-      <Filter>Source Files\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\common\common_hashtbl.cpp">
-      <Filter>Source Files\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp">
       <Filter>Source Files\tests\googletest</Filter>
     </ClCompile>
@@ -62,46 +56,73 @@
     <ClCompile Include="..\..\..\src\tests\googletest\0004_sharedptr.cpp">
       <Filter>Source Files\tests\googletest</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\common\common_functional_old.cpp">
-      <Filter>Source Files\common</Filter>
+    <ClCompile Include="..\..\..\src\tests\googletest\0005_macroses.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0006_enums.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\common\bigint.hpp">
-      <Filter>Header Files\incude\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\common\bigint.impl.hpp">
-      <Filter>Header Files\incude\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\common\endian.hpp">
-      <Filter>Header Files\incude\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\common\hashtbl.hpp">
-      <Filter>Header Files\incude\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\common\hashtbl.impl.hpp">
-      <Filter>Header Files\incude\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils_internal_header.h">
       <Filter>Header Files\incude</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\common\hashtbl.def.hpp">
-      <Filter>Header Files\incude\common</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\common\functional.hpp">
-      <Filter>Header Files\incude\common</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\common\functional_old.hpp">
-      <Filter>Header Files\incude\common</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\endian.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\common\functional_old.impl.hpp">
-      <Filter>Header Files\incude\common</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\enums.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\common\sharedptr.hpp">
-      <Filter>Header Files\incude\common</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\enums.impl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\common\sharedptr.impl.hpp">
-      <Filter>Header Files\incude\common</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\functional.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\macroses.h">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

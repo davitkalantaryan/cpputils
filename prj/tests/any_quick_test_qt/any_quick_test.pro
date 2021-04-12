@@ -30,7 +30,6 @@ HEADERS	+=		\
 	$${PWD}/../../../include/cpputils/bigint.impl.hpp					\
 	$${PWD}/../../../include/cpputils/endian.hpp						\
 	$${PWD}/../../../include/cpputils/enums.hpp							\
-	$${PWD}/../../../include/cpputils/enums.impl.hpp					\
 	$${PWD}/../../../include/cpputils/functional.hpp					\
 	$${PWD}/../../../include/cpputils/functional_old.hpp				\
 	$${PWD}/../../../include/cpputils/functional_old.impl.hpp			\
@@ -40,4 +39,11 @@ HEADERS	+=		\
 	$${PWD}/../../../include/cpputils/macroses.h						\
 	$${PWD}/../../../include/cpputils/sharedptr.hpp						\
 	$${PWD}/../../../include/cpputils/sharedptr.impl.hpp				\
+	$${PWD}/../../../include/cpputils/enums/base.hpp					\
+	$${PWD}/../../../include/cpputils/enums/fast.hpp					\
+	$${PWD}/../../../include/cpputils/enums/fast.impl.hpp				\
+	$${PWD}/../../../include/cpputils/enums/full.hpp					\
+	$${PWD}/../../../include/cpputils/enums/full.impl.hpp				\
+	$${PWD}/../../../include/cpputils/enums/fullslow.hpp				\
+	$${PWD}/../../../include/cpputils/enums/fullslow.impl.hpp			\
 	

@@ -1,15 +1,15 @@
 //
-// file:			enums.hpp
-// path:			include/cpputils/enums.hpp
-// created on:		2021 Apr 11
+// file:			fast.impl.hpp
+// path:			include/cpputils/enums/fast.impl.hpp
+// created on:		2021 Apr 12
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_IMPL_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_IMPL_HPP
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_HPP
-#include "enums.hpp"
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_HPP
+#include "fast.hpp"
 #endif
 
 #include <stdlib.h>
@@ -18,17 +18,13 @@
 
 namespace cpputils { namespace enums{
 
-//template <typename integralType, int numOfFields, int unqiueNumber>
-//const typename Base<integralType,numOfFields,unqiueNumber>::CCharPtr* Base<integralType,numOfFields,unqiueNumber>::ms_names = CPPUTILS_NULL;
-//template <typename integralType, int numOfFields, int unqiueNumber>
-//size_t Base<integralType,numOfFields,unqiueNumber>::ms_numberOfEnumFields = 0;
 template <typename integralType, int numOfFields, int unqiueNumber>
-typename Base<integralType,numOfFields,unqiueNumber>::Data Base<integralType,numOfFields,unqiueNumber>::ms_data;
+typename BaseFast<integralType,numOfFields,unqiueNumber>::Data BaseFast<integralType,numOfFields,unqiueNumber>::ms_data;
 
 
 
 template <typename integralType, int numOfFields, int unqiueNumber>
-Base<integralType,numOfFields,unqiueNumber>::Base(int a_nargs, ...)
+BaseFast<integralType,numOfFields,unqiueNumber>::BaseFast(int a_nargs, ...)
 {
 	if(!ms_data.m_names){
 		va_list argList;
@@ -41,7 +37,7 @@ Base<integralType,numOfFields,unqiueNumber>::Base(int a_nargs, ...)
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename integralType, int numOfFields, int unqiueNumber>
-Base<integralType,numOfFields,unqiueNumber>::Data::Data()
+BaseFast<integralType,numOfFields,unqiueNumber>::Data::Data()
 	:
 	  m_names(CPPUTILS_NULL),
 	  m_numberOfEnumFields(0)
@@ -49,14 +45,24 @@ Base<integralType,numOfFields,unqiueNumber>::Data::Data()
 }
 
 template <typename integralType, int numOfFields, int unqiueNumber>
-Base<integralType,numOfFields,unqiueNumber>::Data::~Data()
+BaseFast<integralType,numOfFields,unqiueNumber>::Data::~Data()
 {
 	CCharPtr* pTmpBuffer = const_cast<CCharPtr*>(m_names);
 	free(pTmpBuffer);
 }
 
+
 template <typename integralType, int numOfFields, int unqiueNumber>
-void Base<integralType,numOfFields,unqiueNumber>::Data::Initialize(int a_nargs, va_list a_list)
+const char* BaseFast<integralType, numOfFields, unqiueNumber>::Data::getName(size_t a_index)const
+{
+	if (a_index < m_numberOfEnumFields) {
+		return m_names[a_index];
+	}
+	return "Unknown";
+}
+
+template <typename integralType, int numOfFields, int unqiueNumber>
+void BaseFast<integralType,numOfFields,unqiueNumber>::Data::Initialize(int a_nargs, va_list a_list)
 {
 	if(!ms_data.m_names){
 		const char* nextArg;
@@ -79,4 +85,4 @@ void Base<integralType,numOfFields,unqiueNumber>::Data::Initialize(int a_nargs, 
 
 
 
-#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_IMPL_HPP
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_IMPL_HPP
