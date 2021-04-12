@@ -17,6 +17,8 @@ GTEST_SRCS	= $(shell find $(GTEST_SRC_DIR) -name "*.cpp")
 COMMON_SRCS	= $(shell find $(COMMON_SRC_DIR) -name "*.cpp")
 
 CPPFLAGS += -I$(repoRootPath)/contrib/googletest/googletest/include
+# c=+ 11 is needed for google test
+CPPFLAGS += -std=c++11
 
 LIBS += $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/lib/libgtest_main$(nameExtension).a
 LIBS += $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/lib/libgtest$(nameExtension).a

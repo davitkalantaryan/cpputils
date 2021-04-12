@@ -58,11 +58,11 @@ jobs:
             - uses: actions/checkout@v2
 
             - name: Preparing 3rd party libraries for mac
-              run: echo "will be implemented"
+              run: ./scripts/.cicd/unix_prebuild.sh
 
             - name: Compiling for mac
-              run: echo "will be implemented"
+              run: ./scripts/.cicd/unix_test_pull_to_master_build.sh CPPUTILS_DEBUG=1
               #working-directory: blabla
 
             - name: running unittest for mac
-              run: echo "will be implemented"
+              run: ./scripts/.cicd/unix_test_pull_to_master_unittest.sh	Debug

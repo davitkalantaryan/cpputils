@@ -7,7 +7,7 @@ ifndef repoRootPath
 	repoRootPath		:= $(repoRootPathCppUtils)
 endif
 osSystem	  := $(shell uname)
-ifeq ($(osSystem),"Darwin")
+ifeq ($(osSystem),Darwin)
 	lsbCode			:= mac
 	DEFAULT_CC		:= clang
 	DEFAULT_CXX		:= clang++

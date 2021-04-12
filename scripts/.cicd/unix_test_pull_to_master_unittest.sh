@@ -2,19 +2,21 @@
 
 # script to prepare developer host, to work with the code on this repo
 
-scriptDirectoryBase=`dirname ${0}`
-scriptFileName=`basename ${0}`
-cd ${scriptDirectoryBase}
-fileOrigin=`readlink ${scriptFileName}`
-if [ ! -z "$fileOrigin" ]; then
-	relativeSourceDir=`dirname ${fileOrigin}`
-	cd ${relativeSourceDir}
-fi
-scriptDirectory=`pwd`
-echo scriptDirectory=$scriptDirectory
-
+scriptDirectory=`dirname "${0}"`
+scriptFileName=`basename "${0}"`
+cd "${scriptDirectory}"
+fileOrigin=`readlink "${scriptFileName}"` || :
+while [ ! -z "${fileOrigin}" ]
+do
+	scriptDirectory=`dirname "${fileOrigin}"`
+	scriptFileName=`basename "${fileOrigin}"`
+	cd "${scriptDirectory}"
+	fileOrigin=`readlink "${scriptFileName}"`  || :
+done
 cd ../..
 repositoryRoot=`pwd`
+echo repositoryRoot=$repositoryRoot
+
 
 if [ $# -gt 0 ]; then
 	Configuration=$1

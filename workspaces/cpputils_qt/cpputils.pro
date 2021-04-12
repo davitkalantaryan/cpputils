@@ -13,6 +13,7 @@ OTHER_FILES	+=	\
 	$${PWD}/../../.gitattributes										\
 	$${PWD}/../../.gitignore											\
 	$${PWD}/../../.gitmodules											\
+	$${PWD}/../../CMakeLists.txt										\
 	$${PWD}/../../LICENSE												\
 	$${PWD}/../../README.md												\
 	\
