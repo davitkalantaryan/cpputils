@@ -13,6 +13,7 @@
 #include <cpputils/functional.hpp>
 #include <stdint.h>
 #include <stddef.h>
+#include <string>
 
 #define DEFAULT_TABLE_SIZE	256
 
@@ -61,6 +62,15 @@ public:
 	static size_t	DefaultHash(const VoidPtrKey& key);
 	static bool		DefaultFind(void* clbkData,const VoidPtrKey& key, const DataType& data);
 	static bool		DefaultFindVoid(void* clbkData, const VoidPtrKey& key);
+};
+
+template <typename CharType, typename DataType>
+class Funcs< ::std::basic_string<CharType>, DataType >
+{
+public:
+	static size_t	DefaultHash(const ::std::basic_string<CharType>& key);
+	static bool		DefaultFind(void* clbkData,const ::std::basic_string<CharType>& key, const DataType& data);
+	static bool		DefaultFindVoid(void* clbkData, const ::std::basic_string<CharType>& key);
 };
 
 
@@ -243,6 +253,25 @@ public:
 };
 
 
+#ifdef CPPUTILS_CPP_11_DEFINED
+
+template <typename DataType>
+using HashTbl = Base<VoidPtrKey,DataType>;
+
+template <typename KeyType>
+using Set = Base<KeyType,void>;
+
+using SetHash = Base<VoidPtrKey, void>;
+
+
+template <typename CharType,typename DataType>
+using StrHash = Base< ::std::basic_string<CharType>,DataType>;
+
+template <typename CharType>
+using StrSet = Base< ::std::basic_string<CharType>,void>;
+
+
+#else
 
 template <typename DataType>
 class HashTbl : public Base<VoidPtrKey,DataType>{};
@@ -251,6 +280,8 @@ template <typename KeyType>
 class Set : public Base<KeyType,void>{};
 
 class SetHash : public Base<VoidPtrKey, void> {};
+
+#endif
 
 
 }}  // namespace cpputils { namespace hashtbl {

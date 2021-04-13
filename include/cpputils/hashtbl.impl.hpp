@@ -921,6 +921,31 @@ bool Funcs<VoidPtrKey, DataType>::DefaultFindVoid(void*, const VoidPtrKey&)
 }
 
 
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename CharType, typename DataType>
+size_t Funcs< ::std::basic_string<CharType>,DataType >::DefaultHash(const ::std::basic_string<CharType>& a_key)
+{
+	return __private::__implementation::hash1_(a_key.c_str(),a_key.length()*sizeof(CharType));
+}
+
+template <typename CharType, typename DataType>
+bool Funcs< ::std::basic_string<CharType>,DataType>::DefaultFind(void*,const ::std::basic_string<CharType>&, const DataType&)
+{
+	return true;
+}
+
+template <typename CharType, typename DataType>
+bool Funcs< ::std::basic_string<CharType>, DataType>::DefaultFindVoid(void*, const ::std::basic_string<CharType>&)
+{
+	return true;
+}
+
+
+
+
+
 }}  // namespace cpputils { namespace hashtbl {
 
 
