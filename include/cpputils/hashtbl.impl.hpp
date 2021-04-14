@@ -59,6 +59,22 @@ size_t BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::size()const
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::clear() noexcept
+{
+	HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
+	
+	while(pItem){
+		pItemNext = pItem->nextInTheList;
+		delete pItem;
+		pItem = pItemNext;
+	}
+	
+	memset(m_pTable,0,(m_unRoundedTableSizeMin1 + 1)*sizeof(HashItem*));
+	m_unSize = 0;
+	m_pFirstItem = CPPUTILS_NULL;
+}
+
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
 BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(size_t a_tInitSize)
 	:
 	  m_unRoundedTableSizeMin1(__private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1),

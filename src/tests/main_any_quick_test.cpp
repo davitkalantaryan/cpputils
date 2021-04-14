@@ -12,11 +12,58 @@
 #include <iostream>
 #include <typeinfo>
 #include <memory>
+#include <unordered_map>
+#include <time.h>
+#include <stdlib.h>
 
+#define TESTS_COUNT	150000000
 
+#define USE_STD_MAP
+
+#ifdef	USE_STD_MAP
+typedef std::unordered_multimap<int,int> TypeMap;
+#define InsertElement(_key,_value)	insert(std::pair<int,int>(_key,_value))
+#define MapFindEntry	count
+#else
+typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
+#define InsertElement				AddEntryEvenIfExists
+#define MapFindEntry				FindEntry
+#endif
 
 int main()
 {
+	{
+		int i, acurances=0;
+		TypeMap aMap(1000000);
+		time_t begTime, finTime;
+		
+		begTime = time(&begTime);
+		
+		for(i=0;i<TESTS_COUNT;++i){
+			aMap.InsertElement( i,i);
+		}
+		
+		for(i=0;i<1000000;++i){
+			if(aMap.MapFindEntry( rand() )){++acurances;}
+		}
+		
+		finTime = time(&finTime);
+		
+		printf("(finTime-begTime)=%d, acurances=%d, press '1' then enter to continue",static_cast<int>(finTime-begTime),acurances);
+		fflush(stdout);
+		while(getchar()!='1')
+			;
+		
+		aMap.clear();
+		printf("aMap.size()=%d, press '1' then enter to continue", static_cast<int>(aMap.size()));fflush(stdout);
+		while(getchar()!='1')
+			;
+	}
+	
+	printf("Map deleted, press '1' then enter to continue");fflush(stdout);
+	while(getchar()!='1')
+		;
+	
 	{
 		cpputils::hashtbl::Base<int,int> aHash;
 		

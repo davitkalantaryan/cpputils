@@ -28,6 +28,7 @@ public:
 	bool		RemoveEntry(const KeyType& key);
 	void		RemoveEntry(const HashItem* a_data);
 	size_t		size()const;
+	void		clear() noexcept;
 	
 protected:	
 	BaseBase(size_t tableSize= DEFAULT_TABLE_SIZE);
