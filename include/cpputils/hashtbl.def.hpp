@@ -80,6 +80,9 @@ namespace __p { namespace __i {
 
 template <typename KeyType,typename DataType>
 struct HashItem {
+	template <typename KeyType1, typename DataType1,typename Hash>
+	friend class ::cpputils::hashtbl::Base;
+protected:
 	HashItem(const KeyType& key, const DataType& data);
 	virtual ~HashItem();
 public:
@@ -102,6 +105,9 @@ public:
 
 template <typename KeyType>
 struct HashItem<KeyType,void>{
+	template <typename KeyType1, typename DataType1, typename Hash>
+	friend class ::cpputils::hashtbl::Base;
+protected:
 	HashItem(const KeyType& key);
 	virtual ~HashItem();
 public:
