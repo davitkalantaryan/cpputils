@@ -33,7 +33,7 @@ namespace cpputils { namespace hashtbl {
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
 bool BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::RemoveEntry(const KeyType& a_key)
 {
-	HashItem* pItem = FindEntryRaw(a_key);
+	HashItem* pItem = FindEntry(a_key);
 	if(pItem){
 		RemoveEntry(pItem);
 		return true;
@@ -198,19 +198,6 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryIfNotExistRaw
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddOrReplaceEntryRaw(const HashItem& a_item)
-{
-	HashItem* pItem;
-	size_t unHash;
-	if((pItem=FindEntry(a_item.first,&unHash))){
-		*pItem = a_item;
-		return pItem; // we can overwrite
-	}
-	
-	return AddEntryWithKnownHashRaw(a_item,unHash);
-}
-
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
 HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryWithKnownHashRaw(const HashItem& a_item, size_t a_hashVal)
 {	
 	HashItemPrivate* pItem = new HashItemPrivate(a_item);
@@ -339,9 +326,21 @@ typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddE
 template <typename KeyType,typename DataType,typename Hash>
 typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddOrReplaceEntry(const KeyType& a_key, const DataType& a_data)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
-			AddOrReplaceEntryRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
+	//return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
+	//		AddOrReplaceEntryRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
+	
+	__p::__i::HashItem<KeyType,DataType>* pItem;
+	size_t unHash;
+	if((pItem=BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::FindEntry(a_key,&unHash))){
+		pItem->second = a_data;
+		return pItem; // we can overwrite
+	}
+	
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::AddEntryWithKnownHashRaw(*pItem,unHash);
 }
+
+
+
 
 template <typename KeyType,typename DataType,typename Hash>
 typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddEntryWithKnownHash(const KeyType& a_key, const DataType& a_data,size_t a_hashVal)
@@ -863,6 +862,13 @@ HashItemFull<KeyType,DataType>::~HashItemFull()
 	if(this->prevInTheList){
 		this->prevInTheList->nextInTheList = this->nextInTheList;
 	}
+}
+
+template <typename KeyType,typename DataType>
+const HashItemFull<KeyType,DataType>& HashItemFull<KeyType,DataType>::operator=(const HashItem<KeyType,DataType>& a_item)
+{
+	this->first = a_item.first;
+	this->second = a_item.second;
 }
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/

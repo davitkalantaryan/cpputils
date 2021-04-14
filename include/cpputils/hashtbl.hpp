@@ -46,7 +46,6 @@ protected:
 	
 	HashItem*		AddEntryEvenIfExistsRaw(const HashItem& a_item);
     HashItem*		AddEntryIfNotExistRaw(const HashItem& a_item);
-	HashItem*		AddOrReplaceEntryRaw(const HashItem& a_item);
 	HashItem*		AddEntryWithKnownHashRaw(const HashItem& a_item, size_t a_hashVal);
 	
 	HashItem*		firstItem()const;

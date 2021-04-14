@@ -96,6 +96,7 @@ public:
 	HashItemFull(const KeyType& key, const DataType& data);
 	HashItemFull(const HashItem<KeyType,DataType>& item);
 	~HashItemFull();
+	const HashItemFull& operator=(const HashItem<KeyType,DataType>& item);
 public:
 	HashItemFull	*prev, *next;
 	HashItemFull	*prevInTheList, *nextInTheList;
