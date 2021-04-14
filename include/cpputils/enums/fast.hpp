@@ -66,7 +66,7 @@ public:																																						\
 	{}																																						\
 	_Name& operator=(const _Name& a_cM) { m_enVal = a_cM.m_enVal; return *this; }																			\
 	_Name& operator=(__Type a_val) { m_enVal = a_val; return *this; }																						\
-	operator _integralType () const {return static_cast<_integralType>(m_enVal);}																			\
+	operator __Type () const { return m_enVal; }																											\
 	bool operator==(const _Name& a_o)const { return m_enVal==a_o.m_enVal; }																					\
 	bool operator==(__Type a_val)const { return m_enVal==a_val; }																							\
 	const char* toString()const {																															\

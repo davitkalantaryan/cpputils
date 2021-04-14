@@ -155,6 +155,11 @@ int main()
 		CPPUTILS_ENUM_FULL(Enum2, int, Red, Blue);
 	}
 	
+	{
+		//enum class TestEnum : char {a,b,c};
+		//TestEnum a = TestEnum::a;
+	}
+	
 	
 	return 0;
 }

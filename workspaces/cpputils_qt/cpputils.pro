@@ -19,6 +19,9 @@ OTHER_FILES	+=	\
 	\
 	$${PWD}/../../docs/questions.md										\
 	\
+	$${PWD}/../../scripts/findfiles										\
+	$${PWD}/../../scripts/findfiles.bat									\
+	\
 	$${PWD}/../../scripts/.cicd/unix_prebuild.sh						\
 	$${PWD}/../../scripts/.cicd/unix_test_pull_to_master_build.sh		\
 	$${PWD}/../../scripts/.cicd/unix_test_pull_to_master_unittest.sh	\
