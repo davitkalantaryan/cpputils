@@ -34,6 +34,13 @@ CPPUTILS_EXPORT const void* GenerateDataBasedOnData(const void* a_data, size_t a
 
 namespace cpputils { namespace hashtbl {
 
+size_t FHashVoidPtr::operator()(const VoidPtrKey& a_key)const
+{
+	return __private::__implementation::hash1_(a_key.key,a_key.keyLen);
+}
+
+/*///////////////////////////////////////////////////////////////////////////*/
+
 VoidPtrKey::VoidPtrKey(const void* a_key, size_t a_keyLen,bool a_shouldDelete)
 	:
 	  key(a_shouldDelete?__private::__implementation::GenerateDataBasedOnData(a_key,a_keyLen):a_key),

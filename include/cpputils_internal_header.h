@@ -103,29 +103,25 @@
 #endif
 
 
-#ifndef CPPUTILS_FALLTHROUGH
 #ifdef CPPUTILS_CPP_17_DEFINED
 #define CPPUTILS_FALLTHROUGH	[[fallthrough]] ;
 #else
 #define CPPUTILS_FALLTHROUGH	CPPUTILS_BEFORE_CPP_17_FALL_THR 
 //#define CPPUTILS_FALLTHROUGH	
 #endif
-#endif
 
-#ifndef CPPUTILS_NULL
 #ifdef CPPUTILS_CPP_11_DEFINED
-#define CPPUTILS_NULL	nullptr
+#define CPPUTILS_NULL		nullptr
+#define CPPUTILS_OVERRIDE	override
 #else
-#define CPPUTILS_NULL	NULL 
-#endif
+#define CPPUTILS_NULL		NULL 
+#define CPPUTILS_OVERRIDE
 #endif
 
-#ifndef CPPUTILS_REGISTER
 #ifdef __cplusplus
 #define CPPUTILS_REGISTER
 #else
 #define CPPUTILS_REGISTER	register
-#endif
 #endif
 
 

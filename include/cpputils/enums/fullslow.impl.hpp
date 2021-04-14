@@ -76,7 +76,7 @@ void BaseFullSlow<integralType, numOfFields, unqiueNumber>::Data::Initialize(int
 		const size_t cunNumberOfArgs( static_cast<size_t>(a_nargs) );
 		SingleArg nextArg;
 
-		m_names = new ::cpputils::hashtbl::Base< int64_t, ::std::string >(cunNumberOfArgs,&Data::HashFunc);
+		m_names = new ::cpputils::hashtbl::IntHash< int64_t, ::std::string >(cunNumberOfArgs);
 
 		for (size_t i(0); i < cunNumberOfArgs; ++i) {
 			nextArg = va_arg(a_list, SingleArg);

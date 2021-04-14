@@ -20,15 +20,30 @@ int main()
 	{
 		cpputils::hashtbl::Base<int,int> aHash;
 		
-		aHash.AddEntry(1,1);
+		aHash.AddEntryIfNotExist(1,1);
 		aHash.AddEntryEvenIfExists(1,1);
 	}
 	
 	{
-		int a=1;
-		cpputils::hashtbl::HashTbl<int> aHash;
+		cpputils::hashtbl::Base<int,int> aHash;
 		
-		aHash.AddEntry({&a,4},1);
+		aHash.AddEntryIfNotExist(1,1);
+		aHash.AddEntryEvenIfExists(1,1);
+	}
+	
+	{
+		cpputils::hashtbl::Base<int,void> aHash;
+		
+		aHash.AddEntryIfNotExist(1);
+		aHash.AddEntryIfNotExist(2);
+	}
+	
+	
+	{
+		int a=1;
+		cpputils::hashtbl::VoidPtrHash<int> aHash;
+		
+		aHash.AddEntryIfNotExist({&a,4},1);
 		aHash.AddEntryEvenIfExists({&a,4},1);
 		aHash.FindEntry({&a,4});
 	}
@@ -38,7 +53,7 @@ int main()
 		//cpputils::hashtbl:: Base<int,void> aHash;
 		
 		size_t unHash;
-		aHash.AddEntry(1);
+		aHash.AddEntryIfNotExist(1);
 		
 		aHash.FindEntry(2,&unHash);
 		aHash.AddEntryWithKnownHash(2,unHash);

@@ -14,7 +14,7 @@ TEST(f_0001_hash, t0001_base)
 {
 	cpputils::hashtbl::Base<int, int> aHash;
 
-	aHash.AddEntry(1, 1);
+	aHash.AddEntryIfNotExist(1, 1);
 	aHash.AddEntryEvenIfExists(1, 1);
 
 	ASSERT_EQ(aHash.size(), size_t(2));
@@ -26,13 +26,13 @@ TEST(f_0001_hash, t0001_base)
 TEST(f_0001_hash, t0002_key_is_any_void_ptr)
 {
 	int a = 1;
-	cpputils::hashtbl::HashTbl<int> aHash;
+	cpputils::hashtbl::VoidPtrHash<int> aHash;
 
-	aHash.AddEntry({ &a,4 }, 1);
+	aHash.AddEntryIfNotExist({ &a,4 }, 1);
 	aHash.AddEntryEvenIfExists({ &a,4 }, 1);
-	cpputils::hashtbl::HashTbl<int>::iterator iter = aHash.FindEntry({ &a,4 });
+	cpputils::hashtbl::VoidPtrHash<int>::iterator iter = aHash.FindEntry({ &a,4 });
 	ASSERT_EQ(aHash.size(), size_t(2));
-	ASSERT_FALSE(iter== cpputils::hashtbl::HashTbl<int>::s_endIter);
+	ASSERT_FALSE(iter== cpputils::hashtbl::VoidPtrHash<int>::s_endIter);
 	ASSERT_EQ(iter->second, 1);
 }
 
@@ -42,7 +42,7 @@ TEST(f_0001_hash, t0003_map)
 	cpputils::hashtbl::Set<int> aHash;
 
 	size_t unHash;
-	aHash.AddEntry(1);
+	aHash.AddEntryIfNotExist(1);
 	ASSERT_EQ(aHash.size(), size_t(1));
 
 	cpputils::hashtbl::Set<int>::iterator iter = aHash.FindEntry(2, &unHash);
@@ -55,13 +55,20 @@ TEST(f_0001_hash, t0003_map)
 TEST(f_0001_hash, t0004_map_with_any_void_ptr_key)
 {
 	int a = 1;
-	cpputils::hashtbl::SetHash aHash;
+	const cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr>::iterator endIter = 
+	        cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr>::s_endIter;
+	
+	cpputils::hashtbl::VoidPtrSet aHash;
+	// template <typename KeyType,typename DataType,typename Hash=FHash<KeyType>>
+	//cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr> aHash; 
 
-	aHash.AddEntry({ &a,4 });
+	aHash.AddEntryIfNotExist({ &a,4 });
 	aHash.AddEntryEvenIfExists({ &a,4 });
-	cpputils::hashtbl::SetHash::iterator iter = aHash.FindEntry({ &a,4 });
+	//cpputils::hashtbl::SetHash::iterator iter = aHash.FindEntry({ &a,4 });
+	cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr>::iterator iter = aHash.FindEntry({ &a,4 });
 	ASSERT_EQ(aHash.size(), size_t(2));
-	ASSERT_FALSE(iter == cpputils::hashtbl::SetHash::s_endIter);
+	//ASSERT_FALSE(iter == cpputils::hashtbl::SetHash::s_endIter);
+	ASSERT_FALSE(iter == endIter);
 }
 
 #define NUMBER_OF_ENTRIES	10
@@ -83,7 +90,7 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 	const HashType::iterator endIter = HashType::s_endIter;
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
-		ASSERT_FALSE(aHashIn.AddEntry(ARG_FROM(i)) == endIter);
+		ASSERT_FALSE(aHashIn.AddEntryIfNotExist(ARG_FROM(i)) == endIter);
 	}
 	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
@@ -99,7 +106,7 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 		OP_SQ_BR_DEF(ASSERT_EQ(aHashIn[i], i));
 	}
 
-	HashType aHashFn2(aHashIn,1);
+	HashType aHashFn2(&aHashIn);
 	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
 	ASSERT_EQ(aHashIn.size(), size_t(0));
 
@@ -109,7 +116,7 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 	}
 
 	/*///////////////////////////*/
-	aHashIn.ReplaceWithOther(aHashFn2);
+	aHashIn.ReplaceWithOther(&aHashFn2);
 	ASSERT_EQ(aHashFn2.size(), size_t(0));
 	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
@@ -160,7 +167,7 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 	const HashType::iterator endIter = HashType::s_endIter;
 
 	for (i = 0; i < NUMBER_OF_ENTRIES; ++i) {
-		ASSERT_FALSE(aHashIn.AddEntry(ARG_FROM(i)) == endIter);
+		ASSERT_FALSE(aHashIn.AddEntryIfNotExist(ARG_FROM(i)) == endIter);
 	}
 	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 
@@ -176,7 +183,7 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 		OP_SQ_BR_DEF(ASSERT_EQ(aHashIn[i], i));
 	}
 
-	HashType aHashFn2(aHashIn,1);
+	HashType aHashFn2(&aHashIn);
 	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
 	ASSERT_EQ(aHashIn.size(), size_t(0));
 
@@ -186,7 +193,7 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 	}
 
 	/*///////////////////////////*/
-	aHashIn.ReplaceWithOther(aHashFn2);
+	aHashIn.ReplaceWithOther(&aHashFn2);
 	ASSERT_EQ(aHashFn2.size(), size_t(0));
 	ASSERT_EQ(aHashIn.size(), size_t(NUMBER_OF_ENTRIES));
 

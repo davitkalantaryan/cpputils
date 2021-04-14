@@ -34,6 +34,7 @@ HEADERS	+=		\
 	$${PWD}/../../../include/cpputils/functional_old.hpp				\
 	$${PWD}/../../../include/cpputils/functional_old.impl.hpp			\
 	$${PWD}/../../../include/cpputils/hashtbl.hpp						\
+	$${PWD}/../../../include/cpputils/hashtbl.def.hpp					\
 	$${PWD}/../../../include/cpputils/hashtbl.impl.hpp					\
 	$${PWD}/../../../include/cpputils/inscopecleaner.hpp				\
 	$${PWD}/../../../include/cpputils/macroses.h						\

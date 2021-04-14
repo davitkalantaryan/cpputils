@@ -38,7 +38,7 @@ protected:
 		Data(const Data&){}
 		static size_t HashFunc(const int64_t& key);
 	public:
-		::cpputils::hashtbl::Base<int64_t, const char*>*	m_names;
+		::cpputils::hashtbl::IntHash<int64_t, const char*>*	m_names;
 	}static ms_data;
 };
 
