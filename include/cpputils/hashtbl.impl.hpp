@@ -326,9 +326,6 @@ typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddE
 template <typename KeyType,typename DataType,typename Hash>
 typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddOrReplaceEntry(const KeyType& a_key, const DataType& a_data)
 {
-	//return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
-	//		AddOrReplaceEntryRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
-	
 	__p::__i::HashItem<KeyType,DataType>* pItem;
 	size_t unHash;
 	if((pItem=BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::FindEntry(a_key,&unHash))){
@@ -336,7 +333,8 @@ typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddO
 		return pItem; // we can overwrite
 	}
 	
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::AddEntryWithKnownHashRaw(*pItem,unHash);
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
+	        AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data),unHash);
 }
 
 
