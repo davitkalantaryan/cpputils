@@ -72,6 +72,7 @@ public:
 	bool operator<=(const BigUInt& rS)const;
 	bool operator>=(const BigUInt& rS)const;
 	bool operator==(const BigUInt& rS)const;
+	bool operator!=(const BigUInt& rS)const;
 
 	bool isZero()const;
 	bool isNotZero()const;

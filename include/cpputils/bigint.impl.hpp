@@ -701,6 +701,16 @@ bool BigUInt<NUM_QWORDS_DEGR>::operator==(const BigUInt& a_rS)const
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
+bool BigUInt<NUM_QWORDS_DEGR>::operator!=(const BigUInt& a_rS)const
+{
+	for(uint64_t i(0);i<s_numberOfQwords; ++i){
+		if(m_u.b64[i]!=a_rS.m_u.b64[i]){return true;}
+	}
+	
+	return false;
+}
+
+template <uint64_t NUM_QWORDS_DEGR>
 void BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(BigUInt* a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
 	uint64_t ullnSum, ullnHas, ullnRemn = 0;
