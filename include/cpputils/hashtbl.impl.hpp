@@ -255,6 +255,21 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::FindEntry(const KeyTy
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::FindEntryWithKnownHash(const KeyType& a_key,size_t a_knownHash)const
+{
+	HashItemPrivate* pItemToRet = static_cast<HashItemPrivate*>(m_pTable[a_knownHash]);
+
+	while (pItemToRet) {
+		if(a_key==pItemToRet->first){
+			return pItemToRet;
+		}
+		pItemToRet = pItemToRet->next;
+	}
+
+	return CPPUTILS_NULL;
+}
+
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
 HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::firstItem()const
 {
 	return m_pFirstItem;

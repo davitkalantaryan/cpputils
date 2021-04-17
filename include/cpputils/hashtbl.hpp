@@ -25,6 +25,7 @@ class BaseBase
 {
 public:
 	HashItem*	FindEntry(const KeyType& key,size_t* corespondingHash=CPPUTILS_NULL)const;
+	HashItem*	FindEntryWithKnownHash(const KeyType& key,size_t knownHash)const;
 	bool		RemoveEntry(const KeyType& key);
 	void		RemoveEntry(const HashItem* a_data);
 	size_t		size()const;
