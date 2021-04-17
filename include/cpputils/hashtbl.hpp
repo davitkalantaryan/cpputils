@@ -30,6 +30,8 @@ public:
 	void		RemoveEntry(const HashItem* a_data);
 	size_t		size()const;
 	void		clear() noexcept;
+	void		pop_back() ;
+	void		pop_front() ;
 	
 protected:	
 	BaseBase(size_t tableSize= DEFAULT_TABLE_SIZE);
@@ -55,9 +57,8 @@ protected:
 private:
 	HashItem**			m_pTable;
 	/*const*/ size_t	m_unRoundedTableSizeMin1;
-	HashItem*			m_pFirstItem;
+	HashItem			*m_pFirstItem,*m_pLastItem;
 	size_t				m_unSize;
-	
 };
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/

@@ -48,6 +48,7 @@ void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::RemoveEntry(const HashItem
 	
 	if(m_pTable[pItem->hashValue]==pItem){m_pTable[pItem->hashValue]=pItem->next;}
 	if(m_pFirstItem==pItem){m_pFirstItem=pItem->nextInTheList;}
+	if(m_pLastItem==pItem){m_pLastItem=pItem->prevInTheList;}
 	delete pItem; // destructor will delete from list
 	--m_unSize;
 }
@@ -71,7 +72,19 @@ void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::clear() noexcept
 	
 	memset(m_pTable,0,(m_unRoundedTableSizeMin1 + 1)*sizeof(HashItem*));
 	m_unSize = 0;
-	m_pFirstItem = CPPUTILS_NULL;
+	m_pLastItem = m_pFirstItem = CPPUTILS_NULL;
+}
+
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::pop_back()
+{
+	RemoveEntry(m_pLastItem);
+}
+
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::pop_front() 
+{
+	RemoveEntry(m_pFirstItem);
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
@@ -79,6 +92,7 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(size_t a_tInitSize)
 	:
 	  m_unRoundedTableSizeMin1(__private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1),
 	  m_pFirstItem(CPPUTILS_NULL),
+	  m_pLastItem(CPPUTILS_NULL),
 	  m_unSize(0)
 {
 	size_t tRet(m_unRoundedTableSizeMin1+1);
@@ -91,6 +105,7 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(const BaseBase& a_cM)
 	:
 	  m_unRoundedTableSizeMin1(a_cM.m_unRoundedTableSizeMin1),
 	  m_pFirstItem(CPPUTILS_NULL),
+	  m_pLastItem(CPPUTILS_NULL),
 	  m_unSize(0)
 {
 	HashItemPrivate* pItem = static_cast<HashItemPrivate*>(a_cM.m_pFirstItem);
@@ -110,9 +125,11 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(BaseBase* a_pMM) noexc
 	  m_pTable(a_pMM->m_pTable),
 	  m_unRoundedTableSizeMin1(a_pMM->m_unRoundedTableSizeMin1),
 	  m_pFirstItem(a_pMM->m_pFirstItem),
+	  m_pLastItem(a_pMM->m_pLastItem),
 	  m_unSize(a_pMM->m_unSize)
 {
 	a_pMM->m_pFirstItem = CPPUTILS_NULL;
+	a_pMM->m_pLastItem = CPPUTILS_NULL;
 	a_pMM->m_unSize = 0;
 	a_pMM->m_pTable = CPPUTILS_NULL;
 }
@@ -171,16 +188,19 @@ const BaseBase<KeyType,HashItem,HashItemPrivate,Hash>& BaseBase<KeyType,HashItem
 	HashItem**	pTable = m_pTable;
 	size_t		unRoundedTableSizeMin1 = m_unRoundedTableSizeMin1;
 	HashItem*	pFirstItem = m_pFirstItem;
+	HashItem*	pLastItem = m_pLastItem;
 	size_t		unSize = m_unSize;
 
 	m_pTable=a_cM->m_pTable;
 	m_unRoundedTableSizeMin1 = a_cM->m_unRoundedTableSizeMin1;
 	m_pFirstItem=a_cM->m_pFirstItem;
+	m_pLastItem=a_cM->m_pLastItem;
 	m_unSize = (a_cM->m_unSize);
 
 	a_cM->m_pTable = pTable;
 	a_cM->m_unRoundedTableSizeMin1 = unRoundedTableSizeMin1;
 	a_cM->m_pFirstItem = pFirstItem;
+	a_cM->m_pLastItem = pLastItem;
 	a_cM->m_unSize = (unSize);
 
 	return *this;
@@ -225,7 +245,12 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryWithKnownHash
 	m_pTable[a_hashVal] = pItem;
 	
 	pItem->nextInTheList = static_cast<HashItemPrivate*>(m_pFirstItem);
-	if(m_pFirstItem){pItem->nextInTheList->prevInTheList=pItem;}
+	if(m_pFirstItem){
+		pItem->nextInTheList->prevInTheList=pItem;
+	}
+	else{
+		m_pLastItem = pItem;
+	}
 	m_pFirstItem = pItem;
 	
 	++m_unSize;
