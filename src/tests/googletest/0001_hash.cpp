@@ -9,6 +9,9 @@
 #include <utility>
 #endif
 
+// todo: get rid of this
+#define DEF_SIZE	10
+
 
 TEST(f_0001_hash, t0001_base)
 {
@@ -58,7 +61,7 @@ TEST(f_0001_hash, t0004_map_with_any_void_ptr_key)
 	const cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr>::iterator endIter = 
 	        cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr>::s_endIter;
 	
-	cpputils::hashtbl::VoidPtrSet aHash;
+	cpputils::hashtbl::VoidPtrSet<DEF_SIZE> aHash;
 	// template <typename KeyType,typename DataType,typename Hash=FHash<KeyType>>
 	//cpputils::hashtbl::Base< cpputils::hashtbl::VoidPtrKey,void,cpputils::hashtbl::FHashVoidPtr> aHash; 
 

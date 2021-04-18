@@ -17,7 +17,7 @@
 
 namespace cpputils { namespace hashtbl {
 
-template <typename KeyType,typename DataType,typename Hash> 
+template <typename KeyType,typename DataType,typename Hash, size_t templateDefaultSize> 
 class Base;
 
 template <typename KeyType, typename DataType>
@@ -80,7 +80,7 @@ namespace __p { namespace __i {
 
 template <typename KeyType,typename DataType>
 struct HashItem {
-	template <typename KeyType1, typename DataType1,typename Hash>
+	template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
 protected:
 	HashItem(const KeyType& key, const DataType& data);
@@ -106,7 +106,7 @@ public:
 
 template <typename KeyType>
 struct HashItem<KeyType,void>{
-	template <typename KeyType1, typename DataType1, typename Hash>
+	template <typename KeyType1, typename DataType1, typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
 protected:
 	HashItem(const KeyType& key);

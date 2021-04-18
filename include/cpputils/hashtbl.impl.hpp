@@ -30,8 +30,8 @@ CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize);
 namespace cpputils { namespace hashtbl {
 
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-bool BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::RemoveEntry(const KeyType& a_key)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+bool BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::RemoveEntry(const KeyType& a_key)
 {
 	HashItem* pItem = FindEntry(a_key);
 	if(pItem){
@@ -41,8 +41,8 @@ bool BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::RemoveEntry(const KeyType&
 	return false;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::RemoveEntry(const HashItem* a_item_p)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::RemoveEntry(const HashItem* a_item_p)
 {
 	HashItemPrivate* pItem = const_cast<HashItemPrivate*>(static_cast<const HashItemPrivate*>(a_item_p));
 	
@@ -53,14 +53,14 @@ void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::RemoveEntry(const HashItem
 	--m_unSize;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-size_t BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::size()const
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+size_t BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::size()const
 {
 	return m_unSize;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::clear() noexcept
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::clear() noexcept
 {
 	HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
 	
@@ -75,20 +75,20 @@ void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::clear() noexcept
 	m_pLastItem = m_pFirstItem = CPPUTILS_NULL;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::pop_back()
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::pop_back()
 {
 	RemoveEntry(m_pLastItem);
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-void BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::pop_front() 
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::pop_front() 
 {
 	RemoveEntry(m_pFirstItem);
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(size_t a_tInitSize)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(size_t a_tInitSize)
 	:
 	  m_unRoundedTableSizeMin1(__private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1),
 	  m_pFirstItem(CPPUTILS_NULL),
@@ -100,8 +100,8 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(size_t a_tInitSize)
 	if(!m_pTable){throw std::bad_alloc();}
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(const BaseBase& a_cM)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(const BaseBase& a_cM)
 	:
 	  m_unRoundedTableSizeMin1(a_cM.m_unRoundedTableSizeMin1),
 	  m_pFirstItem(CPPUTILS_NULL),
@@ -119,8 +119,8 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(const BaseBase& a_cM)
 }
 
 // after this, you can not use a_cM
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(BaseBase* a_pMM) noexcept
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase* a_pMM) noexcept
 	:
 	  m_pTable(a_pMM->m_pTable),
 	  m_unRoundedTableSizeMin1(a_pMM->m_unRoundedTableSizeMin1),
@@ -136,16 +136,16 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(BaseBase* a_pMM) noexc
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 // after this, you can not use a_cM
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::BaseBase(BaseBase&& a_cM) noexcept
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase&& a_cM) noexcept
 	:
 	  BaseBase(&a_cM)
 {
 }
 #endif
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::~BaseBase()
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::~BaseBase()
 {
 	HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
 	
@@ -158,8 +158,8 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::~BaseBase()
 	free(m_pTable);
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-const BaseBase<KeyType,HashItem,HashItemPrivate,Hash>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::operator=(const BaseBase& a_cM)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::operator=(const BaseBase& a_cM)
 {
 	m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
 	m_pFirstItem=CPPUTILS_NULL;
@@ -182,8 +182,8 @@ const BaseBase<KeyType,HashItem,HashItemPrivate,Hash>& BaseBase<KeyType,HashItem
 	return *this;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-const BaseBase<KeyType,HashItem,HashItemPrivate,Hash>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::ReplaceWithOther(BaseBase* a_cM) noexcept
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::ReplaceWithOther(BaseBase* a_cM) noexcept
 {
 	HashItem**	pTable = m_pTable;
 	size_t		unRoundedTableSizeMin1 = m_unRoundedTableSizeMin1;
@@ -207,23 +207,23 @@ const BaseBase<KeyType,HashItem,HashItemPrivate,Hash>& BaseBase<KeyType,HashItem
 }
 
 #ifdef CPPUTILS_CPP_11_DEFINED
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-const BaseBase<KeyType,HashItem,HashItemPrivate,Hash>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::operator=(BaseBase&& a_cM) noexcept
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::operator=(BaseBase&& a_cM) noexcept
 {
 	return this->ReplaceWithOther(&a_cM);
 }
 #endif
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryEvenIfExistsRaw(const HashItem& a_item)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::AddEntryEvenIfExistsRaw(const HashItem& a_item)
 {
 	Hash fnHash;
 	size_t unHash = (fnHash(a_item.first))&m_unRoundedTableSizeMin1;
 	return AddEntryWithKnownHashRaw(a_item,unHash);
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryIfNotExistRaw(const HashItem& a_item)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::AddEntryIfNotExistRaw(const HashItem& a_item)
 {
 	size_t unHash;
 	if(FindEntry(a_item.first,&unHash)){
@@ -233,8 +233,8 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryIfNotExistRaw
 	return AddEntryWithKnownHashRaw(a_item,unHash);
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryWithKnownHashRaw(const HashItem& a_item, size_t a_hashVal)
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::AddEntryWithKnownHashRaw(const HashItem& a_item, size_t a_hashVal)
 {	
 	HashItemPrivate* pItem = new HashItemPrivate(a_item);
 
@@ -258,8 +258,8 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::AddEntryWithKnownHash
 	return static_cast<HashItem*>(pItem);
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::FindEntry(const KeyType& a_key,size_t* a_hashPtr)const
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::FindEntry(const KeyType& a_key,size_t* a_hashPtr)const
 {
 	Hash fnHash;
 	HashItemPrivate* pItemToRet;
@@ -279,8 +279,8 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::FindEntry(const KeyTy
 	return CPPUTILS_NULL;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::FindEntryWithKnownHash(const KeyType& a_key,size_t a_knownHash)const
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::FindEntryWithKnownHash(const KeyType& a_key,size_t a_knownHash)const
 {
 	HashItemPrivate* pItemToRet = static_cast<HashItemPrivate*>(m_pTable[a_knownHash]);
 
@@ -294,8 +294,8 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::FindEntryWithKnownHas
 	return CPPUTILS_NULL;
 }
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
-HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::firstItem()const
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::firstItem()const
 {
 	return m_pFirstItem;
 }
@@ -303,112 +303,112 @@ HashItem* BaseBase<KeyType,HashItem,HashItemPrivate,Hash>::firstItem()const
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename DataType,typename Hash>
-const typename Base<KeyType,DataType,Hash>::iterator  Base<KeyType,DataType,Hash>::s_endIter(CPPUTILS_NULL);
-template <typename KeyType,typename DataType,typename Hash>
-const typename Base<KeyType,DataType,Hash>::const_iterator  Base<KeyType,DataType,Hash>::s_endConstIter(CPPUTILS_NULL);
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+const typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator  Base<KeyType,DataType,Hash,templateDefaultSize>::s_endIter(CPPUTILS_NULL);
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+const typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator  Base<KeyType,DataType,Hash,templateDefaultSize>::s_endConstIter(CPPUTILS_NULL);
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::Base(size_t a_tInitSize)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(size_t a_tInitSize)
 	:
-	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >(a_tInitSize)
+	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >(a_tInitSize)
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::Base(const Base& a_cM)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(const Base& a_cM)
 	:
-	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >(a_cM)
+	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >(a_cM)
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::Base(Base* a_pMM) noexcept
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base* a_pMM) noexcept
 	:
-	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >(a_pMM)
+	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >(a_pMM)
 {
 }
 
 #ifdef CPPUTILS_CPP_11_DEFINED
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::Base(Base&& a_cM) noexcept
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base&& a_cM) noexcept
 	:
 	  Base(&a_cM)
 {
 }
 #endif
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::~Base()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::~Base()
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-const Base<KeyType,DataType,Hash>& Base<KeyType,DataType,Hash>::operator=(const Base& a_cM)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::operator=(const Base& a_cM)
 {
-	BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::operator=(a_cM);
+	BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::operator=(a_cM);
 	return *this;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-const Base<KeyType,DataType,Hash>& Base<KeyType,DataType,Hash>::ReplaceWithOther(Base* a_cM) noexcept
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) noexcept
 {
-	BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::ReplaceWithOther(a_cM);
+	BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::ReplaceWithOther(a_cM);
 	return *this;
 }
 
 #ifdef CPPUTILS_CPP_11_DEFINED
-template <typename KeyType,typename DataType,typename Hash>
-const Base<KeyType,DataType,Hash>& Base<KeyType,DataType,Hash>::operator=(Base&& a_cM) noexcept
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::operator=(Base&& a_cM) noexcept
 {
 	return ReplaceWithOther(&a_cM);
 }
 #endif
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddEntryEvenIfExists(const KeyType& a_key, const DataType& a_data)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryEvenIfExists(const KeyType& a_key, const DataType& a_data)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
 			AddEntryEvenIfExistsRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddEntryIfNotExist(const KeyType& a_key, const DataType& a_data)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryIfNotExist(const KeyType& a_key, const DataType& a_data)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
 			AddEntryIfNotExistRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddOrReplaceEntry(const KeyType& a_key, const DataType& a_data)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntry(const KeyType& a_key, const DataType& a_data)
 {
 	__p::__i::HashItem<KeyType,DataType>* pItem;
 	size_t unHash;
-	if((pItem=BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::FindEntry(a_key,&unHash))){
+	if((pItem=BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,&unHash))){
 		pItem->second = a_data;
 		return pItem; // we can overwrite
 	}
 	
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
 	        AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data),unHash);
 }
 
 
 
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::AddEntryWithKnownHash(const KeyType& a_key, const DataType& a_data,size_t a_hashVal)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryWithKnownHash(const KeyType& a_key, const DataType& a_data,size_t a_hashVal)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
 			AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data),a_hashVal );
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::FindEntryM(const KeyType& a_key,size_t* a_hashPtr,
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::FindEntryM(const KeyType& a_key,size_t* a_hashPtr,
 																			 typename FuncF<KeyType,DataType>::Find a_fnc, void* a_clbkData)const
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItemToRet = 
-			BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::FindEntry(a_key,a_hashPtr);
+			BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,a_hashPtr);
 
 	while (pItemToRet) {
 		if((a_key==pItemToRet->first)&&a_fnc(a_clbkData,pItemToRet->first,pItemToRet->second)){
@@ -420,12 +420,12 @@ typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::Find
 	return CPPUTILS_NULL;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-DataType& Base<KeyType,DataType,Hash>::operator[](const KeyType& a_key)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+DataType& Base<KeyType,DataType,Hash,templateDefaultSize>::operator[](const KeyType& a_key)
 {
 	size_t unHash;
 	__p::__i::HashItem<KeyType,DataType>* pItemToRet = 
-			BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::FindEntry(a_key,&unHash);
+			BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,&unHash);
 	
 	if(pItemToRet){
 		return pItemToRet->second;
@@ -436,26 +436,26 @@ DataType& Base<KeyType,DataType,Hash>::operator[](const KeyType& a_key)
 }
 
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::begin()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::begin()
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::firstItem();
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::firstItem();
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::end()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::end()
 {
 	return s_endIter;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>::begin()const
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<KeyType,DataType,Hash,templateDefaultSize>::begin()const
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >::firstItem();
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::firstItem();
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>::end()const
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<KeyType,DataType,Hash,templateDefaultSize>::end()const
 {
 	return s_endConstIter;
 }
@@ -463,30 +463,30 @@ typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::iterator::iterator()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::iterator()
 	:
 	  m_pItem(CPPUTILS_NULL)
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::iterator::iterator( __p::__i::HashItem<KeyType,DataType>* a_pItem)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::iterator( __p::__i::HashItem<KeyType,DataType>* a_pItem)
 	:
 	  m_pItem(a_pItem)
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator& Base<KeyType,DataType,Hash>::iterator::operator++()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator& Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator++()
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	m_pItem = pItem->nextInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::iterator::operator++(int)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator++(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
@@ -494,16 +494,16 @@ typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::iter
 	return iterToRet;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator& Base<KeyType,DataType,Hash>::iterator::operator--()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator& Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator--()
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	m_pItem = pItem->prevInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::iterator::operator--(int)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator--(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
@@ -511,14 +511,14 @@ typename Base<KeyType,DataType,Hash>::iterator Base<KeyType,DataType,Hash>::iter
 	return iterToRet;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename __p::__i::HashItem<KeyType,DataType>* Base<KeyType,DataType,Hash>::iterator::operator->()const
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename __p::__i::HashItem<KeyType,DataType>* Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator->()const
 {
 	return m_pItem;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::iterator::operator typename __p::__i::HashItem<KeyType,DataType>*()const
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator typename __p::__i::HashItem<KeyType,DataType>*()const
 {
 	return m_pItem;
 }
@@ -526,37 +526,37 @@ Base<KeyType,DataType,Hash>::iterator::operator typename __p::__i::HashItem<KeyT
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::const_iterator::const_iterator()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::const_iterator()
 	:
 	  m_pItem(CPPUTILS_NULL)
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::const_iterator::const_iterator(const iterator& a_iter)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::const_iterator(const iterator& a_iter)
 	:
 	  m_pItem(const_cast< __p::__i::HashItem<KeyType,DataType>* >(a_iter.operator->()))
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::const_iterator::const_iterator(const __p::__i::HashItem<KeyType,DataType>* a_pItem)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::const_iterator(const __p::__i::HashItem<KeyType,DataType>* a_pItem)
 	:
 	  m_pItem(const_cast< __p::__i::HashItem<KeyType,DataType>* >(a_pItem))
 {
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::const_iterator& Base<KeyType,DataType,Hash>::const_iterator::operator++()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator& Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator++()
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	m_pItem = pItem->nextInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>::const_iterator::operator++(int)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator++(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
@@ -564,16 +564,16 @@ typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>
 	return iterToRet;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::const_iterator& Base<KeyType,DataType,Hash>::const_iterator::operator--()
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator& Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator--()
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	m_pItem = pItem->prevInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>::const_iterator::operator--(int)
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator--(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
 	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
@@ -581,14 +581,14 @@ typename Base<KeyType,DataType,Hash>::const_iterator Base<KeyType,DataType,Hash>
 	return iterToRet;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-const typename __p::__i::HashItem<KeyType,DataType>* Base<KeyType,DataType,Hash>::const_iterator::operator->()const
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+const typename __p::__i::HashItem<KeyType,DataType>* Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator->()const
 {
 	return m_pItem;
 }
 
-template <typename KeyType,typename DataType,typename Hash>
-Base<KeyType,DataType,Hash>::const_iterator::operator const typename __p::__i::HashItem<KeyType,DataType>*()const
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator const typename __p::__i::HashItem<KeyType,DataType>*()const
 {
 	return m_pItem;
 }
@@ -596,109 +596,109 @@ Base<KeyType,DataType,Hash>::const_iterator::operator const typename __p::__i::H
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename Hash>
-const typename Base<KeyType,void,Hash>::iterator  Base<KeyType,void,Hash>::s_endIter(CPPUTILS_NULL);
-template <typename KeyType,typename Hash>
-const typename Base<KeyType,void,Hash>::const_iterator  Base<KeyType,void,Hash>::s_endConstIter(CPPUTILS_NULL);
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+const typename Base<KeyType,void,Hash,templateDefaultSize>::iterator  Base<KeyType,void,Hash,templateDefaultSize>::s_endIter(CPPUTILS_NULL);
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+const typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator  Base<KeyType,void,Hash,templateDefaultSize>::s_endConstIter(CPPUTILS_NULL);
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::Base(size_t a_tInitSize)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::Base(size_t a_tInitSize)
 	:
-	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >(a_tInitSize)
+	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >(a_tInitSize)
 {
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::Base(const Base& a_cM)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::Base(const Base& a_cM)
 	:
-	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >(a_cM)
+	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >(a_cM)
 {
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::Base(Base* a_pMM) noexcept
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::Base(Base* a_pMM) noexcept
 	:
-	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >(a_pMM)
+	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >(a_pMM)
 {
 }
 
 #ifdef CPPUTILS_CPP_11_DEFINED
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::Base(Base&& a_cM) noexcept
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::Base(Base&& a_cM) noexcept
 	:
 	  Base(&a_cM)
 {
 }
 #endif
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::~Base()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::~Base()
 {
 }
 
-template <typename KeyType,typename Hash>
-const Base<KeyType,void,Hash>& Base<KeyType,void,Hash>::operator=(const Base& a_cM)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::operator=(const Base& a_cM)
 {
-	BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::operator=(a_cM);
+	BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::operator=(a_cM);
 	return *this;
 }
 
-template <typename KeyType,typename Hash>
-const Base<KeyType,void,Hash>& Base<KeyType,void,Hash>::ReplaceWithOther(Base* a_cM) noexcept
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) noexcept
 {
-	BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::ReplaceWithOther(a_cM);
+	BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::ReplaceWithOther(a_cM);
 	return *this;
 }
 
 #ifdef CPPUTILS_CPP_11_DEFINED
-template <typename KeyType,typename Hash>
-const Base<KeyType,void,Hash>& Base<KeyType,void,Hash>::operator=(Base&& a_cM) noexcept
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::operator=(Base&& a_cM) noexcept
 {
 	return ReplaceWithOther(&a_cM);
 }
 #endif
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::AddEntryEvenIfExists(const KeyType& a_key)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::AddEntryEvenIfExists(const KeyType& a_key)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::
 			AddEntryEvenIfExistsRaw( __p::__i::HashItem<KeyType,void>(a_key) );
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::AddEntryIfNotExist(const KeyType& a_key)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::AddEntryIfNotExist(const KeyType& a_key)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::
 			AddEntryIfNotExistRaw( __p::__i::HashItem<KeyType,void>(a_key) );
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::AddEntryWithKnownHash(const KeyType& a_key, size_t a_hashVal)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::AddEntryWithKnownHash(const KeyType& a_key, size_t a_hashVal)
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::
 			AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,void>(a_key),a_hashVal );
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::begin()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::begin()
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::firstItem();
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::firstItem();
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::end()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::end()
 {
 	return s_endIter;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::begin()const
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyType,void,Hash,templateDefaultSize>::begin()const
 {
-	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >::firstItem();
+	return BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::firstItem();
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::end()const
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyType,void,Hash,templateDefaultSize>::end()const
 {
 	return s_endConstIter;
 }
@@ -706,30 +706,30 @@ typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::end()c
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::iterator::iterator()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::iterator::iterator()
 	:
 	  m_pItem(CPPUTILS_NULL)
 {
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::iterator::iterator( __p::__i::HashItem<KeyType,void>* a_pItem)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::iterator::iterator( __p::__i::HashItem<KeyType,void>* a_pItem)
 	:
 	  m_pItem(a_pItem)
 {
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator& Base<KeyType,void,Hash>::iterator::operator++()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator& Base<KeyType,void,Hash,templateDefaultSize>::iterator::operator++()
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	m_pItem = pItem->nextInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::iterator::operator++(int)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::iterator::operator++(int)
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	typename Base<KeyType,void>::iterator iterToRet(m_pItem);
@@ -737,16 +737,16 @@ typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::iterator::op
 	return iterToRet;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator& Base<KeyType,void,Hash>::iterator::operator--()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator& Base<KeyType,void,Hash,templateDefaultSize>::iterator::operator--()
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	m_pItem = pItem->prevInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::iterator::operator--(int)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::iterator::operator--(int)
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	typename Base<KeyType,void>::iterator iterToRet(m_pItem);
@@ -754,14 +754,14 @@ typename Base<KeyType,void,Hash>::iterator Base<KeyType,void,Hash>::iterator::op
 	return iterToRet;
 }
 
-template <typename KeyType,typename Hash>
-typename __p::__i::HashItem<KeyType,void>* Base<KeyType,void,Hash>::iterator::operator->()const
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename __p::__i::HashItem<KeyType,void>* Base<KeyType,void,Hash,templateDefaultSize>::iterator::operator->()const
 {
 	return m_pItem;
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::iterator::operator typename __p::__i::HashItem<KeyType,void>*()const
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::iterator::operator typename __p::__i::HashItem<KeyType,void>*()const
 {
 	return m_pItem;
 }
@@ -769,37 +769,37 @@ Base<KeyType,void,Hash>::iterator::operator typename __p::__i::HashItem<KeyType,
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::const_iterator::const_iterator()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::const_iterator()
 	:
 	  m_pItem(CPPUTILS_NULL)
 {
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::const_iterator::const_iterator(const iterator& a_iter)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::const_iterator(const iterator& a_iter)
 	:
 	  m_pItem(const_cast< __p::__i::HashItem<KeyType,void>* >(a_iter.operator->()))
 {
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::const_iterator::const_iterator(const __p::__i::HashItem<KeyType,void>* a_pItem)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::const_iterator(const __p::__i::HashItem<KeyType,void>* a_pItem)
 	:
 	  m_pItem(const_cast< __p::__i::HashItem<KeyType,void>* >(a_pItem))
 {
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::const_iterator& Base<KeyType,void,Hash>::const_iterator::operator++()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator& Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::operator++()
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	m_pItem = pItem->nextInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::const_iterator::operator++(int)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::operator++(int)
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	typename Base<KeyType,void>::iterator iterToRet(m_pItem);
@@ -807,16 +807,16 @@ typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::const_
 	return iterToRet;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::const_iterator& Base<KeyType,void,Hash>::const_iterator::operator--()
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator& Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::operator--()
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	m_pItem = pItem->prevInTheList;
 	return *this;
 }
 
-template <typename KeyType,typename Hash>
-typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::const_iterator::operator--(int)
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::operator--(int)
 {
 	__p::__i::HashItemFull<KeyType,void>* pItem = static_cast<__p::__i::HashItemFull<KeyType,void>*>(m_pItem);
 	typename Base<KeyType,void>::iterator iterToRet(m_pItem);
@@ -824,14 +824,14 @@ typename Base<KeyType,void,Hash>::const_iterator Base<KeyType,void,Hash>::const_
 	return iterToRet;
 }
 
-template <typename KeyType,typename Hash>
-const typename __p::__i::HashItem<KeyType,void>* Base<KeyType,void,Hash>::const_iterator::operator->()const
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+const typename __p::__i::HashItem<KeyType,void>* Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::operator->()const
 {
 	return m_pItem;
 }
 
-template <typename KeyType,typename Hash>
-Base<KeyType,void,Hash>::const_iterator::operator const typename __p::__i::HashItem<KeyType,void>*()const
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::operator const typename __p::__i::HashItem<KeyType,void>*()const
 {
 	return m_pItem;
 }

@@ -108,7 +108,7 @@ CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize)
 	size_t i(0);
 	size_t tRet(a_tInitSize);
 
-	if (!a_tInitSize) { return DEFAULT_TABLE_SIZE;}
+	if (!a_tInitSize) { return 1;} // list will be implemented
 	
 	for (; tRet; tRet = (a_tInitSize >> ++i))
 		;

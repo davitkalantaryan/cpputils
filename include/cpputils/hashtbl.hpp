@@ -20,7 +20,7 @@
 namespace cpputils { namespace hashtbl {
 
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash>
+template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash, size_t templateDefaultSize>
 class BaseBase
 {
 public:
@@ -34,7 +34,7 @@ public:
 	void		pop_front() ;
 	
 protected:	
-	BaseBase(size_t tableSize= DEFAULT_TABLE_SIZE);
+	BaseBase(size_t tableSize= templateDefaultSize);
 	BaseBase(const BaseBase& cM);
 	BaseBase(BaseBase* mM) noexcept;
 #ifdef CPPUTILS_CPP_11_DEFINED
@@ -63,15 +63,15 @@ private:
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType,typename DataType,typename Hash=FHash<KeyType>>
-class Base : public BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash  >
+template <typename KeyType,typename DataType,typename Hash=FHash<KeyType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
+class Base : public BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >
 {
 public:
 	class  iterator;
 	class  const_iterator;
 	
 public:
-	Base(size_t tableSize= DEFAULT_TABLE_SIZE);
+	Base(size_t tableSize= templateDefaultSize);
 	Base(const Base& cM);
 	Base(Base* cM) noexcept;
 #ifdef CPPUTILS_CPP_11_DEFINED
@@ -140,15 +140,15 @@ public:
 //template <typename KeyType>
 //class Base<KeyType,void>;
 
-template <typename KeyType,typename Hash>
-class Base<KeyType,void,Hash> : public BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash  >
+template <typename KeyType,typename Hash,size_t templateDefaultSize>
+class Base<KeyType,void,Hash,templateDefaultSize> : public BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash, templateDefaultSize  >
 {
 public:
 	class  iterator;
 	class  const_iterator;
 	
 public:
-	Base(size_t tableSize= DEFAULT_TABLE_SIZE);
+	Base(size_t tableSize= templateDefaultSize);
 	Base(const Base& cM);
 	Base(Base* cM) noexcept;
 #ifdef CPPUTILS_CPP_11_DEFINED
@@ -212,129 +212,131 @@ public:
 //#if 0
 
 // template <typename KeyType,typename DataType,typename Hash=FHash<KeyType>>
-template <typename KeyType, typename Hash=FHash<KeyType> >
-using Set = Base<KeyType,void, Hash>;
+template <typename KeyType, typename Hash=FHash<KeyType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+using Set = Base<KeyType,void, Hash,templateDefaultSize>;
 
 
-template <typename DataType,typename Hash=FHashVoidPtr>
-using VoidPtrHash = Base<VoidPtrKey,DataType,Hash>;
-template <typename Hash=FHashVoidPtr>
-using VoidPtrSetBase = Set<VoidPtrKey,Hash>;
-using VoidPtrSet = VoidPtrSetBase<FHashVoidPtr>;
+template <typename DataType,typename Hash=FHashVoidPtr,size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
+using VoidPtrHash = Base<VoidPtrKey,DataType,Hash,templateDefaultSize>;
+template <typename Hash=FHashVoidPtr, size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
+using VoidPtrSetBase = Set<VoidPtrKey,Hash,templateDefaultSize>;
+template <size_t templateDefaultSize>
+using VoidPtrSet = VoidPtrSetBase<FHashVoidPtr,templateDefaultSize>;
 
 
-template <typename CharType,typename DataType,typename Hash=FHashStr<CharType> >
-using StrHash = Base< ::std::basic_string<CharType>,DataType,Hash >;
-template <typename CharType, typename Hash=FHashStr<CharType> >
-using StrSet = Set< ::std::basic_string<CharType>,Hash>;
+template <typename CharType,typename DataType,typename Hash=FHashStr<CharType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+using StrHash = Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize >;
+template <typename CharType, typename Hash=FHashStr<CharType>, size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+using StrSet = Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>;
 
 
-template <typename IntType,typename DataType,typename Hash=FHashInt<IntType> >
-using IntHash = Base< IntType,DataType,Hash >;
-template <typename IntType, typename Hash=FHashInt<IntType> >
-using IntSet = Set< IntType,Hash>;
+template <typename IntType,typename DataType,typename Hash=FHashInt<IntType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+using IntHash = Base< IntType,DataType,Hash,templateDefaultSize >;
+template <typename IntType, typename Hash=FHashInt<IntType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+using IntSet = Set< IntType,Hash,templateDefaultSize>;
 
 
 #else
 
 
-template <typename KeyType, typename Hash=FHash<KeyType> >
-class Set : public Base<KeyType,void,Hash>{
+template <typename KeyType, typename Hash=FHash<KeyType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+class Set : public Base<KeyType,void,Hash,templateDefaultSize>{
 public:
-	Set(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Base<KeyType,void,Hash>(a_tableSize){}
-	Set(const Set& a_cM) : Base<KeyType,void,Hash>(a_cM){}
-	Set(Set* a_cM) noexcept : Base<KeyType,void,Hash>(a_cM){}
+	Set(size_t a_tableSize= templateDefaultSize) : Base<KeyType,void,Hash,templateDefaultSize>(a_tableSize){}
+	Set(const Set& a_cM) : Base<KeyType,void,Hash,templateDefaultSize>(a_cM){}
+	Set(Set* a_cM) noexcept : Base<KeyType,void,Hash,templateDefaultSize>(a_cM){}
 	virtual ~Set() CPPUTILS_OVERRIDE {}
 	
-	const Set& operator=(const Set& a_cM) { Base<KeyType,void,Hash>::operator=(a_cM); return *this; }
-	const Set& ReplaceWithOther(Set* a_cM) noexcept { Base<KeyType,void,Hash>::ReplaceWithOther(a_cM); return *this; }
+	const Set& operator=(const Set& a_cM) { Base<KeyType,void,Hash,templateDefaultSize>::operator=(a_cM); return *this; }
+	const Set& ReplaceWithOther(Set* a_cM) noexcept { Base<KeyType,void,Hash,templateDefaultSize>::ReplaceWithOther(a_cM); return *this; }
 };
 
 
-template <typename DataType,typename Hash=FHashVoidPtr>
-class VoidPtrHash : public Base<VoidPtrKey,DataType,Hash> {
+template <typename DataType,typename Hash=FHashVoidPtr,size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
+class VoidPtrHash : public Base<VoidPtrKey,DataType,Hash,templateDefaultSize> {
 public:
-	VoidPtrHash(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Base<VoidPtrKey,DataType,Hash>(a_tableSize){}
-	VoidPtrHash(const VoidPtrHash& a_cM) : Base<VoidPtrKey,DataType,Hash>(a_cM){}
-	VoidPtrHash(VoidPtrHash* a_cM) noexcept : Base<VoidPtrKey,DataType,Hash>(&a_cM){}
+	VoidPtrHash(size_t a_tableSize= templateDefaultSize) : Base<VoidPtrKey,DataType,Hash,templateDefaultSize>(a_tableSize){}
+	VoidPtrHash(const VoidPtrHash& a_cM) : Base<VoidPtrKey,DataType,Hash,templateDefaultSize>(a_cM){}
+	VoidPtrHash(VoidPtrHash* a_cM) noexcept : Base<VoidPtrKey,DataType,Hash,templateDefaultSize>(&a_cM){}
 	virtual ~VoidPtrHash() CPPUTILS_OVERRIDE {}
 	
-	const VoidPtrHash& operator=(const VoidPtrHash& a_cM) { return Base<VoidPtrKey,DataType,Hash>::operator=(a_cM); }
-	const VoidPtrHash& ReplaceWithOther(VoidPtrHash* a_cM) noexcept { return Base<VoidPtrKey,DataType,Hash>::ReplaceWithOther(a_cM); }
+	const VoidPtrHash& operator=(const VoidPtrHash& a_cM) { return Base<VoidPtrKey,DataType,Hash,templateDefaultSize>::operator=(a_cM); }
+	const VoidPtrHash& ReplaceWithOther(VoidPtrHash* a_cM) noexcept { return Base<VoidPtrKey,DataType,Hash,templateDefaultSize>::ReplaceWithOther(a_cM); }
 };
 
-template <typename Hash=FHashVoidPtr>
-class VoidPtrSetBase : public Set<VoidPtrKey,Hash> {	
+template <typename Hash=FHashVoidPtr,size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
+class VoidPtrSetBase : public Set<VoidPtrKey,Hash,templateDefaultSize> {	
 public:
-	VoidPtrSetBase(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Set<VoidPtrKey,Hash>(a_tableSize){}
-	VoidPtrSetBase(const VoidPtrSetBase& a_cM) : Set<VoidPtrKey,Hash>(a_cM){}
-	VoidPtrSetBase(VoidPtrSetBase* a_cM) noexcept : Set<VoidPtrKey,Hash>(a_cM){}
+	VoidPtrSetBase(size_t a_tableSize= templateDefaultSize) : Set<VoidPtrKey,Hash,templateDefaultSize>(a_tableSize){}
+	VoidPtrSetBase(const VoidPtrSetBase& a_cM) : Set<VoidPtrKey,Hash,templateDefaultSize>(a_cM){}
+	VoidPtrSetBase(VoidPtrSetBase* a_cM) noexcept : Set<VoidPtrKey,Hash,templateDefaultSize>(a_cM){}
 	virtual ~VoidPtrSetBase() CPPUTILS_OVERRIDE {}
 	
-	const VoidPtrSetBase& operator=(const VoidPtrSetBase& a_cM) { Set<VoidPtrKey,Hash>::operator=(a_cM); return *this; }
-	const VoidPtrSetBase& ReplaceWithOther(VoidPtrSetBase* a_cM) noexcept { Set<VoidPtrKey,Hash>::ReplaceWithOther(a_cM);return *this; }
+	const VoidPtrSetBase& operator=(const VoidPtrSetBase& a_cM) { Set<VoidPtrKey,Hash,templateDefaultSize>::operator=(a_cM); return *this; }
+	const VoidPtrSetBase& ReplaceWithOther(VoidPtrSetBase* a_cM) noexcept { Set<VoidPtrKey,Hash,templateDefaultSize>::ReplaceWithOther(a_cM);return *this; }
 };
 
-class VoidPtrSet : public VoidPtrSetBase<FHashVoidPtr> {	
+template <size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
+class VoidPtrSet : public VoidPtrSetBase<FHashVoidPtr,templateDefaultSize> {	
 public:
-	VoidPtrSet(size_t a_tableSize= DEFAULT_TABLE_SIZE) : VoidPtrSetBase<FHashVoidPtr>(a_tableSize){}
-	VoidPtrSet(const VoidPtrSet& a_cM) : VoidPtrSetBase<FHashVoidPtr>(a_cM){}
-	VoidPtrSet(VoidPtrSet* a_cM) noexcept : VoidPtrSetBase<FHashVoidPtr>(a_cM){}
+	VoidPtrSet(size_t a_tableSize= templateDefaultSize) : VoidPtrSetBase<FHashVoidPtr,templateDefaultSize>(a_tableSize){}
+	VoidPtrSet(const VoidPtrSet& a_cM) : VoidPtrSetBase<FHashVoidPtr,templateDefaultSize>(a_cM){}
+	VoidPtrSet(VoidPtrSet* a_cM) noexcept : VoidPtrSetBase<FHashVoidPtr,templateDefaultSize>(a_cM){}
 	virtual ~VoidPtrSet() CPPUTILS_OVERRIDE {}
 	
-	const VoidPtrSet& operator=(const VoidPtrSet& a_cM) { VoidPtrSetBase<FHashVoidPtr>::operator=(a_cM); return *this; }
-	const VoidPtrSet& ReplaceWithOther(VoidPtrSet* a_cM) noexcept { VoidPtrSetBase<FHashVoidPtr>::ReplaceWithOther(a_cM);return *this; }
+	const VoidPtrSet& operator=(const VoidPtrSet& a_cM) { VoidPtrSetBase<FHashVoidPtr,templateDefaultSize>::operator=(a_cM); return *this; }
+	const VoidPtrSet& ReplaceWithOther(VoidPtrSet* a_cM) noexcept { VoidPtrSetBase<FHashVoidPtr,templateDefaultSize>::ReplaceWithOther(a_cM);return *this; }
 };
 
 
 
-template <typename CharType,typename DataType,typename Hash=FHashStr<CharType> >
-class StrHash : public Base< ::std::basic_string<CharType>,DataType,Hash> {
+template <typename CharType,typename DataType,typename Hash=FHashStr<CharType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+class StrHash : public Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize> {
 public:
-	StrHash(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Base< ::std::basic_string<CharType>,DataType,Hash>(a_tableSize){}
-	StrHash(const StrHash& a_cM) : Base< ::std::basic_string<CharType>,DataType,Hash>(a_cM){}
-	StrHash(StrHash* a_cM) noexcept : Base< ::std::basic_string<CharType>,DataType,Hash>(&a_cM){}
+	StrHash(size_t a_tableSize= templateDefaultSize) : Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize>(a_tableSize){}
+	StrHash(const StrHash& a_cM) : Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize>(a_cM){}
+	StrHash(StrHash* a_cM) noexcept : Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize>(&a_cM){}
 	virtual ~StrHash() CPPUTILS_OVERRIDE {}
 	
-	StrHash& operator=(const StrHash& a_cM) { return Base< ::std::basic_string<CharType>,DataType,Hash>::operator=(a_cM); }
-	StrHash& ReplaceWithOther(StrHash& a_cM) noexcept { return Base< ::std::basic_string<CharType>,DataType,Hash>::ReplaceWithOther(a_cM); }
+	StrHash& operator=(const StrHash& a_cM) { return Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize>::operator=(a_cM); }
+	StrHash& ReplaceWithOther(StrHash& a_cM) noexcept { return Base< ::std::basic_string<CharType>,DataType,Hash,templateDefaultSize>::ReplaceWithOther(a_cM); }
 };
 
-template <typename CharType, typename Hash=FHashStr<CharType> >
-class StrSet : public Set< ::std::basic_string<CharType>,Hash> {
+template <typename CharType, typename Hash=FHashStr<CharType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+class StrSet : public Set< ::std::basic_string<CharType>,Hash,templateDefaultSize> {
 public:
-	StrSet(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Set< ::std::basic_string<CharType>,Hash>(a_tableSize){}
-	StrSet(const StrSet& a_cM) : Set< ::std::basic_string<CharType>,Hash>(a_cM){}
-	StrSet(StrSet* a_cM) noexcept : Set< ::std::basic_string<CharType>,Hash>(&a_cM){}
+	StrSet(size_t a_tableSize= templateDefaultSize) : Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>(a_tableSize){}
+	StrSet(const StrSet& a_cM) : Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>(a_cM){}
+	StrSet(StrSet* a_cM) noexcept : Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>(&a_cM){}
 	virtual ~StrSet() CPPUTILS_OVERRIDE {}
 	
-	StrSet& operator=(const StrSet& a_cM) { return Set< ::std::basic_string<CharType>,Hash>::operator=(a_cM); }
-	StrSet& ReplaceWithOther(StrSet& a_cM) noexcept { return Set< ::std::basic_string<CharType>,Hash>::ReplaceWithOther(a_cM); }
+	StrSet& operator=(const StrSet& a_cM) { return Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>::operator=(a_cM); }
+	StrSet& ReplaceWithOther(StrSet& a_cM) noexcept { return Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>::ReplaceWithOther(a_cM); }
 };
 
 
-template <typename IntType,typename DataType,typename Hash=FHashInt<IntType> >
-class IntHash : public Base< IntType,DataType,Hash> {
+template <typename IntType,typename DataType,typename Hash=FHashInt<IntType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+class IntHash : public Base< IntType,DataType,Hash,templateDefaultSize> {
 public:
-	IntHash(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Base< IntType,DataType,Hash>(a_tableSize){}
-	IntHash(const IntHash& a_cM) : Base< IntType,DataType,Hash>(a_cM){}
-	IntHash(IntHash* a_cM) noexcept : Base< IntType,DataType,Hash>(&a_cM){}
+	IntHash(size_t a_tableSize= templateDefaultSize) : Base< IntType,DataType,Hash,templateDefaultSize>(a_tableSize){}
+	IntHash(const IntHash& a_cM) : Base< IntType,DataType,Hash,templateDefaultSize>(a_cM){}
+	IntHash(IntHash* a_cM) noexcept : Base< IntType,DataType,Hash,templateDefaultSize>(&a_cM){}
 	virtual ~IntHash() CPPUTILS_OVERRIDE {}
 	
-	IntHash& operator=(const IntHash& a_cM) { return Base< IntType,DataType,Hash>::operator=(a_cM); }
-	IntHash& ReplaceWithOther(IntHash& a_cM) noexcept { return Base< IntType,DataType,Hash>::ReplaceWithOther(a_cM); }
+	IntHash& operator=(const IntHash& a_cM) { return Base< IntType,DataType,Hash,templateDefaultSize>::operator=(a_cM); }
+	IntHash& ReplaceWithOther(IntHash& a_cM) noexcept { return Base< IntType,DataType,Hash,templateDefaultSize>::ReplaceWithOther(a_cM); }
 };
 
-template <typename IntType, typename Hash=FHashInt<IntType> >
-class IntSet : public Set<IntType,Hash> {
+template <typename IntType, typename Hash=FHashInt<IntType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+class IntSet : public Set<IntType,Hash,templateDefaultSize> {
 public:
-	IntSet(size_t a_tableSize= DEFAULT_TABLE_SIZE) : Set<IntType,Hash>(a_tableSize){}
-	IntSet(const IntSet& a_cM) : Set<IntType,Hash>(a_cM){}
-	IntSet(IntSet* a_cM) noexcept : Set<IntType,Hash>(&a_cM){}
+	IntSet(size_t a_tableSize= templateDefaultSize) : Set<IntType,Hash,templateDefaultSize>(a_tableSize){}
+	IntSet(const IntSet& a_cM) : Set<IntType,Hash,templateDefaultSize>(a_cM){}
+	IntSet(IntSet* a_cM) noexcept : Set<IntType,Hash,templateDefaultSize>(&a_cM){}
 	virtual ~IntSet() CPPUTILS_OVERRIDE {}
 	
-	IntSet& operator=(const IntSet& a_cM) { return Set<IntType,Hash>::operator=(a_cM); }
-	IntSet& ReplaceWithOther(IntSet& a_cM) noexcept { return Set<IntType,Hash>::ReplaceWithOther(a_cM); }
+	IntSet& operator=(const IntSet& a_cM) { return Set<IntType,Hash,templateDefaultSize>::operator=(a_cM); }
+	IntSet& ReplaceWithOther(IntSet& a_cM) noexcept { return Set<IntType,Hash,templateDefaultSize>::ReplaceWithOther(a_cM); }
 };
 
 
