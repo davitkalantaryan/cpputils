@@ -12,6 +12,7 @@
 #QMAKE_CXXFLAGS_WARN_ON -= -Wunused-function
 
 STATIC_LIB_EXTENSION	= a
+LIB_PREFIX	= lib
 
 contains( TEMPLATE, lib ) {
     TARGET_PATH=lib
@@ -30,6 +31,7 @@ isEmpty(PRJ_PWD_TMP) {
 
 win32 {
 	STATIC_LIB_EXTENSION = lib
+	LIB_PREFIX =
     contains(QMAKE_TARGET.arch, x86_64) {
         ## Windows x64 (64bit) specific build here
         CODENAME = win_x64
