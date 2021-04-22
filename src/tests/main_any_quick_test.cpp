@@ -8,6 +8,7 @@
 #include <cpputils/enums.hpp>
 #include <cpputils/enums/fast.hpp>
 #include <cpputils/enums/full.hpp>
+#include <cpputils/tls_ptr.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -16,9 +17,12 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define TESTS_COUNT	150000000
-
 #define USE_STD_MAP
+
+
+//#define TESTS_COUNT	150000000
+
+#ifdef TESTS_COUNT
 
 #ifdef	USE_STD_MAP
 typedef std::unordered_multimap<int,int> TypeMap;
@@ -30,8 +34,19 @@ typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
 #define MapFindEntry				FindEntry
 #endif
 
+#endif
+
+
 int main()
 {
+	{
+		cpputils::tls_ptr<int> aPtr;
+		std::cout << aPtr.get() << std::endl;
+		aPtr.SetForThisThread(new int);  // no need to delete, class will do automatically
+		std::cout << aPtr.get() << std::endl;
+	}
+	
+#ifdef TESTS_COUNT
 	{
 		int i, acurances=0;
 		TypeMap aMap(1000000);
@@ -63,6 +78,8 @@ int main()
 	printf("Map deleted, press '1' then enter to continue");fflush(stdout);
 	while(getchar()!='1')
 		;
+	
+#endif // #ifdef TESTS_COUNT
 	
 	{
 		cpputils::hashtbl::Base<int,int> aHash;

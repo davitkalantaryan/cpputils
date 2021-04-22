@@ -12,6 +12,8 @@ QT -= core
 QT -= widgets
 CONFIG -= qt
 
+LIBS += -pthread
+
 INCLUDEPATH += $${PWD}/../../../include
 DEFINES += CPPUTILS_USING_STATIC_LIB_OR_OBJECTS
 
@@ -21,7 +23,8 @@ SOURCES	+=		\
 	$${PWD}/../../../src/core/cpputils_bigint.cpp						\
 	$${PWD}/../../../src/core/cpputils_functional_old.cpp				\
 	$${PWD}/../../../src/core/cpputils_hashtbl.cpp						\
-	$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp			
+	$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp				\
+	$${PWD}/../../../src/core/cpputils_thread_local.cpp
 
 
 HEADERS	+=		\
@@ -47,4 +50,7 @@ HEADERS	+=		\
 	$${PWD}/../../../include/cpputils/enums/full.impl.hpp				\
 	$${PWD}/../../../include/cpputils/enums/fullslow.hpp				\
 	$${PWD}/../../../include/cpputils/enums/fullslow.impl.hpp			\
+	$${PWD}/../../../include/cpputils/thread_local.h					\
+	$${PWD}/../../../include/cpputils/tls_ptr.hpp						\
+	$${PWD}/../../../include/cpputils/tls_ptr.impl.hpp					\
 	
