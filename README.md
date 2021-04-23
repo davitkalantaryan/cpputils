@@ -5,6 +5,49 @@ Repository for some general purpose classes
 Following is the list of already created classes and utils (macroses)  
   
   
+### tls_unique_ptr  
+This is temlate class that will hold pointer to object of temlate argument. The pointer will vary 
+from thread to thread. This is somehow smart pointer and thread specific pointer will be 
+deleted on thread exit or when the object of `tls_ptr` destroyed. This is a
+bit similar to `c++11` `thread_local`, or compiler specific `__thread` (for gcc and family) 
+or `__declspec(thread)` (for MC). 
+The difference of this class is that this class can be declared as class member. 
+All classes on thread local storage are in the header [tls_data.hpp](include/cpputils/tls_data.hpp)  
+
+``` cpp  
+
+#include <thread>
+#include <iostream>
+#include <cpputils/tls_data.hpp>
+
+int main()
+{
+    struct TestClass{
+    ~TestClass(){std::cout<< __FUNCTION__ <<std::endl;}
+    };
+    cpputils::tls_unique_ptr<TestClass> tlsPtr;
+    tlsPtr = new TestClass;
+    std::cout << "tlsPtr[fromMain]="<<tlsPtr.get()<<std::endl;  // here we see some value
+    std::thread aThread([&tlsPtr](){
+        std::cout << "tlsPtr[other1]="<<tlsPtr.get()<<std::endl; // here we see null, and this shows diff.
+        tlsPtr = new TestClass;
+        std::cout << "tlsPtr[other1]="<<tlsPtr.get()<<std::endl; // here we see some value
+    });
+    aThread.join(); // after join we will see one destructor called, this is because of thread exit
+    return 0;  // during main thread cleanup we will see second destructor called
+}
+```  
+
+To organize shared TLS ptr, use following:  
+
+``` cpp  
+template <typename TlsType>
+using tls_shared_ptr = std::shared_ptr< cpputils::tls_unique_ptr<TlsType> > ;
+```  
+
+For more examples check the file [0007_tls_data.cpp](src/tests/googletest/0007_tls_data.cpp)
+  
+  
 ### Macroses  
 There are some macroses can be used to ease several problems. These macroses are 
 defined in the header [macroses.h](include/cpputils/macroses.h). Following is the list of macroses those 

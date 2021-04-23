@@ -51,6 +51,7 @@ HEADERS	+=		\
 	$${PWD}/../../../include/cpputils/enums/fullslow.hpp				\
 	$${PWD}/../../../include/cpputils/enums/fullslow.impl.hpp			\
 	$${PWD}/../../../include/cpputils/thread_local.h					\
-	$${PWD}/../../../include/cpputils/tls_ptr.hpp						\
-	$${PWD}/../../../include/cpputils/tls_ptr.impl.hpp					\
-	
+	$${PWD}/../../../include/cpputils/tls_data.hpp						\
+	$${PWD}/../../../include/cpputils/tls_data.impl.hpp					\
+	$${PWD}/../../../include/cpputils/tls_ptr.windows.impl.hpp			\
+	$${PWD}/../../../include/cpputils/tls_ptr.posix.impl.hpp			\
