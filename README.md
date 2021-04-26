@@ -1,5 +1,7 @@
 # cpputils
-Repository for some general purpose classes  
+Repository for some general purpose classes and macroses. 
+Up to now these classes and macroses are tested on gcc Linux, Windows microsoft compiler, Mac with clang and emscripten. 
+Should work also on other platforms with proper c++ compiler
   
 ## existing classes and utils    
 Following is the list of already created classes and utils (macroses)  
@@ -8,7 +10,7 @@ Following is the list of already created classes and utils (macroses)
 ### tls_unique_ptr  
 This is temlate class that will hold pointer to object of temlate argument. The pointer will vary 
 from thread to thread. This is somehow smart pointer and thread specific pointer will be 
-deleted on thread exit or when the object of `tls_ptr` destroyed. This is a
+deleted on thread exit or when the object of `tls_unique_ptr` destroyed. This is a
 bit similar to `c++11` `thread_local`, or compiler specific `__thread` (for gcc and family) 
 or `__declspec(thread)` (for MC). 
 The difference of this class is that this class can be declared as class member. 
@@ -90,8 +92,6 @@ private:
   
 ```  
   
-Up to now this class is tested on gcc Linux and on Windows with microsoft compiler. Should work also on other platforms with proper c++ 
-compile (will be tested).  
 This class is possible to cast to any number type and vise versa any numeric type is possible to cast to this class. 
 In the case if `C++ 11` or newer compiler is used, one can also use literals for these classes (see code snippet below)   
   
