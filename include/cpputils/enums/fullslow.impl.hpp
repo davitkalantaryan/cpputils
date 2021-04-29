@@ -74,16 +74,17 @@ void BaseFullSlow<integralType, numOfFields, unqiueNumber>::Data::Initialize(int
 		::std::string nextStr;
 		const char* cpcTerm;
 		const size_t cunNumberOfArgs( static_cast<size_t>(a_nargs) );
-		SingleArg nextArg;
+		SingleArg* pNextArg;
 
 		m_names = new ::cpputils::hashtbl::IntHash< int64_t, ::std::string >(cunNumberOfArgs);
 
 		for (size_t i(0); i < cunNumberOfArgs; ++i) {
-			nextArg = va_arg(a_list, SingleArg);
-			cpcTerm = ::strchr(nextArg.name,'=');
-			if (cpcTerm) { nextStr = ::std::string(nextArg.name,static_cast<size_t>(cpcTerm- nextArg.name)); }
-			else { nextStr = nextArg.name; }
-			m_names->AddEntryEvenIfExists(nextArg.val, nextStr);
+			pNextArg = va_arg(a_list, SingleArg*);
+			cpcTerm = ::strchr(pNextArg->name,'=');
+			if (cpcTerm) { nextStr = ::std::string(pNextArg->name,static_cast<size_t>(cpcTerm- pNextArg->name)); }
+			else { nextStr = pNextArg->name; }
+			m_names->AddEntryEvenIfExists(pNextArg->val, nextStr);
+			delete pNextArg;
 		}
 	}
 }

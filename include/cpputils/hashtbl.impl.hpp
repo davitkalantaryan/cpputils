@@ -60,7 +60,7 @@ size_t BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::size
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::clear() noexcept
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::clear() CPPUTILS_NOEXCEPT
 {
 	HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
 	
@@ -120,7 +120,7 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(co
 
 // after this, you can not use a_cM
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase* a_pMM) noexcept
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase* a_pMM) CPPUTILS_NOEXCEPT
 	:
 	  m_pTable(a_pMM->m_pTable),
 	  m_unRoundedTableSizeMin1(a_pMM->m_unRoundedTableSizeMin1),
@@ -137,7 +137,7 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(Ba
 #ifdef CPPUTILS_CPP_11_DEFINED
 // after this, you can not use a_cM
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase&& a_cM) noexcept
+BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  BaseBase(&a_cM)
 {
@@ -183,7 +183,7 @@ const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseB
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::ReplaceWithOther(BaseBase* a_cM) noexcept
+const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::ReplaceWithOther(BaseBase* a_cM) CPPUTILS_NOEXCEPT
 {
 	HashItem**	pTable = m_pTable;
 	size_t		unRoundedTableSizeMin1 = m_unRoundedTableSizeMin1;
@@ -208,7 +208,7 @@ const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseB
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::operator=(BaseBase&& a_cM) noexcept
+const BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>& BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::operator=(BaseBase&& a_cM) CPPUTILS_NOEXCEPT
 {
 	return this->ReplaceWithOther(&a_cM);
 }
@@ -323,7 +323,7 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::Base(const Base& a_cM)
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base* a_pMM) noexcept
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base* a_pMM) CPPUTILS_NOEXCEPT
 	:
 	  BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >(a_pMM)
 {
@@ -331,7 +331,7 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base* a_pMM) noexcept
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base&& a_cM) noexcept
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  Base(&a_cM)
 {
@@ -351,7 +351,7 @@ const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Has
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) noexcept
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) CPPUTILS_NOEXCEPT
 {
 	BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::ReplaceWithOther(a_cM);
 	return *this;
@@ -359,7 +359,7 @@ const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Has
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::operator=(Base&& a_cM) noexcept
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::operator=(Base&& a_cM) CPPUTILS_NOEXCEPT
 {
 	return ReplaceWithOther(&a_cM);
 }
@@ -616,7 +616,7 @@ Base<KeyType,void,Hash,templateDefaultSize>::Base(const Base& a_cM)
 }
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,void,Hash,templateDefaultSize>::Base(Base* a_pMM) noexcept
+Base<KeyType,void,Hash,templateDefaultSize>::Base(Base* a_pMM) CPPUTILS_NOEXCEPT
 	:
 	  BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >(a_pMM)
 {
@@ -624,7 +624,7 @@ Base<KeyType,void,Hash,templateDefaultSize>::Base(Base* a_pMM) noexcept
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,void,Hash,templateDefaultSize>::Base(Base&& a_cM) noexcept
+Base<KeyType,void,Hash,templateDefaultSize>::Base(Base&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  Base(&a_cM)
 {
@@ -644,7 +644,7 @@ const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templa
 }
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) noexcept
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) CPPUTILS_NOEXCEPT
 {
 	BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::ReplaceWithOther(a_cM);
 	return *this;
@@ -652,7 +652,7 @@ const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templa
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::operator=(Base&& a_cM) noexcept
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::operator=(Base&& a_cM) CPPUTILS_NOEXCEPT
 {
 	return ReplaceWithOther(&a_cM);
 }

@@ -71,13 +71,14 @@ void BaseFull<integralType, numOfFields, unqiueNumber>::Data::Initialize(int a_n
 	if (!m_names) {
 
 		const size_t cunNumberOfArgs( static_cast<size_t>(a_nargs) );
-		SingleArg nextArg;
+		SingleArg* pNextArg;
 
 		m_names = new ::cpputils::hashtbl::IntHash< int64_t, const char* >(cunNumberOfArgs);
 
 		for (size_t i(0); i < cunNumberOfArgs; ++i) {
-			nextArg = va_arg(a_list, SingleArg);
-			m_names->AddEntryEvenIfExists(nextArg.val, nextArg.name);
+			pNextArg = va_arg(a_list, SingleArg*);
+			m_names->AddEntryEvenIfExists(pNextArg->val, pNextArg->name);
+			delete pNextArg;
 		}
 	}
 }

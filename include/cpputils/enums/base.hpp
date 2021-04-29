@@ -19,6 +19,7 @@ namespace cpputils { namespace enums{
 struct SingleArg{
 	int64_t		val;
 	const char* name;
+	SingleArg(int64_t a_val, const char* a_name):val(a_val),name(a_name){}
 };
 
 
@@ -30,7 +31,7 @@ struct SingleArg{
 #define CPPUTILS_ENUM_TYPED(_Name,_integralType,...)	enum _Name { __VA_ARGS__ }
 #endif
 
-#define CPPUTILS_MACRO_SINGLE_ARG(_name,_arg)	::cpputils::enums::SingleArg{static_cast<int64_t>(_name::_arg),#_arg}
+#define CPPUTILS_MACRO_SINGLE_ARG(_name,_arg)	new ::cpputils::enums::SingleArg(static_cast<int64_t>(_name::_arg),#_arg)
 #define CPPUTILS_SINGLE_ARGS(_Name,...)			CPPUTILS_MACRO_APPY(CPPUTILS_MACRO_SINGLE_ARG,_Name,__VA_ARGS__)
 
 

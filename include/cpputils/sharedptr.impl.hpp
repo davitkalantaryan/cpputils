@@ -59,14 +59,14 @@ SharedPtr<PtrType>::SharedPtr(Core* a_pCore)
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(const SharedPtr& a_cM) noexcept
+SharedPtr<PtrType>::SharedPtr(const SharedPtr& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  SharedPtr(a_cM.m_pCore)
 {
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(SharedPtr&& a_cM) noexcept
+SharedPtr<PtrType>::SharedPtr(SharedPtr&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  m_pCore(a_cM.m_pCore)
 {

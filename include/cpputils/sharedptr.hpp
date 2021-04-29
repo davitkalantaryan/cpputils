@@ -27,8 +27,8 @@ public:
 	SharedPtr();
 	SharedPtr(PtrType* pPtr, TypeClbk a_fnClbk=CPPUTILS_NULL, void* clbkData=CPPUTILS_NULL);
 	SharedPtr(Core* pCore);
-	SharedPtr(const SharedPtr& cM) noexcept;
-	SharedPtr(SharedPtr&& cM) noexcept;
+	SharedPtr(const SharedPtr& cM) CPPUTILS_NOEXCEPT;
+	SharedPtr(SharedPtr&& cM) CPPUTILS_NOEXCEPT;
 	~SharedPtr();
 	
 	SharedPtr& operator=(const SharedPtr& cM);

@@ -35,9 +35,9 @@ struct VoidPtrKey{
 	
 	VoidPtrKey(const void* key, size_t keyLen,bool shouldDelete=true);
 	VoidPtrKey(const VoidPtrKey& cM);
-	VoidPtrKey(VoidPtrKey& cM, int shouldMove, bool shouldDelete = true) noexcept;
+	VoidPtrKey(VoidPtrKey& cM, int shouldMove, bool shouldDelete = true) CPPUTILS_NOEXCEPT;
 #ifdef CPPUTILS_CPP_11_DEFINED
-	VoidPtrKey(VoidPtrKey&& cM,bool shouldDelete=true) noexcept;
+	VoidPtrKey(VoidPtrKey&& cM,bool shouldDelete=true) CPPUTILS_NOEXCEPT;
 #endif
 	~VoidPtrKey();
 	bool operator==(const VoidPtrKey& aM)const;

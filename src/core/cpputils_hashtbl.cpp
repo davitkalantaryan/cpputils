@@ -57,7 +57,7 @@ VoidPtrKey::VoidPtrKey(const VoidPtrKey& a_cM)
 {
 }
 
-VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) noexcept
+VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) CPPUTILS_NOEXCEPT
 	:
 	key(a_shouldDelete ? __private::__implementation::GenerateDataBasedOnData(a_cM.key, a_cM.keyLen) : a_cM.key),
 	keyLen(a_cM.keyLen),
@@ -66,7 +66,7 @@ VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) noexcept
 }
 
 #ifdef CPPUTILS_CPP_11_DEFINED
-VoidPtrKey::VoidPtrKey(VoidPtrKey&& a_cM,bool a_shouldDelete) noexcept
+VoidPtrKey::VoidPtrKey(VoidPtrKey&& a_cM,bool a_shouldDelete) CPPUTILS_NOEXCEPT
 	:
 	  VoidPtrKey(a_cM,1, a_shouldDelete)
 {

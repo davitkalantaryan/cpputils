@@ -117,9 +117,11 @@
 #endif
 
 #ifdef CPPUTILS_CPP_11_DEFINED
+#define CPPUTILS_NOEXCEPT	noexcept
 #define CPPUTILS_NULL		nullptr
 #define CPPUTILS_OVERRIDE	override
 #else
+#define CPPUTILS_NOEXCEPT	throw()
 #define CPPUTILS_NULL		NULL 
 #define CPPUTILS_OVERRIDE
 #endif
