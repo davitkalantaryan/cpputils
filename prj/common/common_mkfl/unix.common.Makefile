@@ -53,12 +53,13 @@ else
 	nameExtension=
 endif
 
-EMFLAGS=$(COMMON_FLAGS) -isystem cpp/_system -Os
+EMFLAGS+=$(COMMON_FLAGS) -isystem cpp/_system -Os
 EMFLAGS+=-s ASSERTIONS=1 -s ENVIRONMENT=web -s EXPORT_ES6=1
 EMFLAGS+=-s MODULARIZE=1 -s USE_ES6_IMPORT_META=0
 EMFLAGS+=-s DISABLE_EXCEPTION_CATCHING=0
 EMFLAGS+=-s ALLOW_MEMORY_GROWTH=1
 #EMFLAGS+=-s USE_BOOST_HEADERS=1
+#EMFLAGS+=-fexceptions
 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : %.cc
 	mkdir -p $(dir $@)
