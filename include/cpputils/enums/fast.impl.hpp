@@ -48,6 +48,7 @@ template <typename integralType, int numOfFields, int unqiueNumber>
 BaseFast<integralType,numOfFields,unqiueNumber>::Data::~Data()
 {
 	CCharPtr* pTmpBuffer = const_cast<CCharPtr*>(m_names);
+    m_names = CPPUTILS_NULL;
 	free(pTmpBuffer);
 }
 
