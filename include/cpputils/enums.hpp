@@ -12,12 +12,12 @@
 
 #include <cpputils_internal_header.h>
 #include <cpputils/enums/fast.hpp>
-#include <cpputils/enums/full.hpp>
-#include <cpputils/enums/fullslow.hpp>
+//#include <cpputils/enums/full.hpp>
+//#include <cpputils/enums/fullslow.hpp>
 
 
-#define CPPUTILS_ENUM_RAW	CPPUTILS_ENUM_FULL_RAW
-#define CPPUTILS_ENUM		CPPUTILS_ENUM_FULL
+#define CPPUTILS_ENUM_RAW	CPPUTILS_ENUM_FAST_RAW
+#define CPPUTILS_ENUM		CPPUTILS_ENUM_FAST
 
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_HPP

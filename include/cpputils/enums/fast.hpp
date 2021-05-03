@@ -11,11 +11,17 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_HPP
 
 #include <cpputils_internal_header.h>
-#include <cpputils/enums/base.hpp>
 #include <cpputils/macroses.h>
 #include <stddef.h>
 #include <stdarg.h>
 
+#ifndef CPPUTILS_ENUM_TYPED
+#if CPPUTILS_CPP_11_DEFINED
+#define CPPUTILS_ENUM_TYPED(_Name,_integralType,...)	enum _Name : _integralType { __VA_ARGS__ }
+#else
+#define CPPUTILS_ENUM_TYPED(_Name,_integralType,...)	enum _Name { __VA_ARGS__ }
+#endif
+#endif
 
 
 namespace cpputils { namespace enums{

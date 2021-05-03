@@ -7,6 +7,23 @@
 #include <cpputils/enums.hpp>
 #include <iostream>
 
+#ifndef CPPUTILS_ENUM_FULL
+#define CPPUTILS_ENUM_FULL	CPPUTILS_ENUM
+#endif
+
+#ifndef CPPUTILS_ENUM_FULL_RAW
+#define CPPUTILS_ENUM_FULL_RAW	CPPUTILS_ENUM_RAW
+#endif
+
+
+#ifndef CPPUTILS_ENUM_FULLSLOW
+#define CPPUTILS_ENUM_FULLSLOW	CPPUTILS_ENUM
+#endif
+
+#ifndef CPPUTILS_ENUM_FULLSLOW_RAW
+#define CPPUTILS_ENUM_FULLSLOW_RAW	CPPUTILS_ENUM_RAW
+#endif
+
 CPPUTILS_ENUM(Enum1, int, Field1, Field2);
 CPPUTILS_ENUM_RAW(1,Enum2, int, Field1, Field2);
 

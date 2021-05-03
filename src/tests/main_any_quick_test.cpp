@@ -7,7 +7,7 @@
 #include <cpputils/endian.hpp>
 #include <cpputils/enums.hpp>
 #include <cpputils/enums/fast.hpp>
-#include <cpputils/enums/full.hpp>
+//#include <cpputils/enums/full.hpp>
 #include <cpputils/tls_data.hpp>
 #include <type_traits>
 #include <iostream>
@@ -290,7 +290,7 @@ int main()
 		Enum1 aBlue = Enum1::Blue;
 		std::cout << aBlue.toString() << std::endl;
 
-		CPPUTILS_ENUM_FULL(Enum2, int, Red, Blue);
+		//CPPUTILS_ENUM_FULL(Enum2, int, Red, Blue);
 	}
 	
 	{

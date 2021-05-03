@@ -190,7 +190,7 @@ Will be documented later
   
   
 ### macros CPPUTILS_ENUM01  
-Implementation is in the file [enums.hpp](include/cpputils/ens.hpp).  
+Implementation is in the file [enums.hpp](include/cpputils/enums.hpp).  
 For similar implementation look  
  1. https://github.com/aantron/better-enums  
  2. https://github.com/Neargye/magic_enum  
@@ -200,5 +200,7 @@ Cases when you will preffer to use this.
  2. In the case of better enum, there is no possibility to declare enum 
 inside class or inside function, because in the macros there is a declaration of namespaces.  
   
+  
 #### limitations  
-For now thiwl work only in the case if we sequential enumeration  
+For now this willl work only in the case if we sequential enumeration.  
+This means not possible to declare enum like `enum Type{a=1,b,c};` (not possible to use `=` in declaration).  
