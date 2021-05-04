@@ -421,8 +421,12 @@ cpputils::BigInt<NUM_QWORDS_DEGR> operator+(const NumType& a_lS, const cpputils:
 template <typename NumType, uint64_t NUM_QWORDS_DEGR>
 cpputils::BigInt<NUM_QWORDS_DEGR> operator-(const NumType& a_lS, const cpputils::BigInt<NUM_QWORDS_DEGR>& a_rS)
 {
-	cpputils::BigInt<NUM_QWORDS_DEGR> retInt(a_lS);
-	return  retInt.operator-=(a_rS);
+	cpputils::BigUInt<NUM_QWORDS_DEGR> retu;
+	const cpputils::BigInt<NUM_QWORDS_DEGR> lS0(a_lS);
+	const cpputils::BigUInt<NUM_QWORDS_DEGR> lS(lS0);
+	const cpputils::BigUInt<NUM_QWORDS_DEGR> rS( a_rS );
+	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorMinus(&retu, lS, rS);
+	return cpputils::BigInt<NUM_QWORDS_DEGR>(retu);
 }
 
 
