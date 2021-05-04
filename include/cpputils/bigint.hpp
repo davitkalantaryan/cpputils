@@ -9,9 +9,9 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_BIGINT_HPP
 
 #include <cpputils_internal_header.h>
-#include <stdint.h>
 #include <string>
 #include <ios>
+#include <stdint.h>
 
 namespace cpputils {
 
@@ -81,15 +81,16 @@ public:
 	::std::basic_string< CharType > to_string( ::std::ios_base::fmtflags fmt = ::std::ios_base::dec )const;
 	
 public:
-	static void OperatorPlus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorMinus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorDiv(BigUInt* remn, BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
-	static void OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
+	static void    OperatorPlus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorMinus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorDiv(BigUInt* remn, BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+	static void    OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
+	static void    OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
+	static BigUInt OperatorAnyIntLiteral(const ::std::string& a_n);
 	
 public:
 	uint64_t* buff();
@@ -146,6 +147,8 @@ public:
 
 	template <typename CharType>
 	::std::basic_string< CharType > to_string( ::std::ios_base::fmtflags fmt= ::std::ios_base::dec )const;
+public:
+	static BigInt OperatorAnyIntLiteral(const ::std::string& a_n);
 };
 
 

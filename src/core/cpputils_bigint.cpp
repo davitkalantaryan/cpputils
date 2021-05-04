@@ -11,8 +11,6 @@
 
 namespace __private { namespace __implementation {
 
-#define toDigit(__c) (static_cast<uint64_t>(__c)-static_cast<uint64_t>('0'))
-
 
 //void Dummy(void)
 //{
@@ -23,52 +21,17 @@ namespace __private { namespace __implementation {
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 
-template <typename AnyInt>
-static AnyInt OperatorAnyIntLiteral(const std::string& a_n)
-{
-	const size_t cunStrLen = a_n.length();
-	const char* cpcBuf = a_n.c_str();
-	bool bFirstDigitNotFound = true;
-	int isMinus = 0;
-	uint64_t nextDigit;
-	AnyInt retInt(0);
-
-	for(size_t i(0);i<cunStrLen;++i){
-
-		if(isdigit(cpcBuf[i])){
-			nextDigit = toDigit(cpcBuf[i]);
-			retInt *= 10;
-			retInt += nextDigit;
-			bFirstDigitNotFound = false;
-		}
-		else {
-			if (bFirstDigitNotFound) {
-				if (cpcBuf[i] == '-') { isMinus = ~isMinus; }
-			}
-			else {
-				break;
-			}
-		}
-	}
-
-	if(isMinus){
-		retInt *= AnyInt(-1);
-	}
-
-	return retInt;
-}
-
 template <uint64_t NUM_QWORDS_DEGR>
-static cpputils::BigInt<NUM_QWORDS_DEGR> OperatorBiLiteral(const std::string& a_n)
+static cpputils::BigInt<NUM_QWORDS_DEGR> OperatorBiLiteral(const ::std::string& a_n)
 {
-	return OperatorAnyIntLiteral< cpputils::BigInt<NUM_QWORDS_DEGR> >(a_n);
+	return ::cpputils::BigInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteral(a_n);
 }
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-static cpputils::BigUInt<NUM_QWORDS_DEGR> OperatorBuiLiteral(const std::string& a_n)
+static cpputils::BigUInt<NUM_QWORDS_DEGR> OperatorBuiLiteral(const ::std::string& a_n)
 {
-	return OperatorAnyIntLiteral< cpputils::BigUInt<NUM_QWORDS_DEGR> >(a_n);
+	return ::cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteral(a_n);
 }
 
 #endif  // #ifdef CPPUTILS_CPP_11_DEFINED
