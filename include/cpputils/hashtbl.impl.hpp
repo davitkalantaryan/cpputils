@@ -408,7 +408,8 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 																			 typename FuncF<KeyType,DataType>::Find a_fnc, void* a_clbkData)const
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItemToRet = 
-			BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,a_hashPtr);
+			static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(
+	            BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,a_hashPtr));
 
 	while (pItemToRet) {
 		if((a_key==pItemToRet->first)&&a_fnc(a_clbkData,pItemToRet->first,pItemToRet->second)){
