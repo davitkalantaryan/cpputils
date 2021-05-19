@@ -11,9 +11,13 @@
 #include "cpputils_internal_header.h"
 
 
+//#if defined(__GCC__)
+#include <endian.h>
+#define CPPUTILS_ENDIAN_COMPILETIME		1
+//#endif
 
-//#include <endian.h>
-//#define CPPUTILS_ENDIAN_COMPILETIME		1
+#ifndef CPPUTILS_ENDIAN_COMPILETIME
+#endif
 
 
 #endif  // #ifndef INCLUDE_CPPUTILS_ENDIAN_H
