@@ -72,12 +72,12 @@ void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::clear(
 	HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
 	
 	while(pItem){
+        m_pTable[pItem->hashValue]=CPPUTILS_NULL;
 		pItemNext = pItem->nextInTheList;
 		delete pItem;
 		pItem = pItemNext;
 	}
 	
-	memset(m_pTable,0,(m_unRoundedTableSizeMin1 + 1)*sizeof(HashItem*));
 	m_unSize = 0;
 	m_pLastItem = m_pFirstItem = CPPUTILS_NULL;
 }
