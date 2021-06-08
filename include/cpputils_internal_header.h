@@ -117,6 +117,7 @@
 #endif
 
 #ifdef CPPUTILS_CPP_11_DEFINED
+#define CPPUTILS_STD_MOVE_DEFINED   1
 #define CPPUTILS_NOEXCEPT	noexcept
 #define CPPUTILS_NULL		nullptr
 #define CPPUTILS_OVERRIDE	override

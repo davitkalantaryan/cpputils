@@ -18,6 +18,13 @@
 #include <memory.h>
 #include <new>
 
+#ifdef CPPUTILS_STD_MOVE_DEFINED
+#include <utility>
+#define CPPUTILS_STD_MOVE  ::std::move
+#else
+#define CPPUTILS_STD_MOVE(_val)     (_val)
+#endif
+
 
 
 namespace __private { namespace __implementation {
@@ -364,6 +371,20 @@ const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Has
 	return ReplaceWithOther(&a_cM);
 }
 #endif
+
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+bool Base<KeyType,DataType,Hash,templateDefaultSize>::RemoveEntry02(const KeyType& a_key,DataType* a_pData)
+{
+    __p::__i::HashItem<KeyType,DataType>* pItem = BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
+            FindEntry(a_key);
+    if(pItem){
+        *a_pData = CPPUTILS_STD_MOVE(pItem->second);
+        BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
+                RemoveEntry(pItem);
+        return true;
+    }
+    return false;
+}
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
 typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryEvenIfExists(const KeyType& a_key, const DataType& a_data)

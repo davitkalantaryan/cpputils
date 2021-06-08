@@ -85,6 +85,7 @@ public:
 	const Base& operator=(Base&& cM) CPPUTILS_NOEXCEPT;
 #endif
 	
+    bool            RemoveEntry02(const KeyType& key,DataType* a_pData);
 	iterator		AddEntryEvenIfExists(const KeyType& key, const DataType& data);
     iterator		AddEntryIfNotExist(const KeyType& key, const DataType& data);
 	iterator		AddOrReplaceEntry(const KeyType& key, const DataType& data);
@@ -232,7 +233,7 @@ using StrSet = Set< ::std::basic_string<CharType>,Hash,templateDefaultSize>;
 
 template <typename IntType,typename DataType,typename Hash=FHashInt<IntType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
 using IntHash = Base< IntType,DataType,Hash,templateDefaultSize >;
-template <typename IntType, typename Hash=FHashInt<IntType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE >
+template <typename IntType, size_t templateDefaultSize=DEFAULT_TABLE_SIZE, typename Hash=FHashInt<IntType> >
 using IntSet = Set< IntType,Hash,templateDefaultSize>;
 
 
