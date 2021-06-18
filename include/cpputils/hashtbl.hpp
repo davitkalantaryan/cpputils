@@ -83,6 +83,8 @@ public:
 	const Base& ReplaceWithOther(Base* cM) CPPUTILS_NOEXCEPT;
 #ifdef CPPUTILS_CPP_11_DEFINED
 	const Base& operator=(Base&& cM) CPPUTILS_NOEXCEPT;
+
+    iterator		AddEntryIfNotExistMv(const KeyType& key, DataType&& data);
 #endif
 	
     bool            RemoveEntry02(const KeyType& key,DataType* a_pData);

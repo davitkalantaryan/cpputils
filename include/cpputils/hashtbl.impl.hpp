@@ -343,6 +343,13 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base&& a_cM) CPPUTILS_NOEX
 	  Base(&a_cM)
 {
 }
+
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryIfNotExistMv(const KeyType& a_key, DataType&& a_data)
+{
+    return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
+            AddEntryIfNotExistRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
+}
 #endif
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
@@ -413,7 +420,6 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 	return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
 	        AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data),unHash);
 }
-
 
 
 
@@ -956,6 +962,16 @@ HashItem<KeyType,DataType>::HashItem(const KeyType& a_key, const DataType& a_dat
 	  second(a_data)
 {
 }
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+template <typename KeyType,typename DataType>
+HashItem<KeyType,DataType>::HashItem(const KeyType& a_key, DataType&& a_data)
+    :
+      first(a_key),
+      second(a_data)
+{
+}
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 
 template <typename KeyType,typename DataType>
 HashItem<KeyType,DataType>::~HashItem()

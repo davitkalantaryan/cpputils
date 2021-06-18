@@ -83,7 +83,10 @@ struct HashItem {
 	template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
 protected:
-	HashItem(const KeyType& key, const DataType& data);
+    HashItem(const KeyType& key, const DataType& data);
+#ifdef CPPUTILS_CPP_11_DEFINED
+    HashItem(const KeyType& key, DataType&& data);
+#endif
 	virtual ~HashItem();
 public:
 	const KeyType first; DataType second;
