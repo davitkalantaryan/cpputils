@@ -350,6 +350,28 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
     return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
             AddEntryIfNotExistRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data) );
 }
+
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntryMv(const KeyType& a_key, DataType&& a_data)
+{
+    __p::__i::HashItem<KeyType,DataType>* pItem;
+    size_t unHash;
+    if((pItem=BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,&unHash))){
+        pItem->second = a_data;
+        return pItem; // we can overwrite
+    }
+
+    return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
+            AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data),unHash);
+}
+
+
+template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryWithKnownHashMv(const KeyType& a_key, DataType&& a_data,size_t a_hashVal)
+{
+    return BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
+            AddEntryWithKnownHashRaw( __p::__i::HashItem<KeyType,DataType>(a_key,a_data),a_hashVal );
+}
 #endif
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>

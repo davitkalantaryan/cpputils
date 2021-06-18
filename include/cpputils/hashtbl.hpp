@@ -85,6 +85,8 @@ public:
 	const Base& operator=(Base&& cM) CPPUTILS_NOEXCEPT;
 
     iterator		AddEntryIfNotExistMv(const KeyType& key, DataType&& data);
+    iterator		AddOrReplaceEntryMv(const KeyType& key, DataType&& data);
+    iterator		AddEntryWithKnownHashMv(const KeyType& key,DataType&& data, size_t a_hashVal);
 #endif
 	
     bool            RemoveEntry02(const KeyType& key,DataType* a_pData);
