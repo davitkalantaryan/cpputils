@@ -33,20 +33,37 @@ ifdef LINK_IN_USE
 else
 	LINK = $(DEFAULT_LINK)
 endif
+
+# android configuration
+# Android arch
+ifndef ANDROID_ABI
+	ANDROID_ABI	= armeabi-v7a
+endif
+# Android target depends on arch (-target option argument)
+ifndef ANDROID_TARGET
+	ifeq ($(ANDROID_ABI),armeabi-v7a)
+		ANDROID_TARGET = armv7a-linux-androideabi21
+	else ifeq ($(ANDROID_ABI),arm64-v8a)
+		ANDROID_TARGET = aarch64-linux-android23
+	endif
+endif
+# Android NDK root
 ifndef ANDROID_NDK_BIN
 	ANDROID_NDK_BIN = ~/Android/Sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/linux-x86_64/bin
 endif
+# Android cxx compiler
 ifndef ANDROID_CXX
 	ANDROID_CXX = $(ANDROID_NDK_BIN)/clang++
 endif
+# Android ar
 ifndef ANDROID_AR
 	ANDROID_AR = $(ANDROID_NDK_BIN)/llvm-ar
 endif
-ifndef ANDROID_TARGET
-	ANDROID_TARGET = armv7a-linux-androideabi21
-endif
+# android arch option (-marm for armeabi-v7a)
 ifndef ANDROID_ARCH
-	ANDROID_ARCH = -marm
+	ifeq ($(ANDROID_ABI),armeabi-v7a)
+		ANDROID_ARCH = -marm
+	endif
 endif
 
 #EMXX=env CCACHE_CPP2=1 ccache em++
@@ -103,10 +120,10 @@ $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cpp.bc : %.cp
 	$(EMXX) -c $(EMFLAGS) -o $@ $<
 
 # android
-$(repoRootPath)/sys/android/$(Configuration)/.objects/$(targetName)/%.cc.ao : %.cc
+$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.cc.ao : %.cc
 	mkdir -p $(@D)
 	$(ANDROID_CXX) -c $(ANDROID_FLAGS) -o $@ $<
 
-$(repoRootPath)/sys/android/$(Configuration)/.objects/$(targetName)/%.cpp.ao : %.cpp
+$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.cpp.ao : %.cpp
 	mkdir -p $(@D)
 	$(ANDROID_CXX) -c $(ANDROID_FLAGS) -o $@ $<

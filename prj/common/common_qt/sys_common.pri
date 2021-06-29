@@ -55,8 +55,23 @@ win32 {
     contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 	#ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libcrypto.so
 	#ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libssl.so
-	CODENAME = android_armeabi_v7a
-	SYSTEM_PATH = sys/android_armeabi_v7a
+	CODENAME = android_armeabi-v7a
+	SYSTEM_PATH = sys/android_armeabi-v7a
+    }
+
+    # aarch64
+    #contains(ANDROID_TARGET_ARCH,aarch64) {
+	##ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libcrypto.so
+	##ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libssl.so
+	#CODENAME = android_aarch64
+	#SYSTEM_PATH = sys/android_aarch64
+    #}
+
+    contains(ANDROID_TARGET_ARCH,arm64-v8a) {
+	##ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libcrypto.so
+	##ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libssl.so
+	CODENAME = android_arm64-v8a
+	SYSTEM_PATH = sys/android_arm64-v8a
     }
 
     contains(ANDROID_TARGET_ARCH,x86) {
