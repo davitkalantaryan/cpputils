@@ -51,6 +51,22 @@ win32 {
 } else:android {
     CODENAME = android
     SYSTEM_PATH = sys/android
+
+    contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+	#ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libcrypto.so
+	#ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/armeabi-v7a/libssl.so
+	CODENAME = android_armeabi_v7a
+	SYSTEM_PATH = sys/android_armeabi_v7a
+    }
+
+    contains(ANDROID_TARGET_ARCH,x86) {
+	#ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/x86/libcrypto.so
+	#ANDROID_EXTRA_LIBS += $$PWD/../platform/android/openssl/x86/libssl.so
+	CODENAME = android_x86
+	SYSTEM_PATH = sys/android_x86
+    }
+
+
 } else:linux {
     DEFINES += LINUX
     CODENAME = $$system(lsb_release -c | cut -f 2)
