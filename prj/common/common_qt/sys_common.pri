@@ -81,13 +81,15 @@ win32 {
 
 CONFIGURATION=Profile
 nameExtension=
-Release|release:CONFIGURATION=Release
-Debug|debug{
+
+CONFIG(debug, debug|release) {
 	nameExtension=d
 	CONFIGURATION=Debug
+} else:CONFIG(release, debug|release) {
+	CONFIGURATION=Release
 }
 
-message("!!! sys_common.pri: SYSTEM_PATH=$${PRJ_PWD}/$${SYSTEM_PATH}")
+message("!!! sys_common.pri: SYSTEM_PATH/CONFIGURATION=$${PRJ_PWD}/$${SYSTEM_PATH}/$${CONFIGURATION}")
 
 # Debug:DESTDIR = debug1
 SYSTEM_PATH=$$SYSTEM_PATH/$$CONFIGURATION
