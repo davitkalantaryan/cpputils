@@ -37,25 +37,3 @@ CPPUTILS_EXPORT uint64_t le64toh(uint64_t a_little_endian_64bits)
 CPPUTILS_END_C
 
 #endif  // #ifndef CPPUTILS_ENDIAN_COMPILETIME
-
-
-//namespace __private { namespace __implementation {
-//}}  // namespace __private { namespace __implementation {
-//
-//
-//namespace cpputils {
-//
-//InScopeCleaner::InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData)
-//	:
-//	  m_func(a_func),
-//	  m_clbkData(a_pClbkData)
-//{
-//}
-//
-//
-//InScopeCleaner::~InScopeCleaner()
-//{
-//	m_func(m_clbkData);
-//}
-//
-//}  // namespace cpputils {
