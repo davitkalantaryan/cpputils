@@ -14,7 +14,7 @@
 
 
 //#if defined(__GCC__)
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__APPLE__)
 #ifndef _BSD_SOURCE
 #define _BSD_SOURCE
 #endif
