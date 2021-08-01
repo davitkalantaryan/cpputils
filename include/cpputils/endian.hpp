@@ -15,6 +15,9 @@
 
 //#if defined(__GCC__)
 #ifndef _MSC_VER
+#ifndef _BSD_SOURCE
+#define _BSD_SOURCE
+#endif
 #include <endian.h>
 #define CPPUTILS_ENDIAN_COMPILETIME		1
 #endif
