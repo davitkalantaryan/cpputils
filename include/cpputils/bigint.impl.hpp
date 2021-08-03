@@ -524,8 +524,15 @@ BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator=(const BigUInt& a_c
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
 BigUInt<NUM_QWORDS_DEGR>::operator NumType()const
-{	
+{
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning( disable : 4800 )
+#endif
 	return static_cast<NumType>(m_u.b64[0]);
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 }
 
 
@@ -1147,7 +1154,14 @@ template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
 BigInt<NUM_QWORDS_DEGR>::operator NumType()const
 {
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning( disable : 4800 )
+#endif
 	return static_cast<NumType>(static_cast<int64_t>(this->m_u.b64[0]));
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
