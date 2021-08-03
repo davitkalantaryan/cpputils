@@ -54,16 +54,19 @@ __setObjects:
 			call :iterate_over_files_in_dir !directoryName!
 		)
 
-		if not "!VSCMD_ARG_HOST_ARCH!"=="$(Platform)" (
-			echo "calling VsDevCmd in the !scriptDirectory!!scriptName!"
-			if /i "$(Platform)"=="x64" (
-				set PlatformTarget=amd64
-			) else (
-				set PlatformTarget=$(Platform)
-			)
-			call VsDevCmd -arch=!PlatformTarget!
+		rem settig environment for target platform if necessary
+		if /i "!VSCMD_ARG_TGT_ARCH!"=="$(Platform)" (
+			echo "vcvarsall already set to !Platform!"
 		) else (
-			echo "VsDevCmd already set to $(Platform)"
+			echo "calling vcvarsall in the !scriptDirectory!!scriptName!"
+			if /i "!Platform!"=="x86" (
+				set PlatformTarget=x86
+			) else (
+				set PlatformTarget=x86_!Platform!
+			)
+			cd /D "%VCINSTALLDIR%Auxiliary\Build"
+			call vcvarsall.bat !PlatformTarget!
+			cd /D "%repositoryRoot%"
 		)
 
 

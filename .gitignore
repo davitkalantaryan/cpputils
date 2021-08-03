@@ -33,7 +33,8 @@
 
 vc140.*
 
-
+/.vs
+/out
 /sys
 
 /build
