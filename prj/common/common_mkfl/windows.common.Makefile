@@ -66,7 +66,7 @@ __setObjects:
 			)
 			cd /D "%VCINSTALLDIR%Auxiliary\Build"
 			call vcvarsall.bat !PlatformTarget!
-			cd /D "%repositoryRoot%"
+			cd /D "%currentDirectory%"
 		)
 
 
