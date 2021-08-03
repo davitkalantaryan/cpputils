@@ -62,7 +62,7 @@ __setObjects:
 			if /i "!Platform!"=="x86" (
 				set PlatformTarget=x86
 			) else (
-				set PlatformTarget=x86_!Platform!
+				set PlatformTarget=x86_$(Platform)
 			)
 			cd /D "%VCINSTALLDIR%Auxiliary\Build"
 			call vcvarsall.bat !PlatformTarget!
