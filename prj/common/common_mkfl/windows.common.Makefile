@@ -6,17 +6,20 @@
 # This file can be only as include
 #
 
-# if 'nr-' specified before the name of directory, then this directory
-# scanned for sources not recursively
-
-#DirectoriesToCompile	= nr-.
-#DirectoriesToCompile	= $(DirectoriesToCompile) nr-atn
-#DirectoriesToCompile	= $(DirectoriesToCompile) dfa
-#DirectoriesToCompile	= $(DirectoriesToCompile) misc
-#DirectoriesToCompile	= $(DirectoriesToCompile) support
-#DirectoriesToCompile	= $(DirectoriesToCompile) tree
-#DirectoriesToCompile	= $(DirectoriesToCompile) tree\pattern
-#DirectoriesToCompile	= $(DirectoriesToCompile) tree\xpath
+!IFNDEF PDB_FILE_PATH
+PDB_FILE_PATH			= $(TargetDirectory)\$(TargetName).pdb
+!ENDIF
+CFLAGS					= $(CFLAGS) /bigobj /nologo
+!IF "$(Configuration)" == "Debug"
+CFLAGS					= $(CFLAGS) /MDd /Fd"$(PDB_FILE_PATH)"
+!ELSE
+CFLAGS					= $(CFLAGS) /MD
+!ENDIF
+CXXFLAGS				= $(CXXFLAGS) $(CFLAGS)
+CXXFLAGS				= $(CXXFLAGS) /JMC /permissive- /GS /W3 /Zc:wchar_t  /Zi /Gm- /Od /sdl- 
+CXXFLAGS				= $(CXXFLAGS) /Fd"$(PDB_FILE_PATH)"
+CXXFLAGS				= $(CXXFLAGS) /Zc:inline /fp:precise /errorReport:prompt /WX- /Zc:forScope /RTC1 /Gd 
+CXXFLAGS				= $(CXXFLAGS) /FC /EHsc /diagnostics:column
 
 .cpp.obj:
 	 @$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
@@ -30,6 +33,8 @@
 .c.obj:
 	@$(CC) /c   $(CFLAGS)   /Fo$(ObjectsDir)\$(@D)\ $*.c
 
+# if 'nr-' specified before the name of directory, then this directory
+# scanned for sources not recursively
 __setObjects:
 	@<<windows_nmake_makefile_setobjects.bat
 		@echo off
