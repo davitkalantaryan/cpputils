@@ -15,6 +15,21 @@ STATIC_LIB_EXTENSION	= a
 LIB_PREFIX	= lib
 TARGET_PATH_EXTRA	=
 
+isEmpty( cpputilsRepoRoot ) {
+	cpputilsRepoRoot += $${PWD}/../../..
+}
+
+defineReplace(cpputilsFindFilesRecursive){
+	returnVar =
+	findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles)) $$system_quote($$system_path($$1)) $$2)
+	for(var, $$list($${findFilesInit})) {
+		length = $$str_size($$var)
+		stripedVar = $$str_member($$var,1,$$num_add($$length, -2))
+		returnVar += $$stripedVar
+	}
+	return ($$returnVar)
+}
+
 contains( TEMPLATE, lib ) {
     TARGET_PATH=lib
     #message("Shared library creation")
