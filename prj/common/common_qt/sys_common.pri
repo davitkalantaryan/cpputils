@@ -20,14 +20,18 @@ isEmpty( cpputilsRepoRoot ) {
 }
 
 defineReplace(cpputilsFindFilesRecursive){
-	returnVar =
 	findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles)) $$system_quote($$system_path($$1)) $$2)
-	for(var, $$list($${findFilesInit})) {
-		length = $$str_size($$var)
-		stripedVar = $$str_member($$var,1,$$num_add($$length, -2))
-		returnVar += $$stripedVar
+	win32{
+		return ($$findFilesInit)
+	} else {
+		returnVar =
+		for(var, $$list($${findFilesInit})) {
+			length = $$str_size($$var)
+			stripedVar = $$str_member($$var,1,$$num_add($$length, -2))
+			returnVar += $$stripedVar
+		}
+		return ($$returnVar)
 	}
-	return ($$returnVar)
 }
 
 contains( TEMPLATE, lib ) {
