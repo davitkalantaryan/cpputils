@@ -1,8 +1,8 @@
 
 
 mkfile_path		=  $(abspath $(lastword $(MAKEFILE_LIST)))
-mkfile_dir		=  $(shell dirname $(mkfile_path))
-repoRootPathCppUtils	:= $(shell curDir=`pwd` && cd $(mkfile_dir)/../../.. && pwd && cd ${curDir})
+mkfile_dir		=  $(shell dirname "$(mkfile_path)")
+repoRootPathCppUtils	:= $(shell curDir=`pwd` && cd "$(mkfile_dir)/../../.." && pwd && cd "${curDir}")
 ifndef repoRootPath
 	repoRootPath	:= $(repoRootPathCppUtils)
 endif
@@ -108,28 +108,28 @@ ANDROID_FLAGS += -DANDROID
 ANDROID_FLAGS += $(ANDROID_ARCH)
 
 # host desktop
-$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : %.cc
+"$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)"/%.cc.o : %.cc
 	mkdir -p $(dir $@)
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
-$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cpp.o : %.cpp
-	mkdir -p $(@D)
+"$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)"/%.cpp.o : %.cpp
+	mkdir -p "$(@D)"
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
 # webassembly
-$(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cc.bc : %.cc
-	mkdir -p $(@D)
+"$(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)"/%.cc.bc : %.cc
+	mkdir -p "$(@D)"
 	$(EMXX) -c $(EMFLAGS) -o $@ $<
 
-$(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cpp.bc : %.cpp
+"$(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)"/%.cpp.bc : %.cpp
 	mkdir -p $(@D)
 	$(EMXX) -c $(EMFLAGS) -o $@ $<
 
 # android
-$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.cc.ao : %.cc
-	mkdir -p $(@D)
+"$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)"/%.cc.ao : %.cc
+	mkdir -p "$(@D)"
 	$(ANDROID_CXX) -c $(ANDROID_FLAGS) -o $@ $<
 
-$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.cpp.ao : %.cpp
-	mkdir -p $(@D)
+"$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)"/%.cpp.ao : %.cpp
+	mkdir -p "$(@D)"
 	$(ANDROID_CXX) -c $(ANDROID_FLAGS) -o $@ $<
