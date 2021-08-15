@@ -10,6 +10,7 @@ setlocal EnableDelayedExpansion
 
 
 set currentDirectory=%cd%
+set scriptDirectory=%~dp0
 
  rem todo: make proper evaluation of search pattern construction
 
@@ -25,9 +26,22 @@ rem echo ++++ patternToSearch = !patternToSearch!
 rem exit /b 0
 
 cd /D %1
-dir /s /b | findstr /i "!patternToSearch!"
+
+set "var="
+
+rem dir /s /b | findstr /i "!patternToSearch!"
+for /F "tokens=* USEBACKQ" %%F IN (`call !scriptDirectory!.raw\_windows_print_directory_content.bat !patternToSearch!`) do (
+	set var=!var! "%%F"
+)
+
+echo !var!
+
 cd /D %currentDirectory%
 
 exit /b 0
+
+:printDirectoryContent
+	dir /s /b | findstr /i "!patternToSearch!"
+	exit /b 0
 
 endlocal
