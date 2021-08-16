@@ -20,18 +20,17 @@ isEmpty( cpputilsRepoRoot ) {
 }
 
 defineReplace(cpputilsFindFilesRecursive){
-	findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles)) $$system_quote($$system_path($$1)) $$2)
-	win32{
-		return ($$findFilesInit)
-	} else {
-	returnVar =
-		for(var, $$list($${findFilesInit})) {
-			length = $$str_size($$var)
-			stripedVar = $$str_member($$var,1,$$num_add($$length, -2))
-			returnVar += $$stripedVar
-		}
-		return ($$returnVar)
-	}
+	# todo: we should switch to _sp scheme
+	#findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles_sp)) $$system_quote($$system_path($$1)) $$2)
+	#for(var, $$list($${findFilesInit})) {
+	#	length = $$str_size($$var)
+	#	stripedVar = $$str_member($$var,1,$$num_add($$length, -2))
+	#	returnVar += $$stripedVar
+	#}
+	#return ($$returnVar)
+	
+	findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles_no_sp)) $$system_quote($$system_path($$1)) $$2)
+	return ($$findFilesInit)	
 }
 
 contains( TEMPLATE, lib ) {
