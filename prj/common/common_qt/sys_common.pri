@@ -103,6 +103,7 @@ nameExtension=
 CONFIG(debug, debug|release) {
 	nameExtension=d
 	CONFIGURATION=Debug
+	DEFINES += CPPUTILS_DEBUG
 } else:CONFIG(release, debug|release) {
 	CONFIGURATION=Release
 }
