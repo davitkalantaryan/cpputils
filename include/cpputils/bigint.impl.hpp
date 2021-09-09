@@ -1346,7 +1346,7 @@ template <typename CharType>
 		retStr += ::cpputils::BigUInt<NUM_QWORDS_DEGR>(-::cpputils::BigInt<NUM_QWORDS_DEGR>(*this)).template to_string<CharType>(a_fmt);
 	}
 	else {
-		retStr =  reinterpret_cast<const cpputils::BigUInt<NUM_QWORDS_DEGR>*>(this)->template to_string<CharType>(a_fmt);
+		retStr =  static_cast<const cpputils::BigUInt<NUM_QWORDS_DEGR>*>(this)->template to_string<CharType>(a_fmt);
 	}
 
 	return retStr;

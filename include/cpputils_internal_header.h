@@ -11,6 +11,13 @@
 #include <stddef.h>
 
 #ifdef _MSC_VER
+	#define CPPUTILS_UNREACHABLE_CODE(_code)
+	//#if _MSC_FULL_VER
+	#if (_MSC_VER>1900) // 1900 is VS2015
+		#pragma warning (disable:5045)
+	#endif
+	// assignment within conditional expression (https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4706?view=msvc-160)
+	#pragma warning (disable:4706) 
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR
 	#if defined(_MSVC_LANG) && (_MSVC_LANG>=201100L)
 		#define CPPUTILS_CPP_11_DEFINED		1
@@ -26,6 +33,7 @@
     #define CPPUTILS_IMPORT_FROM_DLL	__declspec(dllimport)
 	#define CPPUTILS_THREAD_LOCAL		__declspec(thread)
 #elif defined(__GNUC__) || defined(__clang__)
+	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
 	#if defined(__cplusplus) && (__cplusplus>=201100L)
 		#define CPPUTILS_CPP_11_DEFINED		1
@@ -42,6 +50,7 @@
     #define CPPUTILS_IMPORT_FROM_DLL
 	#define CPPUTILS_THREAD_LOCAL		__thread
 #elif defined(__CYGWIN__)
+	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
 	#if defined(__cplusplus) && (__cplusplus>=201100L)
 		#define CPPUTILS_CPP_11_DEFINED		1
@@ -56,6 +65,7 @@
     #define CPPUTILS_DLL_PRIVATE
     #define CPPUTILS_IMPORT_FROM_DLL	__attribute__((dllimport))
 #elif defined(__MINGW64__) || defined(__MINGW32__)
+	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
 	#if defined(__cplusplus) && (__cplusplus>=201100L)
 		#define CPPUTILS_CPP_11_DEFINED		1
@@ -70,6 +80,7 @@
     #define CPPUTILS_DLL_PRIVATE
     #define CPPUTILS_IMPORT_FROM_DLL	_declspec(dllimport)
 #elif defined(__SUNPRO_CC)
+	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	// #define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ; // ???
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR
 	#if defined(__cplusplus) && (__cplusplus>=201100L)
