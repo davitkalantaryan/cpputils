@@ -124,6 +124,17 @@ SharedPtr<PtrType>& SharedPtr<PtrType>::operator=(SharedPtr&& a_cM)
 	return *this;
 }
 
+
+template <typename PtrType>
+PtrType* SharedPtr<PtrType>::get()const
+{
+    if(m_pCore){
+        return m_pCore->m_pData;
+    }
+
+    return CPPUTILS_NULL;
+}
+
 template <typename PtrType>
 PtrType* SharedPtr<PtrType>::operator ->()const
 {

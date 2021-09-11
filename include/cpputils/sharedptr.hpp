@@ -39,6 +39,7 @@ public:
 	
 	Core* GetCore();
 	int getReferences()const;
+    PtrType* get()const;
 	
 public:
 	struct Core{
