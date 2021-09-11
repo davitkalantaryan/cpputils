@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-static bool is_big_endian(void)
+static inline bool is_big_endian(void)
 {
     union {
         uint32_t i;

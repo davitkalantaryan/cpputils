@@ -18,6 +18,12 @@
 	#endif
 	// assignment within conditional expression (https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4706?view=msvc-160)
 	#pragma warning (disable:4706) 
+	// https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4711?view=msvc-160
+	#pragma warning (disable:4711)
+	// Function not inlined althou defined to be inline. 
+	// this can happen also with library functions, so this should be disabled
+	// https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4711?view=msvc-160
+	#pragma warning (disable:4710)
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR
 	#if defined(_MSVC_LANG) && (_MSVC_LANG>=201100L)
 		#define CPPUTILS_CPP_11_DEFINED		1

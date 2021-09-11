@@ -8,7 +8,7 @@
 #ifndef INCLUDE_CPPUTILS_ENDIAN_H
 #define INCLUDE_CPPUTILS_ENDIAN_H
 
-#include "cpputils_internal_header.h"
+#include <cpputils_internal_header.h>
 #include <stdbool.h>
 #include <stdint.h>
 
