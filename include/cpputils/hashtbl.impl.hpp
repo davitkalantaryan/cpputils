@@ -539,7 +539,7 @@ template <typename KeyType,typename DataType,typename Hash,size_t templateDefaul
 typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator++(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
-	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
+    typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator iterToRet(m_pItem);
 	m_pItem = pItem->nextInTheList;
 	return iterToRet;
 }
@@ -556,7 +556,7 @@ template <typename KeyType,typename DataType,typename Hash,size_t templateDefaul
 typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::operator--(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
-	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
+    typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator iterToRet(m_pItem);
 	m_pItem = pItem->prevInTheList;
 	return iterToRet;
 }
@@ -609,7 +609,7 @@ template <typename KeyType,typename DataType,typename Hash,size_t templateDefaul
 typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator++(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
-	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
+    typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator iterToRet(m_pItem);
 	m_pItem = pItem->nextInTheList;
 	return iterToRet;
 }
@@ -626,7 +626,7 @@ template <typename KeyType,typename DataType,typename Hash,size_t templateDefaul
 typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::operator--(int)
 {
 	__p::__i::HashItemFull<KeyType,DataType>* pItem = static_cast<__p::__i::HashItemFull<KeyType,DataType>*>(m_pItem);
-	typename Base<KeyType,DataType>::iterator iterToRet(m_pItem);
+    typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator iterToRet(m_pItem);
 	m_pItem = pItem->prevInTheList;
 	return iterToRet;
 }
