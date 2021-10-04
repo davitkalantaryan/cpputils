@@ -20,7 +20,6 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
-#include <iostream>
 #include <string.h>
 #include <math.h>
 //#include <cpputils_endian.h>
