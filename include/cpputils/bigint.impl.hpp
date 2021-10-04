@@ -19,7 +19,9 @@
 #include <stdint.h>
 #include <ostream>
 #include <sstream>
+#include <stdexcept>
 #include <string.h>
+#include <math.h>
 //#include <cpputils_endian.h>
 
 namespace __private { namespace __implementation {
@@ -472,11 +474,13 @@ BigUInt<NUM_QWORDS_DEGR>::BigUInt()
 {
 }
 
+
 template <uint64_t NUM_QWORDS_DEGR>
 BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigUInt& a_cM)
 {
 	memcpy(&m_u,&(a_cM.m_u), sizeof(m_u));
 }
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
@@ -1035,8 +1039,32 @@ const uint64_t* BigUInt<NUM_QWORDS_DEGR>::buff()const
 	return m_u.b64;
 }
 
-#define cpputils_toDigit(__c) (static_cast<uint64_t>(__c)-static_cast<uint64_t>('0'))
 
+template <uint64_t NUM_QWORDS_DEGR>
+BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::DoubleToBigUInt(double a_lfValue)
+{
+    if(a_lfValue<0.0){
+        throw ::std::invalid_argument("negative double is not possible to convert to big unsigned int");
+    }
+
+    static const BigUInt<NUM_QWORDS_DEGR> scBigUInt10(uint64_t(10));
+    BigUInt<NUM_QWORDS_DEGR> retValue(uint64_t(0));
+    uint64_t nextDigit;
+    double lfTmpValue;
+
+    modf(a_lfValue,&a_lfValue);
+
+    while(a_lfValue>1.0){
+        lfTmpValue = a_lfValue / 10.;
+        nextDigit = static_cast<uint64_t>(10.0*modf(lfTmpValue,&a_lfValue)+0.5);
+        retValue = scBigUInt10*retValue + nextDigit;
+    }
+
+    return retValue;
+}
+
+
+#define cpputils_toDigit(__c) (static_cast<uint64_t>(__c)-static_cast<uint64_t>('0'))
 template <uint64_t NUM_QWORDS_DEGR>
 BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteral(const ::std::string& a_n)
 {
@@ -1083,6 +1111,7 @@ BigInt<NUM_QWORDS_DEGR>::BigInt(const BigInt& a_cM)
       BigUInt<NUM_QWORDS_DEGR>(a_cM)
 {
 }
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
@@ -1350,6 +1379,18 @@ template <typename CharType>
 	}
 
 	return retStr;
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+BigInt<NUM_QWORDS_DEGR> BigInt<NUM_QWORDS_DEGR>::DoubleToBigInt(double a_lfValue)
+{
+    if(a_lfValue<0.0){
+        a_lfValue = -a_lfValue;
+        return -BigInt<NUM_QWORDS_DEGR>(BigUInt<NUM_QWORDS_DEGR>::DoubleToBigUInt(a_lfValue));
+    }
+
+    return BigInt<NUM_QWORDS_DEGR>(BigUInt<NUM_QWORDS_DEGR>::DoubleToBigUInt(a_lfValue));
 }
 
 

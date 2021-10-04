@@ -30,7 +30,7 @@ public:
 	static const uint64_t	s_numberOfDwords;
 public:
 	BigUInt();
-	BigUInt(const BigUInt& cM);
+    BigUInt(const BigUInt& cM);
 	template <typename NumType>  // any type, that is possible to convert to uint64_t
 	BigUInt(const NumType& val);
 	BigUInt(const BigInt<NUM_QWORDS_DEGR>& cM);
@@ -91,6 +91,7 @@ public:
 	static void    OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static void    OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static BigUInt OperatorAnyIntLiteral(const ::std::string& a_n);
+    static BigUInt DoubleToBigUInt(double lfValue);
 	
 public:
 	uint64_t* buff();
@@ -149,6 +150,7 @@ public:
 	::std::basic_string< CharType > to_string( ::std::ios_base::fmtflags fmt= ::std::ios_base::dec )const;
 public:
 	static BigInt OperatorAnyIntLiteral(const ::std::string& a_n);
+    static BigInt DoubleToBigInt(double lfValue);
 };
 
 
