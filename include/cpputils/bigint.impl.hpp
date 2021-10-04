@@ -20,6 +20,7 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 #include <string.h>
 #include <math.h>
 //#include <cpputils_endian.h>
@@ -535,7 +536,7 @@ BigUInt<NUM_QWORDS_DEGR>::operator NumType()const
 #pragma warning(push)
 #pragma warning( disable : 4800 )
 #endif
-	return static_cast<NumType>(m_u.b64[0]);
+    return static_cast<NumType>(m_u.b64[0]);
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -806,28 +807,29 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorMinus(BigUInt* a_res, const BigUInt& a_lS
 template <uint64_t NUM_QWORDS_DEGR>
 void BigUInt<NUM_QWORDS_DEGR>::OperatorMult(BigUInt* a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
-	__private::__implementation::DataU tmpSingleMult;
-	BigUInt tmpMult;
-	uint64_t j,ind, lsTmp, rsTmp;
-	uint32_t tmpSingleMultPrev;
-	
-	memset(&(a_res->m_u),0,sizeof (a_res->m_u));
-	
-	for (uint64_t i(0); i < s_numberOfDwords; ++i) {
-		rsTmp = static_cast<uint64_t>(a_rS.m_u.b32[i]);
-		memset(&(tmpMult.m_u),0,sizeof (tmpMult.m_u));
-		tmpSingleMultPrev = 0;
-		for(j=i;j<s_numberOfDwords;++j){
-			ind = j-i;
-			lsTmp = static_cast<uint64_t>(a_lS.m_u.b32[ind]);
-			tmpSingleMult.d64 = lsTmp * rsTmp;
-			tmpMult.m_u.b32[j] = tmpSingleMult.d32[0] + tmpSingleMultPrev;
-			tmpSingleMultPrev = tmpSingleMult.d32[1];
-		}
-		
-		(*a_res) += tmpMult;
-		
-	}
+    __private::__implementation::DataU tmpSingleMult;
+    BigUInt tmpMult, tmpRet;
+    uint64_t j,lsTmp,rsTmp;
+    uint32_t tmpSingleMultPrev;
+
+    memset(&(a_res->m_u),0,sizeof (a_res->m_u));
+
+    for (uint64_t i(0); i < s_numberOfDwords; ++i) {
+        rsTmp = static_cast<uint64_t>(a_rS.m_u.b32[i]);
+        if(rsTmp){
+            memset(&(tmpMult.m_u),0,sizeof (tmpMult.m_u));
+            tmpSingleMultPrev = 0;
+            for(j=i;j<s_numberOfDwords;++j){
+                lsTmp = static_cast<uint64_t>(a_lS.m_u.b32[j-i]);
+                tmpSingleMult.d64 = lsTmp * rsTmp;
+                tmpMult.m_u.b32[j] = tmpSingleMult.d32[0] + tmpSingleMultPrev;
+                tmpSingleMultPrev = tmpSingleMult.d32[1];
+            }
+
+            OperatorPlus(&tmpRet,*a_res,tmpMult);
+            *a_res = tmpRet;
+        }  // if(rsTmp){
+    }
 }
 
 
@@ -843,30 +845,31 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorDiv(BigUInt* a_remn, BigUInt* a_res, cons
 	
 	//uint64_t shiftCount = s_numberOfQwords * sizeof(uint64_t) * 8 - 1;
     static CPPUTILS_CONSTEXPR uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
-	BigUInt takenValueIn;
-	BigUInt aMask;
+    const BigUInt buintTwo(uint64_t(2));
+    BigUInt aMask, tmpVal;
+    uint64_t i;
 
-	for(uint64_t i(0);i<s_lastIndexInBuff;++i){aMask.m_u.b64[i] = 0;}
+    for(i=0;i<s_lastIndexInBuff;++i){aMask.m_u.b64[i] = 0;}
 	aMask.m_u.b64[s_lastIndexInBuff] = MASK_SIGN_BIT;
 
-	*a_remn = 0;
-	*a_res = 0;
+    memset(&(a_res->m_u),0,sizeof (a_res->m_u));
+    memset(&(a_remn->m_u),0,sizeof (a_remn->m_u));
 
-	for (uint64_t i(0);i< numberOfBits;++i) {
-		OperatorBtwAnd(&takenValueIn, a_lS, aMask);
-		//OperatorRightShift(&takenValueFn, takenValueIn, shiftCount);
-		(*a_remn) *= 2;
-		//(*a_remn) += takenValueFn;
-		if (takenValueIn.isNotZero()) {
-			++(*a_remn);
-		}
-		*a_res *= 2;
-		if ((*a_remn) >= a_rS) {
-			++(*a_res);
-			(*a_remn) -= a_rS;
-		}
-
-		aMask >>= 1;
+    for (uint64_t i(0);i< numberOfBits;++i) {
+        OperatorMult(&tmpVal,*a_res,buintTwo);
+        (*a_res) = tmpVal;
+        OperatorMult(&tmpVal,*a_remn,buintTwo);
+        (*a_remn) = tmpVal;
+        if(OperatorBtwAnyMatch(a_lS, aMask)){
+            ++(*a_remn);
+        }
+        if((*a_remn)>=a_rS){
+            ++(*a_res);
+            OperatorMinus(&tmpVal,*a_remn,a_rS);
+            *a_remn = tmpVal;
+        }
+        //aMask >>= 1;
+        RightShiftByOneBit(&aMask);
 	}	
 }
 
@@ -876,6 +879,16 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorBtwAnd(BigUInt* a_res, const BigUInt& a_l
 	for(uint64_t i(0);i<s_numberOfQwords;++i){
 		a_res->m_u.b64[i] = a_lS.m_u.b64[i] & a_rS.m_u.b64[i];
 	}
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+bool BigUInt<NUM_QWORDS_DEGR>::OperatorBtwAnyMatch(const BigUInt& a_lS, const BigUInt& a_rS)
+{
+    for(uint64_t i(0);i<s_numberOfQwords;++i){
+        if(a_lS.m_u.b64[i] & a_rS.m_u.b64[i]){return true;}
+    }
+    return false;
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -894,42 +907,63 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorBtwXor(BigUInt* a_res, const BigUInt& a_l
 	}
 }
 
+
+template <uint64_t NUM_QWORDS_DEGR>
+void BigUInt<NUM_QWORDS_DEGR>::RightShiftByOneBit(BigUInt* a_inOut)
+{
+    uint64_t transferBits = 0, singleRes;
+
+    for (uint64_t i(s_lastIndexInBuff);; --i) {
+        singleRes = (a_inOut->m_u.b64[i] >> 1) | (transferBits << 63);
+        transferBits = a_inOut->m_u.b64[i] & 0x1;
+        a_inOut->m_u.b64[i] = singleRes;
+        if(i==0){break;}
+    }
+}
+
+
 template <uint64_t NUM_QWORDS_DEGR>
 void BigUInt<NUM_QWORDS_DEGR>::OperatorRightShift(BigUInt* a_res, const BigUInt& a_lS, uint64_t a_shiftCount)
 {
-	const uint64_t qwordShift = a_shiftCount / 64;
-	const uint64_t bitShift = a_shiftCount % 64;
-	uint64_t transferBits = 0, singleRes;
-	const uint64_t* pLs= a_lS.m_u.b64;
+    static CPPUTILS_CONSTEXPR uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
+    if(a_shiftCount>=numberOfBits){memset(&(a_res->m_u),0,sizeof (a_res->m_u));}
+    *a_res = a_lS;
+    for(uint64_t i(0); i<a_shiftCount;++i){
+        RightShiftByOneBit(*a_res);
+    }
 
-	if (qwordShift) {
-		if (qwordShift >= s_numberOfQwords) { *a_res = 0; return; }
-		//memmove(a_res->m_u.b64 + qwordShift, a_lS.m_u.b64, (s_numberOfQwords - qwordShift) * sizeof(uint64_t));
-		//memset(a_res->m_u.b64 + s_numberOfQwords - qwordShift, 0, qwordShift * sizeof(uint64_t));
-
-		const uint64_t maxFor(s_numberOfQwords - qwordShift);
-		for (uint64_t i(0);i<maxFor ; ++i) {
-			a_res->m_u.b64[i] = a_lS.m_u.b64[i + qwordShift];
-		}
-		for (uint64_t i(maxFor); i < s_numberOfQwords; ++i) {
-			a_res->m_u.b64[i] = 0;
-		}
-
-		pLs = a_res->m_u.b64;
-	}
-
-	if (!bitShift) { return; }
-
-	const uint64_t bitShiftInTransfer = 64 - bitShift;
-	const uint64_t transferMask = ~(MAX_VALUE_PER_QWORD << bitShift);
-
-	for (uint64_t i(s_lastIndexInBuff);; --i) {
-		singleRes = (pLs[i] >> bitShift) | (transferBits << bitShiftInTransfer);
-		transferBits = pLs[i] & transferMask;
-		a_res->m_u.b64[i] = singleRes;
-		if (!i) { break; }
-	}
+    //const uint64_t qwordShift = a_shiftCount / 64;
+    //const uint64_t* pLs (a_lS.m_u.b64);
+    //
+    //if (qwordShift) {
+    //	if (qwordShift >= s_numberOfQwords) { *a_res = 0; return; }
+    //	//memmove(a_res->m_u.b64 + qwordShift, a_lS.m_u.b64, (s_numberOfQwords - qwordShift) * sizeof(uint64_t));
+    //	//memset(a_res->m_u.b64 + s_numberOfQwords - qwordShift, 0, qwordShift * sizeof(uint64_t));
+    //
+    //    for (uint64_t i(0); i < qwordShift; ++i) {
+    //		a_res->m_u.b64[i] = 0;
+    //	}
+    //    for (uint64_t i(qwordShift);i<s_numberOfQwords ; ++i) {
+    //        a_res->m_u.b64[i] = a_lS.m_u.b64[i-qwordShift];
+    //    }
+    //
+    //    //pLs = a_res->m_u.b64;
+    //}
+    //
+    //const uint64_t bitShift = a_shiftCount % 64;
+    //if (!bitShift) { return; }
+    //
+    //uint64_t transferBits = 0, singleRes;
+    //const uint64_t bitShiftInTransfer = 64 - bitShift;
+    //const uint64_t transferMask = ~(MAX_VALUE_PER_QWORD << bitShift);
+    //
+    //for (uint64_t i(qwordShift);i<s_numberOfQwords; ++i) {
+    //	singleRes = (pLs[i] >> bitShift) | (transferBits << bitShiftInTransfer);
+    //	transferBits = pLs[i] & transferMask;
+    //	a_res->m_u.b64[i] = singleRes;
+    //}
 }
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 void BigUInt<NUM_QWORDS_DEGR>::OperatorLeftShift(BigUInt* a_res, const BigUInt& a_lS, uint64_t a_shiftCount)
@@ -1002,7 +1036,7 @@ template <typename CharType>
 		const cpputils::BigUInt<NUM_QWORDS_DEGR> bi10(10);
 		cpputils::BigUInt<NUM_QWORDS_DEGR> value(*this),valueIn, remn;
 
-		while (value) {
+        while (value.isNotZero()) {
 			std::basic_stringstream<CharType> osTmp;
 			valueIn = value;
 			remn.OperatorDiv(&remn, &value,valueIn, bi10);
@@ -1050,16 +1084,22 @@ BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::DoubleToBigUInt(double a_lfVa
     }
 
     static const BigUInt<NUM_QWORDS_DEGR> scBigUInt10(uint64_t(10));
-    BigUInt<NUM_QWORDS_DEGR> retValue(uint64_t(0));
+    BigUInt<NUM_QWORDS_DEGR> retValue(uint64_t(0)),retValueTmp;
     uint64_t nextDigit;
     double lfTmpValue;
+    BigUInt<NUM_QWORDS_DEGR> bigUIntMult(uint64_t(1)), bigUIntMultTmp;
+    BigUInt<NUM_QWORDS_DEGR> bigUIntSum;
 
     modf(a_lfValue,&a_lfValue);
 
     while(a_lfValue>1.0){
         lfTmpValue = a_lfValue / 10.;
         nextDigit = static_cast<uint64_t>(10.0*modf(lfTmpValue,&a_lfValue)+0.5);
-        retValue = scBigUInt10*retValue + nextDigit;
+        OperatorMult(&bigUIntSum,bigUIntMult,BigUInt<NUM_QWORDS_DEGR>(nextDigit));
+        OperatorPlus(&retValueTmp,bigUIntSum,retValue);
+        retValue = retValueTmp;
+        OperatorMult(&bigUIntMultTmp,scBigUInt10,bigUIntMult);
+        bigUIntMult = bigUIntMultTmp;
     }
 
     return retValue;

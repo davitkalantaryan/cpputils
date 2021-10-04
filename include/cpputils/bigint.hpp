@@ -48,8 +48,8 @@ public:
 	// we have below operator=
 	BigUInt& operator=(const BigUInt& val);
 	
-	template <typename NumType>  // any type, that is possible to convert to uint64_t
-	operator NumType()const;
+    template <typename NumType>  // any type, that is possible to convert to uint64_t
+    operator NumType()const;
 		
 	template <typename NumType>  // any type, that is possible to convert to BigUInt
 	BigUInt& operator+=(const NumType& a_rs);
@@ -90,8 +90,10 @@ public:
 	static void    OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorDiv(BigUInt* remn, BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    static bool    OperatorBtwAnyMatch(const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    static void    RightShiftByOneBit(BigUInt* inOut);
 	static void    OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static void    OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static BigUInt OperatorAnyIntLiteral(const ::std::string& a_n);
