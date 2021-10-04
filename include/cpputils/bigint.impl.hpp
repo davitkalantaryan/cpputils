@@ -458,12 +458,14 @@ cpputils::BigInt<NUM_QWORDS_DEGR> operator%(const NumType& a_lS, const cpputils:
 
 namespace cpputils { 
 
+#ifndef CPPUTILS_CPP_11_DEFINED
 template <uint64_t NUM_QWORDS_DEGR>
-const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords = 1<<NUM_QWORDS_DEGR;
+const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords = CPPUTILS_BINT_EXP_QW;
 template <uint64_t NUM_QWORDS_DEGR>
-const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_numberOfDwords = 1<<(NUM_QWORDS_DEGR+1);
+const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_numberOfDwords = CPPUTILS_BINT_EXP_DW;
 template <uint64_t NUM_QWORDS_DEGR>
-const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_lastIndexInBuff = BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords - 1;
+const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_lastIndexInBuff = CPPUTILS_BINT_EXP_IN;
+#endif // #ifndef CPPUTILS_CPP_11_DEFINED
 
 #define MAX_VALUE_PER_QWORD		0xffffffffffffffff
 //#define MASK_SIGN_BIT			0x8000000000000000
@@ -840,7 +842,7 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorDiv(BigUInt* a_remn, BigUInt* a_res, cons
 	}
 	
 	//uint64_t shiftCount = s_numberOfQwords * sizeof(uint64_t) * 8 - 1;
-	const uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
+    static CPPUTILS_CONSTEXPR uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
 	BigUInt takenValueIn;
 	BigUInt aMask;
 
