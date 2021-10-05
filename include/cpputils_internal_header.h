@@ -135,13 +135,17 @@
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 #define CPPUTILS_STD_MOVE_DEFINED   1
-#define CPPUTILS_NOEXCEPT	noexcept
-#define CPPUTILS_NULL		nullptr
-#define CPPUTILS_OVERRIDE	override
+#define CPPUTILS_NOEXCEPT           noexcept
+#define CPPUTILS_NULL               nullptr
+#define CPPUTILS_OVERRIDE           override
+#define CPPUTILS_CONSTEXPR          constexpr
+#define CPPUTILS_CONSTEXPR_EQ(_exp)	= (_exp)
 #else
 #define CPPUTILS_NOEXCEPT	throw()
 #define CPPUTILS_NULL		NULL 
 #define CPPUTILS_OVERRIDE
+#define CPPUTILS_CONSTEXPR	const
+#define CPPUTILS_CONSTEXPR_EQ(_exp)
 #endif
 
 #ifdef __cplusplus

@@ -19,15 +19,19 @@ namespace cpputils {
 template <uint64_t NUM_QWORDS_DEGR>
 class BigInt;
 
+#define CPPUTILS_BINT_EXPR_LAST_IND ((1<<NUM_QWORDS_DEGR)-1)
+#define CPPUTILS_BINT_EXPR_NUM_QW   (1<<NUM_QWORDS_DEGR)
+#define CPPUTILS_BINT_EXPR_NUM_DW   (1<<(NUM_QWORDS_DEGR+1))
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 class BigUInt
 {
 	static_assert (NUM_QWORDS_DEGR>0,"In the case if Number of QWORDS is 1 (degree==0), use uint64_t or int64_t instead");
 public:
-	static const uint64_t	s_lastIndexInBuff;
-	static const uint64_t	s_numberOfQwords;
-	static const uint64_t	s_numberOfDwords;
+    static CPPUTILS_CONSTEXPR uint64_t	s_lastIndexInBuff CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_LAST_IND);
+    static CPPUTILS_CONSTEXPR uint64_t	s_numberOfQwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_QW);
+    static CPPUTILS_CONSTEXPR uint64_t	s_numberOfDwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_DW);
 public:
 	BigUInt();
 	BigUInt(const BigUInt& cM);
