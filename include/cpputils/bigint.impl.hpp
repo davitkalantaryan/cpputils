@@ -465,6 +465,8 @@ template <uint64_t NUM_QWORDS_DEGR>
 const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_lastIndexInBuff = CPPUTILS_BINT_EXPR_LAST_IND;
 #endif
 
+#define CPPUTILS_MAX_VALUE_PER_DWORD		0xffffffff
+#define CPPUTILS_MAX_VALUE_PER_DWORD_MIN1   0xfffffffe
 #define CPPUTILS_MAX_VALUE_PER_QWORD		0xffffffffffffffff
 //#define CPPUTILS_MASK_SIGN_BIT			0x8000000000000000
 #define CPPUTILS_MASK_SIGN_BIT			(uint64_t(1)<<uint64_t(63))
@@ -539,7 +541,7 @@ BigUInt<NUM_QWORDS_DEGR>::operator NumType()const
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator++()
+const BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator++()
 {
 	for(uint64_t i(0); i<s_numberOfQwords;++i){
         if(m_u.b64[i]<CPPUTILS_MAX_VALUE_PER_QWORD){
@@ -561,7 +563,7 @@ BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::operator++(int)
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator--()
+const BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator--()
 {
 	for(uint64_t i(0); i<s_numberOfQwords;++i){
 		if(m_u.b64[i]>0){
@@ -581,6 +583,86 @@ BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::operator--(int)
 	this->operator--();
 	return valToRet;
 }
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+const BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator+=(const BigUInt& a_rS)
+{
+    __private::__implementation::DataU aData;
+    uint64_t ullnLs, ullnRs;
+    uint32_t ulnRemnant=0;
+
+    aData.d64 = 0;
+
+    for(uint64_t i(0);i<s_numberOfDwords;++i){
+        ullnLs = static_cast<uint64_t>(this->m_u.b32[i]);
+        ullnRs = static_cast<uint64_t>(a_rS.m_u.b32[i]);
+        aData.d64 = ullnLs+ullnRs+ulnRemnant;
+        this->m_u.b32[i] = aData.d32[0];
+        ulnRemnant = aData.d32[1];
+    }
+
+    return *this;
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+const BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator-=(const BigUInt& a_rS)
+{
+    BigUInt aLs(*this);
+    uint64_t llnLs, llnRs;
+    uint64_t j;
+    bool bExitLoop;
+
+    for (uint64_t i(0); i < s_numberOfDwords; ++i) {
+        llnLs = static_cast<uint64_t>(aLs.m_u.b32[i]);
+        llnRs = static_cast<uint64_t>(a_rS.m_u.b32[i]);
+        if(llnLs<llnRs){
+            llnLs += CPPUTILS_MAX_VALUE_PER_DWORD;
+            bExitLoop = true;
+            for(j=i+1;j<s_numberOfDwords;++j){
+                if(aLs.m_u.b32[j]){bExitLoop=false;--(aLs.m_u.b32[j]);}
+                aLs.m_u.b32[j]=CPPUTILS_MAX_VALUE_PER_DWORD_MIN1;
+            }
+            if(bExitLoop){break;}
+        }
+
+        this->m_u.b32[i] = llnLs-llnRs;
+    }
+
+    return *this;
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+const BigUInt<NUM_QWORDS_DEGR>& BigUInt<NUM_QWORDS_DEGR>::operator*=(const BigUInt& a_rS)
+{
+    __private::__implementation::DataU tmpSingleMult;
+    BigUInt tmpMult;
+    uint64_t j,ind, lsTmp, rsTmp;
+    uint32_t tmpSingleMultPrev;
+    const BigUInt thisConst(*this);
+
+    memset(&(m_u),0,sizeof (m_u));
+
+    for (uint64_t i(0); i < s_numberOfDwords; ++i) {
+        rsTmp = static_cast<uint64_t>(a_rS.m_u.b32[i]);
+        memset(&(tmpMult.m_u),0,sizeof (tmpMult.m_u));
+        tmpSingleMultPrev = 0;
+        for(j=i;j<s_numberOfDwords;++j){
+            ind = j-i;
+            lsTmp = static_cast<uint64_t>(thisConst.m_u.b32[ind]);
+            tmpSingleMult.d64 = lsTmp * rsTmp;
+            tmpMult.m_u.b32[j] = tmpSingleMult.d32[0] + tmpSingleMultPrev;
+            tmpSingleMultPrev = tmpSingleMult.d32[1];
+        }
+
+        (*this) += tmpMult;
+    }
+
+    return *this;
+}
+
 
 template <uint64_t NUM_QWORDS_DEGR>
 bool BigUInt<NUM_QWORDS_DEGR>::operator<(const BigUInt& a_rS)const

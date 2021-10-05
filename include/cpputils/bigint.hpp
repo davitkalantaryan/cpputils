@@ -51,10 +51,14 @@ public:
 	template <typename NumType>  // any type, that is possible to convert to uint64_t
 	operator NumType()const;
 
-	BigUInt& operator++();
-	BigUInt  operator++(int);
-	BigUInt& operator--();
-	BigUInt  operator--(int);
+    const BigUInt& operator++();
+    const BigUInt& operator--();
+    BigUInt  operator++(int);
+    BigUInt  operator--(int);
+
+    const BigUInt& operator+=(const BigUInt& rS);
+    const BigUInt& operator-=(const BigUInt& rS);
+    const BigUInt& operator*=(const BigUInt& rS);
 	
 	bool operator<(const BigUInt& rS)const;
 	bool operator>(const BigUInt& rS)const;
