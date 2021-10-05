@@ -42,21 +42,19 @@ public:
 	template <typename NumType>  // any type, that is possible to convert to uint64_t
 	BigUInt& operator=(const NumType& val);
 	
-	BigUInt& operator=(const BigInt<NUM_QWORDS_DEGR>& cM);
+    BigUInt& operator=(const BigInt<NUM_QWORDS_DEGR>& cM);
 	
 	// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
 	// we have below operator=
 	BigUInt& operator=(const BigUInt& val);
+
+    const BigUInt& operator+=(const BigUInt& a_Rs);
+    const BigUInt& operator-=(const BigUInt& a_Rs);
+    const BigUInt& operator*=(const BigUInt& a_Rs);
 	
     template <typename NumType>  // any type, that is possible to convert to uint64_t
     operator NumType()const;
 		
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator+=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator-=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator*=(const NumType& a_rs);
 	template <typename NumType>  // any type, that is possible to convert to BigUInt
 	BigUInt& operator/=(const NumType& a_rs);
 	template <typename NumType>  // any type, that is possible to convert to BigUInt
@@ -85,9 +83,9 @@ public:
 	::std::basic_string< CharType > to_string( ::std::ios_base::fmtflags fmt = ::std::ios_base::dec )const;
 	
 public:
-	static void    OperatorPlus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void    OperatorMinus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-	static void    OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    //static void    OperatorPlus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    //static void    OperatorMinus(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    static void    OperatorMult(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorDiv(BigUInt* remn, BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
     static bool    OperatorBtwAnyMatch(const BigUInt& ls, const BigUInt& rs);
