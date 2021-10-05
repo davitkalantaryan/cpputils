@@ -861,7 +861,7 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorDiv(BigUInt* a_remn, BigUInt* a_res, cons
 			(*a_remn) -= a_rS;
 		}
 
-		aMask >>= 1;
+        RightShiftByOneBit(&aMask);
 	}	
 }
 
@@ -889,41 +889,30 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorBtwXor(BigUInt* a_res, const BigUInt& a_l
 	}
 }
 
+
+template <uint64_t NUM_QWORDS_DEGR>
+void BigUInt<NUM_QWORDS_DEGR>::RightShiftByOneBit(BigUInt* a_inOut)
+{
+    uint64_t transferBits = 0, singleRes;
+
+    for (uint64_t i(s_lastIndexInBuff);; --i) {
+        singleRes = (a_inOut->m_u.b64[i] >> 1) | (transferBits << 63);
+        transferBits = a_inOut->m_u.b64[i] & 0x1;
+        a_inOut->m_u.b64[i] = singleRes;
+        if(i==0){break;}
+    }
+}
+
+
 template <uint64_t NUM_QWORDS_DEGR>
 void BigUInt<NUM_QWORDS_DEGR>::OperatorRightShift(BigUInt* a_res, const BigUInt& a_lS, uint64_t a_shiftCount)
 {
-	const uint64_t qwordShift = a_shiftCount / 64;
-	const uint64_t bitShift = a_shiftCount % 64;
-	uint64_t transferBits = 0, singleRes;
-	const uint64_t* pLs= a_lS.m_u.b64;
-
-	if (qwordShift) {
-		if (qwordShift >= s_numberOfQwords) { *a_res = 0; return; }
-		//memmove(a_res->m_u.b64 + qwordShift, a_lS.m_u.b64, (s_numberOfQwords - qwordShift) * sizeof(uint64_t));
-		//memset(a_res->m_u.b64 + s_numberOfQwords - qwordShift, 0, qwordShift * sizeof(uint64_t));
-
-		const uint64_t maxFor(s_numberOfQwords - qwordShift);
-		for (uint64_t i(0);i<maxFor ; ++i) {
-			a_res->m_u.b64[i] = a_lS.m_u.b64[i + qwordShift];
-		}
-		for (uint64_t i(maxFor); i < s_numberOfQwords; ++i) {
-			a_res->m_u.b64[i] = 0;
-		}
-
-		pLs = a_res->m_u.b64;
-	}
-
-	if (!bitShift) { return; }
-
-	const uint64_t bitShiftInTransfer = 64 - bitShift;
-    const uint64_t transferMask = ~(CPPUTILS_MAX_VALUE_PER_QWORD << bitShift);
-
-	for (uint64_t i(s_lastIndexInBuff);; --i) {
-		singleRes = (pLs[i] >> bitShift) | (transferBits << bitShiftInTransfer);
-		transferBits = pLs[i] & transferMask;
-		a_res->m_u.b64[i] = singleRes;
-		if (!i) { break; }
-	}
+    static CPPUTILS_CONSTEXPR uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
+    if(a_shiftCount>=numberOfBits){memset(&(a_res->m_u),0,sizeof (a_res->m_u));}
+    *a_res = a_lS;
+    for(uint64_t i(0); i<a_shiftCount;++i){
+        RightShiftByOneBit(*a_res);
+    }
 }
 
 template <uint64_t NUM_QWORDS_DEGR>

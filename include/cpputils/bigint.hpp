@@ -92,6 +92,7 @@ public:
 	static void    OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    static void    RightShiftByOneBit(BigUInt* inOut);
 	static void    OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static void    OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static BigUInt OperatorAnyIntLiteral(const ::std::string& a_n);
