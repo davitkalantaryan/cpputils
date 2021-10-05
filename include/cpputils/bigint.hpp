@@ -50,22 +50,7 @@ public:
 	
 	template <typename NumType>  // any type, that is possible to convert to uint64_t
 	operator NumType()const;
-		
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator+=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator-=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator*=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator/=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator%=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator<<=(const NumType& a_rs);
-	template <typename NumType>  // any type, that is possible to convert to BigUInt
-	BigUInt& operator>>=(const NumType& a_rs);
-	
+
 	BigUInt& operator++();
 	BigUInt  operator++(int);
 	BigUInt& operator--();
