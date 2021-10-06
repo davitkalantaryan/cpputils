@@ -45,9 +45,12 @@ public:
     static CPPUTILS_CONSTEXPR uint64_t	s_numberOfQwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_QW);
     static CPPUTILS_CONSTEXPR uint64_t	s_numberOfDwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_DW);
     static CPPUTILS_CONSTEXPR uint64_t  s_numberOfBits    CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_BITS);
-    static CPPUTILS_CONSTEXPR BigUInt	s_bint10  CPPUTILS_CONSTEXPR_EQ(BigUInt(10));
-    static CPPUTILS_CONSTEXPR BigUInt	s_bint2  CPPUTILS_CONSTEXPR_EQ(BigUInt(2));
-    static CPPUTILS_CONSTEXPR BigUInt	s_bint0  CPPUTILS_CONSTEXPR_EQ(BigUInt(0));
+    //static CPPUTILS_CONSTEXPR BigUInt	s_bint10  CPPUTILS_CONSTEXPR_EQ(BigUInt(10));
+    //static CPPUTILS_CONSTEXPR BigUInt	s_bint2  CPPUTILS_CONSTEXPR_EQ(BigUInt(2));
+    //static CPPUTILS_CONSTEXPR BigUInt	s_bint0  CPPUTILS_CONSTEXPR_EQ(BigUInt(0));
+    static CPPUTILS_CONSTEXPR BigUInt	s_bint10 ;
+    static CPPUTILS_CONSTEXPR BigUInt	s_bint2  ;
+    static CPPUTILS_CONSTEXPR BigUInt	s_bint0  ;
     static CPPUTILS_CONSTEXPR_DIV_MSK BigUInt	s_bintDivMaskIn;
 public:
 	BigUInt();
@@ -93,21 +96,21 @@ public:
 	bool isNotZero()const;
 
 	template <typename CharType>
-	::std::basic_string< CharType > to_string( ::std::ios_base::fmtflags fmt = ::std::ios_base::dec )const;
+    ::std::basic_string< CharType > to_stringU( ::std::ios_base::fmtflags fmt = ::std::ios_base::dec )const;
 	
 public:
     static inline bool    HasAnyCommonBit(const BigUInt& ls, const BigUInt& rs);
     static inline void    OperatorPlus(BigUInt* CPPUTILS_MAY_ALIAS res, const BigUInt& ls, const BigUInt& rs);
     static inline void    OperatorMinus(BigUInt* CPPUTILS_MAY_ALIAS res, const BigUInt& ls, const BigUInt& rs);
-    static inline void    OperatorMult(BigUInt* CPPUTILS_RESTRICT res, const BigUInt& ls, const BigUInt& rs);
-    static inline void    OperatorDiv(BigUInt* CPPUTILS_RESTRICT remn, BigUInt* CPPUTILS_RESTRICT res, const BigUInt& ls, const BigUInt& rs);
+    static inline void    OperatorMultU(BigUInt* CPPUTILS_RESTRICT res, const BigUInt& ls, const BigUInt& rs);
+    static inline void    OperatorDivU(BigUInt* CPPUTILS_RESTRICT remn, BigUInt* CPPUTILS_RESTRICT res, const BigUInt& ls, const BigUInt& rs);
     static void    OperatorBtwAnd2(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
     static void    RightShiftByOneBit(BigUInt* inOut);
 	static void    OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static void    OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
-	static BigUInt OperatorAnyIntLiteral(const ::std::string& a_n);
+    static BigUInt OperatorAnyIntLiteralU(const ::std::string& a_n);
 	
 public:
 	uint64_t* buff();
@@ -161,9 +164,18 @@ public:
 	uint64_t isMinus()const;
 
 	template <typename CharType>
-	::std::basic_string< CharType > to_string( ::std::ios_base::fmtflags fmt= ::std::ios_base::dec )const;
+    ::std::basic_string< CharType > to_stringS( ::std::ios_base::fmtflags fmt= ::std::ios_base::dec )const;
 public:
-	static BigInt OperatorAnyIntLiteral(const ::std::string& a_n);
+    static inline void    OperatorMultS(BigInt* CPPUTILS_RESTRICT res, const BigInt& ls, const BigInt& rs);
+    static inline void    OperatorDivS(BigInt* CPPUTILS_RESTRICT remn, BigInt* CPPUTILS_RESTRICT res, const BigInt& ls, const BigInt& rs);
+    static BigInt OperatorAnyIntLiteralS(const ::std::string& a_n);
+
+private:
+    template <typename CharType>
+    ::std::basic_string< CharType > to_stringU( ::std::ios_base::fmtflags = ::std::ios_base::dec )const CPPUTILS_DELETE
+    static inline void    OperatorMultU(BigInt* CPPUTILS_RESTRICT , const BigInt& , const BigInt& ) CPPUTILS_DELETE
+    static inline void    OperatorDivU(BigInt* CPPUTILS_RESTRICT , BigInt* CPPUTILS_RESTRICT , const BigInt& , const BigInt& ) CPPUTILS_DELETE
+    static BigInt OperatorAnyIntLiteralU(const ::std::string& ) CPPUTILS_DELETE
 };
 
 

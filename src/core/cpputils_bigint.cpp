@@ -24,14 +24,14 @@ namespace __private { namespace __implementation {
 template <uint64_t NUM_QWORDS_DEGR>
 static cpputils::BigInt<NUM_QWORDS_DEGR> OperatorBiLiteral(const ::std::string& a_n)
 {
-	return ::cpputils::BigInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteral(a_n);
+    return ::cpputils::BigInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralS(a_n);
 }
 
 
 template <uint64_t NUM_QWORDS_DEGR>
 static cpputils::BigUInt<NUM_QWORDS_DEGR> OperatorBuiLiteral(const ::std::string& a_n)
 {
-	return ::cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteral(a_n);
+    return ::cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralU(a_n);
 }
 
 #endif  // #ifdef CPPUTILS_CPP_11_DEFINED

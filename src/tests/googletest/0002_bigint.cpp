@@ -71,13 +71,13 @@ TEST(f_0002_bigint, t0002_test_arithmetic)
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 	cpputils::BigInt<2> bi1 = 1000000000000000000000000000000_bi02; // 10^30
-	ASSERT_EQ(bi1.to_string<char>(), std::string("1000000000000000000000000000000"));  
+    ASSERT_EQ(bi1.to_stringS<char>(), std::string("1000000000000000000000000000000"));
 
 	bi1 /= 100;  // 10^28
-	ASSERT_EQ(bi1.to_string<char>(), std::string("10000000000000000000000000000"));
+    ASSERT_EQ(bi1.to_stringS<char>(), std::string("10000000000000000000000000000"));
 
 	bi1 /= 100000000000000000000_bi02; // we divide to 10^20, so remains 10^8
-	ASSERT_EQ(bi1.to_string<char>(), std::string("100000000"));
+    ASSERT_EQ(bi1.to_stringS<char>(), std::string("100000000"));
 
 #endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 }

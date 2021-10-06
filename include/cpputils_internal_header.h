@@ -149,9 +149,12 @@
 #define CPPUTILS_NOEXCEPT           noexcept
 #define CPPUTILS_NULL               nullptr
 #define CPPUTILS_OVERRIDE           override
-#define CPPUTILS_CONSTEXPR          constexpr
-#define CPPUTILS_CONSTEXPR_CONS     constexpr
+//#define CPPUTILS_CONSTEXPR          constexpr
+//#define CPPUTILS_CONSTEXPR_CONS     constexpr
+#define CPPUTILS_CONSTEXPR          const
+#define CPPUTILS_CONSTEXPR_CONS
 #define CPPUTILS_CONSTEXPR_EQ(_exp)	= (_exp)
+#define CPPUTILS_DELETE             =delete;
 #else
 #define CPPUTILS_NOEXCEPT	throw()
 #define CPPUTILS_NULL		NULL 
@@ -159,6 +162,7 @@
 #define CPPUTILS_CONSTEXPR	const
 #define CPPUTILS_CONSTEXPR_CONS
 #define CPPUTILS_CONSTEXPR_EQ(_exp)
+#define CPPUTILS_DELETE   {}
 #endif
 
 #ifdef __cplusplus
