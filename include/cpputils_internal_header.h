@@ -39,6 +39,7 @@
     #define CPPUTILS_IMPORT_FROM_DLL	__declspec(dllimport)
 	#define CPPUTILS_THREAD_LOCAL		__declspec(thread)
 #elif defined(__GNUC__) || defined(__clang__)
+    #define CPPUTILS_MAY_ALIAS  __attribute__ ((__may_alias__))
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
 	#if defined(__cplusplus) && (__cplusplus>=201100L)
@@ -103,6 +104,16 @@
     #define CPPUTILS_IMPORT_FROM_DLL
 #endif  // #ifdef _MSC_VER
 
+//#undef CPPUTILS_CPP_11_DEFINED
+
+
+//#define CPPUTILS_RESTRICT   restrict
+#define CPPUTILS_RESTRICT
+
+#ifndef CPPUTILS_MAY_ALIAS
+#define CPPUTILS_MAY_ALIAS
+#endif
+
 #if defined(CPPUTILS_COMPILING_SHARED_LIB)
     #define CPPUTILS_EXPORT CPPUTILS_DLL_PUBLIC
 #elif defined(CPPUTILS_USING_STATIC_LIB_OR_OBJECTS)
@@ -139,12 +150,14 @@
 #define CPPUTILS_NULL               nullptr
 #define CPPUTILS_OVERRIDE           override
 #define CPPUTILS_CONSTEXPR          constexpr
+#define CPPUTILS_CONSTEXPR_CONS     constexpr
 #define CPPUTILS_CONSTEXPR_EQ(_exp)	= (_exp)
 #else
 #define CPPUTILS_NOEXCEPT	throw()
 #define CPPUTILS_NULL		NULL 
 #define CPPUTILS_OVERRIDE
 #define CPPUTILS_CONSTEXPR	const
+#define CPPUTILS_CONSTEXPR_CONS
 #define CPPUTILS_CONSTEXPR_EQ(_exp)
 #endif
 

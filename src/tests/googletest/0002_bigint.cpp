@@ -5,12 +5,16 @@
 
 #include "gtest/gtest.h"
 #include <cpputils/bigint.hpp>
+#include <stdio.h>
 
 template <uint64_t BiSize>
 static void TestBigInteger();
 
 TEST(f_0002_bigint, t0000_basic)
 {
+    //printf("press any key ken enter to continue");fflush(stdout);
+    //getchar();
+
 	cpputils::BigInt<1> a1(2);
 	
 	// let's declare very big integer
@@ -31,7 +35,23 @@ TEST(f_0002_bigint, t0000_basic)
 	
 	ASSERT_EQ(static_cast<int64_t>(a4/1000000000000000), 100000);
 
+
+    cpputils::BigInt<2> bi3(-4);
+    cpputils::BigInt<2> bi4(4);
+    cpputils::BigInt<2> bi5(2);
+    cpputils::BigInt<2> bi6(-2);
+
+    ASSERT_EQ(::std::to_string(bi4/bi5),::std::string("2"));
+    ASSERT_EQ(::std::to_string(-bi3),::std::string("4"));
+    ASSERT_EQ(::std::to_string(bi3*bi5),::std::string("-8"));
+    ASSERT_EQ(::std::to_string(bi3*bi6), ::std::string("8"));
+    ASSERT_EQ(::std::to_string(bi3/bi5),::std::string("-2"));
+    ASSERT_EQ(::std::to_string(bi3/bi6), ::std::string("2"));
+
+
 }
+
+
 
 TEST(f_0002_bigint, t0001_test_different_sizes)
 {
@@ -77,4 +97,5 @@ static void TestBigInteger()
 
 	cpputils::BigInt<BiSize> bi2 = 2000;
 	ASSERT_EQ(static_cast<int64_t>(bi1+2* bi2), 3999);
+
 }
