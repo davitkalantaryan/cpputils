@@ -60,7 +60,7 @@ public:
     CPPUTILS_CONSTEXPR_DBL_CONTR BigUInt(const double& val);
     CPPUTILS_CONSTEXPR_CONS BigUInt(const BigInt<NUM_QWORDS_DEGR>& cM);
 #ifdef CPPUTILS_CPP_11_DEFINED
-    constexpr BigUInt( const ::std::array<uint64_t,s_numberOfQwords>& );
+    CPPUTILS_CONSTEXPR_CONS BigUInt( const ::std::array<uint64_t,s_numberOfQwords>& );
 #endif
 
     inline CPPUTILS_CONSTEXPR_DBL_CONTR void DoubleToThis(const double& val);

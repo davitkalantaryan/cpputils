@@ -433,7 +433,7 @@ CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigInt<NUM_QWORD
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 template <uint64_t NUM_QWORDS_DEGR>
-constexpr BigUInt<NUM_QWORDS_DEGR>::BigUInt( const ::std::array<uint64_t,s_numberOfQwords>& a_array)
+CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt( const ::std::array<uint64_t,s_numberOfQwords>& a_array)
 {
     for(uint64_t i(0); i<s_numberOfQwords; ++i){
         m_u.b64[i] = a_array[i];
