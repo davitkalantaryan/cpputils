@@ -47,8 +47,19 @@ TEST(f_0002_bigint, t0000_basic)
     ASSERT_EQ(::std::to_string(bi3*bi6), ::std::string("8"));
     ASSERT_EQ(::std::to_string(bi3/bi5),::std::string("-2"));
     ASSERT_EQ(::std::to_string(bi3/bi6), ::std::string("2"));
+    //
+    ASSERT_EQ(::std::to_string(bi4-bi5),::std::string("2"));
+    cpputils::BigUInt<2> bui7(uint64_t(0xffffffffffffffff));
+    cpputils::BigUInt<2> bui8(bui7+cpputils::BigUInt<2>(1000));
+    cpputils::BigUInt<2> bui9(bui7+cpputils::BigUInt<2>(2000));
+    ASSERT_EQ(::std::to_string(bui9-bui8),::std::string("1000"));
 
 
+
+    cpputils::BigInt<2> bui10 = 9223372036854775807000000000000000_bi02;
+    ASSERT_EQ(::std::to_string(bui10),::std::string("9223372036854775807000000000000000"));
+
+    ASSERT_EQ(::std::to_string(92233720368547758070_bi02*92233720368547758070_bi02),::std::string("8507059173023461584739690778423250124900"));
 }
 
 

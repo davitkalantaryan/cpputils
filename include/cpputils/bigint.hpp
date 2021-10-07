@@ -104,7 +104,7 @@ public:
     static inline void    OperatorMinus(BigUInt* CPPUTILS_MAY_ALIAS res, const BigUInt& ls, const BigUInt& rs);
     static inline void    OperatorMultU(BigUInt* CPPUTILS_RESTRICT res, const BigUInt& ls, const BigUInt& rs);
     static inline void    OperatorDivU(BigUInt* CPPUTILS_RESTRICT remn, BigUInt* CPPUTILS_RESTRICT res, const BigUInt& ls, const BigUInt& rs);
-    static void    OperatorBtwAnd2(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
+    static void    OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
     static void    RightShiftByOneBit(BigUInt* inOut);

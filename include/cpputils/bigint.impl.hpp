@@ -45,7 +45,7 @@ union DataU{
 template <uint64_t NUM_QWORDS_DEGR>
 ::std::string std::to_string(const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_bi)
 {
-	return a_bi.template to_string<char>( ::std::ios_base::dec );
+    return a_bi.template to_stringU<char>( ::std::ios_base::dec );
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -69,7 +69,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 cpputils::BigUInt<NUM_QWORDS_DEGR> operator+(const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_lS, const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_rS)
 {
 	cpputils::BigUInt<NUM_QWORDS_DEGR> ret;
-	cpputils::BigUInt<NUM_QWORDS_DEGR>::OpreatorPlus(&ret, a_lS, a_rS);
+    cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(&ret, a_lS, a_rS);
 	return ret;
 }
 
@@ -690,33 +690,27 @@ inline bool BigUInt<NUM_QWORDS_DEGR>::HasAnyCommonBit(const BigUInt& a_lS, const
 template <uint64_t NUM_QWORDS_DEGR>
 inline void BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(BigUInt* CPPUTILS_MAY_ALIAS a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
-	uint64_t ullnSum, ullnHas, ullnRemn = 0;
-
-	for (uint64_t i(0); i < s_numberOfQwords; ++i) {
+    uint64_t ullnSum, ullnHas, ullnRemn = 0;
+    for (uint64_t i(0); i < s_numberOfQwords; ++i) {
         ullnHas = CPPUTILS_MAX_VALUE_PER_QWORD - a_lS.m_u.b64[i];
-
-		if (ullnHas >= ullnRemn) {
-			ullnHas -= ullnRemn;
-			ullnSum = a_lS.m_u.b64[i] + ullnRemn;
-		}
-		else {
-			ullnSum = ullnRemn - 1;
+        if (ullnHas >= ullnRemn) {
+            ullnHas -= ullnRemn;
+            ullnSum = a_lS.m_u.b64[i] + ullnRemn;
+        }
+        else {
+            ullnSum = ullnRemn - 1;
             ullnHas = CPPUTILS_MAX_VALUE_PER_QWORD - ullnSum;
-		}
-
-		ullnRemn = 0;
-
-		if (ullnHas >= a_rS.m_u.b64[i]) {
-			ullnSum += a_rS.m_u.b64[i];
-		}
-		else {
-			ullnSum = a_rS.m_u.b64[i] - ullnHas - 1;
-			ullnRemn = 1;
-		}
-
-		(a_res->m_u.b64)[i] = ullnSum;
-
-	}  // for(uint64_t i(0); i<a_numberOfQwords;++i){
+        }
+        ullnRemn = 0;
+        if (ullnHas >= a_rS.m_u.b64[i]) {
+            ullnSum += a_rS.m_u.b64[i];
+        }
+        else {
+            ullnSum = a_rS.m_u.b64[i] - ullnHas - 1;
+            ullnRemn = 1;
+        }
+        (a_res->m_u.b64)[i] = ullnSum;
+    }  // for(uint64_t i(0); i<a_numberOfQwords;++i){
 
 }
 
@@ -760,28 +754,30 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMinus(BigUInt* CPPUTILS_MAY_ALIAS 
 template <uint64_t NUM_QWORDS_DEGR>
 inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMultU(BigUInt* CPPUTILS_RESTRICT a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
-	__private::__implementation::DataU tmpSingleMult;
+    __private::__implementation::DataU tmpSingleMult;
 	BigUInt tmpMult;
-	uint64_t j,ind, lsTmp, rsTmp;
-	uint32_t tmpSingleMultPrev;
+    uint64_t j,indInSum, lsTmp, rsTmp;
+    uint64_t tmpSingleMultPrev;
 	
 	memset(&(a_res->m_u),0,sizeof (a_res->m_u));
 	
 	for (uint64_t i(0); i < s_numberOfDwords; ++i) {
 		rsTmp = static_cast<uint64_t>(a_rS.m_u.b32[i]);
-		memset(&(tmpMult.m_u),0,sizeof (tmpMult.m_u));
-		tmpSingleMultPrev = 0;
-		for(j=i;j<s_numberOfDwords;++j){
-			ind = j-i;
-			lsTmp = static_cast<uint64_t>(a_lS.m_u.b32[ind]);
-			tmpSingleMult.d64 = lsTmp * rsTmp;
-			tmpMult.m_u.b32[j] = tmpSingleMult.d32[0] + tmpSingleMultPrev;
-			tmpSingleMultPrev = tmpSingleMult.d32[1];
-		}
-		
-		(*a_res) += tmpMult;
-		
-	}
+        if(rsTmp){
+            memset(&(tmpMult.m_u),0,sizeof (tmpMult.m_u));
+            tmpSingleMultPrev = 0;
+            for(indInSum=i,j=0;indInSum<s_numberOfDwords;++indInSum,++j){
+                lsTmp = static_cast<uint64_t>(a_lS.m_u.b32[j]);
+                //tmpSingleMult.d64 = lsTmp * rsTmp;
+                //tmpMult.m_u.b32[j] = tmpSingleMult.d32[0] + tmpSingleMultPrev;
+                // tmpSingleMultPrev = tmpSingleMult.d32[1];
+                tmpSingleMult.d64 = lsTmp * rsTmp + tmpSingleMultPrev;
+                tmpMult.m_u.b32[indInSum] = tmpSingleMult.d32[0];
+                tmpSingleMultPrev = static_cast<uint64_t>(tmpSingleMult.d32[1]);
+            }
+            (*a_res) += tmpMult;
+        } // if(rsTmp){
+    }  // for (uint64_t i(0); i < s_numberOfDwords; ++i) {
 }
 
 
@@ -815,7 +811,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorDivU(BigUInt* a_remn, BigUInt* a_r
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-void BigUInt<NUM_QWORDS_DEGR>::OperatorBtwAnd2(BigUInt* a_res, const BigUInt& a_lS, const BigUInt& a_rS)
+void BigUInt<NUM_QWORDS_DEGR>::OperatorBtwAnd(BigUInt* a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
 	for(uint64_t i(0);i<s_numberOfQwords;++i){
 		a_res->m_u.b64[i] = a_lS.m_u.b64[i] & a_rS.m_u.b64[i];
@@ -981,7 +977,7 @@ BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralU(const 
 {
 	const size_t cunStrLen = a_n.length();
 	const char* cpcBuf = a_n.c_str();
-	bool bFirstDigitNotFound = true;
+    bool bFirstDigitFound = false;
 	uint64_t nextDigit;
 	BigUInt retInt(0);
 
@@ -991,14 +987,10 @@ BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralU(const 
 			nextDigit = cpputils_toDigit(cpcBuf[i]);
 			retInt *= 10;
 			retInt += nextDigit;
-			bFirstDigitNotFound = false;
+            bFirstDigitFound = true;
 		}
-		else {
-			if (bFirstDigitNotFound) {
-			}
-			else {
-				break;
-			}
+        else if (bFirstDigitFound) {
+            break;
 		}
 	}
 
@@ -1359,7 +1351,7 @@ BigInt<NUM_QWORDS_DEGR> BigInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralS(const ::
 	}
 
 	if(isMinus){
-		retInt *= BigInt(-1);
+        retInt.AlertSign();
 	}
 
 	return retInt;
