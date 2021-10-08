@@ -20,7 +20,13 @@ TEST(f_0002_bigint, t0000_basic)
 	// let's declare very big integer
 #ifdef CPPUTILS_CPP_11_DEFINED
 	cpputils::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
+    cpputils::BigInt<1> a5 = 12343_bi01; // = 10^20
+
+    ASSERT_EQ( ::std::to_string(a5),::std::string("12343"));
+    ASSERT_EQ( ::std::to_string(cpputils::BigInt<1>(4)/cpputils::BigInt<1>(2)),::std::string("2"));
 	
+    ASSERT_EQ( ::std::to_string(a4),::std::string("100000000000000000000"));
+
 	ASSERT_EQ(static_cast<int64_t>(a4/100000000000),static_cast<int64_t>(100000000000000000000_bi01/100000000000));	
 	
 #ifdef _WIN32
@@ -34,6 +40,10 @@ TEST(f_0002_bigint, t0000_basic)
 #endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 	
 	ASSERT_EQ(static_cast<int64_t>(a4/1000000000000000), 100000);
+
+    a4 = 100000000000000000000_bi01;
+    a4 /= 1000000000000000;
+    ASSERT_EQ(static_cast<int64_t>(a4), 100000);
 
 
     cpputils::BigInt<2> bi3(-4);
@@ -82,13 +92,13 @@ TEST(f_0002_bigint, t0002_test_arithmetic)
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 	cpputils::BigInt<2> bi1 = 1000000000000000000000000000000_bi02; // 10^30
-    ASSERT_EQ(bi1.to_stringS<char>(), std::string("1000000000000000000000000000000"));
+    ASSERT_EQ( ::std::to_string(bi1), ::std::string("1000000000000000000000000000000"));
 
 	bi1 /= 100;  // 10^28
-    ASSERT_EQ(bi1.to_stringS<char>(), std::string("10000000000000000000000000000"));
+    ASSERT_EQ( ::std::to_string(bi1), ::std::string("10000000000000000000000000000"));
 
 	bi1 /= 100000000000000000000_bi02; // we divide to 10^20, so remains 10^8
-    ASSERT_EQ(bi1.to_stringS<char>(), std::string("100000000"));
+    ASSERT_EQ( ::std::to_string(bi1), ::std::string("100000000"));
 
 #endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 }
@@ -108,5 +118,8 @@ static void TestBigInteger()
 
 	cpputils::BigInt<BiSize> bi2 = 2000;
 	ASSERT_EQ(static_cast<int64_t>(bi1+2* bi2), 3999);
+
+    //cpputils::BigInt<2> bi3 = 1000000000000000000000000000000_bi02; // 10^30
+    //ASSERT_EQ( ::std::to_string(bi3), ::std::string("1000000000000000000000000000000"));
 
 }
