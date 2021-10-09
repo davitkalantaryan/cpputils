@@ -14,6 +14,11 @@
 #include <stdint.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <array>
+#else
+#include <malloc.h>
+#ifndef _WIN32
+#include <alloca.h>
+#endif
 #endif
 
 namespace cpputils {
@@ -78,7 +83,7 @@ public:
     inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BiggerToThis(BiggerType val);
     template <typename BiggerType>
     inline void thisToBigger(BiggerType* pVal)const;
-    static inline CPPUTILS_CONSTEXPR BigUInt DivMaskInitial();
+    static inline CPPUTILS_CONSTEXPR_FNC_CPP14 BigUInt DivMaskInitial();
 		
 	// because of this bug (or feature, but more looks like bug) https://github.com/grpc/grpc/issues/19570
 	// we have below operator=

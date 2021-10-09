@@ -495,13 +495,14 @@ template <typename BiggerType>
 inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(BiggerType a_lfValue)
 {
     static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
+	static CPPUTILS_CONSTEXPR BiggerType scflValueOne(static_cast<BiggerType>(1));
     uint64_t nextDigit=0;
     BigUInt<NUM_QWORDS_DEGR> bigUIntMult(uint64_t(1)), bigUIntMultTmp;
     BigUInt<NUM_QWORDS_DEGR> bigUIntSumOld;
 
     memset(&(m_u),0,sizeof (m_u));
 
-    while(a_lfValue>scflValue){
+    while(a_lfValue>=scflValueOne){
         a_lfValue /= scflValue;
         nextDigit = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue)+0.5);
         BigUInt::OperatorMultU(&bigUIntSumOld,*this,bigUIntMult);
@@ -509,9 +510,6 @@ inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThi
         BigUInt::OperatorMultU(&bigUIntMultTmp,s_biqwMaxTenth,bigUIntMult);
         bigUIntMult.OtherBigUIntToThis(bigUIntMultTmp);
     }
-
-    BigUInt::OperatorMultU(&bigUIntSumOld,*this,bigUIntMult);
-    OperatorPlus(this,bigUIntSumOld,BigUInt(static_cast<uint64_t>(a_lfValue)));
 }
 
 
@@ -530,7 +528,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::thisToBigger(BiggerType* a_plfValue)const
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-inline CPPUTILS_CONSTEXPR BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial(){
+inline CPPUTILS_CONSTEXPR_FNC_CPP14 BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial(){
     BigUInt rs;
     for(uint64_t i(0);i<s_lastIndexInBuff;++i){rs.m_u.b64[i] = 0;}
     rs.m_u.b64[s_lastIndexInBuff] = CPPUTILS_MASK_SIGN_BIT;
@@ -1059,8 +1057,8 @@ inline void BigUInt<NUM_QWORDS_DEGR>::toStreamU( ::std::basic_ostream<CharType>*
         BigUInt remn, res;
         bool bIterate = false;
         uint64_t i;
-        uint64_t vValues[s_numberOfTenths];
         uint64_t ullnCount = 0;
+		CPPUTILS_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
 
         for(i=1;i<s_numberOfQwords;++i){
             if(bintCopy.m_u.b64[i]){bIterate=true;break;}
@@ -1111,10 +1109,10 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralUinline(BigUInt* a_re
         char dataTmp;
         char* pcTerm;
         BigUInt tmpMult;
-        uint64_t vValues[s_numberOfTenths];
 		uint64_t lastUint64Value;
-        size_t ullnCount = 0;
 		size_t numberOfLastValueDigits=0;
+		size_t ullnCount = 0;
+		CPPUTILS_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
 
         memset(&(a_res->m_u),0,sizeof (a_res->m_u));
 

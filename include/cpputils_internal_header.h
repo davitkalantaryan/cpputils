@@ -10,7 +10,12 @@
 
 #include <stddef.h>
 
+#define cpputils_alloca	alloca
+
 #ifdef _MSC_VER
+
+	#undef cpputils_alloca
+	#define cpputils_alloca	_alloca
 	#define CPPUTILS_UNREACHABLE_CODE(_code)
 	//#if _MSC_FULL_VER
 	#if (_MSC_VER>1900) // 1900 is VS2015
@@ -144,6 +149,9 @@
 //#define CPPUTILS_FALLTHROUGH	
 #endif
 
+//#undef CPPUTILS_CPP_11_DEFINED
+//#undef CPPUTILS_CPP_14_DEFINED
+
 #ifdef CPPUTILS_CPP_11_DEFINED
 #define CPPUTILS_STD_MOVE_DEFINED   1
 #define CPPUTILS_NOEXCEPT           noexcept
@@ -155,6 +163,7 @@
 #define CPPUTILS_CONSTEXPR_FNC          constexpr
 #define CPPUTILS_CONSTEXPR_EQ(_exp)	= (_exp)
 #define CPPUTILS_DELETE             =delete;
+#define CPPUTILS_CONSTEXPR_STACK_ARRAY(_type,_name,_count)	_type _name[_count]
 #else
 #define CPPUTILS_NOEXCEPT	throw()
 #define CPPUTILS_NULL		NULL 
@@ -163,6 +172,13 @@
 #define CPPUTILS_CONSTEXPR_FNC
 #define CPPUTILS_CONSTEXPR_EQ(_exp)
 #define CPPUTILS_DELETE   {}
+#define CPPUTILS_CONSTEXPR_STACK_ARRAY(_type,_name,_count)	_type * _name = CPPUTILS_STATIC_CAST(  _type *,cpputils_alloca((_count)*sizeof(_type))  )
+#endif
+
+#ifdef CPPUTILS_CPP_14_DEFINED
+#define CPPUTILS_CONSTEXPR_FNC_CPP14     constexpr
+#else
+#define CPPUTILS_CONSTEXPR_FNC_CPP14
 #endif
 
 #ifdef __cplusplus
