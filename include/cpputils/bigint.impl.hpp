@@ -398,11 +398,11 @@ const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_lastIndexInBuff = CPPUTILS_BINT_EXPR
 #endif
 
 template <uint64_t NUM_QWORDS_DEGR>
-const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint10 ( 10 );
+const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint0 ( 0 );
+template <uint64_t NUM_QWORDS_DEGR>
+const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint1 ( 1 );
 template <uint64_t NUM_QWORDS_DEGR>
 const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint2 ( 2 );
-template <uint64_t NUM_QWORDS_DEGR>
-const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint0 ( 0 );
 template <uint64_t NUM_QWORDS_DEGR>
 const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_biqwMaxTenth(CPPUTILS_MAX_TENTH_QWORD);
 
@@ -1013,17 +1013,6 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralU(BigUInt* a_res, const ::st
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR size_t BigUInt<NUM_QWORDS_DEGR>::CalculateArraySize()
-{
-    size_t ret=1;
-    for(uint64_t i(0); i<s_numberOfQwords; ++i){
-        ret *= 2;
-    }
-    return ret;
-}
-
-
-template <uint64_t NUM_QWORDS_DEGR>
 cpputils::BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::OperatorBuiLiteral(const ::std::string& a_n)
 {
     ::cpputils::BigUInt<NUM_QWORDS_DEGR> res;
@@ -1066,12 +1055,11 @@ inline void BigUInt<NUM_QWORDS_DEGR>::toStreamU( ::std::basic_ostream<CharType>*
 
     if (fmt & ::std::ios_base::dec) {
         // we have decimal
-        static CPPUTILS_CONSTEXPR size_t scMaxAraySize(CalculateArraySize());
         BigUInt bintCopy(*this);
         BigUInt remn, res;
         bool bIterate = false;
         uint64_t i;
-        uint64_t vValues[scMaxAraySize];
+        uint64_t vValues[s_numberOfTenths];
         uint64_t ullnCount = 0;
 
         for(i=1;i<s_numberOfQwords;++i){
@@ -1120,24 +1108,26 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralUinline(BigUInt* a_re
 {
     switch(a_base){
     case 10:{
-        static CPPUTILS_CONSTEXPR size_t scMaxAraySize(CalculateArraySize());
         char dataTmp;
         char* pcTerm;
         BigUInt tmpMult;
-        uint64_t vValues[scMaxAraySize];
+        uint64_t vValues[s_numberOfTenths];
+		uint64_t lastUint64Value;
         size_t ullnCount = 0;
+		size_t numberOfLastValueDigits=0;
 
         memset(&(a_res->m_u),0,sizeof (a_res->m_u));
 
-        while((a_strLen>18)&&(ullnCount<scMaxAraySize)){
+        while((a_strLen>18)&&(ullnCount<s_numberOfTenths)){
             dataTmp = a_pStr[18];
             a_pStr[18]=0;
             vValues[ullnCount] = ::std::strtoull(a_pStr,&pcTerm,10);
             if(a_pStr==pcTerm){
                 goto lastValuePoint;
             }
-            if((pcTerm-a_pStr)<18){
-                a_res->m_u.b64[0] = vValues[ullnCount];
+			numberOfLastValueDigits = static_cast<uint64_t>(pcTerm-a_pStr);
+            if(numberOfLastValueDigits<18){
+                lastUint64Value = vValues[ullnCount];
                 goto lastValuePoint;
             }
             ++ullnCount;
@@ -1146,14 +1136,13 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralUinline(BigUInt* a_re
             a_strLen -= 18;
         }
 
-        a_res->m_u.b64[0] = ::std::strtoull(a_pStr,&pcTerm,10);
+        lastUint64Value = ::std::strtoull(a_pStr,&pcTerm,10);
+		numberOfLastValueDigits = static_cast<uint64_t>(pcTerm-a_pStr);
         if(a_pStr==pcTerm){
-            a_res->m_u.b64[0] = 0;
-            goto lastValuePoint;
+            lastUint64Value = 0;
         }
 
 lastValuePoint:
-        size_t numberOfLastValueDigits = static_cast<uint64_t>(pcTerm-a_pStr);
         uint64_t firstMultValueInt64 = 1;
         size_t i(0);
         for(; i<numberOfLastValueDigits;++i){
@@ -1161,13 +1150,16 @@ lastValuePoint:
         }
 
         BigUInt multValue(firstMultValueInt64), multValueTmp;
+		size_t ind(ullnCount-1);
 
-        for(i=0; i<ullnCount;++i){
-            OperatorMultU(&multValueTmp,BigUInt(vValues[i]),multValue);
+        for(i=0; i<ullnCount;++i,--ind){
+            OperatorMultU(&multValueTmp,BigUInt(vValues[ind]),multValue);
             OperatorPlus(a_res,*a_res,multValueTmp);
             OperatorMultU(&multValueTmp,s_biqwMaxTenth,multValue);
             multValue.OtherBigUIntToThis(multValueTmp);
         }
+		
+		OperatorPlus(a_res,*a_res,BigUInt(lastUint64Value));
 
         return;
 

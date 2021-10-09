@@ -34,6 +34,7 @@ class BigInt;
 #define CPPUTILS_BINT_EXPR_LAST_IND     ((1<<NUM_QWORDS_DEGR)-1)
 #define CPPUTILS_BINT_EXPR_NUM_QW       (1<<NUM_QWORDS_DEGR)
 #define CPPUTILS_BINT_EXPR_NUM_DW       (1<<(NUM_QWORDS_DEGR+1))
+#define CPPUTILS_BINT_EXPR_NUM_TENTHS   (1<<(NUM_QWORDS_DEGR+1))
 #define CPPUTILS_BINT_EXPR_NUM_BITS     (CPPUTILS_BINT_EXPR_NUM_QW * sizeof(uint64_t) * 8)
 
 #define NUM_QWORDS_DEGR_OTHER   NUM_QWORDS_DEGR
@@ -48,12 +49,13 @@ public:
     static CPPUTILS_CONSTEXPR uint64_t	s_numberOfQwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_QW);
     static CPPUTILS_CONSTEXPR uint64_t	s_numberOfDwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_DW);
     static CPPUTILS_CONSTEXPR uint64_t  s_numberOfBits    CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_BITS);
+	static CPPUTILS_CONSTEXPR uint64_t	s_numberOfTenths  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_TENTHS);
     //static CPPUTILS_CONSTEXPR BigUInt	s_bint10  CPPUTILS_CONSTEXPR_EQ(BigUInt(10));
     //static CPPUTILS_CONSTEXPR BigUInt	s_bint2  CPPUTILS_CONSTEXPR_EQ(BigUInt(2));
     //static CPPUTILS_CONSTEXPR BigUInt	s_bint0  CPPUTILS_CONSTEXPR_EQ(BigUInt(0));
-    static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bint10 ;
-    static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bint2  ;
     static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bint0  ;
+	static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bint1  ;
+	static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bint2  ;
     static CPPUTILS_CONSTEXPR_FUT BigUInt   s_biqwMaxTenth;
     static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bintDivMaskIn;
 public:
@@ -133,9 +135,6 @@ public:
 public:
 	uint64_t* buff();
 	const uint64_t* buff()const;
-
-protected:
-    static CPPUTILS_CONSTEXPR_FNC size_t CalculateArraySize();
 	
 protected:
 	union{
