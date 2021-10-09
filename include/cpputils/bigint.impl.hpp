@@ -494,7 +494,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 template <typename BiggerType>
 inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(BiggerType a_lfValue)
 {
-    static CPPUTILS_CONSTEXPR BiggerType scflValue(CPPUTILS_MAX_VALUE_PER_QWORD);
+    static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
     uint64_t nextDigit=0;
     BigUInt<NUM_QWORDS_DEGR> bigUIntMult(uint64_t(1)), bigUIntMultTmp;
     BigUInt<NUM_QWORDS_DEGR> bigUIntSumOld;
@@ -519,7 +519,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 template <typename BiggerType>
 inline void BigUInt<NUM_QWORDS_DEGR>::thisToBigger(BiggerType* a_plfValue)const
 {
-    static CPPUTILS_CONSTEXPR BiggerType scflValue(CPPUTILS_MAX_VALUE_PER_QWORD);
+    static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
     BiggerType lfMult(scflValue);
 
     *a_plfValue = static_cast<BiggerType>(m_u.b64[0]);
