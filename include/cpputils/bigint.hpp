@@ -27,6 +27,7 @@ namespace cpputils {
 template <uint64_t NUM_QWORDS_DEGR>
 class BigInt;
 
+#define CPPUTILS_MAX_VALUE_PER_QWORD            0xffffffffffffffff
 #define CPPUTILS_MASK_SIGN_BIT			(uint64_t(1)<<uint64_t(63))
 
 //#define CPPUTILS_CONSTEXPR_FLOAT_CONTR    CPPUTILS_CONSTEXPR
@@ -63,6 +64,7 @@ public:
 	static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bint2  ;
     static CPPUTILS_CONSTEXPR_FUT BigUInt   s_biqwMaxTenth;
     static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bintDivMaskIn;
+    static CPPUTILS_CONSTEXPR_FUT BigUInt	s_maxOf64bits;
 public:
 	BigUInt();
     //template <uint64_t NUM_QWORDS_DEGR_OTHER>

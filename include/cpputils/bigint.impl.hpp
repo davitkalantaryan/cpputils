@@ -388,6 +388,8 @@ const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_numberOfBits = CPPUTILS_BINT_EXPR_NU
 template <uint64_t NUM_QWORDS_DEGR>
 const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_lastIndexInBuff = CPPUTILS_BINT_EXPR_LAST_IND;
 //template <uint64_t NUM_QWORDS_DEGR>
+//const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_maxOf64bits = CPPUTILS_MAX_VALUE_PER_QWORD;
+//template <uint64_t NUM_QWORDS_DEGR>
 //const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint10 ( 10 );
 //template <uint64_t NUM_QWORDS_DEGR>
 //const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint2 ( 2 );
@@ -405,11 +407,12 @@ template <uint64_t NUM_QWORDS_DEGR>
 const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bint2 ( 2 );
 template <uint64_t NUM_QWORDS_DEGR>
 const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_biqwMaxTenth(CPPUTILS_MAX_TENTH_QWORD);
+template <uint64_t NUM_QWORDS_DEGR>
+const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_maxOf64bits(CPPUTILS_MAX_VALUE_PER_QWORD);
 
 template <uint64_t NUM_QWORDS_DEGR>
 CPPUTILS_CONSTEXPR_FUT  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bintDivMaskIn = BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial();
 
-#define CPPUTILS_MAX_VALUE_PER_QWORD            0xffffffffffffffff
 #define CPPUTILS_MAX_VALUE_PER_DWORD_PLUS1		0x100000000
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -495,20 +498,28 @@ template <typename BiggerType>
 inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(BiggerType a_lfValue)
 {
     static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
-	static CPPUTILS_CONSTEXPR BiggerType scflValueOne(static_cast<BiggerType>(1));
     uint64_t nextDigit=0;
-    BigUInt<NUM_QWORDS_DEGR> bigUIntMult(uint64_t(1)), bigUIntMultTmp;
-    BigUInt<NUM_QWORDS_DEGR> bigUIntSumOld;
+    BigUInt<NUM_QWORDS_DEGR> bigUIntMult(uint64_t(1));
+    BigUInt<NUM_QWORDS_DEGR> bigUIntNextVal;
 
     memset(&(m_u),0,sizeof (m_u));
 
-    while(a_lfValue>=scflValueOne){
-        a_lfValue /= scflValue;
-        nextDigit = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue)+0.5);
-        BigUInt::OperatorMultU(&bigUIntSumOld,*this,bigUIntMult);
-        OperatorPlus(this,bigUIntSumOld,BigUInt(nextDigit));
-        BigUInt::OperatorMultU(&bigUIntMultTmp,s_biqwMaxTenth,bigUIntMult);
-        bigUIntMult.OtherBigUIntToThis(bigUIntMultTmp);
+    if(a_lfValue>scflValue){
+        ::std::modf(a_lfValue,&a_lfValue);
+        while(a_lfValue>scflValue){
+            a_lfValue /= scflValue;
+            nextDigit = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue));
+            BigUInt::OperatorMultU(&bigUIntNextVal,BigUInt(nextDigit),bigUIntMult);
+            OperatorPlus(this,*this,bigUIntNextVal);
+            BigUInt::OperatorMultU(&bigUIntNextVal,s_maxOf64bits,bigUIntMult);
+            bigUIntMult.OtherBigUIntToThis(bigUIntNextVal);
+        }
+
+        BigUInt::OperatorMultU(&bigUIntNextVal,BigUInt(static_cast<uint64_t>(a_lfValue)),bigUIntMult);
+        OperatorPlus(this,*this,bigUIntNextVal);
+    }
+    else{
+        m_u.b64[0] = static_cast<uint64_t>(a_lfValue);
     }
 }
 
