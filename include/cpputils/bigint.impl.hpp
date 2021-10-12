@@ -1122,7 +1122,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralUinline(BigUInt* a_re
         char dataTmp;
         char* pcTerm;
         BigUInt tmpMult;
-		uint64_t lastUint64Value;
+        uint64_t lastUint64Value=0;
 		size_t numberOfLastValueDigits=0;
 		size_t ullnCount = 0;
 		CPPUTILS_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
