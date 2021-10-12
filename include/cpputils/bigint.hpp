@@ -65,6 +65,8 @@ public:
     static CPPUTILS_CONSTEXPR_FUT BigUInt   s_biqwMaxTenth;
     static CPPUTILS_CONSTEXPR_FUT BigUInt	s_bintDivMaskIn;
     static CPPUTILS_CONSTEXPR_FUT BigUInt	s_maxOf64bits;
+protected:
+    static bool     s_bGlobalsInited;
 public:
 	BigUInt();
     //template <uint64_t NUM_QWORDS_DEGR_OTHER>
@@ -142,6 +144,9 @@ public:
 public:
 	uint64_t* buff();
 	const uint64_t* buff()const;
+
+protected:
+    static bool InitGlobalVars();
 	
 protected:
 	union{

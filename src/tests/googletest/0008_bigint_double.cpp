@@ -17,11 +17,12 @@ TEST(f_0008_bigint_double, t0001_double_to_int)
     //cpputils::BigInt<2> a01(lfV01);
     //ASSERT_EQ( ::std::to_string(a01),::std::string("1000000000000000000000000000000"));
 
-    double lfV01 = 1e20;
+    double lfV01 = 1e33;
     cpputils::BigInt<2> a01(lfV01);
+    ::std::cout << "!!!!!!!!!!!!!!!!"<<::std::to_string(a01) <<::std::endl;
     //ASSERT_EQ( ::std::to_string(a01),::std::string("100000000000000000000"));
     double lfV02 = static_cast<double>(a01);
-    ASSERT_NEAR(lfV01,lfV02,10.0);
+    ASSERT_NEAR(lfV01,lfV02,5.0);
 }
 
 

@@ -413,6 +413,9 @@ const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_maxOf64bits(CPPUTILS
 template <uint64_t NUM_QWORDS_DEGR>
 CPPUTILS_CONSTEXPR_FUT  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bintDivMaskIn = BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial();
 
+template <uint64_t NUM_QWORDS_DEGR>
+bool BigUInt<NUM_QWORDS_DEGR>::s_bGlobalsInited = InitGlobalVars();
+
 #define CPPUTILS_MAX_VALUE_PER_DWORD_PLUS1		0x100000000
 
 template <uint64_t NUM_QWORDS_DEGR>
@@ -498,25 +501,17 @@ template <typename BiggerType>
 inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(BiggerType a_lfValue)
 {
     static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
-    uint64_t nextDigit=0;
-    BigUInt<NUM_QWORDS_DEGR> bigUIntMult(uint64_t(1));
-    BigUInt<NUM_QWORDS_DEGR> bigUIntNextVal;
 
     memset(&(m_u),0,sizeof (m_u));
 
     if(a_lfValue>scflValue){
-        ::std::modf(a_lfValue,&a_lfValue);
-        while(a_lfValue>scflValue){
+        uint64_t i(0);
+        for(; (i<s_numberOfQwords)&&(a_lfValue>scflValue);++i){
             a_lfValue /= scflValue;
-            nextDigit = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue));
-            BigUInt::OperatorMultU(&bigUIntNextVal,BigUInt(nextDigit),bigUIntMult);
-            OperatorPlus(this,*this,bigUIntNextVal);
-            BigUInt::OperatorMultU(&bigUIntNextVal,s_maxOf64bits,bigUIntMult);
-            bigUIntMult.OtherBigUIntToThis(bigUIntNextVal);
+            m_u.b64[i] = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue));
         }
+        m_u.b64[i] = static_cast<uint64_t>(a_lfValue);
 
-        BigUInt::OperatorMultU(&bigUIntNextVal,BigUInt(static_cast<uint64_t>(a_lfValue)),bigUIntMult);
-        OperatorPlus(this,*this,bigUIntNextVal);
     }
     else{
         m_u.b64[0] = static_cast<uint64_t>(a_lfValue);
@@ -1018,6 +1013,13 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralU(BigUInt* a_res, const ::st
 {
     ::std::string aNewStr( a_n );
     BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralUinline(a_res,const_cast<char*>(aNewStr.data()),aNewStr.length(),a_base);
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+bool BigUInt<NUM_QWORDS_DEGR>::InitGlobalVars()
+{
+    return true;
 }
 
 
