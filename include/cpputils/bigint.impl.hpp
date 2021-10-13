@@ -504,18 +504,12 @@ inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThi
 
     memset(&(m_u),0,sizeof (m_u));
 
-    if(a_lfValue>scflValue){
-        uint64_t i(0);
-        for(; (i<s_numberOfQwords)&&(a_lfValue>scflValue);++i){
-            a_lfValue /= scflValue;
-            m_u.b64[i] = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue));
-        }
-        m_u.b64[i] = static_cast<uint64_t>(a_lfValue);
-
+    uint64_t i(0);
+    for(; (i<s_lastIndexInBuff)&&(a_lfValue>scflValue);++i){
+        a_lfValue /= scflValue;
+        m_u.b64[i] = static_cast<uint64_t>(scflValue * ::std::modf(a_lfValue,&a_lfValue));
     }
-    else{
-        m_u.b64[0] = static_cast<uint64_t>(a_lfValue);
-    }
+    m_u.b64[i] = static_cast<uint64_t>(a_lfValue);
 }
 
 
