@@ -109,7 +109,7 @@ tls_data<DataType>::tls_data()
 	:
 	  m_key( CPPUTILS_TLS_OUT_OF_INDEXES )
 {
-	static_assert (sizeof(DataType)<sizeof(void*),"unable to store bigger data" );
+	static_assert (sizeof(DataType)<=sizeof(void*),"unable to store bigger data" );
 	if( ::cpputils_thread_key_create(&m_key,CPPUTILS_NULL) ) {
 		throw ::std::bad_alloc();
 	}
