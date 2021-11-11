@@ -10,7 +10,7 @@
 
 #include <cpputils/mutex_ml.hpp>
 #include <cpputils/tls_data.hpp>
-#include <mutex>
+//#include <mutex>
 #include <stddef.h>
 #include <stdint.h>
 #ifdef _WIN32
@@ -73,6 +73,20 @@ void mutex_ml::unlock()
 	}
 	m_mutex_ml_data_ptr->usersCount = unUsersCount;
 }
+
+
+size_t mutex_ml::numberOfLocksInThisThread()const
+{
+	return m_mutex_ml_data_ptr->usersCount;
+}
+
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+::std::mutex& mutex_ml::std_mutex()const
+{
+	return m_mutex_ml_data_ptr->std_mutex;
+}
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 
 
 }  // namespace cpputils {

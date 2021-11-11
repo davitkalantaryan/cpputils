@@ -34,7 +34,7 @@ class tls_ptr_fast
 public:
 	tls_ptr_fast();
 	explicit tls_ptr_fast(tls_ptr_fast* mv);
-#if CPPUTILS_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 	tls_ptr_fast(tls_ptr_fast&& mv);
 #endif
 	~tls_ptr_fast();
@@ -69,7 +69,7 @@ class tls_unique_ptr
 public:
 	tls_unique_ptr();
 	explicit tls_unique_ptr(tls_unique_ptr* mv);
-#if CPPUTILS_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 	tls_unique_ptr(tls_unique_ptr&& mv);
 #endif
 	~tls_unique_ptr();
