@@ -13,7 +13,7 @@ CPPUTILS_BEGIN_C
 CPPUTILS_EXPORT int cpputils_thread_key_create(cpputils_thread_key_t* a_key, void (*a_destructor)(void*))
 {
 #ifdef _WIN32
-	*a_key = FlsAlloc(a_destructor);
+	*a_key = FlsAlloc(reinterpret_cast<PFLS_CALLBACK_FUNCTION>(a_destructor));
 	if((*a_key)==FLS_OUT_OF_INDEXES){
 		return static_cast<int>(GetLastError());
 	}
