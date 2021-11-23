@@ -162,7 +162,7 @@ BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::~BaseBase()
 		pItem = pItemNext;
 	}
 	
-	free(m_pTable);
+	:: free(m_pTable);
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
