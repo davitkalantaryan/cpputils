@@ -77,7 +77,7 @@ EMXX=em++
 
 COMMON_FLAGS	+= -I$(repoRootPathCppUtils)/include
 
-CPPFLAGS		=  $(COMMON_FLAGS)
+CPPFLAGS		+=  $(COMMON_FLAGS)
 
 DEBUG_FLAGS_DEBUG=-O0 -g
 DEBUG_FLAGS_RELEASE=-O3
@@ -112,7 +112,7 @@ $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : 
 	mkdir -p $(dir $@)
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
-$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cpp.o : %.cpp
+$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cpp.o : $(repoRootPath)/src/%.cpp
 	mkdir -p $(@D)
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
