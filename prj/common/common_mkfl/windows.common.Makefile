@@ -21,7 +21,7 @@ CFLAGS					= $(CFLAGS) /MD
 
 TargetFileName			= $(TargetName).$(TargetExtension)
 TargetDirectory			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\lib
-ObjectsDirBase			= $(MakeFileDir)\sys\win_$(Platform)\$(Configuration)\.objects
+ObjectsDirBase			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\.objects
 ObjectsDir				= $(ObjectsDirBase)\$(TargetName)
 
 CXXFLAGS				= $(CXXFLAGS) $(CFLAGS)
@@ -76,6 +76,9 @@ __setObjects:
 
 		set ObjectsVar=$(Objects)
 
+		echo +++++++++++++++++++++++++++ ObjectsDir=$(ObjectsDir)
+		rem exit /b 1
+
 		for %%i in ($(DirectoriesToCompile)) do (
 			set directoryName=%%i
 			set is_recursive_string=!directoryName:~0,3!
@@ -100,6 +103,7 @@ __setObjects:
 			)
 			cd /D "%VCINSTALLDIR%Auxiliary\Build"
 			call vcvarsall.bat !PlatformTarget!
+			if not "!ERRORLEVEL!"=="0" (exit /b !ERRORLEVEL!)
 			cd /D "%currentDirectory%"
 		)
 
