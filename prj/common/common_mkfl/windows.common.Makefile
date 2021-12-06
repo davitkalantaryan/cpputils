@@ -6,6 +6,9 @@
 # This file can be only as include
 #
 
+CC						= cl 
+CPPC           			= cl -Zc:__cplusplus
+
 !IFNDEF PDB_FILE_PATH
 PDB_FILE_PATH			= $(TargetDirectory)\$(TargetName).pdb
 !ENDIF
@@ -15,6 +18,12 @@ CFLAGS					= $(CFLAGS) /MDd /Fd"$(PDB_FILE_PATH)"
 !ELSE
 CFLAGS					= $(CFLAGS) /MD
 !ENDIF
+
+TargetFileName			= $(TargetName).$(TargetExtension)
+TargetDirectory			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\lib
+ObjectsDirBase			= $(MakeFileDir)\sys\win_$(Platform)\$(Configuration)\.objects
+ObjectsDir				= $(ObjectsDirBase)\$(TargetName)
+
 CXXFLAGS				= $(CXXFLAGS) $(CFLAGS)
 CXXFLAGS				= $(CXXFLAGS) /JMC /permissive- /GS /W3 /Zc:wchar_t  /Zi /Gm- /Od /sdl- 
 CXXFLAGS				= $(CXXFLAGS) /Fd"$(PDB_FILE_PATH)"
@@ -33,6 +42,27 @@ CXXFLAGS				= $(CXXFLAGS) /FC /EHsc /diagnostics:column
 .c.obj:
 	@$(CC) /c   $(CFLAGS)   /Fo$(ObjectsDir)\$(@D)\ $*.c
 
+
+__preparationForSetObjects:
+	@echo -=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-= __preparationForSetObjects
+	@set __targetToCall=__buildRaw
+
+__preparationForBuildRaw:
+	@echo "MakeFileDir"=$(MakeFileDir)
+	@cd $(SrcBaseDir)
+	@if not exist $(TargetDirectory) mkdir $(TargetDirectory)
+
+
+__buildRaw: __preparationForBuildRaw $(Objects)
+	@cd $(ObjectsDir)
+	@$(LINKER) $(Objects) /OUT:$(TargetDirectory)\$(TargetName).$(TargetExtension) /MACHINE:$(Platform) /NOLOGO
+
+
+clean:
+	@if exist "$(ObjectsDir)" rmdir /q /s "$(ObjectsDir)"
+	@if exist "$(TargetDirectory)\$(TargetName).*" del /s /q "$(TargetDirectory)\$(TargetName).*"
+	@echo "clean done!"
+
 # if 'nr-' specified before the name of directory, then this directory
 # scanned for sources not recursively
 __setObjects:
@@ -47,7 +77,6 @@ __setObjects:
 		set ObjectsVar=$(Objects)
 
 		for %%i in ($(DirectoriesToCompile)) do (
-			::echo ++++++++++++++++++++++++++++++++++ %%i
 			set directoryName=%%i
 			set is_recursive_string=!directoryName:~0,3!
 			if "!is_recursive_string!" == "nr-" (
@@ -75,7 +104,7 @@ __setObjects:
 		)
 
 
-		$(MAKE) /f $(MakeFileDir)\%__makeFileName% %__targetToCall% ^
+		$(MAKE) /f $(MakeFileDir)\$(MakeFileName) %__targetToCall% ^
 				/e Objects="!ObjectsVar!"  ^
 				/e Platform=$(Platform)     ^
 				/e MakeFileDir=$(MakeFileDir) 
