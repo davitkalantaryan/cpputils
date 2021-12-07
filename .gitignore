@@ -67,6 +67,6 @@ vc140.*
 !/prj/*/*_mult/*.vcxproj
 !/prj/*/*_mult/*.vcxproj.filters
 !/prj/*/*_mult/packages.config*
-!/prj/*/*_mult/*Makefile*
+!/prj/*/*_mult/*Makefile
 !/prj/*/*_mult/*.pro
 /prj/tests/googletest_mult/Makefile*googletest_getter
