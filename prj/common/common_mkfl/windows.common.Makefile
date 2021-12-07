@@ -43,6 +43,8 @@ CXXFLAGS				= $(CXXFLAGS) /FC /EHsc /diagnostics:column
 	@$(CC) /c   $(CFLAGS)   /Fo$(ObjectsDir)\$(@D)\ $*.c
 
 
+# we will keet '__targetToCall' environment variable calculation,
+# because maybe we will use it for clean target also
 __preparationForSetObjects:
 	@echo -=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-= __preparationForSetObjects
 	@set __targetToCall=__buildRaw
@@ -111,7 +113,8 @@ __setObjects:
 		$(MAKE) /f $(MakeFileDir)\$(MakeFileName) %__targetToCall% ^
 				/e Objects="!ObjectsVar!"  ^
 				/e Platform=$(Platform)     ^
-				/e MakeFileDir=$(MakeFileDir) 
+				/e MakeFileDir=$(MakeFileDir)  ^
+				/e Configuration=$(Configuration)
 
 		exit /b !ERRORLEVEL!
 
