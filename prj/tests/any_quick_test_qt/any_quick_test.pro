@@ -28,8 +28,8 @@ SOURCES	+=		\
 	"$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp"			\
 	"$${PWD}/../../../src/core/cpputils_thread_local.cpp"
 
-COMMON_HDRS	= $$cpputilsFindFilesRecursive($${repoRootPath}/include, .h)
-COMMON_HDRSPP	= $$cpputilsFindFilesRecursive($${repoRootPath}/include, .hpp)
+COMMON_HDRS	= $$files($${repoRootPath}/include/*.h,true)
+COMMON_HDRSPP	= $$files($${repoRootPath}/include/*.hpp,true)
 
 HEADERS += $$COMMON_HDRS
 HEADERS += $$COMMON_HDRSPP

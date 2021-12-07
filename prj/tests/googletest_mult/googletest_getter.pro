@@ -28,13 +28,13 @@ SRC_DIR=$${repoRootPath}/src/tests/googletest
 INCLUDEPATH += "$${PWD}/../../../include"
 INCLUDEPATH += "$${PWD}/../../../contrib/googletest/googletest/include"
 
-COMMON_SRCS	= $$cpputilsFindFilesRecursive($${repoRootPath}/src/core, .cpp)
-COMMON_HDRS	= $$cpputilsFindFilesRecursive($${repoRootPath}/include, .h)
-COMMON_HDRSPP	= $$cpputilsFindFilesRecursive($${repoRootPath}/include, .hpp)
+COMMON_SRCS	= $$files($${repoRootPath}/src/core/*.cpp)  # I assume, that in core we will not have subdirs
+COMMON_HDRS	= $$files($${repoRootPath}/include/*.h,true)
+COMMON_HDRSPP	= $$files($${repoRootPath}/include/*.hpp,true)
 
-UNITTEST_SRCS	= $$cpputilsFindFilesRecursive($${SRC_DIR}, .cpp)
-UNITTEST_HDRS	= $$cpputilsFindFilesRecursive($${SRC_DIR}, .h)
-UNITTEST_HDRSPP	= $$cpputilsFindFilesRecursive($${SRC_DIR}, .hpp)
+UNITTEST_SRCS	= $$files($${SRC_DIR}/*.cpp,true)
+UNITTEST_HDRS	= $$files($${SRC_DIR}/*.h,true)
+UNITTEST_HDRSPP	= $$files($${SRC_DIR}/*.hpp,true)
 
 SOURCES =  $$UNITTEST_SRCS
 SOURCES += $$COMMON_SRCS

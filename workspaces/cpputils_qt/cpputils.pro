@@ -10,12 +10,12 @@ include ( "$${repositoryRoot}/prj/common/common_qt/sys_common.pri" )
 SUBDIRS		+=	"$${repositoryRoot}/prj/tests/any_quick_test_qt/any_quick_test.pro"
 SUBDIRS		+=	"$${repositoryRoot}/prj/tests/googletest_mult/googletest_getter.pro"
 
-UNIX_SCRIPTS	= $$cpputilsFindFilesRecursive($${repositoryRoot}/scripts, .sh)
-WINDOWS_SCRIPTS	= $$cpputilsFindFilesRecursive($${repositoryRoot}/scripts, .bat)
-MDS_IN_DOCS		= $$cpputilsFindFilesRecursive($${repositoryRoot}/docs, .md)
-TXT_IN_DOCS		= $$cpputilsFindFilesRecursive($${repositoryRoot}/docs, .txt)
-YML_GH_WORKS	= $$cpputilsFindFilesRecursive($${repositoryRoot}/.github, .yml)
-YML_GL_WORKS	= $$cpputilsFindFilesRecursive($${repositoryRoot}/.gitlab, .yml)
+UNIX_SCRIPTS	= $$files($${repositoryRoot}/scripts/*.sh,true)
+WINDOWS_SCRIPTS	= $$files($${repositoryRoot}/scripts/*.bat,true)
+MDS_IN_DOCS	= $$files($${repositoryRoot}/docs/*.md,true)
+TXT_IN_DOCS	= $$files($${repositoryRoot}/docs/*.txt,true)
+YML_GH_WORKS	= $$files($${repositoryRoot}/.github/workflows/*.yml)  # default is recurse=false
+# YML_GL_WORKS	= $$files($${repositoryRoot}/.gitlab/*.yml,true) # todo: implement this
 
 OTHER_FILES += $$UNIX_SCRIPTS
 OTHER_FILES += $$WINDOWS_SCRIPTS

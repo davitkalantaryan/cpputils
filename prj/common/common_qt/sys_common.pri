@@ -1,3 +1,4 @@
+#
 # File sys_common.pri
 # File created : 12 Feb 2017
 # Created by : Davit Kalantaryan (davit.kalantaryan@desy.de)
@@ -19,19 +20,10 @@ isEmpty( cpputilsRepoRoot ) {
 	cpputilsRepoRoot += $${PWD}/../../..
 }
 
-defineReplace(cpputilsFindFilesRecursive){
-	# todo: we should switch to _sp scheme
-	#findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles_sp)) $$system_quote($$system_path($$1)) $$2)
-	#for(var, $$list($${findFilesInit})) {
-	#	length = $$str_size($$var)
-	#	stripedVar = $$str_member($$var,1,$$num_add($$length, -2))
-	#	returnVar += $$stripedVar
-	#}
-	#return ($$returnVar)
-	
-	findFilesInit = $$system($$system_quote($$system_path($${cpputilsRepoRoot}/scripts/findfiles_no_sp)) $$system_quote($$system_path($$1)) $$2)
-	return ($$findFilesInit)	
-}
+# always replave below line with files replace function
+# example: $$files($${repositoryRoot}/scripts/*.sh,true)
+# defineReplace(cpputilsFindFilesRecursive){
+# }
 
 contains( TEMPLATE, lib ) {
     TARGET_PATH=lib
