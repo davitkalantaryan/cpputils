@@ -101,6 +101,11 @@ __setObjects:
 
 		rem echo +++++++++++++++++++++++++++ ObjectsDir=$(ObjectsDir)
 		rem exit /b 1
+		
+		for %%I in ($(SourcesToCompile)) do (
+			set "relFilePath=%%~nI.$(Platform).$(ObjectsExtension).obj"
+			set "ObjectsVar=!ObjectsVar! !relFilePath!"
+		)
 
 		for %%i in ($(DirectoriesToCompile)) do (
 			set directoryName=%%i
@@ -164,7 +169,7 @@ __setObjects:
 					)
 					:eofloop
 					if "!shouldExlude!" == "0" (
-						set ObjectsVar=!ObjectsVar! !relFilePath!
+						set "ObjectsVar=!ObjectsVar! !relFilePath!"
 						echo !relFilePath!
 					)
 					rem iteration of loop done
@@ -188,9 +193,9 @@ __setObjects:
 					)
 					:eofloop
 					if "!shouldExlude!" == "0" (
-						set ObjectsVar=!ObjectsVar! !relFilePath!
+						set "ObjectsVar=!ObjectsVar! !relFilePath!"
 						echo !relFilePath!
-						rem set ObjectsVar=!ObjectsVar! $(ObjectsDir)\!relFilePath!
+						rem set "ObjectsVar=!ObjectsVar! $(ObjectsDir)\!relFilePath!"
 						rem echo $(ObjectsDir)\!relFilePath!
 					)
 					rem iteration of loop done

@@ -78,6 +78,7 @@ DirectoriesToCompile	=
 #DirectoriesToCompile	= $(DirectoriesToCompile) nr-build\gen\cpp\sss\ssslang\antlr
 DirectoriesToCompile	= tests\googletest
 DirectoriesToCompile	= $(DirectoriesToCompile) core
+SourcesToCompile	=
 
 default: googletest
 
