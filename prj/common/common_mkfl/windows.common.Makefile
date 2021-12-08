@@ -1,5 +1,5 @@
 #
-# file:			windows.common.Makefile
+# file:		windows.common.Makefile
 # created on:	2020 Dec 14
 # created by:	
 #
@@ -16,15 +16,18 @@ CFLAGS				= $(CFLAGS) /bigobj /nologo
 !IF "$(Configuration)" == "Debug"
 CFLAGS				= $(CFLAGS) /MDd /Fd"$(PDB_FILE_PATH)"
 LibrariesExtension              = d
+ObjectsExtension		= d
 !ELSE
 CFLAGS				= $(CFLAGS) /MD
 LibrariesExtension              =
+ObjectsExtension		= r
 !ENDIF
 
 TargetFileName			= $(TargetName).$(TargetExtension)
 TargetDirectory			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\$(TargetCategory)
-ObjectsDirBase			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\.objects
-ObjectsDir			= $(ObjectsDirBase)\$(TargetName)
+#ObjectsDirBase			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\.objects
+#ObjectsDir			= $(ObjectsDirBase)\$(TargetName)
+ObjectsDir			= $(SrcBaseDir)
 
 CXXFLAGS			= $(CXXFLAGS) $(CFLAGS)
 CXXFLAGS			= $(CXXFLAGS) /JMC /permissive- /GS /W3 /Zc:wchar_t  /Zi /Gm- /Od /sdl- 
@@ -34,17 +37,21 @@ CXXFLAGS			= $(CXXFLAGS) /FC /EHsc /diagnostics:column
 
 # todo: find proper solution (https://docs.microsoft.com/en-us/cpp/build/reference/inference-rules?view=msvc-170)
 # {(SrcBaseDir)\$(@D)\}.cpp.obj:
-.cpp.obj:
-	@$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
+.cpp.$(Platform)_$(ObjectsExtension)_obj:
+	@$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@) $<
 
-.cxx.obj:
-	 @$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
+# .cxx.obj:
+# old approach @$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
+.cxx.$(Platform)_$(ObjectsExtension)_obj:
+	 @$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@) $<
 
-.cc.obj:
-	@$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $*.cc
+# .cc.obj:
+.cc.$(Platform)_$(ObjectsExtension)_obj:
+	@$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@) $*.cc
 
-.c.obj:
-	@$(CC) /c   $(CFLAGS)   /Fo$(ObjectsDir)\$(@D)\ $*.c
+# .c.obj:
+.c.$(Platform)_$(ObjectsExtension)_obj:
+	@$(CC) /c   $(CFLAGS)   /Fo$(ObjectsDir)\$(@) $*.c
 
 
 # we will keet '__targetToCall' environment variable calculation,
@@ -52,6 +59,10 @@ CXXFLAGS			= $(CXXFLAGS) /FC /EHsc /diagnostics:column
 __preparationForSetObjects:
 	@echo -=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-= __preparationForSetObjects
 	@set __targetToCall=__buildRaw
+	
+__preparationForSetObjectsForClean:
+	@echo -=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-= __preparationForSetObjects
+	@set __targetToCall=__cleanRaw
 
 __preparationForBuildRaw:
 	@cd $(SrcBaseDir)
@@ -63,10 +74,17 @@ __buildRaw: __preparationForBuildRaw $(Objects)
 	@$(LINKER) $(LFLAGS) $(Objects) /OUT:$(TargetDirectory)\$(TargetName).$(TargetExtension) /MACHINE:$(Platform) /NOLOGO
 
 
-clean:
-	@if exist "$(ObjectsDir)" rmdir /q /s "$(ObjectsDir)"
+clean: __preparationForSetObjectsForClean __setObjects
 	@if exist "$(TargetDirectory)\$(TargetName).*" del /s /q "$(TargetDirectory)\$(TargetName).*"
 	@echo "clean done!"
+	
+__cleanRaw:
+	@<<windows_nmake_makefile_clean_raw.bat
+		@echo off
+		setlocal EnableDelayedExpansion enableextensions
+		for %%i in ($(Objects)) do ( if exist "$(ObjectsDir)\%%i" ( del /Q /F "$(ObjectsDir)\%%i" ) )
+		endlocal
+<<NOKEEP
 
 # if 'nr-' specified before the name of directory, then this directory
 # scanned for sources not recursively
@@ -81,7 +99,7 @@ __setObjects:
 
 		set ObjectsVar=$(Objects)
 
-		echo +++++++++++++++++++++++++++ ObjectsDir=$(ObjectsDir)
+		rem echo +++++++++++++++++++++++++++ ObjectsDir=$(ObjectsDir)
 		rem exit /b 1
 
 		for %%i in ($(DirectoriesToCompile)) do (
@@ -132,10 +150,10 @@ __setObjects:
 			cd $(SrcBaseDir)\%1
 
 			if "!is_recursive!" == "0" (
-				echo ++++++++++++++++++++++++++++++++++ not recursive dir "%1"
+				rem echo ++++++++++++++++++++++++++++++++++ not recursive dir "%1"
 				if not exist "$(ObjectsDir)\%1" mkdir "$(ObjectsDir)\%1"
 				for %%I in ("*.cpp" "*.c" "*.cc" "*.cxx") do (
-					set relFilePath=%1\%%~nI.obj
+					set "relFilePath=%1\%%~nI.$(Platform).$(ObjectsExtension).obj"
 					set shouldExlude=0
 					for %%e in ($(excludedObjects)) do (
 						if "!relFilePath!" == "%%e" (
@@ -152,13 +170,13 @@ __setObjects:
 					rem iteration of loop done
 				)
 			) else (
-				echo ++++++++++++++++++++++++++++++++++ recursive     dir "%1"
+				rem echo ++++++++++++++++++++++++++++++++++ recursive     dir "%1"
 				for /r %%I in ("*.cpp" "*.c" "*.cc" "*.cxx") do (
 					set "dirPath=%%~dpI"
 					set relDirPath=!dirPath:%TARGET_PATH_FOR_SOURCE%=!
 					if not exist "$(ObjectsDir)\!relDirPath!" mkdir "$(ObjectsDir)\!relDirPath!"
 					
-					set "filePath=%%~dpnI.obj"
+					set "filePath=%%~dpnI.$(Platform)_$(ObjectsExtension)_obj"
 					set relFilePath=!filePath:%TARGET_PATH_FOR_SOURCE%=!
 					set shouldExlude=0
 					for %%e in ($(excludedObjects)) do (
