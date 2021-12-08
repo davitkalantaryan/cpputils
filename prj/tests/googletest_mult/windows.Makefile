@@ -74,11 +74,11 @@ LFLAGS				= $(LFLAGS) /SUBSYSTEM:CONSOLE /MANIFESTUAC:"level='asInvoker' uiAcces
 LFLAGS				= $(LFLAGS) /ERRORREPORT:PROMPT /NOLOGO $(LIBPATHS) /TLBID:1
 
 
-DirectoriesToCompile	=
+#SourcesToCompile	=
 #DirectoriesToCompile	= $(DirectoriesToCompile) nr-build\gen\cpp\sss\ssslang\antlr
+DirectoriesToCompile	=
 DirectoriesToCompile	= tests\googletest
 DirectoriesToCompile	= $(DirectoriesToCompile) core
-SourcesToCompile	=
 
 default: googletest
 
