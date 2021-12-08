@@ -6,32 +6,36 @@
 # This file can be only as include
 #
 
-CC						= cl 
+CC                              = cl 
 CPPC           			= cl -Zc:__cplusplus
 
 !IFNDEF PDB_FILE_PATH
 PDB_FILE_PATH			= $(TargetDirectory)\$(TargetName).pdb
 !ENDIF
-CFLAGS					= $(CFLAGS) /bigobj /nologo
+CFLAGS				= $(CFLAGS) /bigobj /nologo
 !IF "$(Configuration)" == "Debug"
-CFLAGS					= $(CFLAGS) /MDd /Fd"$(PDB_FILE_PATH)"
+CFLAGS				= $(CFLAGS) /MDd /Fd"$(PDB_FILE_PATH)"
+LibrariesExtension              = d
 !ELSE
-CFLAGS					= $(CFLAGS) /MD
+CFLAGS				= $(CFLAGS) /MD
+LibrariesExtension              =
 !ENDIF
 
 TargetFileName			= $(TargetName).$(TargetExtension)
-TargetDirectory			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\lib
+TargetDirectory			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\$(TargetCategory)
 ObjectsDirBase			= $(RepoRootDir)\sys\win_$(Platform)\$(Configuration)\.objects
-ObjectsDir				= $(ObjectsDirBase)\$(TargetName)
+ObjectsDir			= $(ObjectsDirBase)\$(TargetName)
 
-CXXFLAGS				= $(CXXFLAGS) $(CFLAGS)
-CXXFLAGS				= $(CXXFLAGS) /JMC /permissive- /GS /W3 /Zc:wchar_t  /Zi /Gm- /Od /sdl- 
-CXXFLAGS				= $(CXXFLAGS) /Fd"$(PDB_FILE_PATH)"
-CXXFLAGS				= $(CXXFLAGS) /Zc:inline /fp:precise /errorReport:prompt /WX- /Zc:forScope /RTC1 /Gd 
-CXXFLAGS				= $(CXXFLAGS) /FC /EHsc /diagnostics:column
+CXXFLAGS			= $(CXXFLAGS) $(CFLAGS)
+CXXFLAGS			= $(CXXFLAGS) /JMC /permissive- /GS /W3 /Zc:wchar_t  /Zi /Gm- /Od /sdl- 
+CXXFLAGS			= $(CXXFLAGS) /Fd"$(PDB_FILE_PATH)"
+CXXFLAGS			= $(CXXFLAGS) /Zc:inline /fp:precise /errorReport:prompt /WX- /Zc:forScope /RTC1 /Gd 
+CXXFLAGS			= $(CXXFLAGS) /FC /EHsc /diagnostics:column
 
+# todo: find proper solution (https://docs.microsoft.com/en-us/cpp/build/reference/inference-rules?view=msvc-170)
+# {(SrcBaseDir)\$(@D)\}.cpp.obj:
 .cpp.obj:
-	 @$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
+	@$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
 
 .cxx.obj:
 	 @$(CPPC) /c $(CXXFLAGS) /Fo$(ObjectsDir)\$(@D)\ $<
@@ -50,14 +54,13 @@ __preparationForSetObjects:
 	@set __targetToCall=__buildRaw
 
 __preparationForBuildRaw:
-	@echo "MakeFileDir"=$(MakeFileDir)
 	@cd $(SrcBaseDir)
 	@if not exist $(TargetDirectory) mkdir $(TargetDirectory)
 
 
 __buildRaw: __preparationForBuildRaw $(Objects)
 	@cd $(ObjectsDir)
-	@$(LINKER) $(Objects) /OUT:$(TargetDirectory)\$(TargetName).$(TargetExtension) /MACHINE:$(Platform) /NOLOGO
+	@$(LINKER) $(LFLAGS) $(Objects) /OUT:$(TargetDirectory)\$(TargetName).$(TargetExtension) /MACHINE:$(Platform) /NOLOGO
 
 
 clean:
@@ -169,6 +172,8 @@ __setObjects:
 					if "!shouldExlude!" == "0" (
 						set ObjectsVar=!ObjectsVar! !relFilePath!
 						echo !relFilePath!
+						rem set ObjectsVar=!ObjectsVar! $(ObjectsDir)\!relFilePath!
+						rem echo $(ObjectsDir)\!relFilePath!
 					)
 					rem iteration of loop done
 				)
