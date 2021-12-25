@@ -48,8 +48,7 @@ union DataU{
 template <typename CharType, uint64_t NUM_QWORDS_DEGR>
 std::basic_ostream<CharType>& operator<<(std::basic_ostream<CharType>& a_os, const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_bi)
 {
-    ::std::basic_string<CharType> retStr = a_bi.template to_string<CharType>(a_os.flags());
-    a_os << retStr;
+    a_bi.template toStreamU<CharType>(&a_os);
     return a_os;
 }
 
@@ -94,7 +93,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 cpputils::BigUInt<NUM_QWORDS_DEGR> operator*(const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_lS, const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_rS)
 {
 	cpputils::BigUInt<NUM_QWORDS_DEGR> ret;
-	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorMult(&ret, a_lS, a_rS);
+	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorMultU(&ret, a_lS, a_rS);
 	return ret;
 }
 
@@ -102,7 +101,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 cpputils::BigUInt<NUM_QWORDS_DEGR> operator/(const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_lS, const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_rS)
 {
 	cpputils::BigUInt<NUM_QWORDS_DEGR> ret, remn;
-	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorDiv(&remn, &ret, a_lS, a_rS);
+	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorDivU(&remn, &ret, a_lS, a_rS);
 	return ret;
 }
 
@@ -110,7 +109,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 cpputils::BigUInt<NUM_QWORDS_DEGR> operator%(const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_lS, const cpputils::BigUInt<NUM_QWORDS_DEGR>& a_rS)
 {
 	cpputils::BigUInt<NUM_QWORDS_DEGR> ret, remn;
-	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorDiv(&remn, &ret, a_lS, a_rS);
+	cpputils::BigUInt<NUM_QWORDS_DEGR>::OperatorDivU(&remn, &ret, a_lS, a_rS);
 	return remn;
 }
 //
