@@ -49,7 +49,7 @@ class BigInt;
 template <uint64_t NUM_QWORDS_DEGR>
 class BigUInt
 {
-	static_assert (NUM_QWORDS_DEGR>0,"In the case if Number of QWORDS is 1 (degree==0), use uint64_t or int64_t instead");
+	//static_assert (NUM_QWORDS_DEGR>0,"In the case if Number of QWORDS is 1 (degree==0), use uint64_t or int64_t instead");
 public:
     static CPPUTILS_CONSTEXPR uint64_t	s_lastIndexInBuff CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_LAST_IND);
     static CPPUTILS_CONSTEXPR uint64_t	s_numberOfQwords  CPPUTILS_CONSTEXPR_EQ(CPPUTILS_BINT_EXPR_NUM_QW);
@@ -121,6 +121,9 @@ public:
 
 	bool isZero()const;
 	bool isNotZero()const;
+	
+	void    LeftShiftByOneBit();
+	void    RightShiftByOneBit();
 
     template <typename CharType>
     inline void toStreamU( ::std::basic_ostream<CharType>* a_pStream )const;
@@ -135,7 +138,6 @@ public:
     static void    OperatorBtwAnd(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwOr(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
 	static void    OperatorBtwXor(BigUInt* res, const BigUInt& ls, const BigUInt& rs);
-    static void    RightShiftByOneBit(BigUInt* inOut);
 	static void    OperatorRightShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
 	static void    OperatorLeftShift(BigUInt* res, const BigUInt& ls, uint64_t shiftCount);
     static void    OperatorAnyIntLiteralU(BigUInt* res, const ::std::string& a_n, int base);

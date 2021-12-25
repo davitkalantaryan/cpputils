@@ -904,15 +904,28 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorBtwXor(BigUInt* a_res, const BigUInt& a_l
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-void BigUInt<NUM_QWORDS_DEGR>::RightShiftByOneBit(BigUInt* a_inOut)
+void BigUInt<NUM_QWORDS_DEGR>::RightShiftByOneBit()
 {
     uint64_t transferBits = 0, singleRes;
 
     for (uint64_t i(s_lastIndexInBuff);; --i) {
-        singleRes = (a_inOut->m_u.b64[i] >> 1) | (transferBits << 63);
-        transferBits = a_inOut->m_u.b64[i] & 0x1;
-        a_inOut->m_u.b64[i] = singleRes;
+        singleRes = (m_u.b64[i] >> 1) | (transferBits << 63);
+        transferBits = m_u.b64[i] & 0x1;
+        m_u.b64[i] = singleRes;
         if(i==0){break;}
+    }
+}
+
+
+template <uint64_t NUM_QWORDS_DEGR>
+void BigUInt<NUM_QWORDS_DEGR>::LeftShiftByOneBit()
+{
+    uint64_t transferBits = 0, singleRes;
+
+    for (uint64_t i(0);i<s_numberOfQwords; ++i) {
+        singleRes = (m_u.b64[i] << 1) | (transferBits >> 63);
+        transferBits = m_u.b64[i] & 0x8000000000000000;
+        m_u.b64[i] = singleRes;
     }
 }
 
