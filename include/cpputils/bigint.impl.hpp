@@ -874,7 +874,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorDivU(BigUInt* a_remn, BigUInt* a_r
             ++(*a_res);
             (*a_remn) -= a_rS;
         }
-        RightShiftByOneBit(&aMask);
+        aMask.RightShiftByOneBit();
 	}	
 }
 
@@ -937,7 +937,7 @@ void BigUInt<NUM_QWORDS_DEGR>::OperatorRightShift(BigUInt* a_res, const BigUInt&
     if(a_shiftCount>=numberOfBits){memset(&(a_res->m_u),0,sizeof (a_res->m_u));}
     *a_res = a_lS;
     for(uint64_t i(0); i<a_shiftCount;++i){
-        RightShiftByOneBit(*a_res);
+        a_res->RightShiftByOneBit();
     }
 }
 
