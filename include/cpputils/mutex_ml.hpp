@@ -23,6 +23,8 @@ class CPPUTILS_DLL_PRIVATE mutex_ml_p;
 class CPPUTILS_EXPORT mutex_ml
 {
 public:
+	mutex_ml(const mutex_ml&) = delete;
+	mutex_ml& operator=(const mutex_ml&) = delete;
 	mutex_ml();
 	~mutex_ml();
 

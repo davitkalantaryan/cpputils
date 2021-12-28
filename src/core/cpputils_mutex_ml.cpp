@@ -30,7 +30,10 @@ namespace cpputils {
 
 class CPPUTILS_DLL_PRIVATE mutex_ml_p
 {
+	mutex_ml_p(const mutex_ml_p&) = delete;
+	mutex_ml_p& operator=(const mutex_ml_p&) = delete;
 public:
+	mutex_ml_p() = default;
 	tls_data<size_t>	usersCount;
 	//ptrdiff_t			lockerTid;
 	::std::mutex		std_mutex;
