@@ -10,6 +10,12 @@
 
 CPPUTILS_BEGIN_C
 
+#ifdef _MSC_VER
+#pragma warning (disable:5039)
+// warning C5039: 'FlsAlloc': pointer or reference to potentially throwing function
+// this is some buggy warning
+#endif
+
 CPPUTILS_EXPORT int cpputils_thread_key_create(cpputils_thread_key_t* a_key, void (*a_destructor)(void*))
 {
 #ifdef _WIN32
