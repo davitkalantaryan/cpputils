@@ -43,6 +43,9 @@
     #define CPPUTILS_DLL_PRIVATE
     #define CPPUTILS_IMPORT_FROM_DLL	__declspec(dllimport)
 	#define CPPUTILS_THREAD_LOCAL		__declspec(thread)
+	#if !defined(_WIN64) && !defined(_M_ARM64)
+		#define CPPUTLS_32_BIT
+	#endif
 #elif defined(__GNUC__) || defined(__clang__)
     #define CPPUTILS_MAY_ALIAS  __attribute__ ((__may_alias__))
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;

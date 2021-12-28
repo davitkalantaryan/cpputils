@@ -18,6 +18,9 @@ InScopeCleaner::InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData)
 	  m_func(a_func),
 	  m_clbkData(a_pClbkData)
 {
+#ifdef CPPUTLS_32_BIT
+	static_cast<void>(m_vcCh);
+#endif
 }
 
 

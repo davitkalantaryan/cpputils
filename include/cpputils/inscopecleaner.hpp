@@ -27,7 +27,10 @@ public:
 	
 private:
 	TypeDeleteFunc	m_func;
-	void*			m_clbkData;
+	void*			m_clbkData;	
+#ifdef CPPUTLS_32_BIT
+	char			m_vcCh[4];
+#endif
 };
 
 
