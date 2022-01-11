@@ -14,6 +14,7 @@ CPPUTILS_BEGIN_C
 #pragma warning (disable:5039)
 // warning C5039: 'FlsAlloc': pointer or reference to potentially throwing function
 // this is some buggy warning
+#pragma warning (disable:4191)  // 'reinterpret_cast': unsafe conversion from 'void (__cdecl * ...
 #endif
 
 CPPUTILS_EXPORT int cpputils_thread_key_create(cpputils_thread_key_t* a_key, void (*a_destructor)(void*))
