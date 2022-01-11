@@ -914,7 +914,8 @@ size_t FHashStr<CharType>::operator()(const ::std::basic_string<CharType>& a_key
 template <typename IntType>
 size_t FHashInt<IntType>::operator()(const IntType& a_key)const
 {
-	return static_cast<size_t>(a_key);
+    //return static_cast<size_t>(a_key);
+    return (size_t)(a_key);
 }
 
 
