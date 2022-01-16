@@ -218,4 +218,21 @@
 #define CPPUTILS_STRINGIFY_PRIV_RAW(_x)		#_x
 
 
+#if defined(__EMSCRIPTEN__) || defined(EMSCRIPTEN) || defined(CPPUTILS_WASM)
+#define CPPUTILS_EMSCRIPTEN_IS_USED
+#endif
+//#define CPPUTILS_EMSCRIPTEN_IS_USED
+
+// todo: make better multithreading decision
+#ifndef CPPUTILS_EMSCRIPTEN_IS_USED
+#define CPPUTILS_MULTITHREADED
+#endif
+
+#ifdef CPPUTILS_MULTITHREADED
+#define CPPUTILS_TRY_CATCH(_expression)	(_expression) ;
+#else
+#define CPPUTILS_TRY_CATCH(_expression)   try{(_expression);}catch(...){return;}
+#endif
+
+
 #endif  // #ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
