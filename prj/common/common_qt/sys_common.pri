@@ -14,7 +14,7 @@ LIB_PREFIX		= lib
 TARGET_PATH_EXTRA	=
 
 isEmpty( cpputilsRepoRoot ) {
-	cpputilsRepoRoot += $${PWD}/../../..
+	cpputilsRepoRoot = $${PWD}/../../..
 }
 
 isEmpty( TARGET_PATH ) {
