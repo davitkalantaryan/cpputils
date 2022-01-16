@@ -1,36 +1,28 @@
 #
-# File sys_common.pri
-# File created : 12 Feb 2017
-# Created by : Davit Kalantaryan (davit.kalantaryan@desy.de)
-# This file can be used to produce Makefile for daqadcreceiver application
-# for PITZ
+# name:			sys_common.pri
+# path:			${repositoryRoot}/prj/common/common_qt/sys_common.pri
+# created on:		2017 Feb 12
+# created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)  
+# usage:		Use this qt include file to calculate some platform specific stuff
 #
 
 #QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
-#QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-variable
-#QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-compare
-#QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-function
-#QMAKE_CXXFLAGS_WARN_ON -= -Wunused-function
+
 
 STATIC_LIB_EXTENSION	= a
-LIB_PREFIX	= lib
+LIB_PREFIX		= lib
 TARGET_PATH_EXTRA	=
 
 isEmpty( cpputilsRepoRoot ) {
 	cpputilsRepoRoot += $${PWD}/../../..
 }
 
-# always replave below line with files replace function
-# example: $$files($${repositoryRoot}/scripts/*.sh,true)
-# defineReplace(cpputilsFindFilesRecursive){
-# }
-
-contains( TEMPLATE, lib ) {
-    TARGET_PATH=lib
-    #message("Shared library creation")
-} else {
-    TARGET_PATH=bin
-    #message("Binary file creation")
+isEmpty( TARGET_PATH ) {
+	contains( TEMPLATE, lib ) {
+	    TARGET_PATH=lib
+	} else {
+	    TARGET_PATH=bin
+	}
 }
 
 
@@ -109,11 +101,3 @@ DESTDIR = $${PRJ_PWD}/$${SYSTEM_PATH}/$${TARGET_PATH}$${TARGET_PATH_EXTRA}
 OBJECTS_DIR = $${PRJ_PWD}/$${SYSTEM_PATH}/.objects/$${TARGET}
 MOC_DIR = $${PWD}/$$CODENAME/$$CONFIGURATION
 UI_DIR  = $${PWD}/$$CODENAME/$$CONFIGURATION
-
-
-#CONFIG += debug
-#CONFIG += c++11
-#QMAKE_CXXFLAGS += -std=c++0x
-# greaterThan(QT_MAJOR_VERSION, 4):QT += widgets
-#QT -= core
-#QT -= gui
