@@ -5,8 +5,8 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef INCLUDE_CPPUTILS_INTERNAL_HEADER_H
-#define INCLUDE_CPPUTILS_INTERNAL_HEADER_H
+#ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
+#define INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
 
 #include <stddef.h>
 
@@ -191,4 +191,31 @@
 #endif
 
 
-#endif  // #ifndef INCLUDE_CPPUTILS_INTERNAL_HEADER_H
+//#define CPPUTILS_IS_LITTLE_ENDIAN (((union { unsigned x; unsigned char c; }){1}).c)
+
+#if defined(_DEBUG) || defined(QTUTILS_DEBUG)
+// we have debug compilation
+#else
+// we have release
+#ifndef NDEBUG
+// let's define NDEBUG (No DEBUG)
+#define NDEBUG
+#endif
+#endif
+
+#ifdef NDEBUG
+#define CPPUTILS_DO_DEBUG_EXP(_exp)
+#define CPPUTILS_SAFE_CAST(_type,_val)	static_cast<_type>(_val)
+#else
+#define CPPUTILS_DO_DEBUG_EXP(_exp)              _exp ;
+#define CPPUTILS_SAFE_CAST(_type,_val)	dynamic_cast<_type>(_val)
+#endif
+
+
+#define CPPUTILS_NO_NULL
+
+#define CPPUTILS_STRINGIFY(_x)                CPPUTILS_STRINGIFY_PRIV_RAW(_x)
+#define CPPUTILS_STRINGIFY_PRIV_RAW(_x)		#_x
+
+
+#endif  // #ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
