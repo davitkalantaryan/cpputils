@@ -14,5 +14,9 @@
 #define MONITOR_MAKE_BITS_NEGATIVE	2
 #define MONITOR_INIT_BITS           0xaaaaaaaaaaaaaaaa
 
+#define CPPUTILS_MAKE_BITS_POSITIVE	1
+#define CPPUTILS_MAKE_BITS_NEGATIVE	2
+#define CPPUTILS_INIT_BITS           0xaaaaaaaaaaaaaaaa
+
 
 #endif  // #ifndef MONTOR_SRC_INCLUDE_MONITOR_CORE_FLAGSHELPER_H
