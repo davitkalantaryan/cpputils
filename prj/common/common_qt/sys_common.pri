@@ -26,9 +26,8 @@ isEmpty( TARGET_PATH ) {
 }
 
 
-PRJ_PWD_TMP = $$PRJ_PWD
-isEmpty(PRJ_PWD_TMP) {
-    PRJ_PWD = $${PWD}/../../..
+isEmpty(artifactRoot) {
+    artifactRoot = $${PWD}/../../..
 }
 
 
@@ -92,12 +91,12 @@ CONFIG(debug, debug|release) {
 	CONFIGURATION=Release
 }
 
-message("!!! sys_common.pri: SYSTEM_PATH/CONFIGURATION=$${PRJ_PWD}/$${SYSTEM_PATH}/$${CONFIGURATION}")
+message("!!! sys_common.pri: SYSTEM_PATH/CONFIGURATION=$${artifactRoot}/$${SYSTEM_PATH}/$${CONFIGURATION}")
 
 # Debug:DESTDIR = debug1
 SYSTEM_PATH=$$SYSTEM_PATH/$$CONFIGURATION
 MAKEFILE = Makefile.$${TARGET}.$${CODENAME}.$$CONFIGURATION
-DESTDIR = $${PRJ_PWD}/$${SYSTEM_PATH}/$${TARGET_PATH}$${TARGET_PATH_EXTRA}
-OBJECTS_DIR = $${PRJ_PWD}/$${SYSTEM_PATH}/.objects/$${TARGET}
+DESTDIR = $${artifactRoot}/$${SYSTEM_PATH}/$${TARGET_PATH}$${TARGET_PATH_EXTRA}
+OBJECTS_DIR = $${artifactRoot}/$${SYSTEM_PATH}/.objects/$${TARGET}
 MOC_DIR = $${PWD}/$$CODENAME/$$CONFIGURATION
 UI_DIR  = $${PWD}/$$CODENAME/$$CONFIGURATION
