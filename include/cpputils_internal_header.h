@@ -234,5 +234,7 @@
 #define CPPUTILS_TRY_CATCH(_expression)   try{(_expression);}catch(...){return;}
 #endif
 
+#define CPPUTILS_IN_OUT
+
 
 #endif  // #ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
