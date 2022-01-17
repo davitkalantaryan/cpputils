@@ -236,5 +236,10 @@
 
 #define CPPUTILS_IN_OUT
 
+// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56480
+#if defined(__GNUC__)
+#ifndef CPPUTILS_GCC_BUG_56480
+#endif
+
 
 #endif  // #ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
