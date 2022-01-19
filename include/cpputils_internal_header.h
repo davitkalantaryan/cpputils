@@ -193,7 +193,7 @@
 
 //#define CPPUTILS_IS_LITTLE_ENDIAN (((union { unsigned x; unsigned char c; }){1}).c)
 
-#if defined(_DEBUG) || defined(QTUTILS_DEBUG)
+#if defined(_DEBUG) || defined(CPPUTILS_DEBUG)
 // we have debug compilation
 #else
 // we have release
