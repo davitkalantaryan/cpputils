@@ -20,14 +20,16 @@
 namespace cpputils { namespace hashtbl {
 
 
-template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash, size_t templateDefaultSize>
+template <typename KeyType,typename HashItemType, typename HashItemPrivateType, typename HashType, size_t templateDefaultSize>
 class BaseBase
 {
 public:
-	HashItem*	FindEntry(const KeyType& key,size_t* corespondingHash=CPPUTILS_NULL)const;
-	HashItem*	FindEntryWithKnownHash(const KeyType& key,size_t knownHash)const;
+    typedef __p::__i::HashItem<HashItemType>    HashItemTypeAdv;
+public:
+	HashItemTypeAdv*	FindEntry(const KeyType& key,size_t* corespondingHash=CPPUTILS_NULL)const;
+	HashItemTypeAdv*	FindEntryWithKnownHash(const KeyType& key,size_t knownHash)const;
 	bool		RemoveEntry(const KeyType& key);
-	void		RemoveEntry(const HashItem* a_data);
+	void		RemoveEntry(const HashItemTypeAdv* a_data);
 	size_t		size()const;
 	void		clear() CPPUTILS_NOEXCEPT;
 	void		pop_back() ;
@@ -48,24 +50,26 @@ protected:
 	const BaseBase& operator=(BaseBase&& cM) CPPUTILS_NOEXCEPT;
 #endif
 	
-	HashItem*		AddEntryEvenIfExistsRaw(const HashItem& a_item);
-    HashItem*		AddEntryIfNotExistRaw(const HashItem& a_item);
-	HashItem*		AddEntryWithKnownHashRaw(const HashItem& a_item, size_t a_hashVal);
+	HashItemTypeAdv*		AddEntryEvenIfExistsRaw(const HashItemType& a_item);
+    HashItemTypeAdv*		AddEntryIfNotExistRaw(const HashItemType& a_item);
+	HashItemTypeAdv*		AddEntryWithKnownHashRaw(const HashItemTypeAdv& a_item);
 	
-	HashItem*		firstItem()const;
+	HashItemTypeAdv*		firstItem()const;
 
 private:
-	HashItem**			m_pTable;
+	HashItemTypeAdv**			m_pTable;
 	/*const*/ size_t	m_unRoundedTableSizeMin1;
-	HashItem			*m_pFirstItem,*m_pLastItem;
+	HashItemTypeAdv			*m_pFirstItem,*m_pLastItem;
 	size_t				m_unSize;
 };
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename KeyType,typename DataType,typename Hash=FHash<KeyType>,size_t templateDefaultSize=DEFAULT_TABLE_SIZE>
-class Base : public BaseBase< KeyType,__p::__i::HashItem<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >
+class Base : public BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >
 {
+public:
+    typedef __p::__i::HashItem<__p::__i::HashItemBase<KeyType,DataType> >    HashItemTypeAdv;
 public:
 	class  iterator;
 	class  const_iterator;
@@ -108,34 +112,38 @@ public:
 	class iterator{
 	public:
 		iterator();
-		iterator( __p::__i::HashItem<KeyType,DataType>* a_pItem);
+		iterator( HashItemTypeAdv* a_pItem);
 		iterator& operator++();
 		iterator  operator++(int);
 		iterator& operator--();
 		iterator  operator--(int);
-		__p::__i::HashItem<KeyType,DataType>* operator->()const;
-		operator __p::__i::HashItem<KeyType,DataType>*()const;
+		HashItemTypeAdv* operator->()const;
+		operator HashItemTypeAdv*()const;
+        iterator next()const;
+        iterator previous()const;
 		
 	private:
 		friend class Base;
-		__p::__i::HashItem<KeyType,DataType>* m_pItem;
+		HashItemTypeAdv* m_pItem;
 	}static const s_endIter;
 	
 	class const_iterator{
 	public:
 		const_iterator();
 		const_iterator(const iterator& iter);
-		const_iterator(const __p::__i::HashItem<KeyType,DataType>* a_pItem);
+		const_iterator(const HashItemTypeAdv* a_pItem);
 		const_iterator& operator++();
 		const_iterator  operator++(int);
 		const_iterator& operator--();
 		const_iterator  operator--(int);
-		const __p::__i::HashItem<KeyType,DataType>* operator->()const;
-		operator const __p::__i::HashItem<KeyType,DataType>* ()const;
+		const HashItemTypeAdv* operator->()const;
+		operator const HashItemTypeAdv* ()const;
+        const_iterator next()const;
+        const_iterator previous()const;
 		
 	private:
 		friend class Base;
-		__p::__i::HashItem<KeyType,DataType>* m_pItem;
+		const HashItemTypeAdv* m_pItem;
 	}static const s_endConstIter;
 };
 
@@ -146,8 +154,10 @@ public:
 //class Base<KeyType,void>;
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-class Base<KeyType,void,Hash,templateDefaultSize> : public BaseBase< KeyType,__p::__i::HashItem<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash, templateDefaultSize  >
+class Base<KeyType,void,Hash,templateDefaultSize> : public BaseBase< KeyType,__p::__i::HashItemBase<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash, templateDefaultSize  >
 {
+public:
+    typedef __p::__i::HashItem<__p::__i::HashItemBase<KeyType,void> >    HashItemTypeAdv;
 public:
 	class  iterator;
 	class  const_iterator;
@@ -180,34 +190,38 @@ public:
 	class iterator{
 	public:
 		iterator();
-		iterator( __p::__i::HashItem<KeyType,void>* a_pItem);
+		iterator( HashItemTypeAdv* a_pItem);
 		iterator& operator++();
 		iterator  operator++(int);
 		iterator& operator--();
 		iterator  operator--(int);
-		__p::__i::HashItem<KeyType,void>* operator->()const;
-		operator __p::__i::HashItem<KeyType,void>*()const;
+		HashItemTypeAdv* operator->()const;
+		operator HashItemTypeAdv*()const;
+        iterator next()const;
+        iterator previous()const;
 		
 	private:
 		friend class Base;
-		__p::__i::HashItem<KeyType,void>* m_pItem;
+		HashItemTypeAdv* m_pItem;
 	}static const s_endIter;
 	
 	class const_iterator{
 	public:
 		const_iterator();
 		const_iterator(const iterator& iter);
-		const_iterator(const __p::__i::HashItem<KeyType,void>* a_pItem);
+		const_iterator(const HashItemTypeAdv* a_pItem);
 		const_iterator& operator++();
 		const_iterator  operator++(int);
 		const_iterator& operator--();
 		const_iterator  operator--(int);
-		const __p::__i::HashItem<KeyType,void>* operator->()const;
-		operator const __p::__i::HashItem<KeyType,void>* ()const;
+		const HashItemTypeAdv* operator->()const;
+		operator const HashItemTypeAdv* ()const;
+        const_iterator next()const;
+        const_iterator previous()const;
 		
 	private:
 		friend class Base;
-		__p::__i::HashItem<KeyType,void>* m_pItem;
+		const HashItemTypeAdv* m_pItem;
 	}static const s_endConstIter;
 };
 

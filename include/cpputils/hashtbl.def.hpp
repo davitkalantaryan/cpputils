@@ -76,58 +76,68 @@ public:
 }} // namespace cpputils { namespace hashtbl {
 
 
-namespace __p { namespace __i { 
+namespace __p { namespace __i {
+
 
 template <typename KeyType,typename DataType>
-struct HashItem {
+struct HashItemBase {
 	template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
 protected:
-    HashItem(const KeyType& key, const DataType& data);
+    HashItemBase(const KeyType& key, const DataType& data);
 #ifdef CPPUTILS_CPP_11_DEFINED
-    HashItem(const KeyType& key, DataType&& data);
+    HashItemBase(const KeyType& key, DataType&& data);
 #endif
-	virtual ~HashItem();
+	virtual ~HashItemBase();
 public:
 	const KeyType first; DataType second;
 };
 
-
-template <typename KeyType,typename DataType>
-struct HashItemFull : public HashItem<KeyType,DataType> {
-public:
-	HashItemFull(const KeyType& key, const DataType& data);
-	HashItemFull(const HashItem<KeyType,DataType>& item);
-	~HashItemFull();
-	const HashItemFull& operator=(const HashItem<KeyType,DataType>& item);
-public:
-	HashItemFull	*prev, *next;
-	HashItemFull	*prevInTheList, *nextInTheList;
-	size_t			hashValue;
-};
-
-
 template <typename KeyType>
-struct HashItem<KeyType,void>{
+struct HashItemBase<KeyType,void>{
 	template <typename KeyType1, typename DataType1, typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
 protected:
-	HashItem(const KeyType& key);
-	virtual ~HashItem();
+	HashItemBase(const KeyType& key);
+	virtual ~HashItemBase();
 public:
 	const KeyType first;
 };
 
-template <typename KeyType>
-struct HashItemFull<KeyType,void> : public HashItem<KeyType,void> {
+
+template <typename TypeHashItem>
+struct HashItem : public TypeHashItem{
+	template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
+	friend class ::cpputils::hashtbl::Base;
+protected:
+    HashItem(const TypeHashItem& a_item, size_t a_hash);
+	virtual ~HashItem() CPPUTILS_OVERRIDE;
 public:
-	HashItemFull(const KeyType& key);
-	HashItemFull(const HashItem<KeyType,void>& item);
+    const size_t  hash;
+};
+
+
+template <typename KeyType,typename DataType>
+struct HashItemFull : public HashItem<HashItemBase<KeyType,DataType> > {
+public:
+	HashItemFull(const KeyType& key, const DataType& data);
+	HashItemFull(const HashItem<HashItemBase<KeyType,DataType> >& item);
 	~HashItemFull();
 public:
 	HashItemFull	*prev, *next;
 	HashItemFull	*prevInTheList, *nextInTheList;
-	size_t			hashValue;
+};
+
+
+template <typename KeyType>
+struct HashItemFull<KeyType,void> : public HashItem<HashItemBase<KeyType,void> > {
+public:
+	HashItemFull(const KeyType& key);
+	HashItemFull(const HashItem<HashItemBase<KeyType,void> >& item);
+	~HashItemFull();
+public:
+	HashItemFull	*prev, *next;
+	HashItemFull	*prevInTheList, *nextInTheList;
 };
 
 
