@@ -121,7 +121,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBas
 	if (!m_pTable) { throw std::bad_alloc(); }
 
 	for (; pItem; pItem= pItem->nextInTheList) {
-		AddEntryWithKnownHashRaw(*pItem, pItem->hash);
+		AddEntryWithKnownHashRaw(*pItem);
 	}
 }
 
@@ -230,7 +230,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::AddEntr
 {
 	Hash fnHash;
 	size_t unHash = (fnHash(a_item.first))&m_unRoundedTableSizeMin1;
-	return AddEntryWithKnownHashRaw(HashItemTypeAdv(a_item,unHash));
+	return AddEntryWithKnownHashRaw( HashItemTypeAdv(a_item,unHash) );
 }
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
@@ -242,7 +242,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::AddEntr
 		return CPPUTILS_NULL; // we do not overwrite
 	}
 	
-	return AddEntryWithKnownHashRaw(HashItemTypeAdv(a_item,unHash));
+	return AddEntryWithKnownHashRaw( HashItemTypeAdv(a_item,unHash) );
 }
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
@@ -373,7 +373,7 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntryMv(const KeyTy
     }
 
     return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
-            AddEntryWithKnownHashRaw( __p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),unHash);
+            AddEntryWithKnownHashRaw( HashItemTypeAdv(__p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),unHash) );
 }
 
 
@@ -382,7 +382,7 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator
 Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryWithKnownHashMv(const KeyType& a_key, DataType&& a_data,size_t a_hashVal)
 {
     return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
-            AddEntryWithKnownHashRaw( __p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),a_hashVal );
+            AddEntryWithKnownHashRaw( HashItemTypeAdv(__p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),a_hashVal) );
 }
 #endif
 
@@ -442,7 +442,8 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntry(const KeyType& a_key, const DataType& a_data)
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator 
+Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntry(const KeyType& a_key, const DataType& a_data)
 {
 	__p::__i::HashItemBase<KeyType,DataType>* pItem;
 	size_t unHash;
@@ -452,16 +453,17 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 	}
 	
 	return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
-	        AddEntryWithKnownHashRaw( __p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),unHash);
+	        AddEntryWithKnownHashRaw( HashItemTypeAdv(__p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),unHash) );
 }
 
 
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryWithKnownHash(const KeyType& a_key, const DataType& a_data,size_t a_hashVal)
+typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator 
+Base<KeyType,DataType,Hash,templateDefaultSize>::AddEntryWithKnownHash(const KeyType& a_key, const DataType& a_data,size_t a_hashVal)
 {
 	return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
-			AddEntryWithKnownHashRaw( __p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),a_hashVal );
+			AddEntryWithKnownHashRaw( HashItemTypeAdv(__p::__i::HashItemBase<KeyType,DataType>(a_key,a_data),a_hashVal) );
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
@@ -767,10 +769,11 @@ typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void
 }
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void,Hash,templateDefaultSize>::AddEntryWithKnownHash(const KeyType& a_key, size_t a_hashVal)
+typename Base<KeyType,void,Hash,templateDefaultSize>::iterator 
+Base<KeyType,void,Hash,templateDefaultSize>::AddEntryWithKnownHash(const KeyType& a_key, size_t a_hashVal)
 {
 	return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::
-			AddEntryWithKnownHashRaw( __p::__i::HashItemBase<KeyType,void>(a_key),a_hashVal );
+			AddEntryWithKnownHashRaw( HashItemTypeAdv(__p::__i::HashItemBase<KeyType,void>(a_key),a_hashVal) );
 }
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
