@@ -8,7 +8,7 @@
 include ( "$${PWD}/../../common/common_qt/sys_common.pri" )
 
 # we reevaluate this
-DESTDIR = "$${PRJ_PWD}/$${SYSTEM_PATH}/test"
+DESTDIR = "$${artifactRoot}/$${SYSTEM_PATH}/test"
 
 QT -= gui
 QT -= core

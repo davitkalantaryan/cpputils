@@ -11,6 +11,7 @@
 
 #include <cpputils_internal_header.h>
 #include <stddef.h>
+#include <cpputils/disable_compiler_warnings.h>
 
 
 namespace cpputils {

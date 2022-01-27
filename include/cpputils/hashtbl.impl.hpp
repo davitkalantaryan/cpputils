@@ -247,6 +247,13 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::AddEntr
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
 typename BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::HashItemTypeAdv*
+BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::AddEntryWithKnownHashRaw(const HashItemType& a_item, size_t a_hash)
+{
+    return AddEntryWithKnownHashRaw( HashItemTypeAdv(a_item,a_hash) );
+}
+
+template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
+typename BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::HashItemTypeAdv*
 BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::AddEntryWithKnownHashRaw(const HashItemTypeAdv& a_item)
 {	
 	HashItemPrivate* pItem = new HashItemPrivate(a_item);

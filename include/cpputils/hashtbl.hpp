@@ -52,7 +52,8 @@ protected:
 	
 	HashItemTypeAdv*		AddEntryEvenIfExistsRaw(const HashItemType& a_item);
     HashItemTypeAdv*		AddEntryIfNotExistRaw(const HashItemType& a_item);
-	HashItemTypeAdv*		AddEntryWithKnownHashRaw(const HashItemTypeAdv& a_item);
+	HashItemTypeAdv*		AddEntryWithKnownHashRaw(const HashItemType& a_item, size_t a_hash);
+    HashItemTypeAdv*		AddEntryWithKnownHashRaw(const HashItemTypeAdv& a_item);
 	
 	HashItemTypeAdv*		firstItem()const;
 

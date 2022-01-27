@@ -7,6 +7,8 @@
 
 include ( "$${PWD}/../../common/common_qt/sys_common.pri" )
 
+DESTDIR = "$${artifactRoot}/$${SYSTEM_PATH}/test"
+
 QT -= gui
 QT -= core
 QT -= widgets

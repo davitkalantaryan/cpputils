@@ -9,6 +9,7 @@
 #include <cpputils/enums/fast.hpp>
 //#include <cpputils/enums/full.hpp>
 #include <cpputils/tls_data.hpp>
+#include <cpputils/hash.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -45,6 +46,25 @@ typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
 
 int main()
 {
+    {
+        cpputils::hash::Hash<int,int> aHash;
+        
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(1,1));
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(1,1));
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(2,1));
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(3,1));
+        
+        cpputils::hash::Set<int> aSet;
+        
+        aSet.AddEntryIfNotExistC(1);
+        aSet.AddEntryIfNotExistC(1);
+        aSet.AddEntryIfNotExistC(1);
+        aSet.AddEntryIfNotExistC(1);
+        
+        return 0;
+    }
+    
+    
 	{
 		void* pPtr = nullptr;
 		int nData     = static_cast<int>(reinterpret_cast<size_t>(pPtr));
@@ -213,6 +233,7 @@ int main()
 		std::cout << "a4=" << a4 << std::endl;
 	}
 
+#if 0
 	{
 		cpputils::BigUInt<1> aMask2, aMask;
 
@@ -297,6 +318,8 @@ int main()
 		//enum class TestEnum : char {a,b,c};
 		//TestEnum a = TestEnum::a;
 	}
+    
+#endif
 	
 	
 	return 0;
