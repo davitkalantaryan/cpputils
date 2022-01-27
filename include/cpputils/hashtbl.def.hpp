@@ -109,7 +109,9 @@ template <typename TypeHashItem>
 struct HashItem : public TypeHashItem{
 	template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
-protected:
+    template <typename KeyType1,typename HashItemType, typename HashItemPrivateType, typename Hash, size_t templateDefaultSize>
+    friend class BaseBase;
+public:
     HashItem(const TypeHashItem& a_item, size_t a_hash);
 	virtual ~HashItem() CPPUTILS_OVERRIDE;
 public:

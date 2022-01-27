@@ -143,7 +143,7 @@ public:
 		
 	private:
 		friend class Base;
-		const HashItemTypeAdv* m_pItem;
+		HashItemTypeAdv* m_pItem;
 	}static const s_endConstIter;
 };
 
@@ -221,7 +221,7 @@ public:
 		
 	private:
 		friend class Base;
-		const HashItemTypeAdv* m_pItem;
+		HashItemTypeAdv* m_pItem;
 	}static const s_endConstIter;
 };
 
