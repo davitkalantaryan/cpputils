@@ -9,7 +9,8 @@
 #include <cpputils/enums/fast.hpp>
 //#include <cpputils/enums/full.hpp>
 #include <cpputils/tls_data.hpp>
-#include <cpputils/hash.hpp>
+#include <cpputils/hash/hash.hpp>
+#include <cpputils/hash/vhash.hpp>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -46,6 +47,27 @@ typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
 
 int main()
 {
+    {
+        cpputils::hash::VHash<int,int> aHash;
+        
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(1,1));
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(1,1));
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(2,1));
+        aHash.AddEntryIfNotExistC(std::pair<int,int>(3,1));
+        
+        cpputils::hash::VSet<int> aSet;
+        
+        aSet.AddEntryIfNotExistC(1);
+        aSet.AddEntryIfNotExistC(1);
+        aSet.AddEntryIfNotExistC(1);
+        aSet.AddEntryIfNotExistC(1);
+        
+        ::std::cout<<aSet.at(0)->first<<std::endl;
+        
+        return 0;
+    }
+    
+    
     {
         cpputils::hash::Hash<int,int> aHash;
         

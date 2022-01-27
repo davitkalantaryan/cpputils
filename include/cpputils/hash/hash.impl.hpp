@@ -428,44 +428,6 @@ HashItemPrivate::HashItemPrivate(HashItemType&& a_mM)
 }
 
 
-/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-template <typename KeyType,typename DataType>
-HashItem<KeyType,DataType>::HashItem(const ::std::pair<KeyType,DataType>& a_cM)
-    :
-      first(a_cM.first),
-      second(a_cM.second)
-{
-}
-
-
-template <typename KeyType,typename DataType>
-HashItem<KeyType,DataType>::HashItem( ::std::pair<KeyType,DataType>&& a_mM)
-    :
-      first(::std::move(a_mM.first)),
-      second(::std::move(a_mM.second))
-{
-}
-
-
-/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-template <typename KeyType>
-SetItem<KeyType>::SetItem(const KeyType& a_cM)
-    :
-      first(a_cM)
-{
-}
-
-
-template <typename KeyType>
-SetItem<KeyType>::SetItem( KeyType&& a_mM)
-    :
-      first(a_mM)
-{
-}
-
-
 
 }}  //  namespace cpputils { namespace hash {
 

@@ -14,21 +14,16 @@
 
 
 #include <cpputils_internal_header.h>
+#include <cpputils/hash/items.hpp>
 #include <cpputils/functional.hpp>
 #include <string>
 #include <functional>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include "hash.def.hpp"
 
 
 namespace cpputils { namespace hash {
-
-typedef void* (*TypeMalloc)  ( size_t );
-typedef void* (*TypeCalloc)  ( size_t,size_t );
-typedef void* (*TypeRealloc)  ( void*,size_t );
-typedef void  (*TypeFree)  ( void* );
 
 template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
@@ -71,7 +66,7 @@ public:
 protected:
     inline void GeFromOther(const HashBase& a_cM);
     
-private:
+protected:
     HashItemType**  m_pTable;
 	size_t          m_unRoundedTableSizeMin1;
 	size_t			m_unSize;
@@ -113,12 +108,12 @@ private:
 
 
 
-template <typename Key,typename Data, typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_DEFAULT_TABLE_SIZE,
+template <typename Key,typename Data, typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
 using Hash = HashBase<Key,HashItem<Key,Data>,HashT,defSize,mFn,cFn,rFn,fFn>;
 
 
-template <typename Key,typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_DEFAULT_TABLE_SIZE,
+template <typename Key,typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
 using Set = HashBase<Key,SetItem<Key>,HashT,defSize,mFn,cFn,rFn,fFn>;
 
