@@ -169,8 +169,17 @@ template <typename KeyType,typename HashItemType, typename HashItemPrivate, type
 const BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>& 
 BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operator=(const BaseBase& a_cM)
 {
-	m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
-	m_pFirstItem=CPPUTILS_NULL;
+    {
+        HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
+        
+        while(pItem){
+            pItemNext = pItem->nextInTheList;
+            delete pItem;
+            pItem = pItemNext;
+        }
+    }
+    
+	m_pLastItem=m_pFirstItem=CPPUTILS_NULL;
 	m_unSize = (0);
 
 	{
@@ -178,9 +187,10 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operato
 		size_t tRet(m_unRoundedTableSizeMin1 + 1);
 		const size_t memorySize = tRet * sizeof(HashItemTypeAdv*);
 		HashItemTypeAdv**  pTableTmp = static_cast<HashItemTypeAdv**>(realloc(m_pTable, memorySize));
-		if (!pTableTmp) { throw std::bad_alloc(); }
+		if (!pTableTmp) { free(m_pTable);m_pTable=CPPUTILS_NULL;throw std::bad_alloc(); }
 		m_pTable = pTableTmp;
 		memset(m_pTable, 0, memorySize);
+        m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
 
 		for (; pItem; pItem = pItem->nextInTheList) {
 			AddEntryWithKnownHashRaw(*pItem);
