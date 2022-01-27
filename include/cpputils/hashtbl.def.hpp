@@ -20,6 +20,9 @@ namespace cpputils { namespace hashtbl {
 template <typename KeyType,typename DataType,typename Hash, size_t templateDefaultSize> 
 class Base;
 
+template <typename KeyType,typename HashItemType, typename HashItemPrivateType, typename Hash, size_t templateDefaultSize>
+class BaseBase;
+
 template <typename KeyType, typename DataType>
 class FuncF 
 {
@@ -110,8 +113,8 @@ struct HashItem : public TypeHashItem{
 	template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
 	friend class ::cpputils::hashtbl::Base;
     template <typename KeyType1,typename HashItemType, typename HashItemPrivateType, typename Hash, size_t templateDefaultSize>
-    friend class BaseBase;
-public:
+    friend class ::cpputils::hashtbl::BaseBase;
+protected:
     HashItem(const TypeHashItem& a_item, size_t a_hash);
 	virtual ~HashItem() CPPUTILS_OVERRIDE;
 public:
