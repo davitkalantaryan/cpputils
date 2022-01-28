@@ -47,6 +47,51 @@ public:
 };
 
 
+namespace it{
+
+template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
+struct HashItemPrivate : public HashItemType{
+    //using HashItemType::HashItemType;
+    HashItemPrivate(HashItemType&&, size_t a_hash);
+    static void* operator new( ::std::size_t a_count );
+    static void operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT ;
+    HashItemPrivate *prev, *next;
+    const size_t hash;
+};
+
+template <typename HashItemType>
+class iterator{
+public:
+    virtual ~iterator();
+    iterator();
+    iterator(HashItemType* a_pItem);
+    virtual HashItemType* operator->()const;
+    virtual operator HashItemType*()const;
+public:
+    static const iterator s_endIter;
+protected:
+    HashItemType* m_pItem;
+};
+
+template <typename HashItemType>
+class const_iterator{
+public:
+    virtual ~const_iterator();
+    const_iterator();
+    const_iterator(const HashItemType* a_pItem);
+    const_iterator(const iterator<HashItemType>& iter);
+    virtual const HashItemType* operator->()const;
+    virtual operator const HashItemType* ()const;
+public:
+    static const const_iterator s_endConstIter;
+protected:
+    HashItemType* m_pItem;
+};
+
+}  // namespace iter{
+
+
+
 }}  // namespace cpputils { namespace hash { 
 
 

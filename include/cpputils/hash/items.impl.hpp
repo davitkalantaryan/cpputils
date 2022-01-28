@@ -59,6 +59,119 @@ SetItem<KeyType>::SetItem( KeyType&& a_mM)
 
 
 
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+namespace it{
+
+template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
+void* HashItemPrivate<HashItemType,mallocFn,freeFn>::operator new( ::std::size_t a_count )
+{
+    return mallocFn(a_count);
+}
+
+template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
+void  HashItemPrivate<HashItemType,mallocFn,freeFn>::operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT 
+{
+    freeFn(a_ptr);
+}
+
+template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
+HashItemPrivate<HashItemType,mallocFn,freeFn>::HashItemPrivate(HashItemType&& a_mM, size_t a_hash)
+    :
+      HashItemType(::std::move(a_mM)),
+      hash(a_hash)
+{
+    this->prev = CPPUTILS_NULL;
+}
+
+
+//
+
+template <typename HashItemType>
+const iterator<HashItemType> s_endIter(CPPUTILS_NULL);
+
+
+template <typename HashItemType>
+iterator<HashItemType>::~iterator()
+{
+}
+
+template <typename HashItemType>
+iterator<HashItemType>::iterator()
+    :
+      m_pItem(CPPUTILS_NULL)
+{
+}
+
+template <typename HashItemType>
+iterator<HashItemType>::iterator(HashItemType* a_pItem)
+    :
+      m_pItem(a_pItem)
+{
+}
+
+template <typename HashItemType>
+HashItemType* iterator<HashItemType>::operator->()const
+{
+    return m_pItem;
+}
+
+template <typename HashItemType>
+iterator<HashItemType>::operator HashItemType*()const
+{
+    return m_pItem;
+}
+
+
+//
+
+
+template <typename HashItemType>
+const const_iterator<HashItemType> s_endConstIter(CPPUTILS_NULL);
+
+template <typename HashItemType>
+const_iterator<HashItemType>::~const_iterator()
+{
+}
+
+template <typename HashItemType>
+const_iterator<HashItemType>::const_iterator()
+    :
+      m_pItem(CPPUTILS_NULL)
+{
+}
+
+template <typename HashItemType>
+const_iterator<HashItemType>::const_iterator(const HashItemType* a_pItem)
+    :
+      m_pItem(const_cast<HashItemType*>(a_pItem))
+{
+}
+
+template <typename HashItemType>
+const_iterator<HashItemType>::const_iterator(const iterator<HashItemType>& a_iter)
+    :
+      m_pItem(a_iter.m_pItem)
+{
+}
+
+template <typename HashItemType>
+const HashItemType* const_iterator<HashItemType>::operator->()const
+{
+    return m_pItem;
+}
+
+template <typename HashItemType>
+const_iterator<HashItemType>::operator const HashItemType*()const
+{
+    return m_pItem;
+}
+
+
+}  // namespace it{
+
+
+
 }}  //  namespace cpputils { namespace hash {
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_ITEMS_IMPL_HPP
