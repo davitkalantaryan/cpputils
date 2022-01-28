@@ -46,6 +46,10 @@ public:
 	void            clear() CPPUTILS_NOEXCEPT;  // number of items before
     iterator        find( const KeyType& key, size_t* a_pHash=CPPUTILS_NULL );
     const_iterator  find( const KeyType& key, size_t* a_pHash=CPPUTILS_NULL )const;
+    iterator        begin();
+    iterator        end();
+    const_iterator  begin()const;
+    const_iterator  end()const;
     
     HashItemType*   AddEntryWithKnownHashMv(HashItemType&& a_item, size_t a_hash);
     HashItemType*   AddEntryWithKnownHashC(const HashItemType& a_item, size_t a_hash);
@@ -55,7 +59,9 @@ public:
     HashItemType*   AddEntryIfNotExistC(const HashItemType& a_item);
     HashItemType*   findEntry( const KeyType& key, size_t* a_pHash )const;
     HashItemType*   at(size_t a_unIndex) const;
-    void RemoveEntry(HashItemType*);
+    void RemoveEntry(const HashItemType*);
+    void RemoveEntryByIndex(size_t);
+    void RemoveEntryByKey(const KeyType& a_key);
         
 public:
     static void* operator new( ::std::size_t a_count );
@@ -78,30 +84,40 @@ public:
 		iterator();
         iterator(HashItemType* a_pItem);
 		HashItemType* operator->()const;
-		operator HashItemType*()const;		
+		operator HashItemType*()const;
+        iterator& operator++();
+		iterator  operator++(int);
 	protected:
 		friend VHashBase;
-		HashItemType* m_pItem;
-	}static const s_endIter;
+		HashItemPrivate* m_pItem;
+	};
     
     class const_iterator{
 	public:
 		const_iterator();
 		const_iterator(const iterator& iter);
+        const_iterator(const HashItemType* a_pItem);
 		const HashItemType* operator->()const;
 		operator const HashItemType* ()const;
+        const_iterator& operator++();
+		const_iterator  operator++(int);
 	protected:
 		friend VHashBase;
-		HashItemType* m_pItem;
-	}static const s_endConstIter;
+		HashItemPrivate* m_pItem;
+	};
     
 protected:
+    friend iterator;
+    friend const_iterator;
     struct HashItemPrivate : public HashItemType{
         //using HashItemType::HashItemType;
-        HashItemPrivate(HashItemType&&);
+        HashItemPrivate(HashItemType&&, size_t a_hash, size_t a_index, VHashBase* a_pParent);
         static void* operator new( ::std::size_t a_count );
         static void operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT ;
         HashItemPrivate *prev, *next;
+        const size_t hash;
+        const size_t index;
+        VHashBase*const m_pParent;
     };
 };
 

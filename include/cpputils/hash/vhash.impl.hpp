@@ -57,7 +57,8 @@ VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallo
 	size_t tRet(m_unRoundedTableSizeMin1+1);
     m_pTable = static_cast<HashItemPrivate**>(callocFn(tRet,sizeof(HashItemPrivate*)));
 	if(!m_pTable){throw std::bad_alloc();}
-    m_vectTable = CPPUTILS_NULL;
+    m_vectTable = static_cast<HashItemPrivate**>(mallocFn(sizeof(HashItemPrivate*)*CPPUTILS_HASH_VECTOR_RESIZE_SIZEE));
+    if (!m_vectTable) { throw std::bad_alloc(); }
 }
 
 
@@ -179,6 +180,81 @@ VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallo
 
 template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::begin()
+{
+    return m_vectTable[0];
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::end()
+{
+    return m_vectTable[m_unSize];
+}
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::begin()const
+{
+    return m_vectTable[0];
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::end()const
+{
+    return m_vectTable[m_unSize];
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+void VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntry(const HashItemType* a_item_p)
+{
+	HashItemPrivate* pItem = const_cast<HashItemPrivate*>(static_cast<const HashItemPrivate*>(a_item_p));
+	
+	if(m_pTable[pItem->hash]==pItem){m_pTable[pItem->hash]=pItem->next;}
+    if(pItem->next){pItem->next->prev=pItem->prev;}
+    if(pItem->prev){pItem->prev->next=pItem->next;}
+    
+    // let's delete from vector
+    if((pItem->index)<(--m_unSize)){
+        memmove(m_vectTable+pItem->index,m_vectTable+pItem->index+1,m_unSize-(pItem->index));
+    }
+    
+	delete pItem; // destructor will delete from list
+	
+    --m_unSize;
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+void VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryByIndex(size_t a_index)
+{
+    RemoveEntry(m_vectTable[a_index]);
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+void VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryByKey(const KeyType& a_key)
+{
+    HashItemType* pItem = findEntry(a_key);
+    if(pItem){
+        RemoveEntry(pItem);
+    }
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
 inline void VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
 GeFromOther(const VHashBase& a_cM)
 {    
@@ -204,7 +280,7 @@ template <typename KeyType,typename HashItemType, typename Hash, size_t template
 HashItemType* VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
 AddEntryWithKnownHashMv(HashItemType&& a_item, size_t a_hash)
 {
-    HashItemPrivate* pItem = new HashItemPrivate( ::std::move(a_item) );
+    HashItemPrivate* pItem = new HashItemPrivate( ::std::move(a_item), a_hash, m_unSize, this );
     //HashItemPrivate* pItem = new HashItemPrivate(  );
 	
     //pItem->prev = CPPUTILS_NULL; // this is done in the constructor
@@ -212,7 +288,7 @@ AddEntryWithKnownHashMv(HashItemType&& a_item, size_t a_hash)
 	if(m_pTable[a_hash]){m_pTable[a_hash]->prev=pItem;}
 	m_pTable[a_hash] = pItem;
     
-    if((m_unSize%CPPUTILS_HASH_VECTOR_RESIZE_SIZEE)==0){
+    if(((m_unSize+1)%CPPUTILS_HASH_VECTOR_RESIZE_SIZEE)==0){  // (m_unSize+1) => plus 1 is to have space for function end()
         const size_t cunCount(m_unSize+CPPUTILS_HASH_VECTOR_RESIZE_SIZEE);
         const size_t cunAllocateSize = cunCount*sizeof(HashItemPrivate*);
         HashItemPrivate** pTable = static_cast<HashItemPrivate**>(reallocFn(m_vectTable,cunAllocateSize));
@@ -317,12 +393,6 @@ HashItemType* VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,c
 
 template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
-const typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator  
-VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter(CPPUTILS_NULL);
-
-
-template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
-          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
 VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
 iterator::iterator()
     :
@@ -336,7 +406,7 @@ template <typename KeyType,typename HashItemType, typename Hash, size_t template
 VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
 iterator::iterator(HashItemType* a_pItem)
     :
-      m_pItem(a_pItem)
+      m_pItem(static_cast<HashItemPrivate*>(a_pItem))
 {
 }
 
@@ -357,12 +427,28 @@ HashItemType*()const
 }
 
 
-/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator& 
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator::operator++()
+{
+    m_pItem = m_pItem->m_pParent->m_vectTable[m_pItem->index+1];
+    return *this;
+}
+
 
 template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
-const typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator  
-VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::s_endConstIter(CPPUTILS_NULL);
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::iterator::operator++(int)
+{
+    HashItemPrivate* pItem = m_pItem;
+    m_pItem = m_pItem->m_pParent->m_vectTable[m_pItem->index+1];
+    return pItem;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 
 template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
@@ -371,6 +457,26 @@ VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallo
 const_iterator::const_iterator()
     :
       m_pItem(CPPUTILS_NULL)
+{
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
+const_iterator::const_iterator(const HashItemType* a_pItem)
+    :
+      m_pItem(const_cast<HashItemPrivate*>(static_cast<const HashItemPrivate*>(a_pItem)))
+{
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
+const_iterator::const_iterator(const iterator& a_iter)
+    :
+      m_pItem(const_cast<HashItemPrivate*>(static_cast<const HashItemPrivate*>(a_iter.m_pItem)))
 {
 }
 
@@ -389,6 +495,27 @@ VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallo
 const HashItemType*()const
 {
     return m_pItem;
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator& 
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::operator++()
+{
+    m_pItem = m_pItem->m_pParent->m_vectTable[m_pItem->index+1];
+    return *this;
+}
+
+
+template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
+VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::operator++(int)
+{
+    HashItemPrivate* pItem = m_pItem;
+    m_pItem = m_pItem->m_pParent->m_vectTable[m_pItem->index+1];
+    return pItem;
 }
 
 
@@ -413,9 +540,12 @@ operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT
 template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
 VHashBase<KeyType,HashItemType,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn>::
-HashItemPrivate::HashItemPrivate(HashItemType&& a_mM)
+HashItemPrivate::HashItemPrivate(HashItemType&& a_mM, size_t a_hash, size_t a_index, VHashBase* a_pParent)
     :
-      HashItemType(::std::move(a_mM))
+      HashItemType(::std::move(a_mM)),
+      hash(a_hash),
+      index(a_index),
+      m_pParent(a_pParent)
 {
     this->prev = CPPUTILS_NULL;
 }
