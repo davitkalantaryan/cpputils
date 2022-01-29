@@ -288,23 +288,25 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
 {
     if(pItem() && ((m_pItem->m_index+1)<m_pItem->m_pParent->m_unSize)){
         m_pItem = m_pItem->m_pParent->m_ppVector[m_pItem->m_index+1];
-        return *this;
     }
-    
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
+    else{
+        m_pItem = CPPUTILS_NULL;
+    }
+    return *this;
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base 
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::operator++(int)
 {
+    iterator_base retIter(m_pItem);
     if(pItem() && ((m_pItem->m_index+1)<m_pItem->m_pParent->m_unSize)){
-        iterator_base retIter(m_pItem);
         m_pItem = m_pItem->m_pParent->m_ppVector[m_pItem->m_index+1];
-        return retIter;
     }
-    
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
+    else{
+        m_pItem = CPPUTILS_NULL;
+    }
+    return retIter;
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -313,23 +315,25 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
 {
     if(pItem() && (m_pItem->m_index>0)){
         m_pItem = m_pItem->m_pParent->m_ppVector[m_pItem->m_index-1];
-        return *this;
     }
-    
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
+    else{
+        m_pItem = CPPUTILS_NULL;
+    }
+    return *this;
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base 
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::operator--(int)
 {
+    iterator_base retIter(m_pItem);
     if(pItem() && (m_pItem->m_index>0)){
-        iterator_base retIter(m_pItem);
         m_pItem = m_pItem->m_pParent->m_ppVector[m_pItem->m_index-1];
-        return retIter;
     }
-    
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
+    else{
+        m_pItem = CPPUTILS_NULL;
+    }
+    return retIter;
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -364,6 +368,9 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::
     if(pItem() && ((m_pItem->m_index+a_offset)<m_pItem->m_pParent->m_unSize)){
         m_pItem = m_pItem->m_pParent->m_ppVector[m_pItem->m_index+a_offset];
     }
+    else{
+        m_pItem = CPPUTILS_NULL;
+    }
 }
 
 
@@ -373,13 +380,16 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::
     if(pItem() && (m_pItem->m_index>=a_offset)){
         m_pItem = m_pItem->m_pParent->m_ppVector[m_pItem->m_index+a_offset];
     }
+    else{
+        m_pItem = CPPUTILS_NULL;
+    }
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
-    if(m_pItem&&(m_pItem->m_pParent)){
+    if(pItem()){
         m_pItem->m_pParent->RemoveEntryRaw(*this);
     }
 }

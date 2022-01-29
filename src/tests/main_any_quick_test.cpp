@@ -79,14 +79,21 @@ int main()
         cpputils::hash::VSet<int> aSet;
         
         ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
-        ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
-        ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
-        ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
+        ::std::cout<<aSet.AddEntryIfNotExistC(2)<<::std::endl;
+        ::std::cout<<aSet.AddEntryIfNotExistC(3)<<::std::endl;
+        ::std::cout<<aSet.AddEntryIfNotExistC(4)<<::std::endl;
         
         ::std::cout<<aSet[0]<<std::endl;
         
         //cpputils::hash::VHash<int,int> aVHash;
         //::std::cout<<aVHash.AddEntryIfNotExistC(std::pair<int,int>(1,1))<<::std::endl;
+        
+        cpputils::hash::VSet<int>::iterator iter = aSet.begin();
+        cpputils::hash::VSet<int>::iterator iterEnd = aSet.end();
+        
+        for(;iter!=iterEnd;++iter){
+            ::std::cout<<iter->first<<std::endl;
+        }
         
         for(const auto& aElem : aSet){
             ::std::cout<<aElem.first<<std::endl;
