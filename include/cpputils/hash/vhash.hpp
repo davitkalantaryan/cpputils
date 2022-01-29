@@ -45,6 +45,10 @@ public:
 	VHashApi&      operator=(VHashApi&& cM) CPPUTILS_NOEXCEPT;
     iterator       operator[](size_t a_index);
 	const_iterator operator[](size_t a_index) const;
+    iterator       begin();
+	const_iterator begin() const;
+    iterator       end();
+	const_iterator end() const;
     
     void    RemoveEntryRaw(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);

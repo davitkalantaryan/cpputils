@@ -99,6 +99,38 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::operator[](size_t a_
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()
+{
+    return iterator(m_ppVector[0]);
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::end()
+{
+    return s_nullIter;
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()const
+{
+    return const_iterator(m_ppVector[0]);
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::end()const
+{
+    return s_constNullIter;
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
@@ -259,7 +291,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         return *this;
     }
     
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter);
+    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -272,7 +304,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         return retIter;
     }
     
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter);
+    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -284,7 +316,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         return *this;
     }
     
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter);
+    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -297,7 +329,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         return retIter;
     }
     
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter);
+    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -309,7 +341,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         return iterator_base(pItem);
     }
     
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter);
+    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
 }
 
 
@@ -322,7 +354,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         return iterator_base(pItem);
     }
     
-    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_endIter);
+    return static_cast<const iterator_base&>(VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_nullIter);
 }
 
 

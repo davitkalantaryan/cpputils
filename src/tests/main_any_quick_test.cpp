@@ -76,15 +76,21 @@ int main()
         ::std::cout<<aHash.AddEntryIfNotExistC(std::pair<int,int>(2,1))<<::std::endl;
         ::std::cout<<aHash.AddEntryIfNotExistC(std::pair<int,int>(3,1))<<::std::endl;
         
-        cpputils::hash::Set<int> aSet;
+        cpputils::hash::VSet<int> aSet;
         
         ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
         ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
         ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
         ::std::cout<<aSet.AddEntryIfNotExistC(1)<<::std::endl;
+        
+        ::std::cout<<aSet[0]<<std::endl;
         
         //cpputils::hash::VHash<int,int> aVHash;
         //::std::cout<<aVHash.AddEntryIfNotExistC(std::pair<int,int>(1,1))<<::std::endl;
+        
+        for(const auto& aElem : aSet){
+            ::std::cout<<aElem.first<<std::endl;
+        }
         
         return 0;
     }
