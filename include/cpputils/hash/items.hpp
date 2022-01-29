@@ -18,28 +18,22 @@ namespace cpputils { namespace hash {
 
 
 #define CPPUTILS_HASH_DEFAULT_TABLE_SIZE	256
-#define CPPUTILS_HASH_VECTOR_RESIZE_SIZEE	512
+#define CPPUTILS_HASH_VECTOR_RESIZE_SIZE	512
 
 typedef void* (*TypeMalloc)  ( size_t );
 typedef void* (*TypeCalloc)  ( size_t,size_t );
 typedef void* (*TypeRealloc)  ( void*,size_t );
 typedef void  (*TypeFree)  ( void* );
 
-template <typename KeyType,typename DataType>
-struct HashItem {
-	//template <typename KeyType1, typename DataType1,typename Hash,size_t templateDefaultSize>
-	//friend class ::cpputils::hashtbl::Base;
-public:
-    HashItem(const ::std::pair<KeyType,DataType>&);
-    HashItem( ::std::pair<KeyType,DataType>&&);
-public:
-	const KeyType first; DataType second;
+template <TypeMalloc mallocFn, TypeFree freeFn>
+struct BaseForAlloc {
+    static void* operator new( ::std::size_t a_count );
+    static void operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT ;
 };
 
 
-template <typename KeyType>
-struct SetItem {
-public:
+template <typename KeyType, TypeMalloc mallocFn, TypeFree freeFn>
+struct SetItem : public BaseForAlloc<mallocFn,freeFn> {
     SetItem(const KeyType&);
     SetItem( KeyType&&);
 public:
@@ -47,46 +41,24 @@ public:
 };
 
 
+template <typename KeyType,typename DataType, TypeMalloc mallocFn, TypeFree freeFn>
+struct HashItem : public SetItem<KeyType,mallocFn,freeFn> {
+    HashItem(const ::std::pair<KeyType,DataType>&);
+    HashItem( ::std::pair<KeyType,DataType>&&);
+public:
+	DataType second;
+};
+
+
 namespace it{
 
-template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
-struct HashItemPrivate : public HashItemType{
-    //using HashItemType::HashItemType;
-    HashItemPrivate(HashItemType&&, size_t a_hash);
-    static void* operator new( ::std::size_t a_count );
-    static void operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT ;
-    HashItemPrivate *prev, *next;
-    const size_t hash;
+template <typename Input,TypeMalloc mallocFn, TypeFree freeFn>
+struct InputPrivate : public Input{
+    //static_assert( ::std::is_base_of<BaseForAlloc<mallocFn,freeFn>,InputPrivate>(), "InputPrivate shoulb be child of BaseForAlloc" );
+    InputPrivate(Input&&);
+    InputPrivate *prev, *next;
 };
 
-template <typename HashItemType>
-class iterator{
-public:
-    virtual ~iterator();
-    iterator();
-    iterator(HashItemType* a_pItem);
-    virtual HashItemType* operator->()const;
-    virtual operator HashItemType*()const;
-public:
-    static const iterator s_endIter;
-protected:
-    HashItemType* m_pItem;
-};
-
-template <typename HashItemType>
-class const_iterator{
-public:
-    virtual ~const_iterator();
-    const_iterator();
-    const_iterator(const HashItemType* a_pItem);
-    const_iterator(const iterator<HashItemType>& iter);
-    virtual const HashItemType* operator->()const;
-    virtual operator const HashItemType* ()const;
-public:
-    static const const_iterator s_endConstIter;
-protected:
-    HashItemType* m_pItem;
-};
 
 }  // namespace iter{
 

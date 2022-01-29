@@ -17,43 +17,59 @@
 #endif
 
 #include <utility>
+#include <type_traits>
 
 
 namespace cpputils { namespace hash {
 
 
-template <typename KeyType,typename DataType>
-HashItem<KeyType,DataType>::HashItem(const ::std::pair<KeyType,DataType>& a_cM)
-    :
-      first(a_cM.first),
-      second(a_cM.second)
+template <TypeMalloc mallocFn, TypeFree freeFn>
+void* BaseForAlloc<mallocFn,freeFn>::operator new( ::std::size_t a_count )
 {
+    return mallocFn(a_count);
 }
 
-
-template <typename KeyType,typename DataType>
-HashItem<KeyType,DataType>::HashItem( ::std::pair<KeyType,DataType>&& a_mM)
-    :
-      first(::std::move(a_mM.first)),
-      second(::std::move(a_mM.second))
+template <TypeMalloc mallocFn, TypeFree freeFn>
+void  BaseForAlloc<mallocFn,freeFn>::operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT 
 {
+    freeFn(a_ptr);
 }
 
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename KeyType>
-SetItem<KeyType>::SetItem(const KeyType& a_cM)
+template <typename KeyType, TypeMalloc mallocFn, TypeFree freeFn>
+SetItem<KeyType,mallocFn,freeFn>::SetItem(const KeyType& a_cM)
     :
       first(a_cM)
 {
 }
 
 
-template <typename KeyType>
-SetItem<KeyType>::SetItem( KeyType&& a_mM)
+template <typename KeyType, TypeMalloc mallocFn, TypeFree freeFn>
+SetItem<KeyType,mallocFn,freeFn>::SetItem( KeyType&& a_mM)
     :
       first(a_mM)
+{
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename KeyType, typename DataType, TypeMalloc mallocFn, TypeFree freeFn>
+HashItem<KeyType,DataType,mallocFn,freeFn>::HashItem(const ::std::pair<KeyType,DataType>& a_cM)
+    :
+      SetItem<KeyType,mallocFn,freeFn>(a_cM.first),
+      second(a_cM.second)
+{
+}
+
+
+template <typename KeyType, typename DataType, TypeMalloc mallocFn, TypeFree freeFn>
+HashItem<KeyType,DataType,mallocFn,freeFn>::HashItem( ::std::pair<KeyType,DataType>&& a_mM)
+    :
+      SetItem<KeyType,mallocFn,freeFn>(::std::move(a_mM.first)),
+      second(::std::move(a_mM.second))
 {
 }
 
@@ -63,108 +79,14 @@ SetItem<KeyType>::SetItem( KeyType&& a_mM)
 
 namespace it{
 
-template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
-void* HashItemPrivate<HashItemType,mallocFn,freeFn>::operator new( ::std::size_t a_count )
-{
-    return mallocFn(a_count);
-}
 
-template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
-void  HashItemPrivate<HashItemType,mallocFn,freeFn>::operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT 
-{
-    freeFn(a_ptr);
-}
-
-template <typename HashItemType,TypeMalloc mallocFn, TypeFree freeFn>
-HashItemPrivate<HashItemType,mallocFn,freeFn>::HashItemPrivate(HashItemType&& a_mM, size_t a_hash)
+template <typename Input,TypeMalloc mallocFn, TypeFree freeFn>
+InputPrivate<Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM)
     :
-      HashItemType(::std::move(a_mM)),
-      hash(a_hash)
+      Input(::std::move(a_mM))
 {
+    static_assert( ::std::is_base_of<BaseForAlloc<mallocFn,freeFn>,InputPrivate>(), "InputPrivate shoulb be child of BaseForAlloc" );
     this->prev = CPPUTILS_NULL;
-}
-
-
-//
-
-template <typename HashItemType>
-const iterator<HashItemType> s_endIter(CPPUTILS_NULL);
-
-
-template <typename HashItemType>
-iterator<HashItemType>::~iterator()
-{
-}
-
-template <typename HashItemType>
-iterator<HashItemType>::iterator()
-    :
-      m_pItem(CPPUTILS_NULL)
-{
-}
-
-template <typename HashItemType>
-iterator<HashItemType>::iterator(HashItemType* a_pItem)
-    :
-      m_pItem(a_pItem)
-{
-}
-
-template <typename HashItemType>
-HashItemType* iterator<HashItemType>::operator->()const
-{
-    return m_pItem;
-}
-
-template <typename HashItemType>
-iterator<HashItemType>::operator HashItemType*()const
-{
-    return m_pItem;
-}
-
-
-//
-
-
-template <typename HashItemType>
-const const_iterator<HashItemType> s_endConstIter(CPPUTILS_NULL);
-
-template <typename HashItemType>
-const_iterator<HashItemType>::~const_iterator()
-{
-}
-
-template <typename HashItemType>
-const_iterator<HashItemType>::const_iterator()
-    :
-      m_pItem(CPPUTILS_NULL)
-{
-}
-
-template <typename HashItemType>
-const_iterator<HashItemType>::const_iterator(const HashItemType* a_pItem)
-    :
-      m_pItem(const_cast<HashItemType*>(a_pItem))
-{
-}
-
-template <typename HashItemType>
-const_iterator<HashItemType>::const_iterator(const iterator<HashItemType>& a_iter)
-    :
-      m_pItem(a_iter.m_pItem)
-{
-}
-
-template <typename HashItemType>
-const HashItemType* const_iterator<HashItemType>::operator->()const
-{
-    return m_pItem;
-}
-
-template <typename HashItemType>
-const_iterator<HashItemType>::operator const HashItemType*()const
-{
-    return m_pItem;
 }
 
 

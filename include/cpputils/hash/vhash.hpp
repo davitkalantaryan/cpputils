@@ -26,19 +26,16 @@
 namespace cpputils { namespace hash {
 
 
-template <typename KeyType,typename HashItemType, typename Hash, size_t templateDefaultSize,
-          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
-class VHashApi : public ApiData<HashItemType,mallocFn,callocFn,freeFn>
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+class VHashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>
 {
-protected:
-    struct HashItemPrivate;
-    typedef ApiData<HashItemType,mallocFn,callocFn,freeFn>  ApiDataAdv;
-    typedef it::HashItemPrivate<HashItemType,mallocFn,freeFn> HashItemPrivateBase;
-    
 public:
-    HashItemType*   AddEntryWithKnownHashRaw(HashItemType&& a_item, size_t a_hash);
+    class const_iterator;
+    typedef ApiData<Input,defSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
+    typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
     
-    VHashApi(size_t a_unBacketsCount=0);
+public:    
+    VHashApi(size_t a_unBacketsCount=defSize);
 	VHashApi(const VHashApi& cM);
 	VHashApi(VHashApi&& cM) CPPUTILS_NOEXCEPT;
 	virtual ~VHashApi() override;
@@ -46,61 +43,67 @@ public:
     VHashApi& operator=(const VHashApi& cM);
 	VHashApi& operator=(VHashApi&& cM) CPPUTILS_NOEXCEPT;
     
+    void    RemoveEntryRaw(const const_iterator& a_cI);
+    Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
+    
 protected:
     void InitAllToZero();
     void GeFromOther(const VHashApi&);
     void ClearRaw() CPPUTILS_NOEXCEPT;
     void ReplaceWithOther(VHashApi*) CPPUTILS_NOEXCEPT;
     
-protected:
-    HashItemPrivate**  m_ppVector;
-    
-protected:
-    struct HashItemPrivate : public HashItemPrivateBase{
-        HashItemPrivate(HashItemType&&, size_t a_hash, size_t a_index, VHashApi* a_pParent);
-        size_t index;
-        VHashApi*const m_pParent;
-    };
+private:
+    struct TableItem;
+    TableItem**     m_ppVector;
     
 public:
-    class iterator{
+    class iterator_base{
     public:
-        virtual ~iterator();
-        iterator();
-        iterator(HashItemType* a_pItem);
-        virtual HashItemType* operator->()const;
-        virtual operator HashItemType*()const;
-    public:
-        static const iterator s_endIter;
+        ~iterator_base();
+        iterator_base();
+        iterator_base(const iterator_base& a_cM);
+        iterator_base(VHashApi* a_pParent, Input* a_pItem, size_t a_hash);
     protected:
-        size_t m_index;
+        Input*          pItem()const;
+    protected:
+        VHashApi*const  m_pParent;
+        TableItem*      m_pItem;
     };
+    class iterator : public iterator_base{
+    public:
+        using iterator_base::iterator_base;
+        Input* operator->()const;
+        operator Input*()const;
+    }static const s_endIter;
     
-    class const_iterator{
+    class const_iterator : public iterator_base{
     public:
-        virtual ~const_iterator();
-        const_iterator();
-        const_iterator(const HashItemType* a_pItem);
+        using iterator_base::iterator_base;
         const_iterator(const iterator& iter);
-        virtual const HashItemType* operator->()const;
-        virtual operator const HashItemType* ()const;
-    public:
-        static const const_iterator s_endConstIter;
-    protected:
-        HashItemType* m_pItem;
+        const Input* operator->()const;
+        operator const Input* ()const;
+    }static const s_endConstIter;
+    
+private:
+    struct TableItem : public InputPrivate{
+        const size_t    m_hash;
+        size_t          m_index;
+        size_t          m_usageCount;
+        TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index);
     };
 };
 
 
 template <typename Key,typename Data, typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
-using VHash = HashBase<Key,HashItem<Key,Data>,HashT,defSize,mFn,cFn,rFn,fFn,
-                VHashApi<Key,HashItem<Key,Data>,HashT,defSize,mFn,cFn,rFn,fFn> >;
+using VHash = HashBase< Key,HashItem<Key,Data,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
+                VHashApi<HashItem<Key,Data,mFn,fFn>,defSize,mFn,cFn,rFn,fFn> >;
 
 
 template <typename Key,typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
-using VSet = HashBase<Key,SetItem<Key>,HashT,defSize,mFn,cFn,rFn,fFn,VHashApi<Key,SetItem<Key>,HashT,defSize,mFn,cFn,rFn,fFn> >;
+using VSet = HashBase< Key,SetItem<Key,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
+                VHashApi<SetItem<Key,mFn,fFn>,defSize,mFn,cFn,rFn,fFn> >;
 
 
 }}  //  namespace cpputils { namespace hash {

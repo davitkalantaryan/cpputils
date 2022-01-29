@@ -69,7 +69,7 @@ int main()
     
     
     {
-        cpputils::hash::Hash<int,int> aHash;
+        cpputils::hash::VHash<int,int> aHash;
         
         ::std::cout<<aHash.AddEntryIfNotExistC(std::pair<int,int>(1,1))<<::std::endl;
         ::std::cout<<aHash.AddEntryIfNotExistC(std::pair<int,int>(1,1))<<::std::endl;
