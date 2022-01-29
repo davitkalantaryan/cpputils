@@ -116,7 +116,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterR
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::erase(const const_iterator& a_cI)
+void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
     
@@ -242,7 +242,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::itera
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(VHashApi*, Input* a_pItem,size_t)
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const VHashApi*, Input* a_pItem,size_t)
     :
       m_pItem(static_cast<TableItem*>(a_pItem))
 {

@@ -37,7 +37,7 @@ public:
 public:
 	virtual ~HashApi() override;
         
-    void    erase(const const_iterator& a_cI);
+    void    RemoveEntryRaw(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
     
 protected:
@@ -49,10 +49,11 @@ public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(HashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(const HashApi* a_pParent, Input* a_pItem, size_t a_hash);
     protected:
-        Input* m_pItem;
+        InputPrivate* m_pItem;
         const size_t  m_hash;
+        friend HashApi;
     };
     class iterator : public iterator_base{
     public:

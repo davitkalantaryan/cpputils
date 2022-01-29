@@ -43,7 +43,7 @@ public:
     iterator       end();
 	const_iterator end() const;
     
-    void    erase(const const_iterator& a_cI);
+    void    RemoveEntryRaw(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
     
 protected:
@@ -63,7 +63,7 @@ public:
     public:
         iterator_base();
         iterator_base(const iterator_base& a_cM);
-        iterator_base(LHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(const LHashApi* a_pParent, Input* a_pItem, size_t a_hash);
         iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
@@ -74,6 +74,7 @@ public:
         void RemoveFromContainer();
     protected:
         ListItem*      m_pItem;
+        friend LHashApi;
     };
     class iterator : public iterator_base{
     public:

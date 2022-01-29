@@ -78,7 +78,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterR
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::erase(const const_iterator& a_cI)
+void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
     ListItem* pItem = a_cI.m_pItem;
@@ -164,7 +164,7 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::itera
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(LHashApi*, Input* a_pItem,size_t)
+LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const LHashApi*, Input* a_pItem,size_t)
     :
       m_pItem(static_cast<ListItem*>(a_pItem))
 {

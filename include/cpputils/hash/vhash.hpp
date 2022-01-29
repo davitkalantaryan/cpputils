@@ -47,7 +47,7 @@ public:
     iterator       end();
 	const_iterator end() const;
     
-    void    erase(const const_iterator& a_cI);
+    void    RemoveEntryRaw(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
     
 protected:
@@ -67,7 +67,7 @@ public:
         ~iterator_base();
         iterator_base();
         iterator_base(const iterator_base& a_cM);
-        iterator_base(VHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(const VHashApi* a_pParent, Input* a_pItem, size_t a_hash);
         iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
@@ -82,6 +82,7 @@ public:
         Input*          pItem()const;
     protected:
         TableItem*      m_pItem;
+        friend VHashApi;
     };
     class iterator : public iterator_base{
     public:

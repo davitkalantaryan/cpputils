@@ -39,7 +39,7 @@ HashApi<Input,defSize,mallocFn,callocFn,freeFn>::~HashApi()
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::erase(const const_iterator& a_cI)
+void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
     delete a_cI.m_pItem;
@@ -123,9 +123,9 @@ HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base()
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base(HashApi*, Input* a_pItem,size_t a_hash)
+HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base(const HashApi*, Input* a_pItem,size_t a_hash)
     :
-      m_pItem(a_pItem),
+      m_pItem(static_cast<InputPrivate*>(a_pItem)),
       m_hash(a_hash)
 {
 }
