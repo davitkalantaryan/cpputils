@@ -1,6 +1,6 @@
 //
 // file:			hash.hpp
-// path:			include/cpputils/hash.hpp
+// path:			include/cpputils/hash/hash.impl.hpp
 // created on:		2022 Jan 27
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
@@ -31,50 +31,15 @@ const typename HashApi<Input,defSize,mallocFn,callocFn,freeFn>::const_iterator
 HashApi<Input,defSize,mallocFn,callocFn,freeFn>::s_constNullIter;
 
 
-template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::HashApi(const HashApi& a_cM)
-{
-    ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
-    ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
-    GeFromOther(a_cM);
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::HashApi(HashApi&& a_mM) CPPUTILS_NOEXCEPT
-{
-    ApiDataAdv::InitAllToZeroB();
-    ApiDataAdv::ReplaceWithOtherB(&a_mM);
-}
-
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 HashApi<Input,defSize,mallocFn,callocFn,freeFn>::~HashApi()
 {
-    ClearRaw();
-    freeFn(ApiDataAdv::m_pTable);
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>& 
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::operator=(const HashApi& a_cM)
-{
-    GeFromOther(a_cM);
-    return *this;
-}
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>&
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::operator=(HashApi&& a_mM) CPPUTILS_NOEXCEPT
-{
-    ApiDataAdv::ReplaceWithOtherB(&a_mM);
-    return *this;
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
+void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::erase(const const_iterator& a_cI)
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
     delete a_cI.m_pItem;
@@ -109,6 +74,13 @@ void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCE
         }
         ApiDataAdv::m_unSize = 0;
     } // if(m_pTable){
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
+void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ConstructAfterRoundedTableSizeMin1IsKnown()
+{
+    ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
 }
 
 

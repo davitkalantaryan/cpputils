@@ -32,7 +32,6 @@ public:
     typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
         
 public:
-    ApiData(size_t a_unBacketsCount=templateDefaultSize);
     virtual ~ApiData();
         
 protected:
@@ -60,10 +59,13 @@ public:
     typedef typename ApiType::const_iterator COutput;
     
 public:
-    using ApiType::ApiType;
+    HashBase(size_t a_unBacketsCount=templateDefaultSize);
+    HashBase(const HashBase& cM);
+	HashBase(HashBase&& cM) CPPUTILS_NOEXCEPT;
 	virtual ~HashBase() override;
     
-    using ApiType::operator=;
+    HashBase&      operator=(const HashBase& cM);
+	HashBase&      operator=(HashBase&& cM) CPPUTILS_NOEXCEPT;
         
     size_t   size()const;
 	void     clear() CPPUTILS_NOEXCEPT;
@@ -75,7 +77,7 @@ public:
     Output   AddEntryIfNotExistMv(Input&& a_item);
     Output   AddEntryIfNotExistC(const Input& a_item);
     Output   findEntry( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;
-    void     RemoveEntryByKey(const Key& a_key);
+    void     erase(const Key& a_key);
     
 protected:
     Input*   findEntryRaw( const Key& key, size_t* a_pHash )const;

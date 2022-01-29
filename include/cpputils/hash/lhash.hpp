@@ -1,7 +1,7 @@
 //
-// file:			vhash.hpp
-// path:			include/cpputils/hash/vhash.hpp
-// created on:		2022 Jan 27
+// file:			lhash.hpp
+// path:			include/cpputils/hash/lhash.hpp
+// created on:		2022 Jan 29
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 // info:            This header is valid only for c++11 and higher
@@ -9,8 +9,8 @@
 
 #pragma once
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_VHASH_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_HASH_VHASH_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_LHASH_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_HASH_LHASH_HPP
 
 
 #include <cpputils_internal_header.h>
@@ -27,7 +27,7 @@ namespace cpputils { namespace hash {
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-class VHashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>
+class LHashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>
 {
 public:
     class iterator;
@@ -36,12 +36,8 @@ public:
     typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
     
 public:    
-	virtual ~VHashApi() override;
+	virtual ~LHashApi() override;
     
-    iterator       operator[](size_t a_index);
-	const_iterator operator[](size_t a_index) const;
-    iterator       at(size_t a_index);  // makes bound checks
-	const_iterator at(size_t a_index) const;
     iterator       begin();
 	const_iterator begin() const;
     iterator       end();
@@ -53,35 +49,31 @@ public:
 protected:
     void ConstructAfterRoundedTableSizeMin1IsKnown();
     void InitAllToZero();
-    void GeFromOther(const VHashApi&);
+    void GeFromOther(const LHashApi&);
     void ClearRaw() CPPUTILS_NOEXCEPT;
-    void ReplaceWithOther(VHashApi*) CPPUTILS_NOEXCEPT;
+    void ReplaceWithOther(LHashApi*) CPPUTILS_NOEXCEPT;
     
 protected:
-    struct TableItem;
-    TableItem**     m_ppVector;
+    struct ListItem;
+    
+    ListItem* m_pFirstItem;
     
 public:
     class iterator_base{
     public:
-        ~iterator_base();
         iterator_base();
         iterator_base(const iterator_base& a_cM);
-        iterator_base(VHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(LHashApi* a_pParent, Input* a_pItem, size_t a_hash);
         iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
         const iterator_base& operator--();
         iterator_base operator--(int);
-        iterator_base operator+(size_t a_offset)const;
-        iterator_base operator-(size_t a_offset)const;
-        void operator+=(size_t a_offset);
-        void operator-=(size_t a_offset);
+        iterator_base next()const;
+        iterator_base previous()const;
         void RemoveFromContainer();
     protected:
-        Input*          pItem()const;
-    protected:
-        TableItem*      m_pItem;
+        ListItem*      m_pItem;
     };
     class iterator : public iterator_base{
     public:
@@ -99,32 +91,31 @@ public:
     }static const s_constNullIter;
     
 protected:
-    struct TableItem : public InputPrivate{
-        VHashApi*       m_pParent;
+    struct ListItem : public InputPrivate{
+        LHashApi*const   m_pParent;
+        ListItem    	*prevInTheList, *nextInTheList;
         const size_t    m_hash;
-        size_t          m_index;
-        size_t          m_usageCount;
-        TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index);
+        ListItem(InputPrivate&& a_mM, LHashApi* a_pParent, size_t a_hash);
     };
 };
 
 
 template <typename Key,typename Data, typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
-using VHash = HashBase< Key,HashItem<Key,Data,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
-                VHashApi<HashItem<Key,Data,mFn,fFn>,defSize,mFn,cFn,rFn,fFn> >;
+using LHash = HashBase< Key,HashItem<Key,Data,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
+                LHashApi<HashItem<Key,Data,mFn,fFn>,defSize,mFn,cFn,rFn,fFn> >;
 
 
 template <typename Key,typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
-using VSet = HashBase< Key,SetItem<Key,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
-                VHashApi<SetItem<Key,mFn,fFn>,defSize,mFn,cFn,rFn,fFn> >;
+using LSet = HashBase< Key,SetItem<Key,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
+                LHashApi<SetItem<Key,mFn,fFn>,defSize,mFn,cFn,rFn,fFn> >;
 
 
 }}  //  namespace cpputils { namespace hash {
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_VHASH_IMPL_HPP
-#include "vhash.impl.hpp"
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_LHASH_IMPL_HPP
+#include "lhash.impl.hpp"
 #endif
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_VHASH_HPP

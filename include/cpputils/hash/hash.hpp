@@ -1,6 +1,6 @@
 //
 // file:			hash.hpp
-// path:			include/cpputils/hash.hpp
+// path:			include/cpputils/hash/hash.hpp
 // created on:		2022 Jan 27
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
@@ -35,18 +35,13 @@ public:
     typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
     
 public:
-    using ApiDataAdv::ApiData;
-	HashApi(const HashApi& cM);
-	HashApi(HashApi&& cM) CPPUTILS_NOEXCEPT;
 	virtual ~HashApi() override;
-    
-    HashApi& operator=(const HashApi& cM);
-	HashApi& operator=(HashApi&& cM) CPPUTILS_NOEXCEPT;
-    
-    void    RemoveEntryRaw(const const_iterator& a_cI);
+        
+    void    erase(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
     
 protected:
+    void ConstructAfterRoundedTableSizeMin1IsKnown();
     void GeFromOther(const HashApi&);
     void ClearRaw() CPPUTILS_NOEXCEPT;
     

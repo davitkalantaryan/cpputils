@@ -1,6 +1,6 @@
 //
-// file:			hash.hpp
-// path:			include/cpputils/hash.hpp
+// file:			vhash.hpp
+// path:			include/cpputils/hash/vhash.impl.hpp
 // created on:		2022 Jan 27
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
@@ -32,53 +32,8 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::s_constNullIter;
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::VHashApi(size_t a_unBacketsCount)
-    :
-      ApiDataAdv(a_unBacketsCount),
-      m_ppVector(CPPUTILS_NULL)
-{
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::VHashApi(const VHashApi& a_cM)
-{
-    ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
-    ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
-    GeFromOther(a_cM);
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::VHashApi(VHashApi&& a_mM) CPPUTILS_NOEXCEPT
-{
-    ApiDataAdv::InitAllToZero();
-    ApiDataAdv::ReplaceWithOther(&a_mM);
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::~VHashApi()
 {
-    ClearRaw();
-    freeFn(ApiDataAdv::m_pTable);
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>& 
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::operator=(const VHashApi& a_cM)
-{
-    GeFromOther(a_cM);
-    return *this;
-}
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>&
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::operator=(VHashApi&& a_mM) CPPUTILS_NOEXCEPT
-{
-    ApiDataAdv::ReplaceWithOther(&a_mM);
-    return *this;
 }
 
 
@@ -95,6 +50,28 @@ typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_itera
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::operator[](size_t a_index)const
 {
     return const_iterator(m_ppVector[a_index]);
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::at(size_t a_index)
+{
+    if(a_index<ApiDataAdv::m_unSize){
+        return iterator(m_ppVector[a_index]);
+    }
+    return s_nullIter;
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::at(size_t a_index)const
+{
+    if(a_index<ApiDataAdv::m_unSize){
+        return const_iterator(m_ppVector[a_index]);
+    }
+    return s_constNullIter;
 }
 
 
@@ -131,7 +108,15 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::end()const
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
+void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterRoundedTableSizeMin1IsKnown()
+{
+    ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
+    m_ppVector = CPPUTILS_NULL;
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
+void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::erase(const const_iterator& a_cI)
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
     
@@ -182,8 +167,9 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::InitAllToZero()
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCEPT
-{    
+{
     for(size_t i(0); i<ApiDataAdv::m_unSize;++i){
+        ApiDataAdv::m_pTable[m_ppVector[i]->m_hash] = CPPUTILS_NULL;
         if(m_ppVector[i]->m_usageCount==1){
             delete m_ppVector[i];
         }
@@ -192,7 +178,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPU
             --(m_ppVector[i]->m_usageCount);
         }
     }
-    :: memset(ApiDataAdv::m_pTable,0,sizeof(InputPrivate*)*(ApiDataAdv::m_unRoundedTableSizeMin1+1));
+    //:: memset(ApiDataAdv::m_pTable,0,sizeof(InputPrivate*)*(ApiDataAdv::m_unRoundedTableSizeMin1+1));
     
     ApiDataAdv::m_unSize = 0;
     freeFn(m_ppVector);
@@ -217,7 +203,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOthe
     ApiDataAdv::ReplaceWithOtherB(a_mM);
     TableItem** ppVector = m_ppVector;
     m_ppVector = a_mM->m_ppVector;
-    a_mM->m_ppVector = m_ppVector;
+    a_mM->m_ppVector = ppVector;
 }
 
 
@@ -390,7 +376,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
     if(pItem()){
-        m_pItem->m_pParent->RemoveEntryRaw(*this);
+        m_pItem->m_pParent->erase(*this);
     }
 }
 
