@@ -68,6 +68,7 @@ public:
     protected:
         VHashApi*const  m_pParent;
         TableItem*      m_pItem;
+        const size_t    m_hash;
     };
     class iterator : public iterator_base{
     public:
@@ -86,10 +87,9 @@ public:
     
 private:
     struct TableItem : public InputPrivate{
-        const size_t    m_hash;
         size_t          m_index;
         size_t          m_usageCount;
-        TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index);
+        TableItem(InputPrivate&& a_mM, size_t a_index);
     };
 };
 
