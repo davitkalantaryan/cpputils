@@ -24,11 +24,11 @@ namespace cpputils { namespace hash {
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 const typename HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator  
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::s_endIter(CPPUTILS_NULL,CPPUTILS_NULL,0);
+HashApi<Input,defSize,mallocFn,callocFn,freeFn>::s_nullIter;
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 const typename HashApi<Input,defSize,mallocFn,callocFn,freeFn>::const_iterator 
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::s_endConstIter(CPPUTILS_NULL,CPPUTILS_NULL,0);
+HashApi<Input,defSize,mallocFn,callocFn,freeFn>::s_constNullIter;
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>

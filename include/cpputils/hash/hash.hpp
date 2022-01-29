@@ -64,14 +64,14 @@ public:
         using iterator_base::iterator_base;
         Input* operator->()const;
         operator Input*()const;
-    }static const s_endIter;   
+    }static const s_nullIter;   
     class const_iterator : public iterator_base{
     public:
         using iterator_base::iterator_base;
         const_iterator(const iterator& iter);
         const Input* operator->()const;
         operator const Input* ()const;
-    }static const s_endConstIter;    
+    }static const s_constNullIter;    
 };
 
 

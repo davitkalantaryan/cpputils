@@ -30,6 +30,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 class VHashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>
 {
 public:
+    class iterator;
     class const_iterator;
     typedef ApiData<Input,defSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
     typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
@@ -40,8 +41,10 @@ public:
 	VHashApi(VHashApi&& cM) CPPUTILS_NOEXCEPT;
 	virtual ~VHashApi() override;
     
-    VHashApi& operator=(const VHashApi& cM);
-	VHashApi& operator=(VHashApi&& cM) CPPUTILS_NOEXCEPT;
+    VHashApi&      operator=(const VHashApi& cM);
+	VHashApi&      operator=(VHashApi&& cM) CPPUTILS_NOEXCEPT;
+    iterator       operator[](size_t a_index);
+	const_iterator operator[](size_t a_index) const;
     
     void    RemoveEntryRaw(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
@@ -63,19 +66,27 @@ public:
         iterator_base();
         iterator_base(const iterator_base& a_cM);
         iterator_base(VHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(Input* a_pItem);
+        const iterator_base& operator++();
+        iterator_base operator++(int);
+        const iterator_base& operator--();
+        iterator_base operator--(int);
+        iterator_base operator+(size_t a_offset)const;
+        iterator_base operator-(size_t a_offset)const;
+        void operator+=(size_t a_offset);
+        void operator-=(size_t a_offset);
+        void RemoveFromContainer();
     protected:
         Input*          pItem()const;
     protected:
-        VHashApi*const  m_pParent;
         TableItem*      m_pItem;
-        const size_t    m_hash;
     };
     class iterator : public iterator_base{
     public:
         using iterator_base::iterator_base;
         Input* operator->()const;
         operator Input*()const;
-    }static const s_endIter;
+    }static const s_nullIter;
     
     class const_iterator : public iterator_base{
     public:
@@ -83,13 +94,15 @@ public:
         const_iterator(const iterator& iter);
         const Input* operator->()const;
         operator const Input* ()const;
-    }static const s_endConstIter;
+    }static const s_constNullIter;
     
 private:
     struct TableItem : public InputPrivate{
+        VHashApi*       m_pParent;
+        const size_t    m_hash;
         size_t          m_index;
         size_t          m_usageCount;
-        TableItem(InputPrivate&& a_mM, size_t a_index);
+        TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index);
     };
 };
 
