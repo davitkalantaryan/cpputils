@@ -300,7 +300,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::FindEnt
 
 	while (pItemToRet) {
 		if(a_key==pItemToRet->first){
-			return pItemToRet;
+			return static_cast<HashItemTypeAdv*>(pItemToRet);
 		}
 		pItemToRet = pItemToRet->next;
 	}
@@ -316,7 +316,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::FindEnt
 
 	while (pItemToRet) {
 		if(a_key==pItemToRet->first){
-			return pItemToRet;
+			return static_cast<HashItemTypeAdv*>(pItemToRet);
 		}
 		pItemToRet = pItemToRet->next;
 	}
@@ -386,7 +386,7 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntryMv(const KeyTy
         FindEntry(a_key,&unHash)))
     {
         pItem->second = a_data;
-        return pItem; // we can overwrite
+        return static_cast<HashItemTypeAdv*>(pItem); // we can overwrite
     }
 
     return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
@@ -493,7 +493,7 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 
 	while (pItemToRet) {
 		if((a_key==pItemToRet->first)&&a_fnc(a_clbkData,pItemToRet->first,pItemToRet->second)){
-			return pItemToRet;
+			return static_cast<HashItemTypeAdv*>(pItemToRet);
 		}
 		pItemToRet = pItemToRet->next;
 	}
