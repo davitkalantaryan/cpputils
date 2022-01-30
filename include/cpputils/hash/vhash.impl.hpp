@@ -79,7 +79,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()
 {
-    return iterator(m_ppVector[0]);
+    return ApiDataAdv::m_unSize?iterator(m_ppVector[0]):s_nullIter;
 }
 
 
@@ -95,7 +95,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()const
 {
-    return const_iterator(m_ppVector[0]);
+    return ApiDataAdv::m_unSize?const_iterator(m_ppVector[0]):s_constNullIter;
 }
 
 
@@ -118,7 +118,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterR
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
-    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
+    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_pItem->m_hash);
     
     if(a_cI.m_pItem->m_index<ApiDataAdv::m_unSize){
         :: memmove(&m_ppVector[a_cI.m_pItem->m_index],&m_ppVector[a_cI.m_pItem->m_index+1],
@@ -376,7 +376,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
     if(pItem()){
-        m_pItem->m_pParent->erase(*this);
+        m_pItem->m_pParent->RemoveEntryRaw(const_iterator(m_pItem));
     }
 }
 
