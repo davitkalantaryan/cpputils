@@ -50,9 +50,11 @@ public:
     public:
         iterator_base();
         iterator_base(const HashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        void RemoveFromContainer();
     protected:
+        HashApi*      m_pParent;
         InputPrivate* m_pItem;
-        const size_t  m_hash;
+        size_t        m_hash;
         friend HashApi;
     };
     class iterator : public iterator_base{
