@@ -466,7 +466,7 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::AddOrReplaceEntry(const KeyType
 	size_t unHash;
 	if((pItem=BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::FindEntry(a_key,&unHash))){
 		pItem->second = a_data;
-		return pItem; // we can overwrite
+		return static_cast<HashItemTypeAdv*>(pItem); // we can overwrite
 	}
 	
 	return BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
