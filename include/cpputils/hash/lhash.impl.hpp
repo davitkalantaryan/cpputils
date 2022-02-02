@@ -80,7 +80,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterR
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
-    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
+    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_pItem->m_hash);
     ListItem* pItem = a_cI.m_pItem;
     if(pItem==m_pFirstItem){m_pFirstItem=pItem;}
     if(pItem->nextInTheList){pItem->nextInTheList->prevInTheList = pItem->prevInTheList;}
