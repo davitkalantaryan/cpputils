@@ -155,13 +155,15 @@ HashBase<Key,Input,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,A
 
 template <typename Key,typename Input, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-void HashBase<Key,Input,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::erase(const Key& a_key)
+bool HashBase<Key,Input,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::erase(const Key& a_key)
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_key,&unHash);
     if(pItem){
         ApiType::RemoveEntryRaw(COutput(this,pItem,unHash));
+        return true;
     }
+    return false;
 }
 
 

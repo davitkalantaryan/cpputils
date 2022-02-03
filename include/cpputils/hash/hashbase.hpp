@@ -77,7 +77,7 @@ public:
     Output   AddEntryIfNotExistMv(Input&& a_item);
     Output   AddEntryIfNotExistC(const Input& a_item);
     Output   findEntry( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;
-    void     erase(const Key& a_key);
+    bool     erase(const Key& a_key);
     
 protected:
     Input*   findEntryRaw( const Key& key, size_t* a_pHash )const;
