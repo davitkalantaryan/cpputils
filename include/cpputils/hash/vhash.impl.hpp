@@ -191,7 +191,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::
 GeFromOther(const VHashApi& a_cM)
 {
     for(size_t i(0); i<a_cM.m_unSize;++i){
-        AddEntryWithKnownHashRaw(*(a_cM.m_ppVector[i]),a_cM.m_ppVector[i]->m_hash);
+        AddEntryWithKnownHashRaw(Input(*(a_cM.m_ppVector[i])),a_cM.m_ppVector[i]->m_hash);
     }
     
 }

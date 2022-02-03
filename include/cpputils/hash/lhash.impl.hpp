@@ -120,7 +120,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPU
         ApiDataAdv::m_pTable[pItem->m_hash] = CPPUTILS_NULL;
         delete pItem;
         pItem=pItemNext;
-    }    
+    }
 }
 
 
@@ -128,10 +128,11 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::
 GeFromOther(const LHashApi& a_cM)
 {
-    for(size_t i(0); i<a_cM.m_unSize;++i){
-        AddEntryWithKnownHashRaw(*(a_cM.m_ppVector[i]),a_cM.m_ppVector[i]->m_hash);
-    }
-    
+    ListItem *pItem = a_cM.m_pFirstItem;
+    while(pItem){
+        AddEntryWithKnownHashRaw(Input(*pItem),pItem->m_hash);
+        pItem=pItem->nextInTheList;
+    }    
 }
 
 
