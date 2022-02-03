@@ -69,6 +69,7 @@ public:
         iterator_base(const iterator_base& a_cM);
         iterator_base(const VHashApi* a_pParent, Input* a_pItem, size_t a_hash);
         iterator_base(Input* a_pItem);
+        iterator_base& operator=(const iterator_base& a_cM);
         const iterator_base& operator++();
         iterator_base operator++(int);
         const iterator_base& operator--();
@@ -106,6 +107,9 @@ protected:
         size_t          m_index;
         size_t          m_usageCount;
         TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index);
+#ifdef CPPUTILS_DEBUG_HASH
+        ~TableItem();
+#endif
     };
 };
 

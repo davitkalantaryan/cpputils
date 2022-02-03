@@ -64,7 +64,6 @@ public:
         iterator_base();
         iterator_base(const iterator_base& a_cM);
         iterator_base(const LHashApi* a_pParent, Input* a_pItem, size_t a_hash);
-        iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
         const iterator_base& operator--();
@@ -73,6 +72,7 @@ public:
         iterator_base previous()const;
         void RemoveFromContainer();
     protected:
+        LHashApi*const   m_pParent;
         ListItem*      m_pItem;
         friend LHashApi;
     };
@@ -93,10 +93,9 @@ public:
     
 protected:
     struct ListItem : public InputPrivate{
-        LHashApi*const   m_pParent;
         ListItem    	*prevInTheList, *nextInTheList;
         const size_t    m_hash;
-        ListItem(InputPrivate&& a_mM, LHashApi* a_pParent, size_t a_hash);
+        ListItem(InputPrivate&& a_mM, size_t a_hash);
     };
 };
 

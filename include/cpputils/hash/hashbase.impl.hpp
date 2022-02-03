@@ -138,6 +138,7 @@ template <typename Key,typename InputT, typename Hash, size_t templateDefaultSiz
 HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>& 
 HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(const HashBase& a_cM)
 {
+    ApiType::ClearRaw();
     ApiType::GeFromOther(a_cM);
     return *this;
 }

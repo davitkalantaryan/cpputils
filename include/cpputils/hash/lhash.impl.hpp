@@ -93,7 +93,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 Input* LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::
 AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
 {
-    ListItem* pItem = new ListItem(::std::move(a_item),this,a_hash);
+    ListItem* pItem = new ListItem(::std::move(a_item),a_hash);
     ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem,a_hash);
     if(m_pFirstItem){m_pFirstItem->prevInTheList=pItem;}
     pItem->prevInTheList = CPPUTILS_NULL;
@@ -151,6 +151,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOthe
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base()
     :
+      m_pParent(CPPUTILS_NULL),
       m_pItem(CPPUTILS_NULL)
 {
 }
@@ -159,21 +160,16 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::itera
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const iterator_base& a_cM)
     :
+      m_pParent(a_cM.m_pParent),
       m_pItem(a_cM.m_pItem)
 {
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const LHashApi*, Input* a_pItem,size_t)
+LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const LHashApi* a_pParent, Input* a_pItem,size_t)
     :
-      m_pItem(static_cast<ListItem*>(a_pItem))
-{
-}
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(Input* a_pItem)
-    :
+      m_pParent(const_cast<LHashApi*>(a_pParent)),
       m_pItem(static_cast<ListItem*>(a_pItem))
 {
 }
@@ -232,8 +228,8 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::previ
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
-    if(m_pItem){
-        m_pItem->m_pParent->RemoveEntryRaw(const_iterator(m_pItem));
+    if(m_pParent && m_pItem){
+        m_pParent->RemoveEntryRaw(const_iterator(m_pItem));
     }
 }
 
@@ -279,10 +275,9 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::oper
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ListItem::ListItem(InputPrivate&& a_mM, LHashApi* a_pParent, size_t a_hash)
+LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ListItem::ListItem(InputPrivate&& a_mM, size_t a_hash)
     :
       InputPrivate(a_mM),
-      m_pParent(a_pParent),
       m_hash(a_hash)
 {
 }
