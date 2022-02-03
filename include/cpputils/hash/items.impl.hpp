@@ -22,6 +22,7 @@
 
 namespace cpputils { namespace hash {
 
+#ifndef CPPUTILS_HASH_NO_NEW_DELETE
 
 template <TypeMalloc mallocFn, TypeFree freeFn>
 void* BaseForAlloc<mallocFn,freeFn>::operator new( ::std::size_t a_count )
@@ -34,6 +35,8 @@ void  BaseForAlloc<mallocFn,freeFn>::operator delete  ( void* a_ptr ) CPPUTILS_N
 {
     freeFn(a_ptr);
 }
+
+#endif  // #ifndef CPPUTILS_HASH_NO_NEW_DELETE
 
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/

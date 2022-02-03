@@ -27,8 +27,10 @@ typedef void  (*TypeFree)  ( void* );
 
 template <TypeMalloc mallocFn, TypeFree freeFn>
 struct BaseForAlloc {
+#ifndef CPPUTILS_HASH_NO_NEW_DELETE
     static void* operator new( ::std::size_t a_count );
     static void operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT ;
+#endif
 };
 
 

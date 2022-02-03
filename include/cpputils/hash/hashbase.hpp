@@ -47,16 +47,17 @@ protected:
 	size_t          m_unSize;
 };
 
-template <typename Key,typename Input, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 class HashBase : public ApiType
 {    
 public:
-    typedef ApiData<Input,templateDefaultSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
+    typedef ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
     static_assert( ::std::is_base_of<ApiDataAdv,ApiType>(), "ApiType shoulb be child of ApiData" );
-    typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<InputT,mallocFn,freeFn> InputPrivate;
     typedef typename ApiType::iterator Output;
     typedef typename ApiType::const_iterator COutput;
+    typedef InputT  Input;
     
 public:
     HashBase(size_t a_unBacketsCount=templateDefaultSize);
