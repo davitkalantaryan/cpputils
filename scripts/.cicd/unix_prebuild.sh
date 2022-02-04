@@ -56,18 +56,24 @@ git submodule sync --recursive
 git submodule update --init --recursive
 
 
+# $1 is target(lsbCode), $2 is configuration (Release,Debug)
+compileGoogleTest(){
+	cd "${repositoryRoot}/contrib/googletest"
+	if [[ "$1" == "wasm" ]]; then
+		emcmake cmake -H. -B../../build/googletest/$1/$2 -DCMAKE_BUILD_TYPE=$2
+	else
+		cmake -H. -B../../build/googletest/$1/$2 -DCMAKE_BUILD_TYPE=$2
+	fi
+	cd ../../build/googletest/$1/$2
+	cmake --build .
+	mkdir -p "${repositoryRoot}/sys/$1/$2/lib"
+	cp lib/*.a "${repositoryRoot}/sys/$1/$2/lib/".
+	rm -rf "${repositoryRoot}/contrib/googletest/googletest/generated"
+}
+
 # compile google test
-cd ${repositoryRoot}
-cmake -H. -Bbuild/googletest/Release -DCMAKE_BUILD_TYPE=Release
-cd build/googletest/Release
-cmake --build .
-mkdir -p ${repositoryRoot}/sys/$lsbCode/Release/lib
-cp lib/*.a ${repositoryRoot}/sys/$lsbCode/Release/lib/.
-#rm -rf googletest/generated
-cd ${repositoryRoot}
-cmake -H. -Bbuild/googletest/Debug -DCMAKE_BUILD_TYPE=Debug
-cd build/googletest/Debug
-cmake --build .
-mkdir -p ${repositoryRoot}/sys/$lsbCode/Debug/lib
-cp lib/*.a ${repositoryRoot}/sys/$lsbCode/Debug/lib/.
-rm -rf ${repositoryRoot}/contrib/googletest/googletest/generated
+compileGoogleTest $lsbCode Release
+compileGoogleTest $lsbCode Debug
+#compileGoogleTest wasm     Release
+#compileGoogleTest wasm     Debug
+
