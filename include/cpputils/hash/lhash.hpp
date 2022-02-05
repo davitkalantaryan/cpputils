@@ -72,7 +72,7 @@ public:
         iterator_base previous()const;
         void RemoveFromContainer();
     protected:
-        LHashApi*const   m_pParent;
+        LHashApi*      m_pParent;
         ListItem*      m_pItem;
         friend LHashApi;
     };

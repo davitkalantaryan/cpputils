@@ -229,7 +229,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
     if(m_pParent && m_pItem){
-        m_pParent->RemoveEntryRaw(const_iterator(m_pItem));
+        m_pParent->RemoveEntryRaw(const_iterator(m_pParent,m_pItem,m_pItem->m_hash));
     }
 }
 
