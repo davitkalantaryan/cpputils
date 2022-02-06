@@ -158,15 +158,6 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::itera
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const iterator_base& a_cM)
-    :
-      m_pParent(a_cM.m_pParent),
-      m_pItem(a_cM.m_pItem)
-{
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const LHashApi* a_pParent, Input* a_pItem,size_t)
     :
       m_pParent(const_cast<LHashApi*>(a_pParent)),
@@ -252,12 +243,14 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator::operator I
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::const_iterator(const iterator& a_iter)
+LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::const_iterator(const iterator& a_cM)
     :
-      iterator_base(a_iter)
+      iterator_base(a_cM)
 {
 }
+
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 const Input* LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::operator->()const

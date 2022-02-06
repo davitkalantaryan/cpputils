@@ -62,7 +62,6 @@ public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(const iterator_base& a_cM);
         iterator_base(const LHashApi* a_pParent, Input* a_pItem, size_t a_hash);
         const iterator_base& operator++();
         iterator_base operator++(int);
@@ -86,7 +85,7 @@ public:
     class const_iterator : public iterator_base{
     public:
         using iterator_base::iterator_base;
-        const_iterator(const iterator& iter);
+        const_iterator(const iterator&);
         const Input* operator->()const;
         operator const Input* ()const;
     }static const s_constNullIter;
