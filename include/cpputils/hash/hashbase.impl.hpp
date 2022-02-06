@@ -250,6 +250,39 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
     return AddEntryWithKnownHashC(a_item,unHash);
 }
 
+
+
+template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
+typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddOrReplaceEntryMv(Input&& a_item)
+{
+    size_t unHash;
+    Input* pItem = findEntryRaw(a_item.first,&unHash);
+    if(pItem){
+        *pItem= ::std::move(a_item);
+        return Output(this,pItem,unHash);
+    }
+    return AddEntryWithKnownHashMv(a_item,unHash);
+}
+
+
+template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
+typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddOrReplaceEntryC(const Input& a_item)
+{
+    size_t unHash;
+    Input* pItem = findEntryRaw(a_item.first,&unHash);
+    if(pItem){
+        *pItem= a_item;
+        return Output(this,pItem,unHash);
+    }
+    return AddEntryWithKnownHashC(a_item,unHash);
+}
+
+
+
 template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 InputT*

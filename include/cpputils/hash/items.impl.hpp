@@ -57,6 +57,22 @@ SetItem<KeyType,mallocFn,freeFn>::SetItem( KeyType&& a_mM)
 }
 
 
+template <typename KeyType, TypeMalloc mallocFn, TypeFree freeFn>
+SetItem<KeyType,mallocFn,freeFn>&
+SetItem<KeyType,mallocFn,freeFn>::operator=(const SetItem&)
+{
+    return *this;
+}
+
+
+template <typename KeyType, TypeMalloc mallocFn, TypeFree freeFn>
+SetItem<KeyType,mallocFn,freeFn>&
+SetItem<KeyType,mallocFn,freeFn>::operator=(SetItem&&)
+{
+    return *this;
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename KeyType, typename DataType, TypeMalloc mallocFn, TypeFree freeFn>

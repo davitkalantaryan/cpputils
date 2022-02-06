@@ -38,6 +38,10 @@ template <typename KeyType, TypeMalloc mallocFn, TypeFree freeFn>
 struct SetItem : public BaseForAlloc<mallocFn,freeFn> {
     SetItem(const KeyType&);
     SetItem( KeyType&&);
+    SetItem(const SetItem&)=default;
+    SetItem(SetItem&&)=default;
+    SetItem& operator=(const SetItem&);
+    SetItem& operator=( SetItem&&);
 public:
 	const KeyType first;
 };
@@ -47,6 +51,10 @@ template <typename KeyType,typename DataType, TypeMalloc mallocFn, TypeFree free
 struct HashItem : public SetItem<KeyType,mallocFn,freeFn> {
     HashItem(const ::std::pair<KeyType,DataType>&);
     HashItem( ::std::pair<KeyType,DataType>&&);
+    HashItem(const HashItem&)=default;
+    HashItem(HashItem&&)=default;
+    HashItem& operator=(const HashItem&)=default;
+    HashItem& operator=( HashItem&&)=default;
 public:
 	DataType second;
 };
