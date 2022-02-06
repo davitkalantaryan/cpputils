@@ -44,6 +44,7 @@ protected:
     void ConstructAfterRoundedTableSizeMin1IsKnown();
     void GeFromOther(const HashApi&);
     void ClearRaw() CPPUTILS_NOEXCEPT;
+	void ReplaceWithOther(HashApi*) CPPUTILS_NOEXCEPT;
     
 public:
     class iterator_base{

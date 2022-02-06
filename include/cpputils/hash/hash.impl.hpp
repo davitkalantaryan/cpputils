@@ -78,6 +78,13 @@ void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCE
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
+void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ReplaceWithOther(HashApi* a_mM) CPPUTILS_NOEXCEPT
+{
+    ApiDataAdv::ReplaceWithOtherB(a_mM);
+}
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ConstructAfterRoundedTableSizeMin1IsKnown()
 {
     ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
