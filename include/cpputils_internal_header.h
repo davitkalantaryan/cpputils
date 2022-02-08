@@ -223,9 +223,22 @@
 #endif
 //#define CPPUTILS_EMSCRIPTEN_IS_USED
 
+#ifdef CPPUTILS_EMSCRIPTEN_IS_USED
+#ifdef CPPUTILS_DLL_PUBLIC
+#undef CPPUTILS_DLL_PUBLIC
+#endif
+#include <emscripten/emscripten.h>
+#define CPPUTILS_DLL_PUBLIC     EMSCRIPTEN_KEEPALIVE
+#endif
+
 // todo: make better multithreading decision
 #ifndef CPPUTILS_EMSCRIPTEN_IS_USED
 #define CPPUTILS_MULTITHREADED
+#endif
+
+// todo: make better possible no file dfecision
+#ifdef CPPUTILS_EMSCRIPTEN_IS_USED
+#define CPPUTILS_POSSIBLE_NO_PERS_FILE
 #endif
 
 #ifdef CPPUTILS_MULTITHREADED
