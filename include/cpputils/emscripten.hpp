@@ -5,6 +5,7 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
+#pragma once
 
 #include <cpputils_internal_header.h>
 #include <string>
