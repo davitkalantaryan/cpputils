@@ -36,7 +36,7 @@ namespace cpputils { namespace emscripten {
 //}
 
 
-::std::string  get_base_url_str(const ::std::string&)
+CPPUTILS_EXPORT ::std::string  get_base_url_str(const ::std::string&)
 {
     char* pcBaseUrl = (char*)EM_ASM_INT({
         var jsString = window.location.href;
@@ -54,7 +54,7 @@ namespace cpputils { namespace emscripten {
 
 
 
-void mount_idbfs_file_system(const char* a_cpcMountPoint)
+CPPUTILS_EXPORT void mount_idbfs_file_system(const char* a_cpcMountPoint)
 {
     EM_ASM({
 
@@ -71,7 +71,7 @@ void mount_idbfs_file_system(const char* a_cpcMountPoint)
 }
 
 
-void fs_sync(void)
+CPPUTILS_EXPORT void fs_sync(void)
 {
     EM_ASM({
         FS.syncfs(function (err) {
@@ -84,18 +84,18 @@ void fs_sync(void)
 #else   //  #ifdef CPPUTILS_EMSCRIPTEN_IS_USED
 
 
-::std::string  get_base_url_str(const ::std::string& a_hint)
+CPPUTILS_EXPORT ::std::string  get_base_url_str(const ::std::string& a_hint)
 {
     return a_hint;
 }
 
 
-void mount_idbfs_file_system(const char*)
+CPPUTILS_EXPORT void mount_idbfs_file_system(const char*)
 {
 }
 
 
-void fs_sync(void)
+CPPUTILS_EXPORT void fs_sync(void)
 {
 }
 

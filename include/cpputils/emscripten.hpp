@@ -16,9 +16,9 @@
 
 namespace cpputils { namespace emscripten {
 
-::std::string  get_base_url_str(const ::std::string& a_hint);
-void mount_idbfs_file_system(const char* a_cpcMountPoint);
-void fs_sync(void);
+CPPUTILS_EXPORT ::std::string  get_base_url_str(const ::std::string& a_hint);
+CPPUTILS_EXPORT void mount_idbfs_file_system(const char* a_cpcMountPoint);
+CPPUTILS_EXPORT void fs_sync(void);
 
 }}  // namespace cpputils { namespace emscripten {
 
