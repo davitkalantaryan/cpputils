@@ -72,3 +72,5 @@ vc140.*
 !/prj/*/*_mult/*Makefile
 !/prj/*/*_mult/*.pro
 /prj/tests/googletest_mult/Makefile*googletest_getter
+
+/contrib/emsdk_version_*_prepared
