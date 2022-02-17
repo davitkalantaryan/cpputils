@@ -1,15 +1,8 @@
 #!/bin/bash
-
 # script to prepare developer host, to work with the code on this repo
 
-#scriptFileFullPath=`readlink -f ${0}`
-#scriptDirectory=`dirname ${scriptFileFullPath}`
-#cd ${scriptDirectory}/../..
-#repositoryRoot=`pwd`
 
-# in mac os above short calculation will not work
-# also realpath utilit is missing in mac
-
+# in mac short directory calculation based on n'readlink' or 'realpath' will not work
 scriptDirectory=`dirname "${0}"`
 scriptFileName=`basename "${0}"`
 cd "${scriptDirectory}"
@@ -32,8 +25,6 @@ set -e
 
 # keep track of the last executed command
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
-# echo an error message before exiting
-#trap 'echo "\"${last_command}\" command finished with exit code $?."' EXIT
 
 
 # thanks to https://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux
@@ -56,6 +47,25 @@ git submodule sync --recursive
 git submodule update --init --recursive
 
 
+# Let's prepare emsdk
+if [ -z "$emSdkVersion" ]; then
+	#emSdkVersion=latest
+	#emSdkVersion=1.39.8
+	emSdkVersion=2.0.14
+fi
+if [[ ! -f "${repositoryRoot}/contrib/emsdk_version_${emSdkVersion}_prepared" ]]; then
+	cd "${repositoryRoot}/contrib/emsdk"
+	./emsdk install ${emSdkVersion}
+	./emsdk activate ${emSdkVersion}
+	touch "${repositoryRoot}/contrib/emsdk_version_${emSdkVersion}_prepared"
+else
+	cd "${repositoryRoot}/contrib/emsdk"
+	echo "emsdk already prepared for this repository"
+fi
+source ./emsdk_env.sh
+export EMSDK_FOR_CPPUTILS_SET=1
+
+
 # $1 is target(lsbCode), $2 is configuration (Release,Debug)
 compileGoogleTest(){
 	cd "${repositoryRoot}/contrib/googletest"
@@ -74,6 +84,5 @@ compileGoogleTest(){
 # compile google test
 compileGoogleTest $lsbCode Release
 compileGoogleTest $lsbCode Debug
-#compileGoogleTest wasm     Release
-#compileGoogleTest wasm     Debug
-
+compileGoogleTest wasm     Release
+compileGoogleTest wasm     Debug
