@@ -59,6 +59,10 @@ endif
 ifndef ANDROID_CXX
 	ANDROID_CXX = $(ANDROID_NDK_BIN)/clang++
 endif
+# Android cc compiler
+ifndef ANDROID_CC
+	ANDROID_CC = $(ANDROID_NDK_BIN)/clang
+endif
 # Android ar
 ifndef ANDROID_AR
 	ANDROID_AR = $(ANDROID_NDK_BIN)/llvm-ar
@@ -74,10 +78,12 @@ endif
 
 #EMXX=env CCACHE_CPP2=1 ccache em++
 EMXX=em++
+EMCC=em
 
 COMMON_FLAGS	+= -I$(repoRootPathCppUtils)/include
 
-CPPFLAGS		=  $(COMMON_FLAGS)
+CPPFLAGS	+=  $(COMMON_FLAGS)
+CFLAGS		+=  $(COMMON_FLAGS)
 
 DEBUG_FLAGS_DEBUG=-O0 -g
 DEBUG_FLAGS_RELEASE=-O3
@@ -115,6 +121,10 @@ $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cc.o : 
 $(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.cpp.o : %.cpp
 	mkdir -p $(@D)
 	$(CXX_IN_USE) -c $(CPPFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	
+$(repoRootPath)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.c.o : %.c
+	mkdir -p $(@D)
+	$(CC_IN_USE) -c $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
 
 # webassembly
 $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cc.bc : %.cc
@@ -124,6 +134,10 @@ $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cc.bc : %.cc
 $(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.cpp.bc : %.cpp
 	mkdir -p $(@D)
 	$(EMXX) -c $(EMFLAGS) -o $@ $<
+	
+$(repoRootPath)/sys/wasm/$(Configuration)/.objects/$(targetName)/%.c.bc : %.c
+	mkdir -p $(@D)
+	$(EMCC) -c $(EMFLAGS) -o $@ $<
 
 # android
 $(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.cc.ao : %.cc
@@ -133,3 +147,7 @@ $(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetNam
 $(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.cpp.ao : %.cpp
 	mkdir -p $(@D)
 	$(ANDROID_CXX) -c $(ANDROID_FLAGS) -o $@ $<
+	
+$(repoRootPath)/sys/android_$(ANDROID_ABI)/$(Configuration)/.objects/$(targetName)/%.c.ao : %.c
+	mkdir -p $(@D)
+	$(ANDROID_CC) -c $(ANDROID_FLAGS) -o $@ $<
