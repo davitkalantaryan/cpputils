@@ -33,7 +33,8 @@ using  function =  ::std::function<Args...>;
 
 #else
 
-#define function	function_old
+//#define function	function_old
+typedef function_old function;
 
 #endif
 
