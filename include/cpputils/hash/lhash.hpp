@@ -73,7 +73,7 @@ public:
     protected:
         LHashApi*      m_pParent;
         ListItem*      m_pItem;
-        friend LHashApi;
+        friend class LHashApi;
     };
     class iterator : public iterator_base{
     public:

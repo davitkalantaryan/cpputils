@@ -72,6 +72,13 @@ struct InputPrivate : public Input{
 
 }  // namespace iter{
 
+template <typename IntType>
+class FHashInt
+{
+public:
+	size_t	operator()(const IntType& key)const;
+};
+
 
 
 }}  // namespace cpputils { namespace hash { 

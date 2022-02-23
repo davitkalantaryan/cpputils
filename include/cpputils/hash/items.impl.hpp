@@ -112,6 +112,14 @@ InputPrivate<Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM)
 }  // namespace it{
 
 
+template <typename IntType>
+size_t FHashInt<IntType>::operator()(const IntType& a_key)const
+{
+    //return static_cast<size_t>(a_key);
+    return (size_t)(a_key);
+}
+
+
 
 }}  //  namespace cpputils { namespace hash {
 
