@@ -38,12 +38,12 @@ jobs:
             - name: Setup MSBuild.exe
               uses: microsoft/setup-msbuild@v1.0.2
               with:
-                  vs-version: 16.4
+                  vs-version: 16.10.4
 
             - name: Setup developer command prompt
               uses: ilammy/msvc-dev-cmd@v1
               with:
-                  toolset: 16.0
+                  toolset: v142
 
             - name: Preparing 3rd party libraries for windows
               run: .\scripts\.cicd\windows_prebuild.bat
