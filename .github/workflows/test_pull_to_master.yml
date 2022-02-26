@@ -42,6 +42,8 @@ jobs:
 
             - name: Setup developer command prompt
               uses: ilammy/msvc-dev-cmd@v1
+              with:
+                  toolset: 16.4
 
             - name: Preparing 3rd party libraries for windows
               run: .\scripts\.cicd\windows_prebuild.bat
