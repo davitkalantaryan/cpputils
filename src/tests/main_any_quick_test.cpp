@@ -4,7 +4,7 @@
 #include <cpputils/bigint.hpp>
 #include <cpputils/functional_old.hpp>
 #include <cpputils/sharedptr.hpp>
-#include <cpputils/endian.hpp>
+#include <cpputils/endian.h>
 #include <cpputils/enums.hpp>
 #include <cpputils/enums/fast.hpp>
 //#include <cpputils/enums/full.hpp>
@@ -48,6 +48,15 @@ typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
 
 int main()
 {
+	{
+		uint32_t oneBe = htobe32(1);
+
+		::std::cout << oneBe << ::std::endl;
+
+		return 0;
+	}
+
+
     //{
     //    cpputils::hash::Hash<int,int> aHash;
     //    
