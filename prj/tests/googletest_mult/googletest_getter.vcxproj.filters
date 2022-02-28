@@ -74,6 +74,21 @@
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0007_tls_data.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0008_bigint_double.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0009_new_hash.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\googletest\0010_endian_h.cpp">
+      <Filter>Source Files\tests\googletest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_thread_local.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils_internal_header.h">

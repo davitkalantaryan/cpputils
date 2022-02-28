@@ -65,6 +65,7 @@ LIBPATHS			= $(LIBPATHS) /LIBPATH:"$(RepoRootDir)\sys\win_$(Platform)\$(Configur
 LIBS				=
 LIBS				= $(LIBS) "gtest_main$(LibrariesExtension).lib"
 LIBS				= $(LIBS) "gtest$(LibrariesExtension).lib"
+LIBS				= $(LIBS) "Ws2_32.lib"
 
 LFLAGS				= $(LFLAGS) /OUT:"$(TargetDirectory)\$(TargetFileName)" 
 LFLAGS				= $(LFLAGS) /MANIFEST /NXCOMPAT /PDB:"$(TargetDirectory)\$(TargetName).pdb" 

@@ -43,6 +43,7 @@
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_thread_local.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0002_bigint.cpp" />
@@ -50,6 +51,10 @@
     <ClCompile Include="..\..\..\src\tests\googletest\0004_sharedptr.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0005_macroses.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0006_enums.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0007_tls_data.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0008_bigint_double.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0009_new_hash.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0010_endian_h.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
@@ -222,7 +227,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -237,7 +242,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
@@ -252,7 +257,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -271,7 +276,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -290,7 +295,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -309,7 +314,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -324,7 +329,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -343,7 +348,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main$(GoogleTestConfiguration).lib;gtest$(GoogleTestConfiguration).lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
