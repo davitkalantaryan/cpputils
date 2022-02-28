@@ -100,13 +100,7 @@
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\endian.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\enums.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums.impl.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\functional.hpp">
@@ -137,6 +131,9 @@
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\endian.h">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
   </ItemGroup>

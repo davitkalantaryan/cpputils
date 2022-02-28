@@ -56,9 +56,6 @@
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\endian.hpp">
-      <Filter>Header Files\include\cpputils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\enums.hpp">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
@@ -112,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\enums\fullslow.impl.hpp">
       <Filter>Header Files\include\cpputils\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\endian.h">
+      <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

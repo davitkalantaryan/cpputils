@@ -303,7 +303,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\endian.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\endian.h" />
     <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\base.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />

@@ -3,6 +3,9 @@
 // path:			include/cpputils/endian.hpp
 // created on:		2021 Mar 24
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
+//
+// the file is prepared using: https://gist.github.com/panzi/6856583  
+//
 
 
 #ifndef INCLUDE_CPPUTILS_ENDIAN_H
