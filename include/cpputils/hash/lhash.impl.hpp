@@ -82,7 +82,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(
 {
     ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_pItem->m_hash);
     ListItem* pItem = a_cI.m_pItem;
-    if(pItem==m_pFirstItem){m_pFirstItem=pItem;}
+    if(pItem==m_pFirstItem){m_pFirstItem=pItem->nextInTheList;}
     if(pItem->nextInTheList){pItem->nextInTheList->prevInTheList = pItem->prevInTheList;}
     if(pItem->prevInTheList){pItem->prevInTheList->nextInTheList = pItem->nextInTheList;}
     delete pItem;    
@@ -121,6 +121,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPU
         delete pItem;
         pItem=pItemNext;
     }
+    m_pFirstItem = nullptr;
 }
 
 
