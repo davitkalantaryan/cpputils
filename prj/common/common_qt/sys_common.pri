@@ -68,10 +68,6 @@ win32 {
 	#SYSTEM_PATH = sys/android_armeabi-v7a
     #}
 
-} else:linux {
-    DEFINES += LINUX
-    CODENAME = $$system(lsb_release -c | cut -f 2)
-    SYSTEM_PATH = sys/$$CODENAME
 } else:ios {
     CODENAME = ios
     SYSTEM_PATH = sys/$$CODENAME
@@ -81,7 +77,9 @@ win32 {
     SYSTEM_PATH = sys/$$CODENAME
 	TARGET_PATH_EXTRA = /$${TARGET}
 } else {
-    CODENAME = unknownCodeName
+    DEFINES += LINUX
+    CODENAME = $$system(lsb_release -sc)
+	message("------------ Linux. Codename:$${CODENAME}")
     SYSTEM_PATH = sys/$$CODENAME
 }
 
