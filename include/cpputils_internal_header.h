@@ -46,7 +46,7 @@
 	#if !defined(_WIN64) && !defined(_M_ARM64)
 		#define CPPUTLS_32_BIT
 	#endif
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__GNUC__) || defined(__clang__) || defined(LINUX_GCC)
     #define CPPUTILS_MAY_ALIAS  __attribute__ ((__may_alias__))
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
