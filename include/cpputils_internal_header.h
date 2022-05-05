@@ -30,15 +30,6 @@
 	// https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4711?view=msvc-160
 	#pragma warning (disable:4710)
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR
-	#if defined(_MSVC_LANG) && (_MSVC_LANG>=201100L)
-		#define CPPUTILS_CPP_11_DEFINED		1
-	#endif
-	#if defined(_MSVC_LANG) && (_MSVC_LANG>=201400L)
-		#define CPPUTILS_CPP_14_DEFINED		1
-	#endif
-	#if defined(_MSVC_LANG) && (_MSVC_LANG>=201700L)
-		#define CPPUTILS_CPP_17_DEFINED		1
-	#endif
     #define CPPUTILS_DLL_PUBLIC		__declspec(dllexport)
     #define CPPUTILS_DLL_PRIVATE
     #define CPPUTILS_IMPORT_FROM_DLL	__declspec(dllimport)
@@ -50,15 +41,6 @@
     #define CPPUTILS_MAY_ALIAS  __attribute__ ((__may_alias__))
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
-	#if defined(__cplusplus) && (__cplusplus>=201100L)
-		#define CPPUTILS_CPP_11_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201400L)
-		#define CPPUTILS_CPP_14_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201700L)
-		#define CPPUTILS_CPP_17_DEFINED		1
-	#endif
     //#define CPPUTILS_DLL_PUBLIC		__attribute__((visibility("default")))
     #define CPPUTILS_DLL_PUBLIC
     #define CPPUTILS_DLL_PRIVATE		__attribute__((visibility("hidden")))
@@ -67,30 +49,12 @@
 #elif defined(__CYGWIN__)
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
-	#if defined(__cplusplus) && (__cplusplus>=201100L)
-		#define CPPUTILS_CPP_11_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201400L)
-		#define CPPUTILS_CPP_14_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201700L)
-		#define CPPUTILS_CPP_17_DEFINED		1
-	#endif
     #define CPPUTILS_DLL_PUBLIC		__attribute__((dllexport))
     #define CPPUTILS_DLL_PRIVATE
     #define CPPUTILS_IMPORT_FROM_DLL	__attribute__((dllimport))
 #elif defined(__MINGW64__) || defined(__MINGW32__)
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
-	#if defined(__cplusplus) && (__cplusplus>=201100L)
-		#define CPPUTILS_CPP_11_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201400L)
-		#define CPPUTILS_CPP_14_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201700L)
-		#define CPPUTILS_CPP_17_DEFINED		1
-	#endif
     #define CPPUTILS_DLL_PUBLIC		_declspec(dllexport)
     #define CPPUTILS_DLL_PRIVATE
     #define CPPUTILS_IMPORT_FROM_DLL	_declspec(dllimport)
@@ -98,19 +62,45 @@
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
 	// #define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ; // ???
 	#define CPPUTILS_BEFORE_CPP_17_FALL_THR
-	#if defined(__cplusplus) && (__cplusplus>=201100L)
-		#define CPPUTILS_CPP_11_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201400L)
-		#define CPPUTILS_CPP_14_DEFINED		1
-	#endif
-	#if defined(__cplusplus) && (__cplusplus>=201700L)
-		#define CPPUTILS_CPP_17_DEFINED		1
-	#endif
     #define CPPUTILS_DLL_PUBLIC
     #define CPPUTILS_DLL_PRIVATE		__hidden
     #define CPPUTILS_IMPORT_FROM_DLL
 #endif  // #ifdef _MSC_VER
+
+#if defined(_MSC_VER) && defined(_MSVC_LANG)
+	#if (_MSVC_LANG>=201100L)
+		#define CPPUTILS_CPP_11_DEFINED		1
+	#endif
+	#if (_MSVC_LANG>=201400L)
+		#define CPPUTILS_CPP_14_DEFINED		1
+	#endif
+	#if (_MSVC_LANG>=201700L)
+		#define CPPUTILS_CPP_17_DEFINED		1
+	#endif
+	#if (_MSVC_LANG>=202000L)
+		#define CPPUTILS_CPP_20_DEFINED		1
+	#endif
+	#if (_MSVC_LANG>=202300L)
+		#define CPPUTILS_CPP_23_DEFINED		1
+	#endif
+#elif defined(__cplusplus)  // #if defined(_MSC_VER) && defined(_MSVC_LANG)
+	#if (__cplusplus>=201100L)
+		#define CPPUTILS_CPP_11_DEFINED		1
+	#endif
+	#if (__cplusplus>=201400L)
+		#define CPPUTILS_CPP_14_DEFINED		1
+	#endif
+	#if (__cplusplus>=201700L)
+		#define CPPUTILS_CPP_17_DEFINED		1
+	#endif
+	#if (__cplusplus>=202000L)
+		#define CPPUTILS_CPP_20_DEFINED		1
+	#endif
+	#if (__cplusplus>=202300L)
+		#define CPPUTILS_CPP_23_DEFINED		1
+	#endif
+#endif // #if defined(_MSC_VER) && defined(_MSVC_LANG)
+
 
 //#undef CPPUTILS_CPP_11_DEFINED
 
@@ -254,6 +244,14 @@
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56480
 #ifdef __GNUC__
 #define CPPUTILS_GCC_BUG_56480
+#endif
+
+#ifdef CPPUTILS_CPP_20_DEFINED
+#define CPPUTILS_NODISCARD	[[nodiscard]]
+#elif defined(CPPUTILS_CPP_11_DEFINED)
+#define CPPUTILS_NODISCARD	noexcept
+#else
+#define CPPUTILS_NODISCARD	throw()
 #endif
 
 
