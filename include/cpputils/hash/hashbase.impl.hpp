@@ -96,27 +96,27 @@ void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::RemoveEntryRa
 
 //
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::~HashBase()
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::~HashBase()
 {
     ApiType::ClearRaw();
     freeFn(ApiDataAdv::m_pTable);
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(size_t a_tInitSize)
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(size_t a_tInitSize)
 {
     ApiDataAdv::m_unRoundedTableSizeMin1 = __private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1;
 	ApiType::ConstructAfterRoundedTableSizeMin1IsKnown();
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(const HashBase& a_cM)
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(const HashBase& a_cM)
 {
     ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
     ApiType::ConstructAfterRoundedTableSizeMin1IsKnown();
@@ -124,19 +124,19 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(HashBase&& a_mM) CPPUTILS_NOEXCEPT
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(HashBase&& a_mM) CPPUTILS_NOEXCEPT
 {
     ApiType::InitAllToZero();
     ApiType::ReplaceWithOther(&a_mM);
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>& 
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(const HashBase& a_cM)
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>&
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(const HashBase& a_cM)
 {
     ApiType::ClearRaw();
     ApiType::GeFromOther(a_cM);
@@ -144,19 +144,19 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>&
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(HashBase&& a_mM) CPPUTILS_NOEXCEPT
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>&
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(HashBase&& a_mM) CPPUTILS_NOEXCEPT
 {
     ApiType::ReplaceWithOther(&a_mM);
     return *this;
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-bool HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::erase(const Key& a_key)
+bool HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::erase(const Key& a_key)
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_key,&unHash);
@@ -168,27 +168,36 @@ bool HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,fr
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+// bool     erase(const COutput& a_iter)
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-size_t HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::size()const
+void HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::erase(const COutput& a_iter)
+{
+    ApiType::RemoveEntryRaw(a_iter);
+}
+
+
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
+size_t HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::size()const
 {
     return ApiDataAdv::m_unSize;
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 inline void 
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::clear() CPPUTILS_NOEXCEPT
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::clear() CPPUTILS_NOEXCEPT
 {
     ApiType::ClearRaw();
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
 AddEntryWithKnownHashMv(Input&& a_item, size_t a_hash)
 {
     Input* pInTheTable = ApiType::AddEntryWithKnownHashRaw(::std::move(a_item),a_hash);
@@ -196,30 +205,30 @@ AddEntryWithKnownHashMv(Input&& a_item, size_t a_hash)
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
 AddEntryWithKnownHashC(const Input& a_item, size_t a_hash)
 {
     return AddEntryWithKnownHashMv(Input(a_item),a_hash);
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryEvenIfExistsMv(Input&& a_item)
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryEvenIfExistsMv(Input&& a_item)
 {
     const size_t unHash = fnHash(a_item.first)&(ApiType::m_unRoundedTableSizeMin1);
     return AddEntryWithKnownHashMv(a_item,unHash);
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryEvenIfExistsC(const Input& a_item)
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryEvenIfExistsC(const Input& a_item)
 {
     Hash fnHash;
     const size_t unHash = fnHash(a_item.first)&(ApiType::m_unRoundedTableSizeMin1);
@@ -227,10 +236,10 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryIfNotExistMv(Input&& a_item)
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryIfNotExistMv(Input&& a_item)
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
@@ -239,10 +248,10 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryIfNotExistC(const Input& a_item)
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryIfNotExistC(const Input& a_item)
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
@@ -252,10 +261,10 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddOrReplaceEntryMv(Input&& a_item)
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddOrReplaceEntryMv(Input&& a_item)
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
@@ -267,10 +276,10 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddOrReplaceEntryC(const Input& a_item)
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddOrReplaceEntryC(const Input& a_item)
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
@@ -283,13 +292,14 @@ HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,
 
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 InputT*
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
 findEntryRaw( const Key& a_key, size_t* a_hashPtr )const
 {
-    Hash fnHash;
+    const Equal fnEqual;
+    const Hash fnHash;
 	InputPrivate* pItemToRet;
 	size_t unHashForNull;
 	size_t& unHash = a_hashPtr?*a_hashPtr:unHashForNull;
@@ -298,7 +308,7 @@ findEntryRaw( const Key& a_key, size_t* a_hashPtr )const
 	pItemToRet = ApiType::m_pTable[unHash];
 
 	while (pItemToRet) {
-		if(a_key==pItemToRet->first){
+        if(fnEqual(a_key,pItemToRet->first)){
             return pItemToRet;
 		}
 		pItemToRet = pItemToRet->next;
@@ -308,11 +318,11 @@ findEntryRaw( const Key& a_key, size_t* a_hashPtr )const
 }
 
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-typename HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output 
-HashBase<Key,InputT,Hash,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
-findEntry( const Key& a_key, size_t* a_hashPtr )const
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+find( const Key& a_key, size_t* a_hashPtr )const
 {
     if(a_hashPtr){
         Input* pItem = findEntryRaw(a_key,a_hashPtr);
@@ -324,6 +334,15 @@ findEntry( const Key& a_key, size_t* a_hashPtr )const
     return Output(this,pItem,unHash);
 }
 
+
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
+typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+end(  )
+{
+    return ApiType::s_nullIter;
+}
 
 
 }}  //  namespace cpputils { namespace hash {

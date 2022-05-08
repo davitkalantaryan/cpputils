@@ -47,7 +47,7 @@ protected:
 	size_t          m_unSize;
 };
 
-template <typename Key,typename InputT, typename Hash, size_t templateDefaultSize,
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 class HashBase : public ApiType
 {    
@@ -79,8 +79,10 @@ public:
     Output   AddEntryIfNotExistC(const Input& a_item);
     Output   AddOrReplaceEntryMv(Input&& a_item);
     Output   AddOrReplaceEntryC(const Input& a_item);
-    Output   findEntry( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;
+    Output   find( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;
+    Output   end();
     bool     erase(const Key& a_key);
+    void     erase(const COutput& a_iter);
     
 protected:
     Input*   findEntryRaw( const Key& key, size_t* a_pHash )const;
