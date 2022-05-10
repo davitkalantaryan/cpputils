@@ -1097,7 +1097,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::toStreamU( ::std::basic_ostream<CharType>*
         (*a_pStream) << bintCopy.m_u.b64[0];
 
         if(ullnCount){
-            const size_t initialWidth  = a_pStream->width();
+            const size_t initialWidth  = static_cast<size_t>(a_pStream->width());
             const CharType initialFill = a_pStream->fill();
             a_pStream->width(18);
             a_pStream->fill('0');

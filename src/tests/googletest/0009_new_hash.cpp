@@ -23,7 +23,7 @@ TEST(f_0009_new_hash, t0001_Hash)
 	aHash.AddEntryEvenIfExistsC(::std::pair<int,int>(1,1));
 
 	ASSERT_EQ(aHash.size(), size_t(2));
-	ASSERT_EQ(aHash.findEntry(1)->second,1);
+	ASSERT_EQ(aHash.find(1)->second,1);
 	aHash.RemoveEntryRaw(iter);
 	ASSERT_EQ(aHash.size(), size_t(1));
 }
