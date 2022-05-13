@@ -14,7 +14,7 @@
 
 #pragma warning(disable:4710)
 #pragma warning(disable:4711)
-#if _MSC_VER>=1930
+#if (_MSC_VER>=1929) && (_MSC_FULL_VER>192930100)
 #pragma warning(disable:5246)
 #endif
 
