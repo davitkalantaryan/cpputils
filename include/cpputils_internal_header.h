@@ -224,7 +224,7 @@
 #endif
 
 // todo: make better multithreading decision
-#ifndef CPPUTILS_EMSCRIPTEN_IS_USED
+#if !defined(CPPUTILS_EMSCRIPTEN_IS_USED) && !defined(CPPUTILS_FORCE_SINGLE_THREADED)
 #define CPPUTILS_MULTITHREADED
 #endif
 

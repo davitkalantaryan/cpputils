@@ -74,15 +74,15 @@ public:
 };
 
 
-template <typename Key,typename Data, typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
+template <typename Key,typename Data, typename HashT=::std::hash<Key>, typename Equal=::std::equal_to<Key>,size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
-using Hash = HashBase< Key,HashItem<Key,Data,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
+using Hash = HashBase< Key,HashItem<Key,Data,mFn,fFn>,HashT,Equal,defSize,mFn,cFn,rFn,fFn,
                 HashApi<HashItem<Key,Data,mFn,fFn>,defSize,mFn,cFn,fFn> >;
 
 
-template <typename Key,typename HashT=::std::hash<Key>, size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
+template <typename Key,typename HashT=::std::hash<Key>,typename Equal=::std::equal_to<Key>,size_t defSize=CPPUTILS_HASH_DEFAULT_TABLE_SIZE,
           TypeMalloc mFn=::malloc, TypeCalloc cFn=::calloc, TypeRealloc rFn=::realloc, TypeFree fFn=::free>
-using Set = HashBase< Key,SetItem<Key,mFn,fFn>,HashT,defSize,mFn,cFn,rFn,fFn,
+using Set = HashBase< Key,SetItem<Key,mFn,fFn>,HashT,Equal,defSize,mFn,cFn,rFn,fFn,
                 HashApi<SetItem<Key,mFn,fFn>,defSize,mFn,cFn,fFn> >;
 
 

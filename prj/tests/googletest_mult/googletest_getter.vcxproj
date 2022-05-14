@@ -67,6 +67,16 @@
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\items.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\items.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\macroses.h" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
