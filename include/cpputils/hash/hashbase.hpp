@@ -80,7 +80,7 @@ public:
     Output   AddOrReplaceEntryMv(Input&& a_item);
     Output   AddOrReplaceEntryC(const Input& a_item);
     Output   find( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;
-    Output   end();
+    Output   end()const;
     bool     erase(const Key& a_key);
     void     erase(const COutput& a_iter);
     

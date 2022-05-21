@@ -339,7 +339,7 @@ template <typename Key,typename InputT, typename Hash, typename Equal, size_t te
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
-end(  )
+end(  )const
 {
     return ApiType::s_nullIter;
 }
