@@ -5,7 +5,6 @@ TEMPLATE = subdirs
 
 repositoryRoot = $${PWD}/../..
 
-include ( "$${repositoryRoot}/prj/common/common_qt/sys_common.pri" )
 
 SUBDIRS		+=	"$${repositoryRoot}/prj/tests/any_quick_test_qt/any_quick_test.pro"
 SUBDIRS		+=	"$${repositoryRoot}/prj/tests/googletest_mult/googletest_getter.pro"
