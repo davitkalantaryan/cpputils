@@ -38,7 +38,7 @@ namespace cpputils { namespace hashtbl {
 
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-bool BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::RemoveEntry(const KeyType& a_key)
+bool BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::RemoveEntry01(const KeyType& a_key)
 {
 	HashItemTypeAdv* pItem = FindEntry(a_key);
 	if(pItem){
