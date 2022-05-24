@@ -18,9 +18,11 @@ static uint64_t PowByMFor(uint64_t a_val, uint64_t a_pow)
 {
     uint64_t ullnRet = 0;
     cpputils::MultiFor aMFor(size_t(a_pow),
-                             [&ullnRet](const void*,size_t,const ::std::vector<int64_t>&){++ullnRet},
+                             [&ullnRet](const void*,size_t,const ::std::vector<int64_t>&){++ullnRet;},
                              [](const void*, size_t,const ::std::vector<int64_t>&){return 0;},
-                             [](const void*, size_t,const ::std::vector<int64_t>&){return int64_t(a_val);});
+                             [a_val](const void*, size_t,const ::std::vector<int64_t>&){return int64_t(a_val);});
+
+    aMFor.MakeIteation();
 
     return ullnRet;
 }
