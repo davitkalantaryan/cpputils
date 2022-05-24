@@ -9,6 +9,7 @@
 
 
 #include <cpputils_internal_header.h>
+#include <cpputils/functional.hpp>
 #include <stddef.h>
 #include <stdint.h>
 #include <vector>
@@ -19,43 +20,48 @@ namespace cpputils {
 class MultiFor
 {
 public:
-    typedef void (*TypeIter)(const void* clbkData, MultiFor*multifor, const ::std::vector<int64_t>&iterIndexes);
-    typedef int64_t (*TypeLimit)(const void* clbkData, size_t childIndex,const ::std::vector<int64_t>&parentsIterIndexes); // size of second arg is equal to childIndex
+    typedef ::cpputils::function<void(const void*, size_t,const ::std::vector<int64_t>&)> TypeIter;
+    typedef ::cpputils::function<int64_t(const void*, size_t,const ::std::vector<int64_t>&)> TypeLimit;
 
-private:
-    struct Core;
 public:
-    ~MultiFor();
     MultiFor(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
-private:
-    MultiFor(size_t a_deepness, Core*, size_t a_index);
+    ~MultiFor();
 
-public:
     void MakeIteation(const void* clbkData=nullptr);
     void Break();
 
 private:
-    void Initialize();
-    void NextIterations();
+    class Dimension{
+        struct Core;
+        Dimension(MultiFor* a_pParent, size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
+        Dimension(size_t a_deepness, Core*, size_t a_dimensionIndex);
+        ~Dimension();
+        void Initialize();
+        void NextIterations();
 
-private:
-    struct Core{
-        MultiFor* pParent;
-        const void* clbkData;
-        size_t   deepness;
-        TypeIter iter;
-        TypeLimit limitMin;
-        TypeLimit limitMax;
-        ::std::vector<int64_t>  iterValues;
-        bool shouldMakeIter;
-    }*const m_pCore;
+        //
+        Core*const  m_pCore;
+        const size_t m_dimensionIndex;
+        int64_t m_currentIterationPoint;
+        int64_t m_iterationPointsRightEnd;
+        Dimension* m_pNextDimension;
 
-    int64_t m_currentValue;
-    int64_t m_currentRightEnd;
-    const size_t  m_index;
-    MultiFor* m_pChild;
+        //
+        struct Core{
+            MultiFor* pParent;
+            const void* clbkData;
+            size_t   deepness;
+            TypeIter iter;
+            TypeLimit limitMin;
+            TypeLimit limitMax;
+            ::std::vector<int64_t>  iterationPoints;
+            bool shouldMakeIter;
+        };
 
-    //friend class MultiFor;
+        friend class MultiFor;
+
+    }*const m_pFirstDimesion;
+
 };
 
 
