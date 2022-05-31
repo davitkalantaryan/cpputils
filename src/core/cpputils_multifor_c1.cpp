@@ -1,20 +1,21 @@
 //
-// file:			cpputils_multifor.cpp
+// file:			cpputils_multifor_c1.cpp
 // path:			src/core/cpputils_multifor.cpp
 // created on:		2021 Sep 24
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#include "cpputils/multifor.hpp"
+#include <cpputils/multifor/c1.hpp>
 #include <assert.h>
 
 
-namespace cpputils {
+namespace cpputils { namespace  multifor {
+
 
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-MultiFor::MultiFor(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max)
+C1::C1(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max)
     :
       m_pFirstDimesion(new Dimension(this,a_deepness,a_iter,a_min,a_max))
 {
@@ -22,19 +23,19 @@ MultiFor::MultiFor(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimi
 }
 
 
-MultiFor::~MultiFor()
+C1::~C1()
 {
     delete m_pFirstDimesion;
 }
 
 
-void MultiFor::Break()
+void C1::Break()
 {
     m_pFirstDimesion->m_pCore->shouldMakeIter = false;
 }
 
 
-void MultiFor::MakeIteation(const void* a_clbkData)
+void C1::MakeIteation(const void* a_clbkData)
 {
     m_pFirstDimesion->m_pCore->clbkData = a_clbkData;
     m_pFirstDimesion->m_pCore->shouldMakeIter = true;
@@ -45,11 +46,12 @@ void MultiFor::MakeIteation(const void* a_clbkData)
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-MultiFor::Dimension::Dimension(MultiFor* a_pParent, size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max)
+C1::Dimension::Dimension(C1* a_pParent, size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max)
     :
-      m_pCore(a_deepness?(new Core):nullptr),
+      m_pCore(new Core),
       m_dimensionIndex(0)
 {
+    assert(a_deepness);
     m_pCore->pParent = a_pParent;
     m_pCore->clbkData = nullptr;
     m_pCore->iter = a_iter;
@@ -66,7 +68,7 @@ MultiFor::Dimension::Dimension(MultiFor* a_pParent, size_t a_deepness, TypeIter 
 }
 
 
-MultiFor::Dimension::Dimension(size_t a_deepness, Core* a_pCore, size_t a_dimensionIndex)
+C1::Dimension::Dimension(size_t a_deepness, Core* a_pCore, size_t a_dimensionIndex)
     :
       m_pCore(a_pCore),
       m_dimensionIndex(a_dimensionIndex)
@@ -80,7 +82,7 @@ MultiFor::Dimension::Dimension(size_t a_deepness, Core* a_pCore, size_t a_dimens
 }
 
 
-MultiFor::Dimension::~Dimension()
+C1::Dimension::~Dimension()
 {
     delete m_pNextDimension;
     if(m_dimensionIndex==0){
@@ -89,14 +91,14 @@ MultiFor::Dimension::~Dimension()
 }
 
 
-void MultiFor::Dimension::Initialize()
+void C1::Dimension::Initialize()
 {
     m_currentIterationPoint = m_pCore->limitMin(m_pCore->clbkData,m_dimensionIndex,m_pCore->iterationPoints);
     m_iterationPointsRightEnd = m_pCore->limitMax(m_pCore->clbkData,m_dimensionIndex,m_pCore->iterationPoints);
 }
 
 
-void MultiFor::Dimension::NextIterations()
+void C1::Dimension::NextIterations()
 {
     if(m_pNextDimension){
 
@@ -116,4 +118,4 @@ void MultiFor::Dimension::NextIterations()
 
 
 
-}  // namespace cpputils {
+}}  // namespace cpputils { namespace  multifor {

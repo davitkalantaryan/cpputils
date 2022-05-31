@@ -1,6 +1,6 @@
 //
-// file:			multifor.cpp
-// path:			include/cpputils/multifor.cpp
+// file:			c1.hpp
+// path:			include/cpputils/multifor/c1.hpp
 // created on:		2021 Sep 24
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
@@ -15,17 +15,17 @@
 #include <vector>
 
 
-namespace cpputils {
+namespace cpputils { namespace  multifor {
 
-class MultiFor
+class C1
 {
 public:
     typedef ::cpputils::function<void(const void*, size_t,const ::std::vector<int64_t>&)> TypeIter;
     typedef ::cpputils::function<int64_t(const void*, size_t,const ::std::vector<int64_t>&)> TypeLimit;
 
 public:
-    MultiFor(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
-    ~MultiFor();
+    C1(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
+    ~C1();
 
     void MakeIteation(const void* clbkData=nullptr);
     void Break();
@@ -33,7 +33,7 @@ public:
 private:
     class Dimension{
         struct Core;
-        Dimension(MultiFor* a_pParent, size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
+        Dimension(C1* a_pParent, size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
         Dimension(size_t a_deepness, Core*, size_t a_dimensionIndex);
         ~Dimension();
         void Initialize();
@@ -48,7 +48,7 @@ private:
 
         //
         struct Core{
-            MultiFor* pParent;
+            C1* pParent;
             const void* clbkData;
             size_t   deepness;
             TypeIter iter;
@@ -58,11 +58,11 @@ private:
             bool shouldMakeIter;
         };
 
-        friend class MultiFor;
+        friend class C1;
 
     }*const m_pFirstDimesion;
 
 };
 
 
-}  // namespace cpputils {
+}}  // namespace cpputils { namespace  multifor {
