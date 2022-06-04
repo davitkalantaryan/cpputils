@@ -40,11 +40,17 @@
 #elif defined(__GNUC__) || defined(__clang__) || defined(LINUX_GCC)
     #define CPPUTILS_MAY_ALIAS  __attribute__ ((__may_alias__))
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
-	#if (__GNUC__>=7) || (defined(__has_attribute) && __has_attribute (fallthrough))
+	#if __GNUC__>=7
 		#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
+	#elif defined(__has_attribute)
+		#if __has_attribute (fallthrough))
+			#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
+		#else
+			#define CPPUTILS_BEFORE_CPP_17_FALL_THR		/* FALLTHRU */
+		#endif
 	#else
 		#define CPPUTILS_BEFORE_CPP_17_FALL_THR		/* FALLTHRU */
-	#endif  // #if (__GNUC__>=7) || (defined(__has_attribute) && __has_attribute (fallthrough))
+	#endif  // #if __GNUC__>=7
     //#define CPPUTILS_DLL_PUBLIC		__attribute__((visibility("default")))
     #define CPPUTILS_DLL_PUBLIC
     #define CPPUTILS_DLL_PRIVATE		__attribute__((visibility("hidden")))
