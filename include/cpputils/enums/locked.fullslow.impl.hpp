@@ -9,7 +9,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULLSLOW_IMPL_HPP
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULLSLOW_HPP
-#include "fullslow.hpp"
+#include "locked.fullslow.hpp"
 #endif
 
 #include <stdlib.h>

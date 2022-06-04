@@ -11,7 +11,7 @@
 #ifndef INCLUDE_CPPUTILS_ENDIAN_H
 #define INCLUDE_CPPUTILS_ENDIAN_H
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 
 
 #if defined(__linux__) || defined(__CYGWIN__) || defined(CPPUTILS_EMSCRIPTEN_IS_USED)

@@ -10,7 +10,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_HPP
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <cpputils/enums/fast.hpp>
 //#include <cpputils/enums/full.hpp>
 //#include <cpputils/enums/fullslow.hpp>

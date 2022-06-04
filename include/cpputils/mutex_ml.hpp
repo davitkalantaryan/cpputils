@@ -9,7 +9,7 @@
 #define CPPUTILS_CPPUTILS_MUTEX_ML_HPP
 
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <stddef.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <mutex>

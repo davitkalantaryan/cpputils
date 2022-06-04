@@ -3,7 +3,6 @@
 // created on:		2022 May 24
 //
 
-#include <cpputils_internal_header.h>
 #include "gtest/gtest.h"
 #include <cpputils/multifor/c1.hpp>
 

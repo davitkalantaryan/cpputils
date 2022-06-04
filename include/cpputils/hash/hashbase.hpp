@@ -12,8 +12,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_HASHBASE_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_HASHBASE_HPP
 
-
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <cpputils/hash/items.hpp>
 #include <cpputils/functional.hpp>
 #include <string>

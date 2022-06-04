@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_FLAGSHELPER_H
 #define CPPUTILS_INCLUDE_CPPUTILS_FLAGSHELPER_H
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 
 #define CPPUTILS_MAKE_BITS_POSITIVE	1
 #define CPPUTILS_MAKE_BITS_NEGATIVE	2

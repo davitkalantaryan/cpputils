@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <stddef.h>
 
 

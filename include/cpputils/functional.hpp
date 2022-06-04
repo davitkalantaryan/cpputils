@@ -10,7 +10,7 @@
 
 //#define CPPUTILS_DO_NOT_USE_STD_FUNCTION
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 
 #define FUNC_ARGS_CPP11(_ret,...)	_ret(__VA_ARGS__)
 

@@ -1,12 +1,12 @@
 //
-// file:			cpputils_internal_header.h
-// path:			include/cpputils_internal_header.h
-// created on:		2021 Mar 07
+// file:			internal_header.h
+// path:			include/cpputils/internal_header.h
+// created on:		2022 Jun 04
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
-#define INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H
+#define CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H
 
 #include <stddef.h>
 
@@ -265,4 +265,4 @@
 #endif
 
 
-#endif  // #ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H

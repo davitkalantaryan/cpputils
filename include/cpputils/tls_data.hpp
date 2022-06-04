@@ -8,7 +8,7 @@
 #ifndef INCLUDE_CPPUTILS_TLS_DATA_HPP
 #define INCLUDE_CPPUTILS_TLS_DATA_HPP
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <cpputils/thread_local.h>
 #include <stddef.h>
 

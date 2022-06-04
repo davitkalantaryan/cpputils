@@ -9,7 +9,7 @@
 #define CPPUTILS_INCLUDE_PROTECTEDDATA_HPP
 
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <stddef.h>
 #include <cpputils/disable_compiler_warnings.h>
 #include <mutex>

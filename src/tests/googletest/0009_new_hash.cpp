@@ -3,7 +3,7 @@
 // created on:		2022 Jan 29
 //
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 

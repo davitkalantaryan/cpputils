@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_DEF_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_DEF_HPP
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <cpputils/functional.hpp>
 #include <stddef.h>
 #include <string>
