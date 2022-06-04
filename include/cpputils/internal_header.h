@@ -43,7 +43,7 @@
 	#if __GNUC__>=7
 		#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
 	#elif defined(__has_attribute)
-		#if __has_attribute (fallthrough))
+		#if __has_attribute (fallthrough)
 			#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
 		#else
 			#define CPPUTILS_BEFORE_CPP_17_FALL_THR		/* FALLTHRU */
