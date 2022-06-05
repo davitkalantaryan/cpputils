@@ -12,6 +12,7 @@
 #include <cpputils/hash/hash.hpp>
 #include <cpputils/hash/vhash.hpp>
 #include <cpputils/hash/lhash.hpp>
+#include <cpputils/flagshelper.h>
 #include <type_traits>
 #include <iostream>
 #include <typeinfo>
@@ -48,6 +49,33 @@ typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
 
 int main()
 {
+
+	{
+		CPPUTILS_FLAGS_UN(
+			clockInEnabled,
+			keyStoringEnabled,
+			appMonitorEnabled,
+			keybMonitorEnabled,
+			mouseMonitorEnabled,
+			screenshotEnabled,
+			isLoggedIn,
+			isClockIn,
+			isInBreak,
+			isAppMonitorRunning,
+			isKeybMonitorRunning,
+			isMouseMonitorRunning,
+			shouldSpin
+		) m_flags2;
+
+		m_flags2.all = CPPUTILS_INIT_BITS;
+
+		::std::cout << m_flags2.b.reserved01 << ::std::endl;
+		::std::cout << m_flags2.b2.isAppMonitorRunning_both << ::std::endl;
+		::std::cout << m_flags2.b.clockInEnabled_false << ::std::endl;
+	}
+
+	
+	
 	{
 		uint32_t oneBe = htobe32(1);
 
