@@ -14,7 +14,6 @@
 #include "bigint.hpp"
 #endif
 
-#include <cpputils_internal_header.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <ostream>
@@ -25,7 +24,6 @@
 #include <vector>
 #include <string.h>
 #include <math.h>
-//#include <cpputils_endian.h>
 
 namespace __private { namespace __implementation {
 

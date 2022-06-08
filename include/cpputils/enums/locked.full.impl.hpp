@@ -9,7 +9,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULL_IMPL_HPP
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULL_HPP
-#include "full.hpp"
+#include "locked.full.hpp"
 #endif
 
 #include <stdlib.h>

@@ -10,8 +10,8 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULL_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULL_HPP
 
-#include <cpputils_internal_header.h>
-#include <cpputils/enums/base.hpp>
+#include <cpputils/internal_header.h>
+#include <cpputils/enums/locked.base.hpp>
 #include <cpputils/macroses.h>
 #include <cpputils/hashtbl.hpp>
 #include <stddef.h>

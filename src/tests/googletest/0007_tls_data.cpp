@@ -3,7 +3,7 @@
 // created on:		2021 Apr 22
 //
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include "gtest/gtest.h"
 #include <cpputils/tls_data.hpp>

@@ -1,12 +1,12 @@
 //
-// file:			cpputils_internal_header.h
-// path:			include/cpputils_internal_header.h
-// created on:		2021 Mar 07
+// file:			internal_header.h
+// path:			include/cpputils/internal_header.h
+// created on:		2022 Jun 04
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
-#define INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H
+#define CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H
 
 #include <stddef.h>
 
@@ -40,7 +40,17 @@
 #elif defined(__GNUC__) || defined(__clang__) || defined(LINUX_GCC)
     #define CPPUTILS_MAY_ALIAS  __attribute__ ((__may_alias__))
 	#define CPPUTILS_UNREACHABLE_CODE(_code)	_code ;
-	#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
+	#if __GNUC__>=7
+		#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
+	#elif defined(__has_attribute)
+		#if __has_attribute (fallthrough)
+			#define CPPUTILS_BEFORE_CPP_17_FALL_THR	__attribute__ ((fallthrough)) ;
+		#else
+			#define CPPUTILS_BEFORE_CPP_17_FALL_THR		/* FALLTHRU */
+		#endif
+	#else
+		#define CPPUTILS_BEFORE_CPP_17_FALL_THR		/* FALLTHRU */
+	#endif  // #if __GNUC__>=7
     //#define CPPUTILS_DLL_PUBLIC		__attribute__((visibility("default")))
     #define CPPUTILS_DLL_PUBLIC
     #define CPPUTILS_DLL_PRIVATE		__attribute__((visibility("hidden")))
@@ -255,4 +265,4 @@
 #endif
 
 
-#endif  // #ifndef INCLUDE_CPPUTILS_CPPUTILS_INTERNAL_HEADER_H
+#endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H

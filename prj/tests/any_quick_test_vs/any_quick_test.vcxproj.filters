@@ -47,9 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\cpputils_internal_header.h">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
@@ -89,28 +86,34 @@
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\base.hpp">
-      <Filter>Header Files\include\cpputils\enums</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp">
       <Filter>Header Files\include\cpputils\enums</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp">
       <Filter>Header Files\include\cpputils\enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\full.hpp">
-      <Filter>Header Files\include\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\full.impl.hpp">
-      <Filter>Header Files\include\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\fullslow.hpp">
-      <Filter>Header Files\include\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\fullslow.impl.hpp">
-      <Filter>Header Files\include\cpputils\enums</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\endian.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\internal_header.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\enums\locked.base.hpp">
+      <Filter>Header Files\include\cpputils\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.hpp">
+      <Filter>Header Files\include\cpputils\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.impl.hpp">
+      <Filter>Header Files\include\cpputils\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.hpp">
+      <Filter>Header Files\include\cpputils\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.impl.hpp">
+      <Filter>Header Files\include\cpputils\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\macroses02.h">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
   </ItemGroup>

@@ -38,7 +38,7 @@ namespace cpputils { namespace hashtbl {
 
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-bool BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::RemoveEntry(const KeyType& a_key)
+bool BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::RemoveEntry01(const KeyType& a_key)
 {
 	HashItemTypeAdv* pItem = FindEntry(a_key);
 	if(pItem){
@@ -433,7 +433,7 @@ const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Has
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
 bool Base<KeyType,DataType,Hash,templateDefaultSize>::RemoveEntry02(const KeyType& a_key,DataType* a_pData)
 {
-    __p::__i::HashItemBase<KeyType,DataType>* pItem = BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
+    HashItemTypeAdv* pItem = BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::
             FindEntry(a_key);
     if(pItem){
         *a_pData = CPPUTILS_STD_MOVE(pItem->second);

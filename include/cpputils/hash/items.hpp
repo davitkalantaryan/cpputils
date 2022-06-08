@@ -10,7 +10,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_ITEMS_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_ITEMS_HPP
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <utility>
 
 

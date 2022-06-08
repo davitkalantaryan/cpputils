@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <string>
 
 #ifdef CPPUTILS_EMSCRIPTEN_IS_USED
@@ -24,4 +24,3 @@ CPPUTILS_EXPORT void mount_idbfs_file_system(const char* a_cpcMountPoint, const 
 CPPUTILS_EXPORT void fs_sync(void);
 
 }}  // namespace cpputils { namespace emscripten {
-

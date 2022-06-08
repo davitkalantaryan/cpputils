@@ -9,7 +9,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_HPP
 
 
-#include <cpputils_internal_header.h>
+#include <cpputils/internal_header.h>
 #include <cpputils/functional.hpp>
 #include <stdint.h>
 #include <stddef.h>
@@ -28,7 +28,7 @@ public:
 public:
 	HashItemTypeAdv*	FindEntry(const KeyType& key,size_t* corespondingHash=CPPUTILS_NULL)const;
 	HashItemTypeAdv*	FindEntryWithKnownHash(const KeyType& key,size_t knownHash)const;
-	bool		RemoveEntry(const KeyType& key);
+    bool		RemoveEntry01(const KeyType& key);
 	void		RemoveEntry(const HashItemTypeAdv* a_data);
 	size_t		size()const;
 	void		clear() CPPUTILS_NOEXCEPT;

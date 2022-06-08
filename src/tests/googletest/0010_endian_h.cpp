@@ -3,7 +3,6 @@
 // created on:		2022 Feb 28
 //
 
-#include <cpputils_internal_header.h>
 #include "gtest/gtest.h"
 #include <cpputils/endian.h>
 
