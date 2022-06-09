@@ -14,6 +14,23 @@
 
 #ifdef _MSC_VER
 
+	#if defined(_WIN64) || defined(_M_ARM)
+		#define CPPUTILS_FNAME_PREFIX ""
+		#define CPPUTILS_DS_FNAME_POSTFIX
+		#define CPPUTILS_SEC_CH_FNC_NAME	"__security_check_cookie"
+	#else
+		#define CPPUTILS_FNAME_PREFIX "_"
+		#define CPPUTILS_DS_FNAME_POSTFIX	"@12"
+		#define CPPUTILS_SEC_CH_FNC_NAME	"@__security_check_cookie@4"
+	#endif
+
+	#pragma section(".CRT$XCU",read)
+	#define CPPUTILS_ALLOC_FREE_INITIALIZER(f) \
+        static void f(void); \
+        __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; \
+        __pragma(comment(linker,"/include:" CPPUTILS_FNAME_PREFIX #f "_")) \
+        static void f(void)
+
 	#undef cpputils_alloca
 	#define cpputils_alloca	_alloca
 	#define CPPUTILS_UNREACHABLE_CODE(_code)
@@ -133,13 +150,19 @@
 #endif
 
 #ifdef __cplusplus
-#define CPPUTILS_STATIC_CAST(_type,_data)	static_cast<_type>(_data)
+#define CPPUTILS_STATIC_CAST(_type,_data)		static_cast<_type>(_data)
+#define CPPUTILS_REINTERPRET_CAST(_type,_data)	reinterpret_cast<_type>(_data)
+#define CPPUTILS_CONST_CAST(_type,_data)		const_cast<_type>(_data)
+#define CPPUTILS_DYNAMIC_CAST(_type,_data)		dynamic_cast<_type>(_data)
 #define CPPUTILS_GLOBAL	   ::
 #define CPPUTILS_BEGIN_C   extern "C" {
 #define CPPUTILS_END_C     }
 #define CPPUTILS_EXTERN_C  extern "C"
 #else
-#define CPPUTILS_STATIC_CAST(_type,_data)	((_type)(_data))
+#define CPPUTILS_STATIC_CAST(_type,_data)		((_type)(_data))
+#define CPPUTILS_REINTERPRET_CAST(_type,_data)	((_type)(_data))
+#define CPPUTILS_CONST_CAST(_type,_data)		((_type)(_data))
+#define CPPUTILS_DYNAMIC_CAST(_type,_data)		((_type)(_data))
 #define CPPUTILS_GLOBAL
 #define CPPUTILS_BEGIN_C
 #define CPPUTILS_END_C
