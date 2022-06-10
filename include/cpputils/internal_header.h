@@ -24,14 +24,14 @@
 		#define CPPUTILS_SEC_CH_FNC_NAME	"@__security_check_cookie@4"
 	#endif
 
-    #define CPPUTILS_ALLOC_FREE_INITIALIZER_RAW(_sect,f) \
+    #define CPPUTILS_C_CODE_INITIALIZER_RAW(_sect,f) \
         __pragma(section(_sect,read)) \
         static void f(void); \
         __declspec(allocate(_sect)) void (*f##_)(void) = f; \
         __pragma(comment(linker,"/include:" CPPUTILS_FNAME_PREFIX #f "_")) \
         static void f(void)
 
-    #define CPPUTILS_ALLOC_FREE_INITIALIZER(f)  CPPUTILS_ALLOC_FREE_INITIALIZER_RAW(".CRT$XCU")
+    #define CPPUTILS_C_CODE_INITIALIZER(f)  CPPUTILS_C_CODE_INITIALIZER_RAW(".CRT$XCU",f)
 
 	#undef cpputils_alloca
 	#define cpputils_alloca	_alloca
