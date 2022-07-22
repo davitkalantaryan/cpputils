@@ -245,6 +245,14 @@ LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator::operator I
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 
+template <typename Input, size_t defSize, TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+LHashApi<Input, defSize, mallocFn, callocFn, reallocFn, freeFn>::const_iterator::const_iterator()
+    :
+    iterator_base()
+{
+}
+
+
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::const_iterator(const iterator& a_cM)
     :

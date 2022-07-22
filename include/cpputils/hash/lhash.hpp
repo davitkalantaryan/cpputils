@@ -84,6 +84,7 @@ public:
     class const_iterator : public iterator_base{
     public:
         using iterator_base::iterator_base;
+        const_iterator();
         const_iterator(const iterator&);
         const Input* operator->()const;
         operator const Input* ()const;
@@ -94,6 +95,8 @@ protected:
         ListItem    	*prevInTheList, *nextInTheList;
         const size_t    m_hash;
         ListItem(InputPrivate&& a_mM, size_t a_hash);
+        ListItem(const ListItem&) = delete;
+        ListItem& operator=(const ListItem&) = delete;
     };
 };
 
