@@ -269,9 +269,9 @@
 #endif
 
 #ifdef CPPUTILS_MULTITHREADED
-#define CPPUTILS_TRY_CATCH(_expression)	(_expression) ;
+#define CPPUTILS_TRY_CATCH(_expression,_result)	(_expression) ;
 #else
-#define CPPUTILS_TRY_CATCH(_expression)   try{(_expression);}catch(...){return;}
+#define CPPUTILS_TRY_CATCH(_expression,_result)   try{(_expression);}catch(...){return _result;}
 #endif
 
 #define CPPUTILS_IN_OUT
