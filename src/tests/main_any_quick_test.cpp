@@ -46,9 +46,30 @@ typedef cpputils::hashtbl::IntHash<int,int>	TypeMap;
 
 #endif
 
+CPPUTILS_FLAGS_UN_NM(
+	UnionName,
+	clockInEnabled,
+	keyStoringEnabled,
+	appMonitorEnabled,
+	keybMonitorEnabled,
+	mouseMonitorEnabled,
+	screenshotEnabled,
+	isLoggedIn,
+	isClockIn,
+	isInBreak,
+	isAppMonitorRunning,
+	isKeybMonitorRunning,
+	isMouseMonitorRunning,
+	shouldSpin
+) ;
 
 int main()
 {
+	{
+		UnionName aUn;
+		aUn.all = CPPUTILS_INIT_BITS;
+		aUn.b2.appMonitorEnabled_both = CPPUTILS_MAKE_BITS_FALSE;
+	}
 
 	{
 		CPPUTILS_FLAGS_UN(

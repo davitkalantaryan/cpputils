@@ -35,8 +35,8 @@
 #define CPPUTILS_BITS_B2(...) CPPUTILS_MACRO02_APPY(CPPUTILS_BOTH_BITS2,;,__VA_ARGS__)
 
 
-#define CPPUTILS_FLAGS_UN_RAW(_numberOfReserved,...)  \
-    union{  \
+#define CPPUTILS_FLAGS_UN_RAW(_name, _numberOfReserved,...)  \
+    union _name {  \
         uint64_t  all; \
         struct{ \
             CPPUTILS_BITS_B(__VA_ARGS__)                \
@@ -48,7 +48,8 @@
         }b2;    \
     }
 
-#define CPPUTILS_FLAGS_UN(...)    CPPUTILS_FLAGS_UN_RAW(64-2*CPPUTILS_NARGS(__VA_ARGS__),__VA_ARGS__)
+#define CPPUTILS_FLAGS_UN(...)    CPPUTILS_FLAGS_UN_RAW(,64-2*CPPUTILS_NARGS(__VA_ARGS__),__VA_ARGS__)
+#define CPPUTILS_FLAGS_UN_NM(_name,...)    CPPUTILS_FLAGS_UN_RAW(_name,64-2*CPPUTILS_NARGS(__VA_ARGS__),__VA_ARGS__)
 
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_FLAGSHELPER_H
