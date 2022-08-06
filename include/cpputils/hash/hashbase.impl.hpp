@@ -244,7 +244,7 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
     if(pItem){return Output(this,CPPUTILS_NULL,0);}
-    return AddEntryWithKnownHashMv(a_item,unHash);
+    return AddEntryWithKnownHashMv(::std::move(a_item),unHash);
 }
 
 
