@@ -10,6 +10,7 @@
 #include <string>
 #include <string.h>
 #include <stdlib.h>
+#include <cstring>
 
 #ifdef _MSC_VER
 #ifdef strdup
