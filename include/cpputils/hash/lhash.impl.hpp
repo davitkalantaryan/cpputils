@@ -57,7 +57,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()const
 {
-    return const_iterator(m_pFirstItem);
+    return const_iterator(this,m_pFirstItem,0);
 }
 
 
@@ -197,7 +197,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base 
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::operator--(int)
 {
-    iterator_base retIter(m_pItem);
+    iterator_base retIter(m_pParent,m_pItem,0);
     m_pItem = m_pItem->prevInTheList;
     return retIter;
 }
@@ -206,14 +206,14 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::next()const
 {
-    return iterator_base(m_pItem->nextInTheList);
+    return iterator_base(m_pParent,m_pItem->nextInTheList,0);
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 typename LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::previous()const
 {
-    return iterator_base(m_pItem->prevInTheList);
+    return iterator_base(m_pParent,m_pItem->prevInTheList,0);
 }
 
 
@@ -234,6 +234,7 @@ Input* LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator::ope
 {
     return iterator_base::m_pItem;
 }
+
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator::operator Input*()const
