@@ -28,9 +28,14 @@ public:
     void operator=(DataType&& a_data);
     operator DataType()const;
 
+    void lock()const;
+    void unlock()const;
+    const DataType& dataNoLock()const;
+    DataType& dataNoLock();
+
 private:
     mutable ::std::mutex    m_mutex;
-    DataType        m_data;
+    DataType                m_data;
 };
 
 

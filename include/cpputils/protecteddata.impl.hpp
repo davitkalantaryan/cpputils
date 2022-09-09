@@ -49,6 +49,33 @@ ProtectedData<DataType>::operator DataType()const
 }
 
 
+template <typename DataType>
+void ProtectedData<DataType>::lock()const
+{
+    m_mutex.lock();
+}
+
+
+template <typename DataType>
+void ProtectedData<DataType>::unlock()const
+{
+    m_mutex.unlock();
+}
+
+template <typename DataType>
+const DataType& ProtectedData<DataType>::dataNoLock()const
+{
+    return m_data;
+}
+
+
+template <typename DataType>
+DataType& ProtectedData<DataType>::dataNoLock()
+{
+    return m_data;
+}
+
+
 }  // namespace cpputils {
 
 
