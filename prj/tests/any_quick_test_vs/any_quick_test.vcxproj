@@ -324,6 +324,11 @@
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\internal_header.h" />
+    <ClInclude Include="..\..\..\include\cpputils\thread_local.h" />
+    <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\tls_data.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.posix.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\any_quick_test_qt\any_quick_test.pro" />

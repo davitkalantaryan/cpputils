@@ -116,6 +116,21 @@
     <ClInclude Include="..\..\..\include\cpputils\macroses02.h">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\thread_local.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_data.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.posix.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\any_quick_test_qt\any_quick_test.pro">
