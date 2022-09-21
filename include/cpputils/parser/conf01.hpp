@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <vector>
 #include <string>
 #include <utility>

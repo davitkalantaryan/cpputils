@@ -9,7 +9,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_HASHTBL_HPP
 
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
 #include <stdint.h>
 #include <stddef.h>

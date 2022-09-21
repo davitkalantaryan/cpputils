@@ -303,6 +303,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\disable_compiler_warnings.h" />
+    <ClInclude Include="..\..\..\include\cpputils\emscripten.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\endian.h" />
     <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
@@ -312,15 +314,32 @@
     <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h" />
+    <ClInclude Include="..\..\..\include\cpputils\flagshelper.h" />
     <ClInclude Include="..\..\..\include\cpputils\functional.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\items.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\items.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\macroses.h" />
     <ClInclude Include="..\..\..\include\cpputils\macroses02.h" />
+    <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\mutex_ml.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\protecteddata.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\internal_header.h" />
@@ -329,6 +348,7 @@
     <ClInclude Include="..\..\..\include\cpputils\tls_data.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\tls_ptr.posix.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\unnamedsemaphore.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\any_quick_test_qt\any_quick_test.pro" />

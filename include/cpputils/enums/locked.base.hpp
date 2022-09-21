@@ -10,7 +10,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_BASE_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_BASE_HPP
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <stdint.h>
 
 namespace cpputils { namespace enums{

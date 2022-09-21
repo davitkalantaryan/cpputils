@@ -8,7 +8,7 @@
 #ifndef INCLUDE_CPPUTILS_THREAD_LOCAL_H
 #define INCLUDE_CPPUTILS_THREAD_LOCAL_H
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 
 #ifndef CPPUTILS_THREAD_LOCAL
 #define CPPUTILS_THREAD_LOCAL

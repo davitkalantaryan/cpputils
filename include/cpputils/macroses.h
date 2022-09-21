@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_MACROSES_H
 #define CPPUTILS_INCLUDE_CPPUTILS_MACROSES_H
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 
 #define CPPUTILS_ID(_x)							_x
 #define CPPUTILS_MACRO_APPLY_IMPL(_macro, ...)	CPPUTILS_ID(_macro(__VA_ARGS__))

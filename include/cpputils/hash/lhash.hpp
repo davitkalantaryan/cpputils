@@ -12,7 +12,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_LHASH_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_LHASH_HPP
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <cpputils/hash/items.hpp>
 #include <cpputils/hash/hashbase.hpp>
 #include <string>

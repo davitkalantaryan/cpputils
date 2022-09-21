@@ -10,7 +10,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULLSLOW_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULLSLOW_HPP
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <cpputils/enums/locked.base.hpp>
 #include <cpputils/macroses.h>
 #include <cpputils/hashtbl.hpp>

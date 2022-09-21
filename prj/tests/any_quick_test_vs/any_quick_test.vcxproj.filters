@@ -25,6 +25,15 @@
     <Filter Include="Header Files\include\cpputils\enums">
       <UniqueIdentifier>{6fc18e52-e922-4a57-aa06-fb5038b9ab4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\cpputils\hash">
+      <UniqueIdentifier>{a9e5da46-8fc6-44bb-8fcb-5919b465003c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cpputils\multifor">
+      <UniqueIdentifier>{7fac9fcb-fa6e-49eb-aac0-878181839d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cpputils\parser">
+      <UniqueIdentifier>{06a7d680-79db-477e-8e6b-f522dc8d3e28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp">
@@ -130,6 +139,66 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp">
       <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\disable_compiler_warnings.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\emscripten.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\flagshelper.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\mutex_ml.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\protecteddata.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\unnamedsemaphore.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\hash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\hash.impl.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.impl.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\items.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\items.impl.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.impl.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.impl.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp">
+      <Filter>Header Files\include\cpputils\multifor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp">
+      <Filter>Header Files\include\cpputils\parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

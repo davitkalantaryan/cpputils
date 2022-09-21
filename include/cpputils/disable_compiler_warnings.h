@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_DISABLE_COMPILER_WARNINGS_H
 #define CPPUTILS_INCLUDE_DISABLE_COMPILER_WARNINGS_H
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 
 #if defined(_MSC_VER)
 

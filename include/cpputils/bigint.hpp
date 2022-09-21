@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_BIGINT_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_BIGINT_HPP
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <string>
 #include <ios>
 #include <stdint.h>

@@ -141,16 +141,6 @@
 #define CPPUTILS_MAY_ALIAS
 #endif
 
-#if defined(CPPUTILS_COMPILING_SHARED_LIB)
-    #define CPPUTILS_EXPORT CPPUTILS_DLL_PUBLIC
-#elif defined(CPPUTILS_USING_STATIC_LIB_OR_OBJECTS)
-    #define CPPUTILS_EXPORT
-#elif defined(CPPUTILS_LOAD_FROM_DLL)
-    #define CPPUTILS_EXPORT CPPUTILS_IMPORT_FROM_DLL
-#else
-	#define CPPUTILS_EXPORT CPPUTILS_DLL_PRIVATE
-#endif
-
 #ifdef __cplusplus
 #define CPPUTILS_STATIC_CAST(_type,_data)		static_cast<_type>(_data)
 #define CPPUTILS_REINTERPRET_CAST(_type,_data)	reinterpret_cast<_type>(_data)

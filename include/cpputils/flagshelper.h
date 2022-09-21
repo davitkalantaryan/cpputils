@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_FLAGSHELPER_H
 #define CPPUTILS_INCLUDE_CPPUTILS_FLAGSHELPER_H
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <cpputils/macroses02.h>
 
 #define CPPUTILS_MAKE_BITS_POSITIVE     1

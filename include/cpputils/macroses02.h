@@ -8,7 +8,7 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_MACROSES02_H
 #define CPPUTILS_INCLUDE_CPPUTILS_MACROSES02_H
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <cpputils/macroses.h>
 
 #define CPPUTILS_MACRO02_A1(_macro,_s,_x)			_macro(_nm,_x)

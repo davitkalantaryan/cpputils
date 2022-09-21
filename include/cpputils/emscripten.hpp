@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 #include <string>
 
 #ifdef CPPUTILS_EMSCRIPTEN_IS_USED
