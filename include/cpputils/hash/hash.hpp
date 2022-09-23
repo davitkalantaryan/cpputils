@@ -56,7 +56,7 @@ public:
         HashApi*      m_pParent;
         InputPrivate* m_pItem;
         size_t        m_hash;
-        friend HashApi;
+        friend class HashApi;
     };
     class iterator : public iterator_base{
     public:

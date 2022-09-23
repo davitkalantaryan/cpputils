@@ -82,7 +82,7 @@ public:
         Input*          pItem()const;
     protected:
         TableItem*      m_pItem;
-        friend VHashApi;
+        friend class VHashApi;
     };
     class iterator : public iterator_base{
     public:
@@ -94,6 +94,7 @@ public:
     class const_iterator : public iterator_base{
     public:
         using iterator_base::iterator_base;
+        const_iterator()=default;
         const_iterator(const iterator& iter);
         const Input* operator->()const;
         operator const Input* ()const;

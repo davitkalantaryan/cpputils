@@ -84,7 +84,7 @@ public:
     class const_iterator : public iterator_base{
     public:
         using iterator_base::iterator_base;
-        const_iterator();
+        const_iterator()=default;
         const_iterator(const iterator&);
         const Input* operator->()const;
         operator const Input* ()const;
