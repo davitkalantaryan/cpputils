@@ -100,7 +100,7 @@ class AnyHash
 	   ...
 	}
 
-	Output  AddEntryWithKnownHash(const Key& a_key, const Data& a_data, Targs... a_args){
+	Output  AddEntryWithKnownHashAndOtherArgs(::std::pair<const Key, Data> a_valueToAdd, Targs... a_args){
 	   Hash fnHash(a_args...);
 	   const size_t unHash = fnHash(a_item.first)&m_unRoundedTableSizeMin1;
 	   ...
