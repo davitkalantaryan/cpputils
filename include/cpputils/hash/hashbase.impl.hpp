@@ -118,6 +118,7 @@ template <typename Key,typename InputT, typename Hash, typename Equal, size_t te
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(const HashBase& a_cM)
 {
+    ApiDataAdv::m_unSize = 0;
     ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
     ApiType::ConstructAfterRoundedTableSizeMin1IsKnown();
     ApiType::GeFromOther(a_cM);
@@ -139,6 +140,8 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(const HashBase& a_cM)
 {
     ApiType::ClearRaw();
+    ApiDataAdv::m_unSize = 0;
+    ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
     ApiType::GeFromOther(a_cM);
     return *this;
 }
@@ -191,6 +194,7 @@ inline void
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::clear() CPPUTILS_NOEXCEPT
 {
     ApiType::ClearRaw();
+    ApiDataAdv::m_unSize = 0;
 }
 
 

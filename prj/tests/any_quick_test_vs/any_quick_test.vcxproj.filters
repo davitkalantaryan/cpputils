@@ -200,6 +200,12 @@
     <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp">
       <Filter>Header Files\include\cpputils\parser</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.impl.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\any_quick_test_qt\any_quick_test.pro">

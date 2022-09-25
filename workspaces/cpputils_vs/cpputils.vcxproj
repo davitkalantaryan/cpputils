@@ -277,6 +277,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\..\.gitattributes" />
+    <None Include="..\..\.github\workflows\test_pull_to_master.yml" />
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\.gitmodules" />
+    <None Include="..\..\docs\questions.md" />
+    <None Include="..\..\LICENSE" />
+    <None Include="..\..\prj\common\common_mkfl\unix.common.Makefile" />
+    <None Include="..\..\prj\common\common_mkfl\unix.common.tmp.Makefile" />
+    <None Include="..\..\prj\common\common_mkfl\windows.common.Makefile" />
+    <None Include="..\..\README.md" />
+    <None Include="..\..\scripts\.cicd\unix_prebuild.sh" />
+    <None Include="..\..\scripts\.cicd\unix_test_pull_to_master_build.sh" />
+    <None Include="..\..\scripts\.cicd\unix_test_pull_to_master_unittest.sh" />
+    <None Include="..\..\scripts\.cicd\windows_prebuild.bat" />
+    <None Include="..\..\scripts\.cicd\windows_test_pull_to_master_build.bat" />
+    <None Include="..\..\scripts\.cicd\windows_test_pull_to_master_unittest.bat" />
+    <None Include="..\..\scripts\.raw\_windows_print_directory_content.bat" />
+    <None Include="..\..\scripts\unix_per_session.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

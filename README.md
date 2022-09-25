@@ -63,9 +63,26 @@ See examples in [0005_macroses.cpp](src/tests/googletest/0005_macroses.cpp)
   
   
 ### Hash tables  
-Hash table related classes can be found in the header [hashtbl.hpp](include/cpputils/hashtbl.hpp). 
+Hash table related classes can be found in the header [hashtbl.hpp](include/cpputils/hashtbl.hpp). The Hashes in this header will be soon depricated and later on removed.  
+The newer headers for different type of hashes one can find in the forder `include/cpputils/hash`.  
 These containers are associative with average constant-time complexity of search, insertion, and removal (`O(1)`).
 In general this class will beheave very similar to [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map).  
+  
+  
+#### Advantage of std hash  
+These classes make possible to search data and cache hash value meanwhile, then there is a possinilty to add data with the hash found during the search.  
+This API is looks like following:  
+
+```cpp  
+Output   find( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;  
+Output   AddEntryWithKnownHashC(const Input& a_item, size_t a_hash);  
+```  
+
+This will lead to performance boost, when data for hash should not be created if it is already added (for example creation is heavy thing, or 
+for each key second instance should not be created). In this case first thing to do is asking if data with the interested key is present (call `find`),
+then if data for the key is not there data should be created and added. With standard `std::unordered_map` hashing for the same key will be done second time,
+while with the Hashes from here this will be skipped.  
+If the application is heavy depends on this kind of situations (check then create and add), then there willl be quite good performance boost.  
   
 #### Use cases  
 In the case if `C++ 11` or upper is used, one can use [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map) 

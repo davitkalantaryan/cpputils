@@ -12,6 +12,7 @@
 #include <cpputils/hash/hash.hpp>
 #include <cpputils/hash/vhash.hpp>
 #include <cpputils/hash/lhash.hpp>
+#include <cpputils/hash/dllhash.hpp>
 #include <cpputils/flagshelper.h>
 #include <type_traits>
 #include <iostream>
@@ -65,6 +66,14 @@ CPPUTILS_FLAGS_UN_NM(
 
 int main()
 {
+
+	{
+		::cpputils::hash::DllHash<int, int>  hInts;
+		hInts.AddEntryEvenIfExistsC(::std::pair<int, int>(1, 2));
+		return 0;
+	}
+
+
 	{
 		UnionName aUn;
 		aUn.all = CPPUTILS_INIT_BITS;

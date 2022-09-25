@@ -43,6 +43,7 @@
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_multifor_c1.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_thread_local.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0001_hash.cpp" />
@@ -55,6 +56,8 @@
     <ClCompile Include="..\..\..\src\tests\googletest\0008_bigint_double.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0009_new_hash.cpp" />
     <ClCompile Include="..\..\..\src\tests\googletest\0010_endian_h.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0011_multifor.cpp" />
+    <ClCompile Include="..\..\..\src\tests\googletest\0012_hash_dllhash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
