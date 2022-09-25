@@ -70,6 +70,8 @@
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\hash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\hash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.hpp" />
