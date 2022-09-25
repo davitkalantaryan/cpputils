@@ -84,7 +84,8 @@ for each key second instance should not be created). In this case first thing to
 then if data for the key is not there data should be created and added. With standard `std::unordered_map` hashing for the same key will be done second time,
 while with the Hashes from here this will be skipped.  
 If the application is heavy depends on this kind of situations (check then create and add), then there willl be quite good performance boost.  
-Better approach of this will be to have variable number of arguments for function `find`. In this case the constructor of the `Hash` instance to calculate hash of the key
+Better approach of this will be to have variable number of arguments for functions requiring hash calculation (`find`,`insert`,...). In this case the constructor of the 
+`Hash` instance to calculate hash of the key
 should be called with that variable number of arguments in the hash implementetion (see example code below)  
   
 ```cpp  
