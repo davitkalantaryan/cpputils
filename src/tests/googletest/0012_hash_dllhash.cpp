@@ -35,7 +35,7 @@ TEST(f_0012_hash_dllhash, t0002)
 	const TypeHash1::const_iterator iter1 = aHash.find(1,&unHash0);
 	if (iter1 == TypeHash1::s_constNullIter) {
 		// we have to create ::std::string object
-		aHash.AddEntryEvenIfExistsMv(::std::pair<int, ::std::string>(1, "One"));
+		aHash.AddEntryWithKnownHashMv(::std::pair<int, ::std::string>(1, "One"), unHash0);
 	}
 
 	

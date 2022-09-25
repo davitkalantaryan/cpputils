@@ -224,8 +224,9 @@ template <typename Key,typename InputT, typename Hash, typename Equal, size_t te
 typename HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::Output
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::AddEntryEvenIfExistsMv(Input&& a_item)
 {
+    Hash fnHash;
     const size_t unHash = fnHash(a_item.first)&(ApiType::m_unRoundedTableSizeMin1);
-    return AddEntryWithKnownHashMv(a_item,unHash);
+    return AddEntryWithKnownHashMv(::std::move(a_item),unHash);
 }
 
 

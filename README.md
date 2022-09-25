@@ -83,7 +83,31 @@ This will lead to performance boost, when data for hash should not be created if
 for each key second instance should not be created). In this case first thing to do is asking if data with the interested key is present (call `find`),
 then if data for the key is not there data should be created and added. With standard `std::unordered_map` hashing for the same key will be done second time,
 while with the Hashes from here this will be skipped.  
-If the application is heavy depends on this kind of situations (check then create and add), then there willl be quite good performance boost.  
+If the application is heavy depends on this kind of situations (check then create and add), then there willl be quite good performance boost.
+Better approach of this will be to have variable number of arguments for function `find`. In this case the constructor of the `Hash` instance to calculate hash of the key
+should be called with that variable number of arguments in the hash implementetion (see example code below)  
+  
+```cpp  
+class AnyHash
+{
+    ...
+	template<typename... Targs>
+	Output  find(const Key& a_key,Targs... a_args){
+	   Hash fnHash(a_args...);
+	   const size_t unHash = fnHash(a_item.first)&m_unRoundedTableSizeMin1;
+	   ...
+	}
+
+	Output  AddEntryWithKnownHash(const Key& a_key, const Data& a_data, Targs... a_args){
+	   Hash fnHash(a_args...);
+	   const size_t unHash = fnHash(a_item.first)&m_unRoundedTableSizeMin1;
+	   ...
+	}
+};
+```  
+  
+This method will be more generic implementation and may be will have some more use cases (than described above (necessity to check then add))  
+
   
  2. Stop iterators (equivalent to `end`, `cend`, `rend`, `crend` for std containers) are constant definations and working with them is faster
  than in the case of standard containers.  
@@ -102,7 +126,7 @@ TEST(f_0012_hash_dllhash, t0002)
 	const TypeHash1::const_iterator iter1 = aHash.find(1,&unHash0);
 	if (iter1 == TypeHash1::s_constNullIter) {
 		// we have to create ::std::string object
-		aHash.AddEntryEvenIfExistsMv(::std::pair<int, ::std::string>(1, "One"));
+		aHash.AddEntryWithKnownHashMv(::std::pair<int, ::std::string>(1, "One"), unHash0);
 	}
 
 	
@@ -112,6 +136,16 @@ TEST(f_0012_hash_dllhash, t0002)
 	ASSERT_STREQ("One", iter2->second.c_str());
 }
 ```  
+  
+  
+#### Types of hash tables and sets  
+In order to iterate over hash table elements quickly there are some hash tables and sets that elements 
+are not stored in the hash table buckets, but also stored like vecrores or like list(s).  
+  
+ 1. Hash,    Set   => Pure hash and pure set. Has related operd memory layout is the best but iterations are very slow. File: [hash.hpp](include/cpputils/hash/hash.hpp)  
+ 2. LHash,   LSet  => Elements are ordered as single linked link, last added element is the firs in the list. File: [lhash.hpp](include/cpputils/hash/lhash.hpp)  
+ 3. DllHash, llSet => Double linked list Hash. File: [dllhash.hpp](include/cpputils/hash/dllhash.hpp)  
+ 4. VHash,   VSet  => Elements are layed out also as vector data, so one can access them also using idexes. File: [dllhash.hpp](include/cpputils/hash/dllhash.hpp)
   
 #### Use cases  
 In the case if `C++ 11` or upper is used, one can use [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map) 
