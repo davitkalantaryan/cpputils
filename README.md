@@ -86,7 +86,8 @@ while with the Hashes from here this will be skipped.
 If the application is heavy depends on this kind of situations (check then create and add), then there willl be quite good performance boost.  
 Better approach of this will be to have variable number of arguments for functions requiring hash calculation (`find`,`insert`,...). In this case the constructor of the 
 `Hash` instance to calculate hash of the key
-should be called with that variable number of arguments in the hash implementetion (see example code below)  
+should be called with that variable number of arguments in the hash table implementetion 
+(hashes here or will be nice to have similar feature for `::std::unordered_map` and friends) (see example code below)  
   
 ```cpp  
 class AnyHash
