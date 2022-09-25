@@ -69,10 +69,11 @@ These containers are associative with average constant-time complexity of search
 In general this class will beheave very similar to [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map).  
   
   
-#### Advantage of std hash  
-These classes make possible to search data and cache hash value meanwhile, then there is a possinilty to add data with the hash found during the search.  
-This API is looks like following:  
+#### Advantage over std hash  
+ 1. These classes make possible to search data and cache hash value meanwhile, then there is a possinilty to add data with the hash found during the search.
+ This API is looks like following:  
 
+  
 ```cpp  
 Output   find( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;  
 Output   AddEntryWithKnownHashC(const Input& a_item, size_t a_hash);  
@@ -83,6 +84,34 @@ for each key second instance should not be created). In this case first thing to
 then if data for the key is not there data should be created and added. With standard `std::unordered_map` hashing for the same key will be done second time,
 while with the Hashes from here this will be skipped.  
 If the application is heavy depends on this kind of situations (check then create and add), then there willl be quite good performance boost.  
+  
+ 2. Stop iterators (equivalent to `end`, `cend`, `rend`, `crend` for std containers) are constant definations and working with them is faster
+ than in the case of standard containers.  
+   
+   
+#### example code  
+See the file [0012_hash_dllhash.cpp](src/tests/googletest/0012_hash_dllhash.cpp). DllHash stands for Double linked list Hash.  
+  
+```cpp  
+TEST(f_0012_hash_dllhash, t0002)
+{
+	typedef ::cpputils::hash::DllHash<int,::std::string> TypeHash1;
+	TypeHash1 aHash;
+	size_t unHash0, unHash;
+
+	const TypeHash1::const_iterator iter1 = aHash.find(1,&unHash0);
+	if (iter1 == TypeHash1::s_constNullIter) {
+		// we have to create ::std::string object
+		aHash.AddEntryEvenIfExistsMv(::std::pair<int, ::std::string>(1, "One"));
+	}
+
+	
+	const TypeHash1::const_iterator iter2 = aHash.find(1, &unHash);
+	ASSERT_FALSE(iter2== TypeHash1::s_constNullIter);
+	ASSERT_EQ(unHash, unHash0);
+	ASSERT_STREQ("One", iter2->second.c_str());
+}
+```  
   
 #### Use cases  
 In the case if `C++ 11` or upper is used, one can use [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map) 
