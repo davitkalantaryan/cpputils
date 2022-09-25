@@ -57,7 +57,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()const
 {
-    return const_iterator(this,m_pFirstItem,0);
+    return const_iterator(this,m_pFirstItem, m_pFirstItem ? m_pFirstItem->m_hash : 0);
 }
 
 
@@ -66,6 +66,22 @@ typename DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_ite
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::end()const
 {
     return s_constNullIter;
+}
+
+
+template <typename Input, size_t defSize, TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename DllHashApi<Input, defSize, mallocFn, callocFn, reallocFn, freeFn>::iterator
+DllHashApi<Input, defSize, mallocFn, callocFn, reallocFn, freeFn>::lastIter()
+{
+    return iterator(const_cast<DllHashApi*>(this), m_pLastItem, m_pLastItem ? m_pLastItem->m_hash : 0);
+}
+
+
+template <typename Input, size_t defSize, TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn>
+typename DllHashApi<Input, defSize, mallocFn, callocFn, reallocFn, freeFn>::const_iterator
+DllHashApi<Input, defSize, mallocFn, callocFn, reallocFn, freeFn>::lastIter()const
+{
+    return const_iterator(this, m_pLastItem, m_pLastItem ? m_pLastItem->m_hash : 0);
 }
 
 

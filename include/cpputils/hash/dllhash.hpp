@@ -41,6 +41,8 @@ public:
 	const_iterator begin() const;
     iterator       end();
 	const_iterator end() const;
+    iterator       lastIter();
+    const_iterator lastIter()const;
     
     void    RemoveEntryRaw(const const_iterator& a_cI);
     Input*  AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash);
