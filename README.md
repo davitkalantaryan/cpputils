@@ -100,7 +100,7 @@ class AnyHash
 	   ...
 	}
 
-	Output  AddEntryWithKnownHashAndOtherArgs(::std::pair<const Key, Data> a_valueToAdd, Targs... a_args){
+	Output  AddWithKnownHashAndOtherArgs(::std::pair<const Key, Data> a_valueToAdd, Targs... a_args){
 	   Hash fnHash(a_args...);
 	   const size_t unHash = fnHash(a_item.first)&m_unRoundedTableSizeMin1;
 	   ...
@@ -113,6 +113,7 @@ This method will be more generic implementation and may be will have some more u
   
  2. Stop iterators (equivalent to `end`, `cend`, `rend`, `crend` for std containers) are constant definations and working with them is faster
  than in the case of standard containers.  
+ 3. Inserding/Removind/Searching will not call standard `operator new`s/`operator delete`s, so can be used for memory related problems investigations. 
    
    
 #### example code  
