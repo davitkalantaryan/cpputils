@@ -17,24 +17,28 @@
 
 namespace cpputils {
 
-template <typename DataType>
+template <typename DataType, typename Mutex=::std::mutex>
 class ProtectedData
 {
 public:
     template<typename... Targs>
     ProtectedData(Targs... a_args);
 
-    void operator=(const DataType& a_data);
-    void operator=(DataType&& a_data);
+    ProtectedData& operator=(const ProtectedData& a_data);
+    ProtectedData& operator=(ProtectedData&& a_data);
     operator DataType()const;
 
     void lock()const;
     void unlock()const;
     const DataType& dataNoLock()const;
     DataType& dataNoLock();
+    void SetDataC(const DataType& a_data);
+    void SetDataM(DataType& a_data);
+    void SetDataM(DataType&& a_data);
+    DataType data()const;
 
 private:
-    mutable ::std::mutex    m_mutex;
+    mutable Mutex           m_mutex;
     DataType                m_data;
 };
 
