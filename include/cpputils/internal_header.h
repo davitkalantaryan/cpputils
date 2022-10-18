@@ -279,5 +279,15 @@
 #define CPPUTILS_NODISCARD	throw()
 #endif
 
+#if defined(__GNUC__) || defined(__clang__) || defined(LINUX_GCC)
+#define CPPUTILS_LIKELY(_x)             __builtin_expect(!!(_x), 1)
+#define CPPUTILS_UNLIKELY(_x)           __builtin_expect(!!(_x), 0)
+#define CPPUTILS_LIKELY_VALUE(_x,_val)  __builtin_expect((_x), (_val))
+#else
+#define CPPUTILS_LIKELY(_x)             (_x)
+#define CPPUTILS_UNLIKELY(_x)           (_x)
+#define CPPUTILS_LIKELY_VALUE(_x,_val)  ((_x)==(_val))
+#endif
+
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H
