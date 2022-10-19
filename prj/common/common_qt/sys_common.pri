@@ -9,6 +9,8 @@
 #QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 
 
+message("!!! $${PWD}/sys_common.pri")
+
 STATIC_LIB_EXTENSION	= a
 LIB_PREFIX		= lib
 TARGET_PATH_EXTRA	=
