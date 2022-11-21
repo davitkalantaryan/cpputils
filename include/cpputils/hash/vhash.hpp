@@ -102,7 +102,7 @@ public:
     
 protected:
     struct TableItem : public InputPrivate{
-        VHashApi*       m_pParent;
+        VHashApi**      m_ppParent;
         const size_t    m_hash;
         size_t          m_index;
         size_t          m_usageCount;

@@ -32,8 +32,19 @@ namespace cpputils { namespace hash {
 
 
 template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
+ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::ApiData()
+{
+    m_pThis = static_cast<ApiData**>(mallocFn(sizeof(ApiData*)));
+    if(!m_pThis){throw std::bad_alloc();}
+    *m_pThis = this;
+}
+
+
+
+template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::~ApiData()
 {
+    freeFn(m_pThis);
 }
 
 
@@ -59,14 +70,19 @@ void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::InitAllToZero
 template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::ReplaceWithOtherB(ApiData* a_pmM) CPPUTILS_NOEXCEPT
 {
+    ApiData** pThis = m_pThis;
     InputPrivate**	pTable = m_pTable;
 	size_t		unRoundedTableSizeMin1 = m_unRoundedTableSizeMin1;
 	size_t		unSize = m_unSize;
 
+    m_pThis = a_pmM->m_pThis;
+    *m_pThis = this;
 	m_pTable=a_pmM->m_pTable;
 	m_unRoundedTableSizeMin1 = a_pmM->m_unRoundedTableSizeMin1;
 	m_unSize = a_pmM->m_unSize;
 
+    a_pmM->m_pThis = pThis;
+    *(a_pmM->m_pThis) = a_pmM;
 	a_pmM->m_pTable = pTable;
 	a_pmM->m_unRoundedTableSizeMin1 = unRoundedTableSizeMin1;
 	a_pmM->m_unSize = unSize;
@@ -142,6 +158,12 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
     ApiType::ClearRaw();
     ApiDataAdv::m_unSize = 0;
     ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
+    const size_t tRet(ApiDataAdv::m_unRoundedTableSizeMin1+1);
+    const size_t cunMemSize(tRet*sizeof(InputPrivate*));
+    InputPrivate** pTable = static_cast<InputPrivate**>(reallocFn(ApiDataAdv::m_pTable,cunMemSize));
+    if(!pTable){throw std::bad_alloc();}
+    ApiDataAdv::m_pTable = pTable;
+    :: memset(ApiDataAdv::m_pTable,0,cunMemSize);
     ApiType::GeFromOther(a_cM);
     return *this;
 }

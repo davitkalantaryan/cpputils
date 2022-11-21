@@ -31,6 +31,7 @@ public:
     typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
         
 public:
+    ApiData();
     virtual ~ApiData();
         
 protected:
@@ -41,6 +42,7 @@ protected:
     void RemoveEntryRawB(InputPrivate* a_pItem, size_t a_hash);
     
 protected:
+    ApiData**       m_pThis;
     InputPrivate**  m_pTable;
 	size_t          m_unRoundedTableSizeMin1;
 	size_t          m_unSize;
