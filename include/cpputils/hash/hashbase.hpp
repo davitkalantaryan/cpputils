@@ -28,7 +28,7 @@ template <typename Input,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCal
 class ApiData : public BaseForAlloc<mallocFn,freeFn>
 {
 public:
-    typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<ApiData,Input,mallocFn,freeFn> InputPrivate;
         
 public:
     ApiData();
@@ -38,8 +38,8 @@ protected:
     void ConstructAfterRoundedTableSizeMin1IsKnownB();
     void InitAllToZeroB();
     void ReplaceWithOtherB(ApiData*) CPPUTILS_NOEXCEPT;
-    void AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem, size_t a_hash);
-    void RemoveEntryRawB(InputPrivate* a_pItem, size_t a_hash);
+    void AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem);
+    void RemoveEntryRawB(InputPrivate* a_pItem);
     
 protected:
     ApiData**       m_pThis;
@@ -55,7 +55,7 @@ class HashBase : public ApiType
 public:
     typedef ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
     static_assert( ::std::is_base_of<ApiDataAdv,ApiType>(), "ApiType shoulb be child of ApiData" );
-    typedef it::InputPrivate<InputT,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<HashBase,InputT,mallocFn,freeFn> InputPrivate;
     typedef typename ApiType::iterator Output;
     typedef typename ApiType::const_iterator COutput;
     typedef InputT  Input;

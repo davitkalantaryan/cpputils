@@ -248,17 +248,6 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::itera
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const VHashApi*, Input* a_pItem,size_t)
-    :
-      m_pItem(static_cast<TableItem*>(a_pItem))
-{
-    if(m_pItem){
-        ++(m_pItem->m_usageCount);
-    }
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(Input* a_pItem)
     :
       m_pItem(static_cast<TableItem*>(a_pItem))
@@ -448,9 +437,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::oper
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::TableItem::TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index)
     :
-      InputPrivate(a_mM),
-      m_ppParent(a_pParent?reinterpret_cast<VHashApi**>(a_pParent->m_pThis):nullptr),
-      m_hash(a_hash),
+      InputPrivate(a_mM,a_pParent?a_pParent->m_pThis:nullptr,a_hash),
       m_index(a_index)
 {
 }

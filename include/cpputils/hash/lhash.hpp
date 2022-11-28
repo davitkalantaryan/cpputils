@@ -32,7 +32,7 @@ public:
     class iterator;
     class const_iterator;
     typedef ApiData<Input,defSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
-    typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<LHashApi,Input,mallocFn,freeFn> InputPrivate;
     
 public:    
 	virtual ~LHashApi() override;
@@ -61,7 +61,7 @@ public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(const LHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
         const iterator_base& operator--();
@@ -91,10 +91,8 @@ public:
     
 protected:
     struct ListItem : public InputPrivate{
-        LHashApi**      m_ppParent;
         ListItem    	*prevInTheList, *nextInTheList;
-        const size_t    m_hash;
-        ListItem(InputPrivate&& a_mM, size_t a_hash);
+        ListItem(InputPrivate&& a_mM, LHashApi* a_pParent, size_t a_hash);
         ListItem(const ListItem&) = delete;
         ListItem& operator=(const ListItem&) = delete;
     };

@@ -32,7 +32,7 @@ class HashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>
 public:
     class const_iterator;
     typedef ApiData<Input,defSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
-    typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<HashApi,Input,mallocFn,freeFn> InputPrivate;
     
 public:
 	virtual ~HashApi() override;
@@ -50,12 +50,10 @@ public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(const HashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(Input* a_pItem);
         void RemoveFromContainer();
     protected:
-        HashApi*      m_pParent;
         InputPrivate* m_pItem;
-        size_t        m_hash;
         friend class HashApi;
     };
     class iterator : public iterator_base{

@@ -32,7 +32,7 @@ public:
     class iterator;
     class const_iterator;
     typedef ApiData<Input,defSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
-    typedef it::InputPrivate<Input,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<DllHashApi,Input,mallocFn,freeFn> InputPrivate;
     
 public:    
 	virtual ~DllHashApi() override;
@@ -63,7 +63,7 @@ public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(const DllHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
         const iterator_base& operator--();
@@ -72,7 +72,6 @@ public:
         iterator_base previous()const;
         void RemoveFromContainer();
     protected:
-        DllHashApi*    m_pParent;
         ListItem*      m_pItem;
         friend class DllHashApi;
     };
@@ -95,8 +94,7 @@ public:
 protected:
     struct ListItem : public InputPrivate{
         ListItem    	*prevInTheList, *nextInTheList;
-        const size_t    m_hash;
-        ListItem(InputPrivate&& a_mM, size_t a_hash);
+        ListItem(InputPrivate&& a_mM, DllHashApi* a_pParent, size_t a_hash);
         ListItem(const ListItem&) = delete;
         ListItem& operator=(const ListItem&) = delete;
     };

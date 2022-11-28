@@ -99,10 +99,13 @@ HashItem<KeyType,DataType,mallocFn,freeFn>::HashItem( ::std::pair<KeyType,DataTy
 namespace it{
 
 
-template <typename Input,TypeMalloc mallocFn, TypeFree freeFn>
-InputPrivate<Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM)
+//template <typename Input,TypeMalloc mallocFn, TypeFree freeFn>
+template <typename TypeHashApi, typename Input,TypeMalloc mallocFn, TypeFree freeFn>
+InputPrivate<TypeHashApi,Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM, TypeHashApi** a_ppParent, size_t a_hash)
     :
-      Input(::std::move(a_mM))
+      Input(::std::move(a_mM)),
+      m_ppParent(a_ppParent),
+      m_hash(a_hash)
 {
     static_assert( ::std::is_base_of<BaseForAlloc<mallocFn,freeFn>,InputPrivate>(), "InputPrivate shoulb be child of BaseForAlloc" );
     this->prev = CPPUTILS_NULL;

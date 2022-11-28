@@ -173,16 +173,14 @@ void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOt
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base()
     :
-      m_pParent(CPPUTILS_NULL),
       m_pItem(CPPUTILS_NULL)
 {
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const DllHashApi* a_pParent, Input* a_pItem,size_t)
+DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(Input* a_pItem)
     :
-      m_pParent(const_cast<DllHashApi*>(a_pParent)),
       m_pItem(static_cast<ListItem*>(a_pItem))
 {
 }
@@ -218,7 +216,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::operator--(int)
 {
-    iterator_base retIter(m_pParent,m_pItem,0);
+    iterator_base retIter(m_pItem);
     m_pItem = m_pItem->prevInTheList;
     return retIter;
 }
@@ -227,22 +225,22 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::next()const
 {
-    return iterator_base(m_pParent,m_pItem->nextInTheList,0);
+    return iterator_base(m_pItem->nextInTheList);
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 typename DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::previous()const
 {
-    return iterator_base(m_pParent,m_pItem->prevInTheList,0);
+    return iterator_base(m_pItem->prevInTheList);
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
-    if(m_pParent && m_pItem){
-        m_pParent->RemoveEntryRaw(const_iterator(m_pParent,m_pItem,m_pItem->m_hash));
+    if(m_pItem && (*(m_pItem->m_ppParent))){
+        (*(m_pItem->m_ppParent))->RemoveEntryRaw(const_iterator(m_pItem));
     }
 }
 
@@ -291,10 +289,9 @@ DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::op
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ListItem::ListItem(InputPrivate&& a_mM, size_t a_hash)
+DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ListItem::ListItem(InputPrivate&& a_mM, DllHashApi* a_pParent, size_t a_hash)
     :
-      InputPrivate(a_mM),
-      m_hash(a_hash)
+      InputPrivate(a_mM,a_pParent?a_pParent->m_pThis:nullptr,a_hash)
 {
 }
 

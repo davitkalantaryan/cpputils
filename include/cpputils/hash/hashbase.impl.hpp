@@ -90,19 +90,19 @@ void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::ReplaceWithOt
 
 
 template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem, size_t a_hash)
+void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem)
 {
-	a_pItem->next = m_pTable[a_hash];
-	if(m_pTable[a_hash]){m_pTable[a_hash]->prev=a_pItem;}
-	m_pTable[a_hash] = a_pItem;	
+    a_pItem->next = m_pTable[a_pItem->m_hash];
+    if(m_pTable[a_pItem->m_hash]){m_pTable[a_pItem->m_hash]->prev=a_pItem;}
+    m_pTable[a_pItem->m_hash] = a_pItem;
 	++m_unSize;
 }
 
 
 template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::RemoveEntryRawB(InputPrivate* a_pItem, size_t a_hash)
+void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::RemoveEntryRawB(InputPrivate* a_pItem)
 {
-    if(m_pTable[a_hash]==a_pItem){m_pTable[a_hash]=a_pItem->next;}
+    if(m_pTable[a_pItem->m_hash]==a_pItem){m_pTable[a_pItem->m_hash]=a_pItem->next;}
     if(a_pItem->next){a_pItem->next->prev=a_pItem->prev;}
     if(a_pItem->prev){a_pItem->prev->next=a_pItem->next;}
 	//delete a_pItem; // delete should be done by caller
@@ -358,7 +358,7 @@ find( const Key& a_key, size_t* a_hashPtr )const
     
     size_t unHash;
     Input* pItem = findEntryRaw(a_key,&unHash);
-    return Output(this,pItem,unHash);
+    return Output(pItem);
 }
 
 
