@@ -70,7 +70,6 @@ public:
         iterator_base previous()const;
         void RemoveFromContainer();
     protected:
-        LHashApi*      m_pParent;
         ListItem*      m_pItem;
         friend class LHashApi;
     };
@@ -92,6 +91,7 @@ public:
     
 protected:
     struct ListItem : public InputPrivate{
+        LHashApi**      m_ppParent;
         ListItem    	*prevInTheList, *nextInTheList;
         const size_t    m_hash;
         ListItem(InputPrivate&& a_mM, size_t a_hash);
