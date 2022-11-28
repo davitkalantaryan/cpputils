@@ -41,7 +41,7 @@ HashApi<Input,defSize,mallocFn,callocFn,freeFn>::~HashApi()
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
-    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
+    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem);
     delete a_cI.m_pItem;
 }
 
@@ -50,8 +50,8 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn
 Input* HashApi<Input,defSize,mallocFn,callocFn,freeFn>::
 AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
 {
-    InputPrivate* pItem = new InputPrivate(::std::move(a_item));
-    ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem,a_hash);
+    InputPrivate* pItem = new InputPrivate(::std::move(a_item),ApiDataAdv::m_pThis,a_hash);
+    ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem);
     return pItem;
 }
 

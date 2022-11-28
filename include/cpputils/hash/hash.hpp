@@ -32,7 +32,7 @@ class HashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>
 public:
     class const_iterator;
     typedef ApiData<Input,defSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
-    typedef it::InputPrivate<HashApi,Input,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<ApiDataAdv,Input,mallocFn,freeFn> InputPrivate;
     
 public:
 	virtual ~HashApi() override;

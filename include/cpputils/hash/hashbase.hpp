@@ -55,7 +55,7 @@ class HashBase : public ApiType
 public:
     typedef ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>  ApiDataAdv;
     static_assert( ::std::is_base_of<ApiDataAdv,ApiType>(), "ApiType shoulb be child of ApiData" );
-    typedef it::InputPrivate<HashBase,InputT,mallocFn,freeFn> InputPrivate;
+    typedef it::InputPrivate<ApiDataAdv,InputT,mallocFn,freeFn> InputPrivate;
     typedef typename ApiType::iterator Output;
     typedef typename ApiType::const_iterator COutput;
     typedef InputT  Input;

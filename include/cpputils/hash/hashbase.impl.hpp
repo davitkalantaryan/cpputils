@@ -227,7 +227,7 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 AddEntryWithKnownHashMv(Input&& a_item, size_t a_hash)
 {
     Input* pInTheTable = ApiType::AddEntryWithKnownHashRaw(::std::move(a_item),a_hash);
-    return Output(this,pInTheTable,a_hash);
+    return Output(pInTheTable);
 }
 
 
@@ -353,7 +353,7 @@ find( const Key& a_key, size_t* a_hashPtr )const
 {
     if(a_hashPtr){
         Input* pItem = findEntryRaw(a_key,a_hashPtr);
-        return Output(this,pItem,*a_hashPtr);
+        return Output(pItem);
     }
     
     size_t unHash;
