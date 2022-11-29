@@ -100,9 +100,10 @@ namespace it{
 
 
 template <typename Input,TypeMalloc mallocFn, TypeFree freeFn>
-InputPrivate<Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM)
+InputPrivate<Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM, size_t a_hash)
     :
-      Input(::std::move(a_mM))
+      Input(::std::move(a_mM)),
+      m_hash(a_hash)
 {
     static_assert( ::std::is_base_of<BaseForAlloc<mallocFn,freeFn>,InputPrivate>(), "InputPrivate shoulb be child of BaseForAlloc" );
     this->prev = CPPUTILS_NULL;

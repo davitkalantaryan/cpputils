@@ -38,8 +38,8 @@ protected:
     void ConstructAfterRoundedTableSizeMin1IsKnownB();
     void InitAllToZeroB();
     void ReplaceWithOtherB(ApiData*) CPPUTILS_NOEXCEPT;
-    void AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem, size_t a_hash);
-    void RemoveEntryRawB(InputPrivate* a_pItem, size_t a_hash);
+    void AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem);
+    void RemoveEntryRawB(InputPrivate* a_pItem);
     
 protected:
     ApiData**       m_pThis;

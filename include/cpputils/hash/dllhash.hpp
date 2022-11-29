@@ -63,7 +63,7 @@ public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(const DllHashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(Input* a_pItem);
         const iterator_base& operator++();
         iterator_base operator++(int);
         const iterator_base& operator--();
@@ -72,7 +72,6 @@ public:
         iterator_base previous()const;
         void RemoveFromContainer();
     protected:
-        DllHashApi*    m_pParent;
         ListItem*      m_pItem;
         friend class DllHashApi;
     };
@@ -94,9 +93,9 @@ public:
     
 protected:
     struct ListItem : public InputPrivate{
+        DllHashApi**     m_ppParent;
         ListItem    	*prevInTheList, *nextInTheList;
-        const size_t    m_hash;
-        ListItem(InputPrivate&& a_mM, size_t a_hash);
+        ListItem(Input&& a_mM, DllHashApi* a_pParent, size_t a_hash);
         ListItem(const ListItem&) = delete;
         ListItem& operator=(const ListItem&) = delete;
     };

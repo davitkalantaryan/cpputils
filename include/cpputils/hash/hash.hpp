@@ -45,17 +45,18 @@ protected:
     void GeFromOther(const HashApi&);
     void ClearRaw() CPPUTILS_NOEXCEPT;
 	void ReplaceWithOther(HashApi*) CPPUTILS_NOEXCEPT;
+
+protected:
+    struct HashItem;
     
 public:
     class iterator_base{
     public:
         iterator_base();
-        iterator_base(const HashApi* a_pParent, Input* a_pItem, size_t a_hash);
+        iterator_base(Input* a_pItem);
         void RemoveFromContainer();
     protected:
-        HashApi*      m_pParent;
-        InputPrivate* m_pItem;
-        size_t        m_hash;
+        HashItem* m_pItem;
         friend class HashApi;
     };
     class iterator : public iterator_base{
@@ -70,7 +71,13 @@ public:
         const_iterator(const iterator& iter);
         const Input* operator->()const;
         operator const Input* ()const;
-    }static const s_constNullIter;    
+    }static const s_constNullIter;
+
+protected:
+    struct HashItem : public InputPrivate{
+        HashApi**      m_ppParent;
+        HashItem(Input&& a_mM, HashApi* a_pParent, size_t a_hash);
+    };
 };
 
 

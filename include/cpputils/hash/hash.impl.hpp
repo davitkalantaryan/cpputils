@@ -41,7 +41,7 @@ HashApi<Input,defSize,mallocFn,callocFn,freeFn>::~HashApi()
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
-    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_hash);
+    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem);
     delete a_cI.m_pItem;
 }
 
@@ -50,8 +50,8 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn
 Input* HashApi<Input,defSize,mallocFn,callocFn,freeFn>::
 AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
 {
-    InputPrivate* pItem = new InputPrivate(::std::move(a_item));
-    ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem,a_hash);
+    HashItem* pItem = new HashItem(::std::move(a_item),this,a_hash);
+    ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem);
     return pItem;
 }
 
@@ -123,19 +123,15 @@ GeFromOther(const HashApi& a_cM)
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base()
     :
-      m_pParent(CPPUTILS_NULL),
-      m_pItem(CPPUTILS_NULL),
-      m_hash(0)
+      m_pItem(CPPUTILS_NULL)
 {
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base(const HashApi* a_pParent, Input* a_pItem,size_t a_hash)
+HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base(Input* a_pItem)
     :
-      m_pParent(const_cast<HashApi*>(a_pParent)),
-      m_pItem(static_cast<InputPrivate*>(a_pItem)),
-      m_hash(a_hash)
+      m_pItem(static_cast<HashItem*>(a_pItem))
 {
 }
 
@@ -143,8 +139,8 @@ HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base(co
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::RemoveFromContainer()
 {
-    if(m_pParent){
-        m_pParent->RemoveEntryRaw(const_iterator(m_pParent,m_pItem,m_hash));
+    if(m_pItem && m_pItem->m_ppParent && (*(m_pItem->m_ppParent)) ){
+        (*(m_pItem->m_ppParent))->RemoveEntryRaw(const_iterator(m_pItem));
     }
 }
 
@@ -184,6 +180,18 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn
 HashApi<Input,defSize,mallocFn,callocFn,freeFn>::const_iterator::operator const Input*()const
 {
     return iterator_base::m_pItem;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
+HashApi<Input,defSize,mallocFn,callocFn,freeFn>::HashItem::HashItem(Input&& a_mM, HashApi* a_pParent, size_t a_hash)
+    :
+      InputPrivate(::std::move(a_mM),a_hash),
+      m_ppParent(a_pParent?reinterpret_cast<HashApi**>(a_pParent->m_pThis):nullptr)
+{
 }
 
 

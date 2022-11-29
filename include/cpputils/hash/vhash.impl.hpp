@@ -118,7 +118,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterR
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(const const_iterator& a_cI)
 {
-    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem,a_cI.m_pItem->m_hash);
+    ApiDataAdv::RemoveEntryRawB(a_cI.m_pItem);
     
     if(a_cI.m_pItem->m_index<ApiDataAdv::m_unSize){
         :: memmove(&m_ppVector[a_cI.m_pItem->m_index],&m_ppVector[a_cI.m_pItem->m_index+1],
@@ -151,7 +151,7 @@ AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
     
     TableItem* pItem = m_ppVector[ApiDataAdv::m_unSize] = new TableItem(::std::move(a_item),this,a_hash,ApiDataAdv::m_unSize);
     pItem->m_usageCount = 1;
-    ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem,a_hash);
+    ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem);
     
     return pItem;
 }
@@ -240,17 +240,6 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const iterator_base& a_cM)
     :
       m_pItem(a_cM.m_pItem)
-{
-    if(m_pItem){
-        ++(m_pItem->m_usageCount);
-    }
-}
-
-
-template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base(const VHashApi*, Input* a_pItem,size_t)
-    :
-      m_pItem(static_cast<TableItem*>(a_pItem))
 {
     if(m_pItem){
         ++(m_pItem->m_usageCount);
@@ -446,11 +435,10 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator::oper
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::TableItem::TableItem(InputPrivate&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index)
+VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::TableItem::TableItem(Input&& a_mM, VHashApi* a_pParent, size_t a_hash, size_t a_index)
     :
-      InputPrivate(a_mM),
+      InputPrivate(::std::move(a_mM),a_hash),
       m_ppParent(a_pParent?reinterpret_cast<VHashApi**>(a_pParent->m_pThis):nullptr),
-      m_hash(a_hash),
       m_index(a_index)
 {
 }

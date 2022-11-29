@@ -65,8 +65,9 @@ namespace it{
 template <typename Input,TypeMalloc mallocFn, TypeFree freeFn>
 struct InputPrivate : public Input{
     //static_assert( ::std::is_base_of<BaseForAlloc<mallocFn,freeFn>,InputPrivate>(), "InputPrivate shoulb be child of BaseForAlloc" );
-    InputPrivate(Input&&);
+    InputPrivate(Input&&, size_t a_hash);
     InputPrivate *prev, *next;
+    const size_t    m_hash;
 };
 
 
