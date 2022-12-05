@@ -41,7 +41,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()
 {
-    return iterator(const_cast<LHashApi*>(this), m_pFirstItem, m_pFirstItem? m_pFirstItem->m_hash:0);
+    return iterator(m_pFirstItem);
 }
 
 
@@ -57,7 +57,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::const_iterator
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()const
 {
-    return const_iterator(this,m_pFirstItem, m_pFirstItem?m_pFirstItem->m_hash : 0);
+    return const_iterator(m_pFirstItem);
 }
 
 
