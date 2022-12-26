@@ -16,6 +16,7 @@
 #pragma warning(disable:4711)
 #pragma warning(disable:4668)
 #pragma warning(disable:4820)
+#pragma warning(disable:5039) // 'TpSetCallbackCleanupGroup': pointer or reference to potentially throwing function
 #ifndef __cplusplus
 #pragma warning(disable:4255)
 #endif

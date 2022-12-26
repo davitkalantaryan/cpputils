@@ -39,6 +39,8 @@
 	//#if _MSC_FULL_VER
 	#if (_MSC_VER>1900) // 1900 is VS2015
 		#pragma warning (disable:5045)
+		#pragma warning (disable:5247)
+		#pragma warning (disable:5248)
 	#endif
 	// assignment within conditional expression (https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4706?view=msvc-160)
 	#pragma warning (disable:4706) 
