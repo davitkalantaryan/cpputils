@@ -292,4 +292,7 @@
 #endif
 
 
+#define CPPUTILS_ARG_NONULL
+
+
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_INTERNAL_HEADER_H
