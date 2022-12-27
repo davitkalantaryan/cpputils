@@ -41,11 +41,14 @@ struct VoidPtrKey{
 	VoidPtrKey(VoidPtrKey& cM, int shouldMove, bool shouldDelete = true) CPPUTILS_NOEXCEPT;
 #ifdef CPPUTILS_CPP_11_DEFINED
 	VoidPtrKey(VoidPtrKey&& cM,bool shouldDelete=true) CPPUTILS_NOEXCEPT;
+	VoidPtrKey& operator=(const VoidPtrKey&) = delete;
 #endif
 	~VoidPtrKey();
 	bool operator==(const VoidPtrKey& aM)const;
 private:
-	const bool m_shouldDFree;
+	const bool	m_shouldDFree;
+public:
+	char		reserved01[7];
 };
 
 template <typename KeyType>
