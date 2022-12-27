@@ -68,6 +68,10 @@ struct InputPrivate : public Input{
     InputPrivate(Input&&, size_t a_hash);
     InputPrivate *prev, *next;
     const size_t    m_hash;
+    InputPrivate(const InputPrivate&) = delete;
+    InputPrivate(InputPrivate&&) = delete;
+    InputPrivate& operator=(const InputPrivate&) = delete;
+    InputPrivate& operator=(InputPrivate&&) = delete;
 };
 
 
