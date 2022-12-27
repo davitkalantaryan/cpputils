@@ -67,7 +67,7 @@ public:
     }static const s_nullIter;   
     class const_iterator : public iterator_base{
     public:
-        using iterator_base::iterator_base;
+        const_iterator()=default;
         const_iterator(const iterator& iter);
         const Input* operator->()const;
         operator const Input* ()const;
