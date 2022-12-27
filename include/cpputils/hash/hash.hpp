@@ -77,6 +77,10 @@ protected:
     struct HashItem : public InputPrivate{
         HashApi**      m_ppParent;
         HashItem(Input&& a_mM, HashApi* a_pParent, size_t a_hash);
+        HashItem(const HashItem&) = delete;
+        HashItem(HashItem&&) = delete;
+        HashItem& operator=(const HashItem&) = delete;
+        HashItem& operator=(HashItem&&) = delete;
     };
 };
 
