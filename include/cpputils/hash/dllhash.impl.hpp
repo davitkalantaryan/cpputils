@@ -41,7 +41,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 typename DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::begin()
 {
-    return iterator(const_cast<DllHashApi*>(this), m_pFirstItem, m_pFirstItem? m_pFirstItem->m_hash:0);
+    return iterator(m_pFirstItem);
 }
 
 
