@@ -104,9 +104,6 @@
     <ClInclude Include="..\..\..\include\cpputils\endian.h">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\internal_header.h">
-      <Filter>Header Files\include\cpputils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\enums\locked.base.hpp">
       <Filter>Header Files\include\cpputils\enums</Filter>
     </ClInclude>
@@ -138,12 +135,6 @@
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp">
-      <Filter>Header Files\include\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
-      <Filter>Header Files\include\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\disable_compiler_warnings.h">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\emscripten.hpp">
@@ -205,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.impl.hpp">
       <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
+      <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

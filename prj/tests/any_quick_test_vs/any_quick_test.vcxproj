@@ -303,7 +303,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\disable_compiler_warnings.h" />
     <ClInclude Include="..\..\..\include\cpputils\emscripten.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\endian.h" />
     <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
@@ -344,7 +343,6 @@
     <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\internal_header.h" />
     <ClInclude Include="..\..\..\include\cpputils\thread_local.h" />
     <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\tls_data.impl.hpp" />

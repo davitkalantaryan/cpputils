@@ -4,3 +4,6 @@
 [submodule "contrib/emsdk"]
 	path = contrib/emsdk
 	url = https://github.com/davitkalantaryan/emsdk.git
+[submodule "contrib/cinternal"]
+	path = contrib/cinternal
+	url = https://github.com/davitkalantaryan/cinternal.git
