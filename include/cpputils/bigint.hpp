@@ -12,7 +12,7 @@
 #include <string>
 #include <ios>
 #include <stdint.h>
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 #include <array>
 #else
 #include <malloc.h>

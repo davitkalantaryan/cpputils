@@ -5,7 +5,7 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 
 #ifdef CPPUTILS_CPP_11_DEFINED
 
