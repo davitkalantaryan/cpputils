@@ -301,10 +301,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_core_emscripten.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_multifor_c1.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_mutex_ml.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_thread_local.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_unnamedsemaphore.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp" />
   </ItemGroup>
   <ItemGroup>

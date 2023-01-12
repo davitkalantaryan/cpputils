@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpputils", "cpputils.vcxproj", "{C0D41E3C-2BF2-40B0-BC52-9686247700E5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpputils_all", "cpputils_all.vcxproj", "{C0D41E3C-2BF2-40B0-BC52-9686247700E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{10A707CB-594F-48A8-881C-4EA7BA7E7F4F}"
 EndProject
@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "any_quick_test", "..\..\prj
 	ProjectSection(ProjectDependencies) = postProject
 		{C0D41E3C-2BF2-40B0-BC52-9686247700E5} = {C0D41E3C-2BF2-40B0-BC52-9686247700E5}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "projects", "projects", "{1927A7AD-2686-456B-9706-F5241D15F748}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +84,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{10A707CB-594F-48A8-881C-4EA7BA7E7F4F} = {1927A7AD-2686-456B-9706-F5241D15F748}
 		{E6F8B6C2-4CA9-4B3A-9A00-83D011DE88FA} = {10A707CB-594F-48A8-881C-4EA7BA7E7F4F}
 		{18849B43-2B9A-4C68-8622-13B4068973FC} = {10A707CB-594F-48A8-881C-4EA7BA7E7F4F}
 	EndGlobalSection

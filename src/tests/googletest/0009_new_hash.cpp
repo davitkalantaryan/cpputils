@@ -3,9 +3,9 @@
 // created on:		2022 Jan 29
 //
 
-#include <cpputils/internal_header.h>
+#include <cpputils/export_symbols.h>
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 
 #include "gtest/gtest.h"
 #include <cpputils/hash/hash.hpp>
@@ -28,6 +28,7 @@ TEST(f_0009_new_hash, t0001_Hash)
 	ASSERT_EQ(aHash.size(), size_t(1));
 }
 
+
 TEST(f_0009_new_hash, t0002_LHash)
 {
 	cpputils::hash::LSet<int> aHash;
@@ -47,4 +48,4 @@ TEST(f_0009_new_hash, t0003_VHash)
 
 
 
-#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
+#endif  // #ifdef CINTERNAL_CPP_11_DEFINED

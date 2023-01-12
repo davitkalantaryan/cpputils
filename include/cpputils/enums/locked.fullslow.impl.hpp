@@ -38,7 +38,7 @@ BaseFullSlow<integralType, numOfFields, unqiueNumber>::BaseFullSlow(int a_nargs,
 template <typename integralType, int numOfFields, int unqiueNumber>
 BaseFullSlow<integralType, numOfFields, unqiueNumber>::Data::Data()
 	:
-	m_names(CPPUTILS_NULL)
+	m_names(CINTERNAL_NULL)
 {
 }
 

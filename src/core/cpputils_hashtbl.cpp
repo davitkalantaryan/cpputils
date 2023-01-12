@@ -57,7 +57,7 @@ VoidPtrKey::VoidPtrKey(const VoidPtrKey& a_cM)
 {
 }
 
-VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) CPPUTILS_NOEXCEPT
+VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) CINTERNAL_NOEXCEPT
 	:
 	key(a_shouldDelete ? __private::__implementation::GenerateDataBasedOnData(a_cM.key, a_cM.keyLen) : a_cM.key),
 	keyLen(a_cM.keyLen),
@@ -65,8 +65,8 @@ VoidPtrKey::VoidPtrKey(VoidPtrKey& a_cM, int, bool a_shouldDelete) CPPUTILS_NOEX
 {
 }
 
-#ifdef CPPUTILS_CPP_11_DEFINED
-VoidPtrKey::VoidPtrKey(VoidPtrKey&& a_cM,bool a_shouldDelete) CPPUTILS_NOEXCEPT
+#ifdef CINTERNAL_CPP_11_DEFINED
+VoidPtrKey::VoidPtrKey(VoidPtrKey&& a_cM,bool a_shouldDelete) CINTERNAL_NOEXCEPT
 	:
 	  VoidPtrKey(a_cM,1, a_shouldDelete)
 {
@@ -122,8 +122,8 @@ CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize)
 CPPUTILS_EXPORT size_t hash1_( const void* a_pKey, size_t a_unKeySize )
 {
 	uint32_t unKeySize = static_cast<uint32_t>(a_unKeySize);
-    CPPUTILS_REGISTER const uint8_t *k = static_cast<const uint8_t *>(a_pKey);
-    CPPUTILS_REGISTER uint32_t a,b,c;  /* the internal state */
+    CINTERNAL_REGISTER const uint8_t *k = static_cast<const uint8_t *>(a_pKey);
+    CINTERNAL_REGISTER uint32_t a,b,c;  /* the internal state */
 	
 	uint32_t          len;    /* how many key bytes still need mixing */
 	
@@ -148,18 +148,18 @@ CPPUTILS_EXPORT size_t hash1_( const void* a_pKey, size_t a_unKeySize )
 	
 	switch(len)              /* all the case statements fall through */
 	{
-    case 11: c=c+(static_cast<uint32_t>(k[10])<<24); CPPUTILS_FALLTHROUGH 
-    case 10: c=c+(static_cast<uint32_t>(k[9])<<16); CPPUTILS_FALLTHROUGH
-    case 9 : c=c+(static_cast<uint32_t>(k[8])<<8); CPPUTILS_FALLTHROUGH
+    case 11: c=c+(static_cast<uint32_t>(k[10])<<24); CINTERNAL_FALLTHROUGH 
+    case 10: c=c+(static_cast<uint32_t>(k[9])<<16); CINTERNAL_FALLTHROUGH
+    case 9 : c=c+(static_cast<uint32_t>(k[8])<<8); CINTERNAL_FALLTHROUGH
 		
 		/* the first byte of c is reserved for the length */
-    case 8 : b=b+(static_cast<uint32_t>(k[7])<<24); CPPUTILS_FALLTHROUGH
-    case 7 : b=b+(static_cast<uint32_t>(k[6])<<16); CPPUTILS_FALLTHROUGH
-    case 6 : b=b+(static_cast<uint32_t>(k[5])<<8); CPPUTILS_FALLTHROUGH
-    case 5 : b=b+k[4]; CPPUTILS_FALLTHROUGH
-    case 4 : a=a+(static_cast<uint32_t>(k[3])<<24); CPPUTILS_FALLTHROUGH
-    case 3 : a=a+(static_cast<uint32_t>(k[2])<<16); CPPUTILS_FALLTHROUGH
-    case 2 : a=a+(static_cast<uint32_t>(k[1])<<8); CPPUTILS_FALLTHROUGH
+    case 8 : b=b+(static_cast<uint32_t>(k[7])<<24); CINTERNAL_FALLTHROUGH
+    case 7 : b=b+(static_cast<uint32_t>(k[6])<<16); CINTERNAL_FALLTHROUGH
+    case 6 : b=b+(static_cast<uint32_t>(k[5])<<8); CINTERNAL_FALLTHROUGH
+    case 5 : b=b+k[4]; CINTERNAL_FALLTHROUGH
+    case 4 : a=a+(static_cast<uint32_t>(k[3])<<24); CINTERNAL_FALLTHROUGH
+    case 3 : a=a+(static_cast<uint32_t>(k[2])<<16); CINTERNAL_FALLTHROUGH
+    case 2 : a=a+(static_cast<uint32_t>(k[1])<<8); CINTERNAL_FALLTHROUGH
     case 1 : a=a+k[0];
 		/* case 0: nothing left to add */
 	}

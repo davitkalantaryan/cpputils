@@ -11,16 +11,16 @@
 
 #include <cpputils/export_symbols.h>
 #include <stddef.h>
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 #include <mutex>
 #endif
 
-#include <cpputils/disable_compiler_warnings.h>
+#include <cinternal/disable_compiler_warnings.h>
 
 
 namespace cpputils {
 
-class CPPUTILS_DLL_PRIVATE mutex_ml_p;
+class CINTERNAL_DLL_PRIVATE mutex_ml_p;
 
 class CPPUTILS_EXPORT mutex_ml
 {
@@ -35,7 +35,7 @@ public:
 
 	size_t numberOfLocksInThisThread()const;
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 	::std::mutex& std_mutex()const;
 #endif
 

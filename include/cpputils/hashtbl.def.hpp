@@ -38,9 +38,9 @@ struct VoidPtrKey{
 	
 	VoidPtrKey(const void* key, size_t keyLen,bool shouldDelete=true);
 	VoidPtrKey(const VoidPtrKey& cM);
-	VoidPtrKey(VoidPtrKey& cM, int shouldMove, bool shouldDelete = true) CPPUTILS_NOEXCEPT;
-#ifdef CPPUTILS_CPP_11_DEFINED
-	VoidPtrKey(VoidPtrKey&& cM,bool shouldDelete=true) CPPUTILS_NOEXCEPT;
+	VoidPtrKey(VoidPtrKey& cM, int shouldMove, bool shouldDelete = true) CINTERNAL_NOEXCEPT;
+#ifdef CINTERNAL_CPP_11_DEFINED
+	VoidPtrKey(VoidPtrKey&& cM,bool shouldDelete=true) CINTERNAL_NOEXCEPT;
 	VoidPtrKey& operator=(const VoidPtrKey&) = delete;
 #endif
 	~VoidPtrKey();
@@ -91,7 +91,7 @@ struct HashItemBase {
 	friend class ::cpputils::hashtbl::Base;
 protected:
     HashItemBase(const KeyType& key, const DataType& data);
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
     HashItemBase(const KeyType& key, DataType&& data);
 #endif
 	virtual ~HashItemBase();
@@ -119,7 +119,7 @@ struct HashItem : public TypeHashItem{
     friend class ::cpputils::hashtbl::BaseBase;
 protected:
     HashItem(const TypeHashItem& a_item, size_t a_hash);
-	virtual ~HashItem() CPPUTILS_OVERRIDE;
+	virtual ~HashItem() CINTERNAL_OVERRIDE;
 public:
     const size_t  hash;
 };

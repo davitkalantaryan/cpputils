@@ -22,7 +22,7 @@ public:
 	typedef ::cpputils::function< FUNC_ARGS(void,void*) > TypeDeleteFunc;
 	
 public:
-	InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData=CPPUTILS_NULL);
+	InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData=CINTERNAL_NULL);
 	~InScopeCleaner();
 	
 private:

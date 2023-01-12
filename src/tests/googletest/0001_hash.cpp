@@ -5,7 +5,7 @@
 
 #include "gtest/gtest.h"
 #include <cpputils/hashtbl.hpp>
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 #include <utility>
 #endif
 
@@ -140,7 +140,7 @@ TEST(f_0001_hash, t0005_testing_copy_constructor_and_operator_eq)
 		OP_SQ_BR_DEF(ASSERT_EQ(aHashIn[i], i));
 	}
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 	aHashFn2 = std::move(aHashIn);
 	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
 	ASSERT_EQ(aHashIn.size(), size_t(0));
@@ -217,7 +217,7 @@ TEST(f_0001_hash, t0006_testing_copy_constructor_and_operator_eq_set)
 		OP_SQ_BR_DEF(ASSERT_EQ(aHashIn[i], i));
 	}
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 	aHashFn2 = std::move(aHashIn);
 	ASSERT_EQ(aHashFn2.size(), size_t(NUMBER_OF_ENTRIES));
 	ASSERT_EQ(aHashIn.size(), size_t(0));

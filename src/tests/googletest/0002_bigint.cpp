@@ -18,7 +18,7 @@ TEST(f_0002_bigint, t0000_basic)
 	cpputils::BigInt<1> a1(2);
 	
 	// let's declare very big integer
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 	cpputils::BigInt<1> a4 = 100000000000000000000_bi01; // = 10^20
     cpputils::BigInt<1> a5 = 12343_bi01; // = 10^20
 
@@ -37,7 +37,7 @@ TEST(f_0002_bigint, t0000_basic)
 	cpputils::BigInt<1> a4 = 10000000000;
 	a4 *= 10000000000;
 	ASSERT_EQ(static_cast<int64_t>(a4/ 10000000000), 10000000000);
-#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
+#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
 	
 	ASSERT_EQ(static_cast<int64_t>(a4/1000000000000000), 100000);
 
@@ -89,7 +89,7 @@ TEST(f_0002_bigint, t0001_test_different_sizes)
 
 TEST(f_0002_bigint, t0002_test_arithmetic)
 {
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 
 	cpputils::BigInt<2> bi1 = 1000000000000000000000000000000_bi02; // 10^30
     ASSERT_EQ( ::std::to_string(bi1), ::std::string("1000000000000000000000000000000"));
@@ -100,7 +100,7 @@ TEST(f_0002_bigint, t0002_test_arithmetic)
 	bi1 /= 100000000000000000000_bi02; // we divide to 10^20, so remains 10^8
     ASSERT_EQ( ::std::to_string(bi1), ::std::string("100000000"));
 
-#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
+#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
 }
 
 

@@ -34,6 +34,9 @@
     <Filter Include="Header Files\include\cpputils\parser">
       <UniqueIdentifier>{06a7d680-79db-477e-8e6b-f522dc8d3e28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="other">
+      <UniqueIdentifier>{3e4f60af-661d-48c9-ad4a-bdc4155c23a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp">
@@ -53,6 +56,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_thread_local.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_core_emscripten.cpp">
+      <Filter>other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp">
+      <Filter>other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_multifor_c1.cpp">
+      <Filter>other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_mutex_ml.cpp">
+      <Filter>other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_unnamedsemaphore.cpp">
+      <Filter>other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

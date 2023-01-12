@@ -34,7 +34,7 @@ class tls_ptr_fast
 public:
 	tls_ptr_fast();
 	explicit tls_ptr_fast(tls_ptr_fast* mv);
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 	tls_ptr_fast(tls_ptr_fast&& mv);
 #endif
 	~tls_ptr_fast();
@@ -56,7 +56,7 @@ protected:
 
 
 #ifdef _WIN32
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 template <typename DataType >
 using tls_unique_ptr = tls_ptr_fast< DataType >;
 #else
@@ -69,7 +69,7 @@ class tls_unique_ptr
 public:
 	tls_unique_ptr();
 	explicit tls_unique_ptr(tls_unique_ptr* mv);
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 	tls_unique_ptr(tls_unique_ptr&& mv);
 #endif
 	~tls_unique_ptr();

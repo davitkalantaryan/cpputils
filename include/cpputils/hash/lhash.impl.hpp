@@ -73,7 +73,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterRoundedTableSizeMin1IsKnown()
 {
     ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
-    m_pFirstItem = CPPUTILS_NULL;
+    m_pFirstItem = CINTERNAL_NULL;
 }
 
 
@@ -96,7 +96,7 @@ AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
     ListItem* pItem = new ListItem(::std::move(a_item),this,a_hash);
     ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem);
     if(m_pFirstItem){m_pFirstItem->prevInTheList=pItem;}
-    pItem->prevInTheList = CPPUTILS_NULL;
+    pItem->prevInTheList = CINTERNAL_NULL;
     pItem->nextInTheList = m_pFirstItem;
     m_pFirstItem = pItem;
     return pItem;
@@ -107,17 +107,17 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::InitAllToZero()
 {
     ApiDataAdv::InitAllToZeroB();
-    m_pFirstItem = CPPUTILS_NULL;
+    m_pFirstItem = CINTERNAL_NULL;
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCEPT
+void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CINTERNAL_NOEXCEPT
 {
     ListItem *pItemNext, *pItem = m_pFirstItem;
     while(pItem){
         pItemNext=pItem->nextInTheList;
-        ApiDataAdv::m_pTable[pItem->m_hash] = CPPUTILS_NULL;
+        ApiDataAdv::m_pTable[pItem->m_hash] = CINTERNAL_NULL;
         delete pItem;
         pItem=pItemNext;
     }
@@ -138,7 +138,7 @@ GeFromOther(const LHashApi& a_cM)
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOther(LHashApi* a_mM) CPPUTILS_NOEXCEPT
+void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOther(LHashApi* a_mM) CINTERNAL_NOEXCEPT
 {
     ApiDataAdv::ReplaceWithOtherB(a_mM);
     ListItem* pFirstItem = m_pFirstItem;
@@ -152,7 +152,7 @@ void LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOthe
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 LHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base()
     :
-      m_pItem(CPPUTILS_NULL)
+      m_pItem(CINTERNAL_NULL)
 {
 }
 

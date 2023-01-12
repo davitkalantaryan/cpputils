@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 #include <cpputils/export_symbols.h>
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 
 #include <cpputils/hash/dllhash.hpp>
 #include <string>
@@ -48,5 +48,5 @@ TEST(f_0012_hash_dllhash, t0002)
 }
 
 
-#endif  //  #ifdef CPPUTILS_CPP_11_DEFINED
+#endif  //  #ifdef CINTERNAL_CPP_11_DEFINED
 

@@ -10,7 +10,7 @@ static size_t SumStatic(int a_val1, int a_val2, int a_val3);
 
 TEST(f_0003_function_old, t0000_first)
 {
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 		
 	cpputils::function_old< FUNC_ARGS_OLD(size_t,const int&) > aFn01([](const int& a_val){
 		return static_cast<size_t>(a_val);

@@ -10,15 +10,19 @@
 #include <cpputils/emscripten.hpp>
 
 
-#ifdef CPPUTILS_EMSCRIPTEN_IS_USED
+#ifdef CINTERNAL_EMSCRIPTEN_IS_USED
 #include <stdlib.h>
 #else
 #include <string.h>
 #endif
 
-#ifdef CPPUTILS_EMSCRIPTEN_IS_USED
+#ifdef _MSC_VER
+#define strncpy(_buff,_hint,_bufLen)    strncpy_s(_buff,_bufLen,_hint,_bufLen)
+#endif
 
-CPPUTILS_BEGIN_C
+#ifdef CINTERNAL_EMSCRIPTEN_IS_USED
+
+CINTERNAL_BEGIN_C
 
 struct CpputilsFsSyncSClbkData{
     ::cpputils::emscripten::FsSyncClbk  m_clbk;
@@ -27,7 +31,7 @@ struct CpputilsFsSyncSClbkData{
 
 //CPPUTILS_DLL_PUBLIC void CpputilsCallCallbackFunction(const struct CpputilsFsSyncSClbkData* a_pData);
 
-CPPUTILS_END_C
+CINTERNAL_END_C
 
 #endif  // #ifdef CPPUTILS_EMSCRIPTEN_IS_USED
 
@@ -149,7 +153,7 @@ CPPUTILS_EXPORT void fs_sync(void)
 
 #ifdef CPPUTILS_EMSCRIPTEN_IS_USED
 
-CPPUTILS_BEGIN_C
+CINTERNAL_BEGIN_C
 
 
 CPPUTILS_DLL_PUBLIC void EMSCRIPTEN_KEEPALIVE CpputilsCallCallbackFunction(const struct CpputilsFsSyncSClbkData* a_pData)
@@ -157,6 +161,6 @@ CPPUTILS_DLL_PUBLIC void EMSCRIPTEN_KEEPALIVE CpputilsCallCallbackFunction(const
     a_pData->m_clbk(a_pData->m_clbkData);
 }
 
-CPPUTILS_END_C
+CINTERNAL_END_C
 
 #endif  // #ifdef CPPUTILS_EMSCRIPTEN_IS_USED

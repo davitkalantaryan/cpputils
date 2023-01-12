@@ -375,7 +375,7 @@ namespace cpputils {
 
 #define CPPUTILS_MAX_TENTH_QWORD    uint64_t(1000000000000000000)
 
-#ifndef CPPUTILS_CPP_11_DEFINED
+#ifndef CINTERNAL_CPP_11_DEFINED
 template <uint64_t NUM_QWORDS_DEGR>
 const  uint64_t BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords = CPPUTILS_BINT_EXPR_NUM_QW;
 template <uint64_t NUM_QWORDS_DEGR>
@@ -408,7 +408,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 const  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_maxOf64bits(CPPUTILS_MAX_VALUE_PER_QWORD);
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FUT  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bintDivMaskIn = BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial();
+CINTERNAL_CONSTEXPR_FUT  BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::s_bintDivMaskIn = BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial();
 
 template <uint64_t NUM_QWORDS_DEGR>
 bool BigUInt<NUM_QWORDS_DEGR>::s_bGlobalsInited = InitGlobalVars();
@@ -423,26 +423,26 @@ BigUInt<NUM_QWORDS_DEGR>::BigUInt()
 
 template <uint64_t NUM_QWORDS_DEGR>
 //template <uint64_t NUM_QWORDS_DEGR_OTHER>
-CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigUInt<NUM_QWORDS_DEGR_OTHER>& a_cM)
+CINTERNAL_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigUInt<NUM_QWORDS_DEGR_OTHER>& a_cM)
 {
     OtherBigUIntToThis(a_cM);
 }
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const float& a_lfValue)
+CINTERNAL_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const float& a_lfValue)
 {
     BiggerToThis(a_lfValue);
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const double& a_lfValue)
+CINTERNAL_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const double& a_lfValue)
 {
     BiggerToThis(a_lfValue);
 }
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const long double& a_lfValue)
+CINTERNAL_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const long double& a_lfValue)
 {
     BiggerToThis(a_lfValue);
 }
@@ -450,7 +450,7 @@ CPPUTILS_CONSTEXPR_FLOAT_CONTR BigUInt<NUM_QWORDS_DEGR>::BigUInt(const long doub
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
-CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const NumType& a_val)
+CINTERNAL_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const NumType& a_val)
 {
 	m_u.b64[0] = static_cast<uint64_t>(a_val);
 	for(uint64_t i(1); i<s_numberOfQwords; ++i){
@@ -460,15 +460,15 @@ CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const NumType& a_val)
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigInt<NUM_QWORDS_DEGR>& a_cM)
+CINTERNAL_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt(const BigInt<NUM_QWORDS_DEGR>& a_cM)
 {
 	memcpy(&m_u,&(a_cM.m_u), sizeof(m_u));
 }
 
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt( const ::std::array<uint64_t,s_numberOfQwords>& a_array)
+CINTERNAL_CONSTEXPR_CONS BigUInt<NUM_QWORDS_DEGR>::BigUInt( const ::std::array<uint64_t,s_numberOfQwords>& a_array)
 {
     for(uint64_t i(0); i<s_numberOfQwords; ++i){
         m_u.b64[i] = a_array[i];
@@ -482,10 +482,10 @@ template <uint64_t NUM_QWORDS_DEGR_OTHER2>
 inline void BigUInt<NUM_QWORDS_DEGR>::OtherBigUIntToThis(const BigUInt<NUM_QWORDS_DEGR_OTHER2>& a_cM)
 {
     //static_assert(NUM_QWORDS_DEGR_OTHER_SMALL<=NUM_QWORDS_DEGR_OTHER_SMALL,"use small or equal big intereger as constructor input");
-    static CPPUTILS_CONSTEXPR size_t scMemcpySize((BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords > BigUInt<NUM_QWORDS_DEGR_OTHER2>::s_numberOfQwords)?
+    static CINTERNAL_CONSTEXPR size_t scMemcpySize((BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords > BigUInt<NUM_QWORDS_DEGR_OTHER2>::s_numberOfQwords)?
                                              static_cast<size_t>(BigUInt<NUM_QWORDS_DEGR_OTHER2>::s_numberOfQwords)*sizeof(uint64_t) :
                                              static_cast<size_t>(BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords)*sizeof(uint64_t) );
-    static CPPUTILS_CONSTEXPR size_t scRemainSizeToReset(
+    static CINTERNAL_CONSTEXPR size_t scRemainSizeToReset(
                 (BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords > BigUInt<NUM_QWORDS_DEGR_OTHER2>::s_numberOfQwords)?
                     static_cast<size_t>(((BigUInt<NUM_QWORDS_DEGR>::s_numberOfQwords - BigUInt<NUM_QWORDS_DEGR_OTHER2>::s_numberOfQwords))*sizeof(uint64_t)):0);
     memcpy(&m_u,&(a_cM.m_u), scMemcpySize);
@@ -495,9 +495,9 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OtherBigUIntToThis(const BigUInt<NUM_QWORD
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename BiggerType>
-inline CPPUTILS_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(BiggerType a_lfValue)
+inline CINTERNAL_CONSTEXPR_FLOAT_CONTR void BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(BiggerType a_lfValue)
 {
-    static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
+    static CINTERNAL_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
 
     memset(&(m_u),0,sizeof (m_u));
 
@@ -514,7 +514,7 @@ template <uint64_t NUM_QWORDS_DEGR>
 template <typename BiggerType>
 inline void BigUInt<NUM_QWORDS_DEGR>::thisToBigger(BiggerType* a_plfValue)const
 {
-    static CPPUTILS_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
+    static CINTERNAL_CONSTEXPR BiggerType scflValue(static_cast<BiggerType>(CPPUTILS_MAX_VALUE_PER_QWORD));
     BiggerType lfMult(scflValue);
 
     *a_plfValue = static_cast<BiggerType>(m_u.b64[0]);
@@ -525,7 +525,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::thisToBigger(BiggerType* a_plfValue)const
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-inline CPPUTILS_CONSTEXPR_FNC_CPP14 BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial(){
+inline CINTERNAL_CONSTEXPR_FNC_CPP14 BigUInt<NUM_QWORDS_DEGR> BigUInt<NUM_QWORDS_DEGR>::DivMaskInitial(){
     BigUInt rs;
     for(uint64_t i(0);i<s_lastIndexInBuff;++i){rs.m_u.b64[i] = 0;}
     rs.m_u.b64[s_lastIndexInBuff] = CPPUTILS_MASK_SIGN_BIT;
@@ -754,7 +754,7 @@ inline bool BigUInt<NUM_QWORDS_DEGR>::HasAnyCommonBit(const BigUInt& a_lS, const
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-inline void BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(BigUInt* CPPUTILS_MAY_ALIAS a_res, const BigUInt& a_lS, const BigUInt& a_rS)
+inline void BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(BigUInt* CINTERNAL_MAY_ALIAS a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
     uint64_t ullnSum, ullnHas, ullnRemn = 0;
     for (uint64_t i(0); i < s_numberOfQwords; ++i) {
@@ -782,7 +782,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorPlus(BigUInt* CPPUTILS_MAY_ALIAS a
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMinus(BigUInt* CPPUTILS_MAY_ALIAS a_res, const BigUInt& a_lS, const BigUInt& a_rS)
+inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMinus(BigUInt* CINTERNAL_MAY_ALIAS a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
 	uint64_t ullnDif, lsTmp, ullnDept = 0;
 
@@ -818,7 +818,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMinus(BigUInt* CPPUTILS_MAY_ALIAS 
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMultU(BigUInt* CPPUTILS_RESTRICT a_res, const BigUInt& a_lS, const BigUInt& a_rS)
+inline void BigUInt<NUM_QWORDS_DEGR>::OperatorMultU(BigUInt* CINTERNAL_RESTRICT a_res, const BigUInt& a_lS, const BigUInt& a_rS)
 {
     __private::__implementation::DataU tmpSingleMult;
 	BigUInt tmpMult;
@@ -931,7 +931,7 @@ void BigUInt<NUM_QWORDS_DEGR>::LeftShiftByOneBit()
 template <uint64_t NUM_QWORDS_DEGR>
 void BigUInt<NUM_QWORDS_DEGR>::OperatorRightShift(BigUInt* a_res, const BigUInt& a_lS, uint64_t a_shiftCount)
 {
-    static CPPUTILS_CONSTEXPR uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
+    static CINTERNAL_CONSTEXPR uint64_t numberOfBits = s_numberOfQwords * sizeof(uint64_t) * 8;
     if(a_shiftCount>=numberOfBits){memset(&(a_res->m_u),0,sizeof (a_res->m_u));}
     *a_res = a_lS;
     for(uint64_t i(0); i<a_shiftCount;++i){
@@ -1075,7 +1075,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::toStreamU( ::std::basic_ostream<CharType>*
         bool bIterate = false;
         uint64_t i;
         uint64_t ullnCount = 0;
-		CPPUTILS_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
+		CINTERNAL_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
 
         for(i=1;i<s_numberOfQwords;++i){
             if(bintCopy.m_u.b64[i]){bIterate=true;break;}
@@ -1129,7 +1129,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::OperatorAnyIntLiteralUinline(BigUInt* a_re
         uint64_t lastUint64Value=0;
 		size_t numberOfLastValueDigits=0;
 		size_t ullnCount = 0;
-		CPPUTILS_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
+		CINTERNAL_CONSTEXPR_STACK_ARRAY(uint64_t,vValues,s_numberOfTenths);
 
         memset(&(a_res->m_u),0,sizeof (a_res->m_u));
 
@@ -1199,7 +1199,7 @@ BigInt<NUM_QWORDS_DEGR>::BigInt()
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const float& a_lfValue)
+CINTERNAL_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const float& a_lfValue)
 {
     if(a_lfValue<0.0){
         BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(-a_lfValue);
@@ -1212,7 +1212,7 @@ CPPUTILS_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const float& a_lf
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const long double& a_lfValue)
+CINTERNAL_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const long double& a_lfValue)
 {
     if(a_lfValue<0.0){
         BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(-a_lfValue);
@@ -1225,7 +1225,7 @@ CPPUTILS_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const long double
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-CPPUTILS_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const double& a_lfValue)
+CINTERNAL_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const double& a_lfValue)
 {
     if(a_lfValue<0.0){
         BigUInt<NUM_QWORDS_DEGR>::BiggerToThis(-a_lfValue);
@@ -1239,7 +1239,7 @@ CPPUTILS_CONSTEXPR_FLOAT_CONTR BigInt<NUM_QWORDS_DEGR>::BigInt(const double& a_l
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <typename NumType>
-CPPUTILS_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const NumType& a_val)
+CINTERNAL_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const NumType& a_val)
 {
 	const int64_t val = static_cast<int64_t>(a_val);
 	if(val >=0){
@@ -1259,7 +1259,7 @@ CPPUTILS_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const NumType& a_val)
 
 template <uint64_t NUM_QWORDS_DEGR>
 //template <uint64_t NUM_QWORDS_DEGR_OTHER>
-CPPUTILS_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const BigInt<NUM_QWORDS_DEGR_OTHER>& a_cM)
+CINTERNAL_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const BigInt<NUM_QWORDS_DEGR_OTHER>& a_cM)
 	:
       BigUInt<NUM_QWORDS_DEGR>(static_cast<const BigUInt<NUM_QWORDS_DEGR_OTHER>&>(a_cM))
 {
@@ -1268,7 +1268,7 @@ CPPUTILS_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const BigInt<NUM_QWORDS_
 
 template <uint64_t NUM_QWORDS_DEGR>
 template <uint64_t NUM_QWORDS_DEGR_OTHER2>
-CPPUTILS_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const BigUInt<NUM_QWORDS_DEGR_OTHER2>& a_cM)
+CINTERNAL_CONSTEXPR_CONS BigInt<NUM_QWORDS_DEGR>::BigInt(const BigUInt<NUM_QWORDS_DEGR_OTHER2>& a_cM)
 {
     BigUInt<NUM_QWORDS_DEGR_OTHER>::OtherBigUIntToThis(a_cM);
 }
@@ -1499,7 +1499,7 @@ inline void BigInt<NUM_QWORDS_DEGR>::toStreamS( ::std::basic_ostream<CharType>* 
 
 
 template <uint64_t NUM_QWORDS_DEGR>
-inline void BigInt<NUM_QWORDS_DEGR>::OperatorMultS(BigInt* CPPUTILS_RESTRICT a_res, const BigInt& a_lS, const BigInt& a_rS)
+inline void BigInt<NUM_QWORDS_DEGR>::OperatorMultS(BigInt* CINTERNAL_RESTRICT a_res, const BigInt& a_lS, const BigInt& a_rS)
 {
     const uint64_t isThisMinus(a_lS.isMinus()), isRsMinus(a_rS.isMinus());
     if(isThisMinus){
@@ -1628,7 +1628,7 @@ BigInt<NUM_QWORDS_DEGR> BigInt<NUM_QWORDS_DEGR>::OperatorBiLiteral(const ::std::
 
 
 
-#ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef CINTERNAL_CPP_11_DEFINED
 
 cpputils::BigInt<1> operator"" _bi01(const char* n);
 cpputils::BigInt<2> operator"" _bi02(const char* n);
@@ -1648,7 +1648,7 @@ cpputils::BigUInt<6> operator"" _bui06(const char* n);
 cpputils::BigUInt<7> operator"" _bui07(const char* n);
 cpputils::BigUInt<8> operator"" _bui08(const char* n);
 
-#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
+#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
 
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_BIGINT_IMPL_HPP

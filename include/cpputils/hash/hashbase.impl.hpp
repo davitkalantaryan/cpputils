@@ -61,14 +61,14 @@ void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::ConstructAfte
 template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::InitAllToZeroB()
 {
-    m_pTable = CPPUTILS_NULL;
+    m_pTable = CINTERNAL_NULL;
 	m_unRoundedTableSizeMin1 = size_t(-1);
 	m_unSize = 0;
 }
 
 
 template <typename InputT,size_t templateDefaultSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::ReplaceWithOtherB(ApiData* a_pmM) CPPUTILS_NOEXCEPT
+void ApiData<InputT,templateDefaultSize,mallocFn,callocFn,freeFn>::ReplaceWithOtherB(ApiData* a_pmM) CINTERNAL_NOEXCEPT
 {
     ApiData** pThis = m_pThis;
     InputPrivate**	pTable = m_pTable;
@@ -143,7 +143,7 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 
 template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
-HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(HashBase&& a_mM) CPPUTILS_NOEXCEPT
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::HashBase(HashBase&& a_mM) CINTERNAL_NOEXCEPT
 {
     ApiType::InitAllToZero();
     ApiType::ReplaceWithOther(&a_mM);
@@ -172,7 +172,7 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>&
-HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(HashBase&& a_mM) CPPUTILS_NOEXCEPT
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(HashBase&& a_mM) CINTERNAL_NOEXCEPT
 {
     ApiType::ReplaceWithOther(&a_mM);
     return *this;
@@ -213,7 +213,7 @@ size_t HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,real
 template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 inline void 
-HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::clear() CPPUTILS_NOEXCEPT
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::clear() CINTERNAL_NOEXCEPT
 {
     ApiType::ClearRaw();
     ApiDataAdv::m_unSize = 0;
@@ -270,7 +270,7 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
-    if(pItem){return Output(CPPUTILS_NULL);}
+    if(pItem){return Output(CINTERNAL_NULL);}
     return AddEntryWithKnownHashMv(::std::move(a_item),unHash);
 }
 
@@ -282,7 +282,7 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 {
     size_t unHash;
     Input* pItem = findEntryRaw(a_item.first,&unHash);
-    if(pItem){return Output(CPPUTILS_NULL);}
+    if(pItem){return Output(CINTERNAL_NULL);}
     return AddEntryWithKnownHashC(a_item,unHash);
 }
 
@@ -341,7 +341,7 @@ findEntryRaw( const Key& a_key, size_t* a_hashPtr )const
 		pItemToRet = pItemToRet->next;
 	}
 
-    return CPPUTILS_NULL;
+    return CINTERNAL_NULL;
 }
 
 

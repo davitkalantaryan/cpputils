@@ -111,7 +111,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterRoundedTableSizeMin1IsKnown()
 {
     ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
-    m_ppVector = CPPUTILS_NULL;
+    m_ppVector = CINTERNAL_NULL;
 }
 
 
@@ -132,7 +132,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::RemoveEntryRaw(
         delete a_cI.m_pItem;
     }
     else{
-        a_cI.m_pItem->m_ppParent = CPPUTILS_NULL;
+        a_cI.m_pItem->m_ppParent = CINTERNAL_NULL;
         --(a_cI.m_pItem->m_usageCount);
     }
 }
@@ -161,20 +161,20 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::InitAllToZero()
 {
     ApiDataAdv::InitAllToZeroB();
-    m_ppVector = CPPUTILS_NULL;
+    m_ppVector = CINTERNAL_NULL;
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCEPT
+void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CINTERNAL_NOEXCEPT
 {
     for(size_t i(0); i<ApiDataAdv::m_unSize;++i){
-        ApiDataAdv::m_pTable[m_ppVector[i]->m_hash] = CPPUTILS_NULL;
+        ApiDataAdv::m_pTable[m_ppVector[i]->m_hash] = CINTERNAL_NULL;
         if(m_ppVector[i]->m_usageCount==1){
             delete m_ppVector[i];
         }
         else{
-            m_ppVector[i]->m_ppParent = CPPUTILS_NULL;
+            m_ppVector[i]->m_ppParent = CINTERNAL_NULL;
             --(m_ppVector[i]->m_usageCount);
         }
     }
@@ -182,7 +182,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPU
     
     ApiDataAdv::m_unSize = 0;
     freeFn(m_ppVector);
-    m_ppVector = CPPUTILS_NULL;    
+    m_ppVector = CINTERNAL_NULL;    
 }
 
 
@@ -198,7 +198,7 @@ GeFromOther(const VHashApi& a_cM)
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOther(VHashApi* a_mM) CPPUTILS_NOEXCEPT
+void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOther(VHashApi* a_mM) CINTERNAL_NOEXCEPT
 {
     ApiDataAdv::ReplaceWithOtherB(a_mM);
     TableItem** ppVector = m_ppVector;
@@ -231,7 +231,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::~iter
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base()
     :
-      m_pItem(CPPUTILS_NULL)
+      m_pItem(CINTERNAL_NULL)
 {
 }
 
@@ -278,7 +278,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 Input* VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::pItem()const
 {
-    return (m_pItem&&m_pItem->m_ppParent)?m_pItem:CPPUTILS_NULL;
+    return (m_pItem&&m_pItem->m_ppParent)?m_pItem:CINTERNAL_NULL;
 }
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
@@ -289,7 +289,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         m_pItem = (*(m_pItem->m_ppParent))->m_ppVector[m_pItem->m_index+1];
     }
     else{
-        m_pItem = CPPUTILS_NULL;
+        m_pItem = CINTERNAL_NULL;
     }
     return *this;
 }
@@ -303,7 +303,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         m_pItem = (*(m_pItem->m_ppParent))->m_ppVector[m_pItem->m_index+1];
     }
     else{
-        m_pItem = CPPUTILS_NULL;
+        m_pItem = CINTERNAL_NULL;
     }
     return retIter;
 }
@@ -316,7 +316,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         m_pItem = (*(m_pItem->m_ppParent))->m_ppVector[m_pItem->m_index-1];
     }
     else{
-        m_pItem = CPPUTILS_NULL;
+        m_pItem = CINTERNAL_NULL;
     }
     return *this;
 }
@@ -330,7 +330,7 @@ VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::opera
         m_pItem = (*(m_pItem->m_ppParent))->m_ppVector[m_pItem->m_index-1];
     }
     else{
-        m_pItem = CPPUTILS_NULL;
+        m_pItem = CINTERNAL_NULL;
     }
     return retIter;
 }
@@ -368,7 +368,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::
         m_pItem = (*(m_pItem->m_ppParent))->m_ppVector[m_pItem->m_index+a_offset];
     }
     else{
-        m_pItem = CPPUTILS_NULL;
+        m_pItem = CINTERNAL_NULL;
     }
 }
 
@@ -380,7 +380,7 @@ void VHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::
         m_pItem = (*(m_pItem->m_ppParent))->m_ppVector[m_pItem->m_index+a_offset];
     }
     else{
-        m_pItem = CPPUTILS_NULL;
+        m_pItem = CINTERNAL_NULL;
     }
 }
 

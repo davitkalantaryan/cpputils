@@ -43,8 +43,8 @@ public:
 protected:
     void ConstructAfterRoundedTableSizeMin1IsKnown();
     void GeFromOther(const HashApi&);
-    void ClearRaw() CPPUTILS_NOEXCEPT;
-	void ReplaceWithOther(HashApi*) CPPUTILS_NOEXCEPT;
+    void ClearRaw() CINTERNAL_NOEXCEPT;
+	void ReplaceWithOther(HashApi*) CINTERNAL_NOEXCEPT;
 
 protected:
     struct HashItem;
