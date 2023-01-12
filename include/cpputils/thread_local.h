@@ -31,7 +31,7 @@ typedef pthread_key_t	cpputils_thread_key_t;
 #define cpputils_thread_getspecific		CINTERNAL_GLOBAL pthread_getspecific
 #define cpputils_thread_setspecific		CINTERNAL_GLOBAL pthread_setspecific
 #define cpputils_thread_key_delete		CINTERNAL_GLOBAL pthread_key_delete
-#define	CPPUTILS_TLS_OUT_OF_INDEXES		CPPUTILS_STATIC_CAST(cpputils_thread_key_t,-1)
+#define	CPPUTILS_TLS_OUT_OF_INDEXES		CINTERNAL_STATIC_CAST(cpputils_thread_key_t,-1)
 #endif
 
 extern CPPUTILS_EXPORT int   cpputils_thread_key_create(cpputils_thread_key_t*key, void (*destructor)(void*));
