@@ -46,6 +46,7 @@ MakeFileDir			= $(MAKEDIR)
 MakeFileName                    = windows.Makefile
 
 RepoRootDir			= $(MakeFileDir)\..\..\..
+cpputilsRepoRoot		= $(RepoRootDir)
 SrcBaseDir			= $(MakeFileDir)\..\..\..\src
 GoogleTestDir			= $(RepoRootDir)\contrib\googletest
 
@@ -58,6 +59,7 @@ PDB_FILE_PATH			= $(TargetDirectory)\$(TargetName).pdb
 DEFINES       			= $(DEFINES) /D "_WINDLL" /D "_MBCS" /D "CPPUTILS_USING_STATIC_LIB_OR_OBJECTS"
 INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(GoogleTestDir)\googletest\include"
 INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(RepoRootDir)\include"
+INCLUDE_PATHS			= $(INCLUDE_PATHS) /I"$(RepoRootDir)\contrib\cinternal\include"
 CFLAGS				= $(CFLAGS) $(INCLUDE_PATHS) $(DEFINES)
 CXXFLAGS			= $(CXXFLAGS) $(CFLAGS)
 
