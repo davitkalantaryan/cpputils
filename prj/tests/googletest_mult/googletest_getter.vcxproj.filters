@@ -42,6 +42,9 @@
     <None Include="packages.config.locked">
       <Filter>files</Filter>
     </None>
+    <None Include="unix.Makefile">
+      <Filter>files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tests\googletest\0000_initial.cpp">

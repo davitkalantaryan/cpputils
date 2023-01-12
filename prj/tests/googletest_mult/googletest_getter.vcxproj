@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config.locked" />
+    <None Include="unix.Makefile" />
     <None Include="windows.Makefile" />
   </ItemGroup>
   <ItemGroup>
