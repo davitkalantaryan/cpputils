@@ -8,7 +8,7 @@
 #include <cpputils/thread_local.h>
 
 
-CINTERNAL_BEGIN_C
+CPPUTILS_BEGIN_C
 
 #ifdef _MSC_VER
 #pragma warning (disable:5039)
@@ -31,4 +31,4 @@ CPPUTILS_EXPORT int cpputils_thread_key_create(cpputils_thread_key_t* a_key, voi
 }
 
 
-CINTERNAL_END_C
+CPPUTILS_END_C

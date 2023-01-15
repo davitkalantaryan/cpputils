@@ -31,7 +31,7 @@ void* BaseForAlloc<mallocFn,freeFn>::operator new( ::std::size_t a_count )
 }
 
 template <TypeMalloc mallocFn, TypeFree freeFn>
-void  BaseForAlloc<mallocFn,freeFn>::operator delete  ( void* a_ptr ) CINTERNAL_NOEXCEPT 
+void  BaseForAlloc<mallocFn,freeFn>::operator delete  ( void* a_ptr ) CPPUTILS_NOEXCEPT 
 {
     freeFn(a_ptr);
 }
@@ -106,7 +106,7 @@ InputPrivate<Input,mallocFn,freeFn>::InputPrivate(Input&& a_mM, size_t a_hash)
       m_hash(a_hash)
 {
     static_assert( ::std::is_base_of<BaseForAlloc<mallocFn,freeFn>,InputPrivate>(), "InputPrivate shoulb be child of BaseForAlloc" );
-    this->prev = CINTERNAL_NULL;
+    this->prev = CPPUTILS_NULL;
 }
 
 

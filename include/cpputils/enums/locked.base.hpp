@@ -26,7 +26,7 @@ struct SingleArg{
 }}  // namespace cpputils { namespace enums{
 
 #ifndef CPPUTILS_ENUM_TYPED
-#if CINTERNAL_CPP_11_DEFINED
+#if CPPUTILS_CPP_11_DEFINED
 #define CPPUTILS_ENUM_TYPED(_Name,_integralType,...)	enum _Name : _integralType { __VA_ARGS__ }
 #else
 #define CPPUTILS_ENUM_TYPED(_Name,_integralType,...)	enum _Name { __VA_ARGS__ }

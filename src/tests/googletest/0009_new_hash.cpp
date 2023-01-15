@@ -5,7 +5,7 @@
 
 #include <cpputils/export_symbols.h>
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 
 #include "gtest/gtest.h"
 #include <cpputils/hash/hash.hpp>
@@ -48,4 +48,4 @@ TEST(f_0009_new_hash, t0003_VHash)
 
 
 
-#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED

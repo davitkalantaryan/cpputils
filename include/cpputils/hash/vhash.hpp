@@ -53,8 +53,8 @@ protected:
     void ConstructAfterRoundedTableSizeMin1IsKnown();
     void InitAllToZero();
     void GeFromOther(const VHashApi&);
-    void ClearRaw() CINTERNAL_NOEXCEPT;
-    void ReplaceWithOther(VHashApi*) CINTERNAL_NOEXCEPT;
+    void ClearRaw() CPPUTILS_NOEXCEPT;
+    void ReplaceWithOther(VHashApi*) CPPUTILS_NOEXCEPT;
     
 protected:
     struct TableItem;

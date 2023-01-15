@@ -13,6 +13,7 @@
 #include <stddef.h>
 
 
+
 namespace cpputils {
 
 
@@ -24,10 +25,10 @@ public:
 	typedef ::cpputils::function< FUNC_ARGS(void,void* clbkData,PtrType* pData,size_t numberOfPreviousReferences,size_t numberOfReferences) > TypeClbk;
 public:
 	SharedPtr();
-	SharedPtr(PtrType* pPtr, TypeClbk a_fnClbk=CINTERNAL_NULL, void* clbkData=CINTERNAL_NULL);
+	SharedPtr(PtrType* pPtr, TypeClbk a_fnClbk=CPPUTILS_NULL, void* clbkData=CPPUTILS_NULL);
 	SharedPtr(Core* pCore);
-	SharedPtr(const SharedPtr& cM) CINTERNAL_NOEXCEPT;
-	SharedPtr(SharedPtr&& cM) CINTERNAL_NOEXCEPT;
+	SharedPtr(const SharedPtr& cM) CPPUTILS_NOEXCEPT;
+	SharedPtr(SharedPtr&& cM) CPPUTILS_NOEXCEPT;
 	~SharedPtr();
 	
 	SharedPtr& operator=(const SharedPtr& cM);

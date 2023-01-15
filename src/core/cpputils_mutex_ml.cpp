@@ -28,7 +28,7 @@
 
 namespace cpputils {
 
-class CINTERNAL_DLL_PRIVATE mutex_ml_p
+class CPPUTILS_DLL_PRIVATE mutex_ml_p
 {
 	mutex_ml_p(const mutex_ml_p&) = delete;
 	mutex_ml_p& operator=(const mutex_ml_p&) = delete;
@@ -84,12 +84,12 @@ size_t mutex_ml::numberOfLocksInThisThread()const
 }
 
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 ::std::mutex& mutex_ml::std_mutex()const
 {
 	return m_mutex_ml_data_ptr->std_mutex;
 }
-#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 
 
 }  // namespace cpputils {

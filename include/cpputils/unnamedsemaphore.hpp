@@ -16,7 +16,7 @@
 
 namespace cpputils {
 
-class CINTERNAL_DLL_PRIVATE UnnamedSemaphore_p;
+class CPPUTILS_DLL_PRIVATE UnnamedSemaphore_p;
 
 class CPPUTILS_EXPORT UnnamedSemaphore
 {
@@ -30,8 +30,8 @@ public:
     void Wait(size_t waitTimeMs);
 
 private:
-    UnnamedSemaphore(const UnnamedSemaphore&) CINTERNAL_DELETE
-    UnnamedSemaphore& operator=(const UnnamedSemaphore&) CINTERNAL_DELETE
+    UnnamedSemaphore(const UnnamedSemaphore&) CPPUTILS_DELETE
+    UnnamedSemaphore& operator=(const UnnamedSemaphore&) CPPUTILS_DELETE
 
 private:
     UnnamedSemaphore_p*const m_sema_data_p;

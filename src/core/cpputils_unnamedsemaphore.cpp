@@ -31,7 +31,7 @@ typedef :: sem_t TYPE_SEMA;
 #endif
 
 
-class CINTERNAL_DLL_PRIVATE UnnamedSemaphore_p
+class CPPUTILS_DLL_PRIVATE UnnamedSemaphore_p
 {
 public:
     TYPE_SEMA m_sema;

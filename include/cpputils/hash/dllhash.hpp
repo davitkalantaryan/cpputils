@@ -51,8 +51,8 @@ protected:
     void ConstructAfterRoundedTableSizeMin1IsKnown();
     void InitAllToZero();
     void GeFromOther(const DllHashApi&);
-    void ClearRaw() CINTERNAL_NOEXCEPT;
-    void ReplaceWithOther(DllHashApi*) CINTERNAL_NOEXCEPT;
+    void ClearRaw() CPPUTILS_NOEXCEPT;
+    void ReplaceWithOther(DllHashApi*) CPPUTILS_NOEXCEPT;
     
 protected:
     struct ListItem;

@@ -7,7 +7,7 @@
 
 #include <cpputils/export_symbols.h>
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 
 #include <cpputils/bigint.hpp>
 #include <ctype.h>
@@ -97,4 +97,4 @@ BigUInt<8> operator"" _bui08(const char* a_n)
     return BigUInt<8>::OperatorBuiLiteral(a_n);
 }
 
-#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED

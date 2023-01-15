@@ -11,7 +11,7 @@
 
 #include <cpputils/export_symbols.h>
 #include <stddef.h>
-#include <cpputils/disable_compiler_warnings.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <mutex>
 
 

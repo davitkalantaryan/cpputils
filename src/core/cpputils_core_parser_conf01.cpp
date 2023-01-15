@@ -24,7 +24,7 @@ namespace cpputils{ namespace parser{
 
 typedef ::cpputils::hash::LHash<::std::string,::std::string>        TypeResults;
 
-class CINTERNAL_DLL_PRIVATE Conf01_p
+class CPPUTILS_DLL_PRIVATE Conf01_p
 {
 public:
     Conf01_p(const TypeComments& vectComments);

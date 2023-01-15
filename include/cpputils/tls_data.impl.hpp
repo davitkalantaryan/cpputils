@@ -35,7 +35,7 @@ tls_ptr_fast<DataType,Deleter>::tls_ptr_fast(tls_ptr_fast* a_mv_p)
 	a_mv_p->m_key = CPPUTILS_TLS_OUT_OF_INDEXES;
 }
 
-#if CINTERNAL_CPP_11_DEFINED
+#if CPPUTILS_CPP_11_DEFINED
 template <typename DataType, typename Deleter>
 tls_ptr_fast<DataType,Deleter>::tls_ptr_fast(tls_ptr_fast&& a_mv)
 	:
@@ -110,7 +110,7 @@ tls_data<DataType>::tls_data()
 	  m_key( CPPUTILS_TLS_OUT_OF_INDEXES )
 {
 	static_assert (sizeof(DataType)<=sizeof(void*),"unable to store bigger data" );
-	if( ::cpputils_thread_key_create(&m_key,CINTERNAL_NULL) ) {
+	if( ::cpputils_thread_key_create(&m_key,CPPUTILS_NULL) ) {
 		throw ::std::bad_alloc();
 	}
 }

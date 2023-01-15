@@ -17,7 +17,7 @@
 
 namespace cpputils{ namespace parser{
 
-class CINTERNAL_DLL_PRIVATE Conf01_p;
+class CPPUTILS_DLL_PRIVATE Conf01_p;
 
 typedef ::std::pair<::std::string,::std::string>    TypePair;
 typedef ::std::vector<TypePair >    TypeComments;

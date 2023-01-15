@@ -67,19 +67,19 @@ size_t BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::
 }
 
 template <typename KeyType,typename HashItem, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::clear() CINTERNAL_NOEXCEPT
+void BaseBase<KeyType,HashItem,HashItemPrivate,Hash,templateDefaultSize>::clear() CPPUTILS_NOEXCEPT
 {
 	HashItemPrivate *pItemNext, *pItem = static_cast<HashItemPrivate*>(m_pFirstItem);
 	
 	while(pItem){
-        m_pTable[pItem->hash]=CINTERNAL_NULL;
+        m_pTable[pItem->hash]=CPPUTILS_NULL;
 		pItemNext = pItem->nextInTheList;
 		delete pItem;
 		pItem = pItemNext;
 	}
 	
 	m_unSize = 0;
-	m_pLastItem = m_pFirstItem = CINTERNAL_NULL;
+	m_pLastItem = m_pFirstItem = CPPUTILS_NULL;
 }
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
@@ -98,8 +98,8 @@ template <typename KeyType,typename HashItemType, typename HashItemPrivate, type
 BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(size_t a_tInitSize)
 	:
 	  m_unRoundedTableSizeMin1(__private::__implementation::FindTableSizeFromIitialArg(a_tInitSize)-1),
-	  m_pFirstItem(CINTERNAL_NULL),
-	  m_pLastItem(CINTERNAL_NULL),
+	  m_pFirstItem(CPPUTILS_NULL),
+	  m_pLastItem(CPPUTILS_NULL),
 	  m_unSize(0)
 {
 	size_t tRet(m_unRoundedTableSizeMin1+1);
@@ -111,8 +111,8 @@ template <typename KeyType,typename HashItemType, typename HashItemPrivate, type
 BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(const BaseBase& a_cM)
 	:
 	  m_unRoundedTableSizeMin1(a_cM.m_unRoundedTableSizeMin1),
-	  m_pFirstItem(CINTERNAL_NULL),
-	  m_pLastItem(CINTERNAL_NULL),
+	  m_pFirstItem(CPPUTILS_NULL),
+	  m_pLastItem(CPPUTILS_NULL),
 	  m_unSize(0)
 {
 	HashItemPrivate* pItem = static_cast<HashItemPrivate*>(a_cM.m_pFirstItem);
@@ -127,7 +127,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBas
 
 // after this, you can not use a_cM
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase* a_pMM) CINTERNAL_NOEXCEPT
+BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase* a_pMM) CPPUTILS_NOEXCEPT
 	:
 	  m_pTable(a_pMM->m_pTable),
 	  m_unRoundedTableSizeMin1(a_pMM->m_unRoundedTableSizeMin1),
@@ -135,16 +135,16 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBas
 	  m_pLastItem(a_pMM->m_pLastItem),
 	  m_unSize(a_pMM->m_unSize)
 {
-	a_pMM->m_pFirstItem = CINTERNAL_NULL;
-	a_pMM->m_pLastItem = CINTERNAL_NULL;
+	a_pMM->m_pFirstItem = CPPUTILS_NULL;
+	a_pMM->m_pLastItem = CPPUTILS_NULL;
 	a_pMM->m_unSize = 0;
-	a_pMM->m_pTable = CINTERNAL_NULL;
+	a_pMM->m_pTable = CPPUTILS_NULL;
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 // after this, you can not use a_cM
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
-BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase&& a_cM) CINTERNAL_NOEXCEPT
+BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::BaseBase(BaseBase&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  BaseBase(&a_cM)
 {
@@ -179,7 +179,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operato
         }
     }
     
-	m_pLastItem=m_pFirstItem=CINTERNAL_NULL;
+	m_pLastItem=m_pFirstItem=CPPUTILS_NULL;
 	m_unSize = (0);
 
 	{
@@ -187,7 +187,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operato
 		size_t tRet(m_unRoundedTableSizeMin1 + 1);
 		const size_t memorySize = tRet * sizeof(HashItemTypeAdv*);
 		HashItemTypeAdv**  pTableTmp = static_cast<HashItemTypeAdv**>(realloc(m_pTable, memorySize));
-		if (!pTableTmp) { free(m_pTable);m_pTable=CINTERNAL_NULL;throw std::bad_alloc(); }
+		if (!pTableTmp) { free(m_pTable);m_pTable=CPPUTILS_NULL;throw std::bad_alloc(); }
 		m_pTable = pTableTmp;
 		memset(m_pTable, 0, memorySize);
         m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
@@ -202,7 +202,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operato
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
 const BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>& 
-BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::ReplaceWithOther(BaseBase* a_cM) CINTERNAL_NOEXCEPT
+BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::ReplaceWithOther(BaseBase* a_cM) CPPUTILS_NOEXCEPT
 {
 	HashItemTypeAdv**	pTable = m_pTable;
 	size_t		unRoundedTableSizeMin1 = m_unRoundedTableSizeMin1;
@@ -225,10 +225,10 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::Replace
 	return *this;
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
 const BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>& 
-BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operator=(BaseBase&& a_cM) CINTERNAL_NOEXCEPT
+BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::operator=(BaseBase&& a_cM) CPPUTILS_NOEXCEPT
 {
 	return this->ReplaceWithOther(&a_cM);
 }
@@ -249,7 +249,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::AddEntr
 {
 	size_t unHash;
 	if(FindEntry(a_item.first,&unHash)){
-		return CINTERNAL_NULL; // we do not overwrite
+		return CPPUTILS_NULL; // we do not overwrite
 	}
 	
 	return AddEntryWithKnownHashRaw( HashItemTypeAdv(a_item,unHash) );
@@ -305,7 +305,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::FindEnt
 		pItemToRet = pItemToRet->next;
 	}
 
-	return CINTERNAL_NULL;
+	return CPPUTILS_NULL;
 }
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
@@ -321,7 +321,7 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::FindEnt
 		pItemToRet = pItemToRet->next;
 	}
 
-	return CINTERNAL_NULL;
+	return CPPUTILS_NULL;
 }
 
 template <typename KeyType,typename HashItemType, typename HashItemPrivate, typename Hash,size_t templateDefaultSize>
@@ -335,9 +335,9 @@ BaseBase<KeyType,HashItemType,HashItemPrivate,Hash,templateDefaultSize>::firstIt
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-const typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator  Base<KeyType,DataType,Hash,templateDefaultSize>::s_endIter(CINTERNAL_NULL);
+const typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator  Base<KeyType,DataType,Hash,templateDefaultSize>::s_endIter(CPPUTILS_NULL);
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-const typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator  Base<KeyType,DataType,Hash,templateDefaultSize>::s_endConstIter(CINTERNAL_NULL);
+const typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator  Base<KeyType,DataType,Hash,templateDefaultSize>::s_endConstIter(CPPUTILS_NULL);
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
 Base<KeyType,DataType,Hash,templateDefaultSize>::Base(size_t a_tInitSize)
@@ -354,15 +354,15 @@ Base<KeyType,DataType,Hash,templateDefaultSize>::Base(const Base& a_cM)
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base* a_pMM) CINTERNAL_NOEXCEPT
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base* a_pMM) CPPUTILS_NOEXCEPT
 	:
 	  BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >(a_pMM)
 {
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base&& a_cM) CINTERNAL_NOEXCEPT
+Base<KeyType,DataType,Hash,templateDefaultSize>::Base(Base&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  Base(&a_cM)
 {
@@ -416,15 +416,15 @@ const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Has
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) CINTERNAL_NOEXCEPT
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) CPPUTILS_NOEXCEPT
 {
 	BaseBase< KeyType,__p::__i::HashItemBase<KeyType,DataType>,__p::__i::HashItemFull<KeyType,DataType>,Hash,templateDefaultSize  >::ReplaceWithOther(a_cM);
 	return *this;
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::operator=(Base&& a_cM) CINTERNAL_NOEXCEPT
+const Base<KeyType,DataType,Hash,templateDefaultSize>& Base<KeyType,DataType,Hash,templateDefaultSize>::operator=(Base&& a_cM) CPPUTILS_NOEXCEPT
 {
 	return ReplaceWithOther(&a_cM);
 }
@@ -498,7 +498,7 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 		pItemToRet = pItemToRet->next;
 	}
 
-	return CINTERNAL_NULL;
+	return CPPUTILS_NULL;
 }
 
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
@@ -547,7 +547,7 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<Ke
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
 Base<KeyType,DataType,Hash,templateDefaultSize>::iterator::iterator()
 	:
-	  m_pItem(CINTERNAL_NULL)
+	  m_pItem(CPPUTILS_NULL)
 {
 }
 
@@ -626,7 +626,7 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::iterator Base<KeyType,
 template <typename KeyType,typename DataType,typename Hash,size_t templateDefaultSize>
 Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator::const_iterator()
 	:
-	  m_pItem(CINTERNAL_NULL)
+	  m_pItem(CPPUTILS_NULL)
 {
 }
 
@@ -710,9 +710,9 @@ typename Base<KeyType,DataType,Hash,templateDefaultSize>::const_iterator Base<Ke
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-const typename Base<KeyType,void,Hash,templateDefaultSize>::iterator  Base<KeyType,void,Hash,templateDefaultSize>::s_endIter(CINTERNAL_NULL);
+const typename Base<KeyType,void,Hash,templateDefaultSize>::iterator  Base<KeyType,void,Hash,templateDefaultSize>::s_endIter(CPPUTILS_NULL);
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-const typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator  Base<KeyType,void,Hash,templateDefaultSize>::s_endConstIter(CINTERNAL_NULL);
+const typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator  Base<KeyType,void,Hash,templateDefaultSize>::s_endConstIter(CPPUTILS_NULL);
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
 Base<KeyType,void,Hash,templateDefaultSize>::Base(size_t a_tInitSize)
@@ -729,15 +729,15 @@ Base<KeyType,void,Hash,templateDefaultSize>::Base(const Base& a_cM)
 }
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,void,Hash,templateDefaultSize>::Base(Base* a_pMM) CINTERNAL_NOEXCEPT
+Base<KeyType,void,Hash,templateDefaultSize>::Base(Base* a_pMM) CPPUTILS_NOEXCEPT
 	:
 	  BaseBase< KeyType,__p::__i::HashItemBase<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >(a_pMM)
 {
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-Base<KeyType,void,Hash,templateDefaultSize>::Base(Base&& a_cM) CINTERNAL_NOEXCEPT
+Base<KeyType,void,Hash,templateDefaultSize>::Base(Base&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  Base(&a_cM)
 {
@@ -757,15 +757,15 @@ const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templa
 }
 
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) CINTERNAL_NOEXCEPT
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::ReplaceWithOther(Base* a_cM) CPPUTILS_NOEXCEPT
 {
 	BaseBase< KeyType,__p::__i::HashItemBase<KeyType,void>,__p::__i::HashItemFull<KeyType,void>,Hash,templateDefaultSize  >::ReplaceWithOther(a_cM);
 	return *this;
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
-const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::operator=(Base&& a_cM) CINTERNAL_NOEXCEPT
+const Base<KeyType,void,Hash,templateDefaultSize>& Base<KeyType,void,Hash,templateDefaultSize>::operator=(Base&& a_cM) CPPUTILS_NOEXCEPT
 {
 	return ReplaceWithOther(&a_cM);
 }
@@ -823,7 +823,7 @@ typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyTyp
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
 Base<KeyType,void,Hash,templateDefaultSize>::iterator::iterator()
 	:
-	  m_pItem(CINTERNAL_NULL)
+	  m_pItem(CPPUTILS_NULL)
 {
 }
 
@@ -901,7 +901,7 @@ typename Base<KeyType,void,Hash,templateDefaultSize>::iterator Base<KeyType,void
 template <typename KeyType,typename Hash,size_t templateDefaultSize>
 Base<KeyType,void,Hash,templateDefaultSize>::const_iterator::const_iterator()
 	:
-	  m_pItem(CINTERNAL_NULL)
+	  m_pItem(CPPUTILS_NULL)
 {
 }
 
@@ -1025,10 +1025,10 @@ template <typename KeyType,typename DataType>
 HashItemFull<KeyType,DataType>::HashItemFull(const KeyType& a_key, const DataType& a_data)
     :	
 	  HashItem<HashItemBase<KeyType,DataType> >(HashItemBase<KeyType,DataType>(a_key,a_data)),
-	  prev(CINTERNAL_NULL),
-	  next(CINTERNAL_NULL),
-	  prevInTheList(CINTERNAL_NULL),
-	  nextInTheList(CINTERNAL_NULL)
+	  prev(CPPUTILS_NULL),
+	  next(CPPUTILS_NULL),
+	  prevInTheList(CPPUTILS_NULL),
+	  nextInTheList(CPPUTILS_NULL)
 {
 }
 
@@ -1037,10 +1037,10 @@ template <typename KeyType,typename DataType>
 HashItemFull<KeyType,DataType>::HashItemFull(const HashItem<HashItemBase<KeyType,DataType> >& a_item)
     :	
 	  HashItem<HashItemBase<KeyType,DataType> >(a_item),
-	  prev(CINTERNAL_NULL),
-	  next(CINTERNAL_NULL),
-	  prevInTheList(CINTERNAL_NULL),
-	  nextInTheList(CINTERNAL_NULL)
+	  prev(CPPUTILS_NULL),
+	  next(CPPUTILS_NULL),
+	  prevInTheList(CPPUTILS_NULL),
+	  nextInTheList(CPPUTILS_NULL)
 {
 }
 
@@ -1074,7 +1074,7 @@ HashItemBase<KeyType,DataType>::HashItemBase(const KeyType& a_key, const DataTyp
 {
 }
 
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 template <typename KeyType,typename DataType>
 HashItemBase<KeyType,DataType>::HashItemBase(const KeyType& a_key, DataType&& a_data)
     :
@@ -1082,7 +1082,7 @@ HashItemBase<KeyType,DataType>::HashItemBase(const KeyType& a_key, DataType&& a_
       second(a_data)
 {
 }
-#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED
 
 template <typename KeyType,typename DataType>
 HashItemBase<KeyType,DataType>::~HashItemBase()
@@ -1114,10 +1114,10 @@ template <typename KeyType>
 HashItemFull<KeyType,void>::HashItemFull(const KeyType& a_key)
     :	
 	  HashItem<HashItemBase<KeyType,void> >(a_key),
-	  prev(CINTERNAL_NULL),
-	  next(CINTERNAL_NULL),
-	  prevInTheList(CINTERNAL_NULL),
-	  nextInTheList(CINTERNAL_NULL)
+	  prev(CPPUTILS_NULL),
+	  next(CPPUTILS_NULL),
+	  prevInTheList(CPPUTILS_NULL),
+	  nextInTheList(CPPUTILS_NULL)
 {
 }
 
@@ -1126,10 +1126,10 @@ template <typename KeyType>
 HashItemFull<KeyType,void>::HashItemFull(const HashItem<HashItemBase<KeyType,void> >& a_item)
     :	
 	  HashItem<HashItemBase<KeyType,void> >(a_item),
-	  prev(CINTERNAL_NULL),
-	  next(CINTERNAL_NULL),
-	  prevInTheList(CINTERNAL_NULL),
-	  nextInTheList(CINTERNAL_NULL)
+	  prev(CPPUTILS_NULL),
+	  next(CPPUTILS_NULL),
+	  prevInTheList(CPPUTILS_NULL),
+	  nextInTheList(CPPUTILS_NULL)
 {
 }
 

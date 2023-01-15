@@ -14,7 +14,7 @@
 
 #define FUNC_ARGS_CPP11(_ret,...)	_ret(__VA_ARGS__)
 
-#if defined(CINTERNAL_CPP_11_DEFINED) && !defined(CPPUTILS_DO_NOT_USE_STD_FUNCTION)
+#if defined(CPPUTILS_CPP_11_DEFINED) && !defined(CPPUTILS_DO_NOT_USE_STD_FUNCTION)
 #define CPPUTILS_STD_FUNCTION_IS_USED
 #ifdef _MSC_VER
 #pragma warning (push)

@@ -4,7 +4,7 @@
 //
 
 #include <cpputils/export_symbols.h>
-#ifdef CINTERNAL_CPP_11_DEFINED
+#ifdef CPPUTILS_CPP_11_DEFINED
 #include "gtest/gtest.h"
 #include <cpputils/tls_data.hpp>
 #include <iostream>
@@ -101,4 +101,4 @@ TestClass::~TestClass()
 }
 
 
-#endif  // #ifdef CINTERNAL_CPP_11_DEFINED
+#endif  // #ifdef CPPUTILS_CPP_11_DEFINED

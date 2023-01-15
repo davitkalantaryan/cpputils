@@ -89,7 +89,7 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ConstructAfterRoundedTableSizeMin1IsKnown()
 {
     ApiDataAdv::ConstructAfterRoundedTableSizeMin1IsKnownB();
-    m_pLastItem = m_pFirstItem = CINTERNAL_NULL;
+    m_pLastItem = m_pFirstItem = CPPUTILS_NULL;
 }
 
 
@@ -114,7 +114,7 @@ AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
     ApiDataAdv::AddEntryWithAlreadyCreatedItemB(pItem);
     if(m_pFirstItem){ m_pLastItem->nextInTheList =pItem;}
     else { m_pFirstItem = pItem; }
-    pItem->nextInTheList = CINTERNAL_NULL;
+    pItem->nextInTheList = CPPUTILS_NULL;
     pItem->prevInTheList = m_pLastItem;
     m_pLastItem = pItem;
     return pItem;
@@ -125,17 +125,17 @@ template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,
 void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::InitAllToZero()
 {
     ApiDataAdv::InitAllToZeroB();
-    m_pLastItem = m_pFirstItem = CINTERNAL_NULL;
+    m_pLastItem = m_pFirstItem = CPPUTILS_NULL;
 }
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CINTERNAL_NOEXCEPT
+void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCEPT
 {
     ListItem *pItemNext, *pItem = m_pFirstItem;
     while(pItem){
         pItemNext=pItem->nextInTheList;
-        ApiDataAdv::m_pTable[pItem->m_hash] = CINTERNAL_NULL;
+        ApiDataAdv::m_pTable[pItem->m_hash] = CPPUTILS_NULL;
         delete pItem;
         pItem=pItemNext;
     }
@@ -156,7 +156,7 @@ GeFromOther(const DllHashApi& a_cM)
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
-void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOther(DllHashApi* a_mM) CINTERNAL_NOEXCEPT
+void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOther(DllHashApi* a_mM) CPPUTILS_NOEXCEPT
 {
     ApiDataAdv::ReplaceWithOtherB(a_mM);
     ListItem* pFirstItem = m_pFirstItem;
@@ -173,7 +173,7 @@ void DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::ReplaceWithOt
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 DllHashApi<Input,defSize,mallocFn,callocFn,reallocFn,freeFn>::iterator_base::iterator_base()
     :
-      m_pItem(CINTERNAL_NULL)
+      m_pItem(CPPUTILS_NULL)
 {
 }
 

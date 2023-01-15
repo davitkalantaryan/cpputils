@@ -32,7 +32,7 @@ namespace cpputils {
 template <typename PtrType>
 SharedPtr<PtrType>::SharedPtr()
 	:
-	  m_pCore(CINTERNAL_NULL)
+	  m_pCore(CPPUTILS_NULL)
 {
 }
 
@@ -59,18 +59,18 @@ SharedPtr<PtrType>::SharedPtr(Core* a_pCore)
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(const SharedPtr& a_cM) CINTERNAL_NOEXCEPT
+SharedPtr<PtrType>::SharedPtr(const SharedPtr& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  SharedPtr(a_cM.m_pCore)
 {
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(SharedPtr&& a_cM) CINTERNAL_NOEXCEPT
+SharedPtr<PtrType>::SharedPtr(SharedPtr&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  m_pCore(a_cM.m_pCore)
 {
-	a_cM.m_pCore = CINTERNAL_NULL;
+	a_cM.m_pCore = CPPUTILS_NULL;
 }
 
 template <typename PtrType>
@@ -132,7 +132,7 @@ PtrType* SharedPtr<PtrType>::get()const
         return m_pCore->m_pData;
     }
 
-    return CINTERNAL_NULL;
+    return CPPUTILS_NULL;
 }
 
 template <typename PtrType>
@@ -142,7 +142,7 @@ PtrType* SharedPtr<PtrType>::operator ->()const
 		return m_pCore->m_pData;
 	}
 	
-	return CINTERNAL_NULL;
+	return CPPUTILS_NULL;
 }
 
 template <typename PtrType>
@@ -158,7 +158,7 @@ SharedPtr<PtrType>::operator const PtrType*()const
 		return m_pCore->m_pData;
 	}
 	
-	return CINTERNAL_NULL;
+	return CPPUTILS_NULL;
 }
 
 template <typename PtrType>

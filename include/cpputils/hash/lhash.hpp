@@ -49,8 +49,8 @@ protected:
     void ConstructAfterRoundedTableSizeMin1IsKnown();
     void InitAllToZero();
     void GeFromOther(const LHashApi&);
-    void ClearRaw() CINTERNAL_NOEXCEPT;
-    void ReplaceWithOther(LHashApi*) CINTERNAL_NOEXCEPT;
+    void ClearRaw() CPPUTILS_NOEXCEPT;
+    void ReplaceWithOther(LHashApi*) CPPUTILS_NOEXCEPT;
     
 protected:
     struct ListItem;

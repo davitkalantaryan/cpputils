@@ -57,7 +57,7 @@ AddEntryWithKnownHashRaw(Input&& a_item, size_t a_hash)
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ClearRaw() CINTERNAL_NOEXCEPT
+void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ClearRaw() CPPUTILS_NOEXCEPT
 {
     if(ApiDataAdv::m_pTable){
         const size_t tRet(ApiDataAdv::m_unRoundedTableSizeMin1 + 1);
@@ -70,7 +70,7 @@ void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ClearRaw() CINTERNAL_NOEXC
                 pItem = pItemNext;
             }
             
-            ApiDataAdv::m_pTable[i] = CINTERNAL_NULL;
+            ApiDataAdv::m_pTable[i] = CPPUTILS_NULL;
         }
         ApiDataAdv::m_unSize = 0;
     } // if(m_pTable){
@@ -78,7 +78,7 @@ void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ClearRaw() CINTERNAL_NOEXC
 
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
-void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ReplaceWithOther(HashApi* a_mM) CINTERNAL_NOEXCEPT
+void HashApi<Input,defSize,mallocFn,callocFn,freeFn>::ReplaceWithOther(HashApi* a_mM) CPPUTILS_NOEXCEPT
 {
     ApiDataAdv::ReplaceWithOtherB(a_mM);
 }
@@ -123,7 +123,7 @@ GeFromOther(const HashApi& a_cM)
 template <typename Input,size_t defSize,TypeMalloc mallocFn, TypeCalloc callocFn, TypeFree freeFn>
 HashApi<Input,defSize,mallocFn,callocFn,freeFn>::iterator_base::iterator_base()
     :
-      m_pItem(CINTERNAL_NULL)
+      m_pItem(CPPUTILS_NULL)
 {
 }
 

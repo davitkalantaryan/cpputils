@@ -19,7 +19,7 @@ namespace __p{ namespace __i{
 
 struct LockGuard{
 	pthread_mutex_t *pmutex;
-	LockGuard():pmutex(CINTERNAL_NULL){}
+	LockGuard():pmutex(CPPUTILS_NULL){}
 	~LockGuard(){
 		if(this->pmutex){ :: pthread_mutex_unlock(pmutex); }
 	}
@@ -29,7 +29,7 @@ struct LockGuard{
 	}
 	void Unlock(){
 		:: pthread_mutex_unlock(this->pmutex);
-		this->pmutex = CINTERNAL_NULL;
+		this->pmutex = CPPUTILS_NULL;
 	}
 };
 
@@ -42,13 +42,13 @@ template <typename DataType, typename Deleter>
 tls_unique_ptr<DataType,Deleter>::tls_unique_ptr()
 	:
 	  m_key( CPPUTILS_TLS_OUT_OF_INDEXES ),
-	  m_pFirst(CINTERNAL_NULL)
+	  m_pFirst(CPPUTILS_NULL)
 {
 	if( ::cpputils_thread_key_create(&m_key,&tls_unique_ptr::CleanupFunctionStatic) ) {
 		throw ::std::bad_alloc();
 	}
 	//m_mutex_for_list
-	:: pthread_mutex_init(&m_mutex_for_list,CINTERNAL_NULL);
+	:: pthread_mutex_init(&m_mutex_for_list,CPPUTILS_NULL);
 }
 
 template <typename DataType, typename Deleter>
@@ -58,10 +58,10 @@ tls_unique_ptr<DataType,Deleter>::tls_unique_ptr(tls_unique_ptr* a_mv_p)
 	  m_pFirst(a_mv_p->m_pFirst)
 {
 	a_mv_p->m_key = CPPUTILS_TLS_OUT_OF_INDEXES;
-	a_mv_p->m_pFirst = CINTERNAL_NULL;
+	a_mv_p->m_pFirst = CPPUTILS_NULL;
 }
 
-#if CINTERNAL_CPP_11_DEFINED
+#if CPPUTILS_CPP_11_DEFINED
 template <typename DataType, typename Deleter>
 tls_unique_ptr<DataType,Deleter>::tls_unique_ptr(tls_unique_ptr&& a_mv)
 	:
@@ -101,7 +101,7 @@ void tls_unique_ptr<DataType,Deleter>::operator=(DataType* a_pData)
 			aDeleter(pItem->pData);
 		}
 		if(a_pData){ pItem->pData =a_pData; }
-		else { cpputils_thread_setspecific(m_key,CINTERNAL_NULL);delete pItem; }
+		else { cpputils_thread_setspecific(m_key,CPPUTILS_NULL);delete pItem; }
 	}
 	else if(a_pData){
 		pItem = new TlsItem(a_pData,this);
@@ -120,7 +120,7 @@ template <typename DataType, typename Deleter>
 DataType* tls_unique_ptr<DataType,Deleter>::get()const
 {
 	TlsItem* pItem =  static_cast<TlsItem*>(cpputils_thread_getspecific(m_key));
-	return pItem ? pItem->pData : CINTERNAL_NULL;
+	return pItem ? pItem->pData : CPPUTILS_NULL;
 }
 
 template <typename DataType, typename Deleter>
@@ -166,7 +166,7 @@ inline void tls_unique_ptr<DataType,Deleter>::CleanupFunction(TlsItem* a_pItem)
 template <typename DataType, typename Deleter>
 tls_unique_ptr<DataType,Deleter>::TlsItem::TlsItem(DataType* a_pData, tls_unique_ptr* a_pParent)
 	:
-	  prev(CINTERNAL_NULL),next(a_pParent->m_pFirst),pData(a_pData),pParent(a_pParent)
+	  prev(CPPUTILS_NULL),next(a_pParent->m_pFirst),pData(a_pData),pParent(a_pParent)
 {
 	if(a_pParent->m_pFirst){
 		a_pParent->m_pFirst->prev = this;

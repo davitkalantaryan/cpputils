@@ -37,7 +37,7 @@ public:
 protected:
     void ConstructAfterRoundedTableSizeMin1IsKnownB();
     void InitAllToZeroB();
-    void ReplaceWithOtherB(ApiData*) CINTERNAL_NOEXCEPT;
+    void ReplaceWithOtherB(ApiData*) CPPUTILS_NOEXCEPT;
     void AddEntryWithAlreadyCreatedItemB(InputPrivate* a_pItem);
     void RemoveEntryRawB(InputPrivate* a_pItem);
     
@@ -63,14 +63,14 @@ public:
 public:
     HashBase(size_t a_unBacketsCount=templateDefaultSize);
     HashBase(const HashBase& cM);
-	HashBase(HashBase&& cM) CINTERNAL_NOEXCEPT;
+	HashBase(HashBase&& cM) CPPUTILS_NOEXCEPT;
 	virtual ~HashBase() override;
     
     HashBase&      operator=(const HashBase& cM);
-	HashBase&      operator=(HashBase&& cM) CINTERNAL_NOEXCEPT;
+	HashBase&      operator=(HashBase&& cM) CPPUTILS_NOEXCEPT;
         
     size_t   size()const;
-	void     clear() CINTERNAL_NOEXCEPT;
+	void     clear() CPPUTILS_NOEXCEPT;
     
     Output   AddEntryWithKnownHashMv(Input&& a_item, size_t a_hash);
     Output   AddEntryWithKnownHashC(const Input& a_item, size_t a_hash);
@@ -80,7 +80,7 @@ public:
     Output   AddEntryIfNotExistC(const Input& a_item);
     Output   AddOrReplaceEntryMv(Input&& a_item);
     Output   AddOrReplaceEntryC(const Input& a_item);
-    Output   find( const Key& key, size_t* a_pHash=CINTERNAL_NULL )const;
+    Output   find( const Key& key, size_t* a_pHash=CPPUTILS_NULL )const;
     Output   end()const;
     bool     erase(const Key& a_key);
     void     erase(const COutput& a_iter);

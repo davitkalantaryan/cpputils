@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 #include <cpputils/multifor/c1.hpp>
 
-//#ifdef CINTERNAL_CPP_11_DEFINED
+//#ifdef CPPUTILS_CPP_11_DEFINED
 
 //typedef ::cpputils::function<void(const void*, size_t,const ::std::vector<int64_t>&)> TypeIter;
 //typedef ::cpputils::function<int64_t(const void*, size_t,const ::std::vector<int64_t>&)> TypeLimit;
@@ -38,4 +38,4 @@ TEST(f_0011_multifor, t0001)
 }
 
 
-//#endif  //#ifdef CINTERNAL_CPP_11_DEFINED
+//#endif  //#ifdef CPPUTILS_CPP_11_DEFINED

@@ -39,7 +39,7 @@ BaseFast<integralType,numOfFields,unqiueNumber>::BaseFast(int a_nargs, ...)
 template <typename integralType, int numOfFields, int unqiueNumber>
 BaseFast<integralType,numOfFields,unqiueNumber>::Data::Data()
 	:
-	  m_names(CINTERNAL_NULL),
+	  m_names(CPPUTILS_NULL),
 	  m_numberOfEnumFields(0)
 {
 }
@@ -48,7 +48,7 @@ template <typename integralType, int numOfFields, int unqiueNumber>
 BaseFast<integralType,numOfFields,unqiueNumber>::Data::~Data()
 {
 	CCharPtr* pTmpBuffer = const_cast<CCharPtr*>(m_names);
-    m_names = CINTERNAL_NULL;
+    m_names = CPPUTILS_NULL;
 	free(pTmpBuffer);
 }
 
