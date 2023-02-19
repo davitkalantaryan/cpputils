@@ -61,6 +61,7 @@
 
 #elif defined(_WIN32)
 
+#include <cinternal/disable_compiler_warnings.h>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <Windows.h>
