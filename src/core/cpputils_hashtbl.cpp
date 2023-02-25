@@ -121,52 +121,50 @@ CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize)
 
 CPPUTILS_EXPORT size_t hash1_( const void* a_pKey, size_t a_unKeySize )
 {
-	uint32_t unKeySize = static_cast<uint32_t>(a_unKeySize);
-    CPPUTILS_REGISTER const uint8_t *k = static_cast<const uint8_t *>(a_pKey);
-    CPPUTILS_REGISTER uint32_t a,b,c;  /* the internal state */
-	
+	const uint32_t unKeySize = CPPUTILS_STATIC_CAST(uint32_t, a_unKeySize);
+	CPPUTILS_REGISTER const uint8_t* k = CPPUTILS_STATIC_CAST(const uint8_t*, a_pKey);
+	CPPUTILS_REGISTER uint32_t a, b, c;  /* the internal state */
+
 	uint32_t          len;    /* how many key bytes still need mixing */
-	
+
 	/* Set up the internal state */
 	len = unKeySize;
 	a = b = 0x9e3779b9;  /* the golden ratio; an arbitrary value */
 	c = 13;         /* variable initialization of internal state */
-	
+
 	/*---------------------------------------- handle most of the key */
-	while (len >= 12)
-	{
-        a=a+(k[0]+(static_cast<uint32_t>(k[1])<<8)+(static_cast<uint32_t>(k[2])<<16) +(static_cast<uint32_t>(k[3])<<24));
-        b=b+(k[4]+(static_cast<uint32_t>(k[5])<<8)+(static_cast<uint32_t>(k[6])<<16) +(static_cast<uint32_t>(k[7])<<24));
-        c=c+(k[8]+(static_cast<uint32_t>(k[9])<<8)+(static_cast<uint32_t>(k[10])<<16)+(static_cast<uint32_t>(k[11])<<24));
-		mix2(a,b,c);
-		k = k+12; len = len-12;
+	while (len >= 12) {
+		a = a + (k[0] + (CPPUTILS_STATIC_CAST(uint32_t, k[1]) << 8) + (CPPUTILS_STATIC_CAST(uint32_t, k[2]) << 16) + (CPPUTILS_STATIC_CAST(uint32_t, k[3]) << 24));
+		b = b + (k[4] + (CPPUTILS_STATIC_CAST(uint32_t, k[5]) << 8) + (CPPUTILS_STATIC_CAST(uint32_t, k[6]) << 16) + (CPPUTILS_STATIC_CAST(uint32_t, k[7]) << 24));
+		c = c + (k[8] + (CPPUTILS_STATIC_CAST(uint32_t, k[9]) << 8) + (CPPUTILS_STATIC_CAST(uint32_t, k[10]) << 16) + (CPPUTILS_STATIC_CAST(uint32_t, k[11]) << 24));
+		mix2(a, b, c);
+		k = k + 12; len = len - 12;
 	}
-	
-	
+
 	/*------------------------------------- handle the last 11 bytes */
-	c = c+unKeySize;
-	
-	switch(len)              /* all the case statements fall through */
-	{
-    case 11: c=c+(static_cast<uint32_t>(k[10])<<24); CPPUTILS_FALLTHROUGH 
-    case 10: c=c+(static_cast<uint32_t>(k[9])<<16); CPPUTILS_FALLTHROUGH
-    case 9 : c=c+(static_cast<uint32_t>(k[8])<<8); CPPUTILS_FALLTHROUGH
-		
+	c = c + unKeySize;
+
+	/* all the case statements fall through */
+	switch (len) {
+	case 11: c = c + (CPPUTILS_STATIC_CAST(uint32_t, k[10]) << 24); CPPUTILS_FALLTHROUGH
+	case 10: c = c + (CPPUTILS_STATIC_CAST(uint32_t, k[9]) << 16); CPPUTILS_FALLTHROUGH
+	case 9: c = c + (CPPUTILS_STATIC_CAST(uint32_t, k[8]) << 8); CPPUTILS_FALLTHROUGH
+
 		/* the first byte of c is reserved for the length */
-    case 8 : b=b+(static_cast<uint32_t>(k[7])<<24); CPPUTILS_FALLTHROUGH
-    case 7 : b=b+(static_cast<uint32_t>(k[6])<<16); CPPUTILS_FALLTHROUGH
-    case 6 : b=b+(static_cast<uint32_t>(k[5])<<8); CPPUTILS_FALLTHROUGH
-    case 5 : b=b+k[4]; CPPUTILS_FALLTHROUGH
-    case 4 : a=a+(static_cast<uint32_t>(k[3])<<24); CPPUTILS_FALLTHROUGH
-    case 3 : a=a+(static_cast<uint32_t>(k[2])<<16); CPPUTILS_FALLTHROUGH
-    case 2 : a=a+(static_cast<uint32_t>(k[1])<<8); CPPUTILS_FALLTHROUGH
-    case 1 : a=a+k[0];
+	case 8: b = b + (CPPUTILS_STATIC_CAST(uint32_t, k[7]) << 24); CPPUTILS_FALLTHROUGH
+	case 7: b = b + (CPPUTILS_STATIC_CAST(uint32_t, k[6]) << 16); CPPUTILS_FALLTHROUGH
+	case 6: b = b + (CPPUTILS_STATIC_CAST(uint32_t, k[5]) << 8); CPPUTILS_FALLTHROUGH
+	case 5: b = b + k[4]; CPPUTILS_FALLTHROUGH
+	case 4: a = a + (CPPUTILS_STATIC_CAST(uint32_t, k[3]) << 24); CPPUTILS_FALLTHROUGH
+	case 3: a = a + (CPPUTILS_STATIC_CAST(uint32_t, k[2]) << 16); CPPUTILS_FALLTHROUGH
+	case 2: a = a + (CPPUTILS_STATIC_CAST(uint32_t, k[1]) << 8); CPPUTILS_FALLTHROUGH
+	case 1: a = a + k[0];
 		/* case 0: nothing left to add */
 	}
-	mix2(a,b,c);
+	mix2(a, b, c);
 	/*-------------------------------------------- report the result */
-	
-	return static_cast<size_t>(c);
+
+	return CPPUTILS_STATIC_CAST(size_t, c);
 }
 
 
