@@ -12,7 +12,14 @@
 #include <cpputils/export_symbols.h>
 #include <stddef.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable:4365)
+#endif
 #include <mutex>
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
 #endif
 
 #include <cinternal/disable_compiler_warnings.h>
