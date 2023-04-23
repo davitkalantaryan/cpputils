@@ -10,7 +10,7 @@ on:
 jobs:
 
     # matrix for debian linuxes (for now ubuntu-18.04 and ubuntu-20.04)
-    debian-linuxes:
+    unixes:
         runs-on: ${{ matrix.os }}
         strategy:
           matrix:
