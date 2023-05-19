@@ -23,6 +23,10 @@ class ProtectedData
 public:
     template<typename... Targs>
     ProtectedData(Targs... a_args);
+    template<typename... Targs>
+    ProtectedData(Mutex* a_pMutex, Targs... a_args);
+
+    virtual ~ProtectedData();
 
     ProtectedData& operator=(const ProtectedData& a_data);
     ProtectedData& operator=(ProtectedData&& a_data);
@@ -38,8 +42,9 @@ public:
     DataType data()const;
 
 private:
-    mutable Mutex           m_mutex;
+    Mutex*                  m_pMutex;
     DataType                m_data;
+    bool                    m_bOwnerOfMutex;
 };
 
 
