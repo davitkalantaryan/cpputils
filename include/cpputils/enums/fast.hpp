@@ -85,7 +85,7 @@ public:																																						\
 
 
 
-#define CPPUTILS_ENUM_FAST(_Name,_integralType,...)		CPPUTILS_ENUM_FAST_RAW(0,_Name,_integralType,__VA_ARGS__)
+#define CPPUTILS_ENUM_FAST(_Name,_integralType,...)		CPPUTILS_ENUM_FAST_RAW(__COUNTER__,_Name,_integralType,__VA_ARGS__)
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_IMPL_HPP
