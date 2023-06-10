@@ -287,3 +287,8 @@ inside class or inside function, because in the macros there is a declaration of
 #### limitations  
 For now this willl work only in the case if we sequential enumeration.  
 This means not possible to declare enum like `enum Type{a=1,b,c};` (not possible to use `=` in declaration).  
+  
+  
+## Usefull URLs  
+ 1. [create logo](https://app.logo.com/dashboard/logo_de1b2962-c283-4c8b-b5d3-33eae48dcc11/your-logo-files)  
+ 2. [icon creator](https://www.aconvert.com/icon/png-to-ico/)  
