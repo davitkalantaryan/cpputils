@@ -153,7 +153,8 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
 template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
           TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
 HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>&
-HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::operator=(const HashBase& a_cM)
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+operator=(const HashBase& a_cM)
 {
     ApiType::ClearRaw();
     ApiDataAdv::m_unSize = 0;
@@ -166,6 +167,56 @@ HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,f
     :: memset(ApiDataAdv::m_pTable,0,cunMemSize);
     ApiType::GeFromOther(a_cM);
     return *this;
+}
+
+
+// bool    TekeFromOtherAndReturnIfChanged(HashBase&& cM)const
+template <typename Key,typename InputT, typename Hash, typename Equal, size_t templateDefaultSize,
+          TypeMalloc mallocFn, TypeCalloc callocFn, TypeRealloc reallocFn, TypeFree freeFn, typename ApiType>
+bool
+HashBase<Key,InputT,Hash,Equal,templateDefaultSize,mallocFn,callocFn,reallocFn,freeFn,ApiType>::
+TekeFromOtherAndReturnIfChanged(const HashBase& a_cM)
+{
+    if((ApiDataAdv::m_unSize!=a_cM.m_unSize)||(ApiDataAdv::m_unRoundedTableSizeMin1!=a_cM.m_unRoundedTableSizeMin1)){
+        ApiType::ClearRaw();
+        ApiDataAdv::m_unSize = 0;
+        ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
+        const size_t tRet(ApiDataAdv::m_unRoundedTableSizeMin1+1);
+        const size_t cunMemSize(tRet*sizeof(InputPrivate*));
+        InputPrivate** pTable = static_cast<InputPrivate**>(reallocFn(ApiDataAdv::m_pTable,cunMemSize));
+        if(!pTable){throw std::bad_alloc();}
+        ApiDataAdv::m_pTable = pTable;
+        :: memset(ApiDataAdv::m_pTable,0,cunMemSize);
+        ApiType::GeFromOther(a_cM);
+        return true;
+    }
+
+    bool bRet = false;
+    COutput thatIter = a_cM.begin();
+    Output thisIter = ApiType::begin();
+
+    for(;thatIter!=ApiType::s_constNullIter;++thatIter,++thisIter){
+        if(thisIter->first != thatIter->first){
+            ApiType::ClearRaw();
+            ApiDataAdv::m_unSize = 0;
+            ApiDataAdv::m_unRoundedTableSizeMin1 = a_cM.m_unRoundedTableSizeMin1;
+            const size_t tRet(ApiDataAdv::m_unRoundedTableSizeMin1+1);
+            const size_t cunMemSize(tRet*sizeof(InputPrivate*));
+            InputPrivate** pTable = static_cast<InputPrivate**>(reallocFn(ApiDataAdv::m_pTable,cunMemSize));
+            if(!pTable){throw std::bad_alloc();}
+            ApiDataAdv::m_pTable = pTable;
+            :: memset(ApiDataAdv::m_pTable,0,cunMemSize);
+            ApiType::GeFromOther(a_cM);
+            return true;
+        }
+
+        if(thisIter->second != thatIter->second){
+            thisIter->second = thatIter->second;
+            bRet = true;
+        }
+    }
+
+    return bRet;
 }
 
 
