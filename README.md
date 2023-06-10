@@ -292,3 +292,4 @@ This means not possible to declare enum like `enum Type{a=1,b,c};` (not possible
 ## Usefull URLs  
  1. [create logo](https://app.logo.com/dashboard/logo_de1b2962-c283-4c8b-b5d3-33eae48dcc11/your-logo-files)  
  2. [icon creator](https://www.aconvert.com/icon/png-to-ico/)  
+ 3. [svg creator](https://convertio.co/download/38d2e3330547e8b369776dc24f830ec455f1c2/)  
