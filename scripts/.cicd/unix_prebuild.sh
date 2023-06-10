@@ -51,7 +51,8 @@ git submodule update --init --recursive
 if [ -z "$emSdkVersion" ]; then
 	#emSdkVersion=latest
 	#emSdkVersion=1.39.8
-	emSdkVersion=2.0.14
+	#emSdkVersion=2.0.14  # this is for 5.15
+	emSdkVersion=3.1.25  # this is for 6.5
 fi
 if [[ ! -f "${repositoryRoot}/contrib/emsdk_version_${emSdkVersion}_prepared" ]]; then
 	cd "${repositoryRoot}/contrib/emsdk"
