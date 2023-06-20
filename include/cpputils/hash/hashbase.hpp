@@ -68,6 +68,8 @@ public:
     
     HashBase&      operator=(const HashBase& cM);
 	HashBase&      operator=(HashBase&& cM) CPPUTILS_NOEXCEPT;
+
+    bool    TekeFromOtherAndReturnIfChanged(const HashBase& a_cM);
         
     size_t   size()const;
 	void     clear() CPPUTILS_NOEXCEPT;
