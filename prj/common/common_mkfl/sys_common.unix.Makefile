@@ -20,4 +20,5 @@ ifndef cinternalRepoRoot
 endif
 
 
+COMMON_FLAGS	+= -I$(cpputilsRepoRoot)/include
 include $(cinternalRepoRoot)/prj/common/common_mkfl/sys_common.unix.Makefile
