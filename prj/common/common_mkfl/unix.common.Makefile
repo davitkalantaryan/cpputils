@@ -6,5 +6,6 @@ cpputilsRepoRoot	:= $(shell curDir=`pwd` && cd $(mkfile_dir)/../../.. && pwd && 
 ifndef repoRootPath
         repoRootPath	= $(cpputilsRepoRoot)
 endif
-include $(cpputilsRepoRoot)/contrib/cinternal/prj/common/common_mkfl/unix.common.Makefile
+#include $(cpputilsRepoRoot)/contrib/cinternal/prj/common/common_mkfl/unix.common.Makefile
+include $(cpputilsRepoRoot)/contrib/cinternal/prj/common/common_mkfl/sys_common.unix.Makefile
 COMMON_FLAGS	+= -I$(cpputilsRepoRoot)/include
