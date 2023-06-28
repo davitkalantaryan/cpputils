@@ -6,7 +6,12 @@
 #
 
 message ("$${PWD}/flags_common.pri")
+cpputilsFlagsCommonIncluded = 1
 
 include ( "$${PWD}/resolve_common.pri" )
-include ( "$${cinternalRepoRoot}/prj/common/common_qt/flags_common.pri" )
+isEmpty( cinternalFlagsCommonIncluded ) {
+        include ( "$${cinternalRepoRoot}/prj/common/common_qt/flags_common.pri" )
+        cinternalFlagsCommonIncluded = 1
+}
+
 INCLUDEPATH += $${cpputilsRepoRoot}/include

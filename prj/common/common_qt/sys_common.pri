@@ -6,6 +6,10 @@
 #
 
 message ("$${PWD}/sys_common.pri")
+cpputilsSysCommonIncluded = 1
 
 include ( "$${PWD}/resolve_common.pri" )
-include ( "$${cinternalRepoRoot}/prj/common/common_qt/sys_common.pri" )
+isEmpty( cinternalSysCommonIncluded ) {
+        include ( "$${cinternalRepoRoot}/prj/common/common_qt/sys_common.pri" )
+        cinternalSysCommonIncluded = 1
+}
