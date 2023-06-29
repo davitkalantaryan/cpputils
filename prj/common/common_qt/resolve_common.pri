@@ -6,7 +6,7 @@
 #
 
 message ("$${PWD}/resolve_common.pri")
-
+cpputilsResolveCommonIncluded = 1
 
 isEmpty( cpputilsRepoRoot ) {
         cpputilsRepoRoot = $$(cpputilsRepoRoot)
@@ -15,7 +15,6 @@ isEmpty( cpputilsRepoRoot ) {
         }
 }
 
-
 isEmpty( repositoryRoot ) {
         repositoryRoot = $$(repositoryRoot)
         isEmpty(repositoryRoot) {
@@ -23,14 +22,12 @@ isEmpty( repositoryRoot ) {
         }
 }
 
-
 isEmpty(artifactRoot) {
     artifactRoot = $$(artifactRoot)
     isEmpty(artifactRoot) {
         artifactRoot = $${repositoryRoot}
     }
 }
-
 
 isEmpty( cinternalRepoRoot ) {
         cinternalRepoRoot = $$(cinternalRepoRoot)
