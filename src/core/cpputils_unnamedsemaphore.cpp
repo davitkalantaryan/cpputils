@@ -7,6 +7,7 @@
 
 #include <cpputils/unnamedsemaphore.hpp>
 
+#include <cinternal/disable_compiler_warnings.h>
 #ifdef _WIN32
 #include <WinSock2.h>
 #include <WS2tcpip.h>
@@ -18,6 +19,7 @@
 #include <sys/time.h>
 #define UNNAMED_SHARING_TYPE	0/* 0 means semaphores is shared between threads in same process */
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {
