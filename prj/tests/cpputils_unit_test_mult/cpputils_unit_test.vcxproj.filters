@@ -71,9 +71,6 @@
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_core_emscripten.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -234,9 +231,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp">
       <Filter>Header Files\incude\cpputils\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\emscripten.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
       <Filter>Header Files\incude\cpputils</Filter>

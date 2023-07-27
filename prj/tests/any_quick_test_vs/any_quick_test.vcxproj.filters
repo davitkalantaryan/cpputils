@@ -21,9 +21,6 @@
     <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_core_emscripten.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

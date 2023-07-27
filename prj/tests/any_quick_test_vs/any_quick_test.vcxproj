@@ -277,7 +277,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_core_emscripten.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp" />
