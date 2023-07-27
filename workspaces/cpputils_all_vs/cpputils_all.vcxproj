@@ -309,14 +309,17 @@
     <None Include="..\..\prj\common\common_qt\flagsandsys_common.pri" />
     <None Include="..\..\prj\common\common_qt\flagsandsys_common_private.pri" />
     <None Include="..\..\README.md" />
-    <None Include="..\..\scripts\.cicd\unix_prebuild.sh" />
-    <None Include="..\..\scripts\.cicd\unix_test_pull_to_master_build.sh" />
-    <None Include="..\..\scripts\.cicd\unix_test_pull_to_master_unittest.sh" />
-    <None Include="..\..\scripts\.cicd\windows_prebuild.bat" />
-    <None Include="..\..\scripts\.cicd\windows_test_pull_to_master_build.bat" />
-    <None Include="..\..\scripts\.cicd\windows_test_pull_to_master_unittest.bat" />
-    <None Include="..\..\scripts\.raw\_windows_print_directory_content.bat" />
-    <None Include="..\..\scripts\unix_per_session.sh" />
+    <None Include="..\..\scripts\unix_build_all.sh" />
+    <None Include="..\..\scripts\unix_prepare_host.sh" />
+    <None Include="..\..\scripts\unix_prepare_repository.sh" />
+    <None Include="..\..\scripts\unix_run_tests.sh" />
+    <None Include="..\..\scripts\windows_build_all.bat" />
+    <None Include="..\..\scripts\windows_prepare_host.bat" />
+    <None Include="..\..\scripts\windows_prepare_repository.bat" />
+    <None Include="..\..\scripts\windows_run_tests.bat" />
+    <None Include="..\..\scripts\windows_set_vs_toolset_and_run.bat" />
+    <None Include="..\cpputils_all_mkfl\cpputils_all.unix.Makefile" />
+    <None Include="..\cpputils_all_qt\cpputils_all.pro" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

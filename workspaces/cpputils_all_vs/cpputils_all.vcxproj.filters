@@ -34,46 +34,19 @@
     <Filter Include="repo_files\scripts">
       <UniqueIdentifier>{8babd6d7-c04f-4cb2-afac-8293ac08fc80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="repo_files\scripts\.cicd">
-      <UniqueIdentifier>{55d4f11b-52d8-4e12-867e-91c542a1e7b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="repo_files\scripts\.raw">
-      <UniqueIdentifier>{5fa453c2-bd33-4370-8d89-51035cc9430f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="repo_files\docs">
       <UniqueIdentifier>{9fa14a18-b921-481a-a53f-3bbe146fe9ab}</UniqueIdentifier>
     </Filter>
     <Filter Include="repo_files\prj\common\common_qt">
       <UniqueIdentifier>{7d4162ef-7c45-4b6c-b1bf-b29c36841cd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="files">
+      <UniqueIdentifier>{a2a92604-af95-4fca-989a-e2ef78058f41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.github\workflows\test_pull_to_master.yml">
       <Filter>repo_files\.github\workflows</Filter>
-    </None>
-    <None Include="..\..\scripts\unix_per_session.sh">
-      <Filter>repo_files\scripts</Filter>
-    </None>
-    <None Include="..\..\scripts\.cicd\unix_prebuild.sh">
-      <Filter>repo_files\scripts\.cicd</Filter>
-    </None>
-    <None Include="..\..\scripts\.cicd\unix_test_pull_to_master_build.sh">
-      <Filter>repo_files\scripts\.cicd</Filter>
-    </None>
-    <None Include="..\..\scripts\.cicd\unix_test_pull_to_master_unittest.sh">
-      <Filter>repo_files\scripts\.cicd</Filter>
-    </None>
-    <None Include="..\..\scripts\.cicd\windows_prebuild.bat">
-      <Filter>repo_files\scripts\.cicd</Filter>
-    </None>
-    <None Include="..\..\scripts\.cicd\windows_test_pull_to_master_build.bat">
-      <Filter>repo_files\scripts\.cicd</Filter>
-    </None>
-    <None Include="..\..\scripts\.cicd\windows_test_pull_to_master_unittest.bat">
-      <Filter>repo_files\scripts\.cicd</Filter>
-    </None>
-    <None Include="..\..\scripts\.raw\_windows_print_directory_content.bat">
-      <Filter>repo_files\scripts\.raw</Filter>
     </None>
     <None Include="..\..\docs\questions.md">
       <Filter>repo_files\docs</Filter>
@@ -122,6 +95,39 @@
     </None>
     <None Include="..\..\prj\common\common_mkfl\flagsandsys_common_pure.windows.Makefile">
       <Filter>repo_files\prj\common\common_mkfl</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_build_all.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_prepare_host.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_prepare_repository.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\unix_run_tests.sh">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_build_all.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_prepare_host.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_prepare_repository.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_run_tests.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\..\scripts\windows_set_vs_toolset_and_run.bat">
+      <Filter>repo_files\scripts</Filter>
+    </None>
+    <None Include="..\cpputils_all_mkfl\cpputils_all.unix.Makefile">
+      <Filter>files</Filter>
+    </None>
+    <None Include="..\cpputils_all_qt\cpputils_all.pro">
+      <Filter>files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
