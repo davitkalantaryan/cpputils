@@ -21,18 +21,27 @@ do
 	cd "${scriptDirectory}"
 	fileOrigin=`readlink "${scriptFileName}"`  || :
 done
-cd ../..
+cd ..
 repositoryRoot=`pwd`
 echo repositoryRoot=$repositoryRoot
 
+
+# https://intoli.com/blog/exit-on-errors-in-bash-scripts/
+# exit when any command fails
+set -e
+
+# keep track of the last executed command
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 
 # thanks to https://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux
 if [[ "$(uname)" == "Darwin" ]]; then
 	# Do something under Mac OS X platform
 	lsbCode=mac
+	qtTarget=clang_64
 elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 	# Do something under GNU/Linux platform
 	lsbCode=`lsb_release -sc`
+	qtTarget=gcc_64
 #elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]]; then
 #	# Do something under 32 bits Windows NT platform
 #elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]]; then
@@ -40,9 +49,7 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
 #else
 fi
 
-cd ${repositoryRoot}/prj/tests/cpputils_unit_test_mult
-unset CPPUTILS_DEBUG
-make -f cpputils_unit_test.unix.Makefile all CPPUTILS_RELEASE=1
-# to make debug use line below
-unset CPPUTILS_RELEASE
-make -f cpputils_unit_test.unix.Makefile all CPPUTILS_DEBUG=1
+
+cd ${repositoryRoot}/sys/${lsbCode}/Debug/test
+
+./cpputils_unit_test
