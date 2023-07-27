@@ -31,3 +31,5 @@ SOURCES	+=		\
 
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.hpp,true)
+
+OTHER_FILES += $$files($${PWD}/../any_quick_test_mkfl/*.Makefile,false)
