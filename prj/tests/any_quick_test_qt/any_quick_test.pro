@@ -15,6 +15,8 @@ QT -= widgets
 CONFIG -= qt
 CONFIG += console
 
+DEFINES += CPPUTILS_DO_NOT_USE_STD_FUNCTION
+
 win32{
 	LIBS += -lWs2_32
 } else {
