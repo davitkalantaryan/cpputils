@@ -16,6 +16,6 @@ all:
 
 .PHONY: clean
 clean:
-	$(MAKE) -f $(cpputilsRepoRoot)/prj/tests/cutils_unit_test_mult/cpputils_unit_test.unix.Makefile clean
+	$(MAKE) -f $(cpputilsRepoRoot)/prj/tests/cpputils_unit_test_mult/cpputils_unit_test.unix.Makefile clean
 	$(MAKE) -f $(cpputilsRepoRoot)/prj/tests/any_quick_test_mkfl/any_quick_test.unix.Makefile clean
 	

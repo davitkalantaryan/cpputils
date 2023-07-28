@@ -6,7 +6,7 @@
 # purpose:	This file can be only as include
 #
 
-!IFNDEF cutilsRepoRoot
+!IFNDEF cpputilsRepoRoot
 cpputilsRepoRoot	= $(MAKEDIR)\..\..\..
 !ENDIF
 !include <$(cpputilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common_private_pure.windows.Makefile>
