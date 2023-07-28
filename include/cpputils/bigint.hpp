@@ -17,7 +17,10 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <array>
 #else
+#include <stdlib.h>
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
 #ifndef _WIN32
 #include <alloca.h>
 #endif
