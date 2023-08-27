@@ -6,14 +6,10 @@
 # purpose:	This file can be only as include
 #
 
-
+!IFNDEF cpputilsFlagsAndSysCommonIncluded
+cpputilsFlagsAndSysCommonIncluded		= 1
 !IFNDEF cpputilsRepoRoot
 cpputilsRepoRoot	= $(MAKEDIR)\..\..\..
 !ENDIF
-!include <$(cpputilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common_pure.windows.Makefile>
-
-
-!IFNDEF cinternalRepoRoot
-cinternalRepoRoot	= $(cpputilsRepoRoot)\contrib\cinternal
+!include <$(cpputilsRepoRoot)\prj\common\common_mkfl\raw\flagsandsys_common_raw.windows.Makefile>
 !ENDIF
-!include <$(cinternalRepoRoot)\prj\common\common_mkfl\flagsandsys_common_pure.windows.Makefile>

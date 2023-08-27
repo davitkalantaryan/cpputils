@@ -6,9 +6,8 @@
 # purpose:	This file can be only as include
 #
 
-
 !IFNDEF MakeFileDir
-MakeFileDir			= $(MAKEDIR)
+MakeFileDir			= $(MAKEDIR)\..
 !ENDIF
 
 !IFNDEF cpputilsRepoRoot
@@ -19,4 +18,9 @@ cpputilsRepoRoot	= $(MakeFileDir)\..\..\..
 artifactRoot	= $(cpputilsRepoRoot)
 !ENDIF
 
+!IFNDEF cinternalRepoRoot
+cinternalRepoRoot	= $(cpputilsRepoRoot)\contrib\cinternal
+!ENDIF
+
+!include <$(cinternalRepoRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
 CFLAGS				= $(CFLAGS) /I"$(cpputilsRepoRoot)\include"

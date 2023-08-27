@@ -7,7 +7,7 @@
 #
 
 !IFNDEF cpputilsRepoRoot
-cpputilsRepoRoot	= $(MAKEDIR)\..\..\..
+cpputilsRepoRoot	= $(MAKEDIR)\..\..\..\..
 !ENDIF
 !include <$(cpputilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common_pure.windows.Makefile>
 
