@@ -9,6 +9,6 @@
 !IFNDEF cpputilsRepoRoot
 cpputilsRepoRoot	= $(MAKEDIR)\..\..\..\..
 !ENDIF
-!include <$(cpputilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common_pure.windows.Makefile>
+!include <$(cpputilsRepoRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
 
 CFLAGS				= $(CFLAGS) /I"$(cpputilsRepoRoot)\src\include"
