@@ -23,4 +23,8 @@ cinternalRepoRoot	= $(cpputilsRepoRoot)\contrib\cinternal
 !ENDIF
 
 !include <$(cinternalRepoRoot)\prj\common\common_mkfl\flagsandsys_common.windows.Makefile>
+
 CFLAGS				= $(CFLAGS) /I"$(cpputilsRepoRoot)\include"
+
+LFLAGS				= $(LFLAGS) /LIBPATH:"$(cpputilsRepoRoot)\sys\win_$(Platform)\$(Configuration)\lib"
+LFLAGS				= $(LFLAGS) /LIBPATH:"$(cpputilsRepoRoot)\sys\win_$(Platform)\$(Configuration)\tlib"

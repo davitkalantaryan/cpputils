@@ -19,3 +19,6 @@ endif
 include $(cpputilsRepoRoot)/contrib/cinternal/prj/common/common_mkfl/flagsandsys_common.unix.Makefile
 
 COMMON_FLAGS	+= -I$(cpputilsRepoRoot)/include
+
+LIBS	+= -L$(cpputilsRepoRoot)/sys/$(lsbCode)/$(Configuration)/lib
+LIBS	+= -L$(cpputilsRepoRoot)/sys/$(lsbCode)/$(Configuration)/tlib

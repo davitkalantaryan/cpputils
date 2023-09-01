@@ -24,4 +24,9 @@ isEmpty(cpputilsFlagsAndSysCommonIncluded){
     }
 
     INCLUDEPATH += $${cpputilsRepoRoot}/include
+
+    LIBS	+= -L$${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib
+    LIBS	+= -L$${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib
+
+    OTHER_FILES += $$files($${PWD}/../common_mkfl/*.Makefile,true)
 }
