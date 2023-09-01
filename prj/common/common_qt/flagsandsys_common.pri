@@ -14,14 +14,15 @@ isEmpty(cpputilsFlagsAndSysCommonIncluded){
     cpputilsFlagsAndSysCommonIncluded = 1
 
     cpputilsRepoRoot = $${PWD}/../../..
-	include("$${cpputilsRepoRoot}/contrib/cinternal/prj/common/common_qt/flagsandsys_common.pri")
 
     isEmpty(artifactRoot) {
         artifactRoot = $$(artifactRoot)
-		isEmpty(artifactRoot) {
-			artifactRoot = $${cpputilsRepoRoot}
+	        isEmpty(artifactRoot) {
+		        artifactRoot = $${cpputilsRepoRoot}
 		}
     }
+
+    include("$${cpputilsRepoRoot}/contrib/cinternal/prj/common/common_qt/flagsandsys_common.pri")
 
     INCLUDEPATH += $${cpputilsRepoRoot}/include
 
