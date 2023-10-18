@@ -14,6 +14,9 @@
 #include "hashtbl.hpp"
 #endif
 
+#define cinternal_hash1_raw_mem_needed							1
+#include <cinternal/hash/functions.h>
+
 #include <stdlib.h>
 #include <memory.h>
 #include <new>
@@ -29,7 +32,6 @@
 
 namespace __private { namespace __implementation {
 
-CPPUTILS_EXPORT size_t hash1_( const void* a_pKey, size_t a_unKeySize );
 CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize);
 
 }}  // namespace __private { namespace __implementation {
@@ -986,7 +988,7 @@ typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyTyp
 template <typename KeyType>
 size_t FHash<KeyType>::operator()(const KeyType& a_key)const
 {
-	return __private::__implementation::hash1_(&a_key,sizeof(KeyType));
+	return ::cinternal_hash1_raw_mem(&a_key,sizeof(KeyType));
 }
 
 
@@ -1002,7 +1004,7 @@ bool FuncF<KeyType,DataType>::DefaultFind(void*,const KeyType&, const DataType&)
 template <typename CharType>
 size_t FHashStr<CharType>::operator()(const ::std::basic_string<CharType>& a_key)const
 {
-	return __private::__implementation::hash1_(a_key.c_str(),a_key.length()*sizeof(CharType));
+	return ::cinternal_hash1_raw_mem(a_key.c_str(),a_key.length()*sizeof(CharType));
 }
 
 template <typename IntType>

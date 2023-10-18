@@ -22,7 +22,6 @@
 
 namespace __private { namespace __implementation {
 
-CPPUTILS_EXPORT size_t hash1_( const void* a_pKey, size_t a_unKeySize );
 CPPUTILS_EXPORT size_t FindTableSizeFromIitialArg(size_t a_tInitSize);
 
 }}  // namespace __private { namespace __implementation {
