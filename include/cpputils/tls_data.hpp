@@ -9,7 +9,7 @@
 #define INCLUDE_CPPUTILS_TLS_DATA_HPP
 
 #include <cpputils/export_symbols.h>
-#include <cpputils/thread_local.h>
+#include <cinternal/thread_local_sys.h>
 #include <stddef.h>
 
 namespace cpputils {
@@ -36,6 +36,8 @@ public:
 	explicit tls_ptr_fast(tls_ptr_fast* mv);
 #ifdef CPPUTILS_CPP_11_DEFINED
 	tls_ptr_fast(tls_ptr_fast&& mv);
+	tls_ptr_fast(const tls_ptr_fast&) = delete;
+	tls_ptr_fast& operator=(const tls_ptr_fast&) = delete;
 #endif
 	~tls_ptr_fast();
 	
@@ -47,11 +49,13 @@ public:
 	DataType& operator[](size_t index)const;
 		
 private:
+#ifndef CPPUTILS_CPP_11_DEFINED
 	tls_ptr_fast(const tls_ptr_fast&){}
+#endif
 	static void CleanupFunction(void* data);
 	
 protected:
-	cpputils_thread_key_t	m_key;
+	CinternalTlsData	m_key;
 };
 
 
@@ -89,7 +93,7 @@ private:
 	
 private:
 	pthread_mutex_t			m_mutex_for_list;
-	cpputils_thread_key_t	m_key;
+    CinternalTlsData        m_key;
 	struct TlsItem{
 		TlsItem *prev,*next;
 		DataType* pData;
@@ -120,7 +124,7 @@ protected:
 	tls_data(bool){}
 	
 protected:
-	cpputils_thread_key_t	m_key;
+	CinternalTlsData	m_key;
 };
 
 // todo: implement this

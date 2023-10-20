@@ -20,9 +20,9 @@ namespace cpputils {
 template <typename DataType, typename Deleter>
 tls_ptr_fast<DataType,Deleter>::tls_ptr_fast()
 	:
-	  m_key( CPPUTILS_TLS_OUT_OF_INDEXES )
+	  m_key(CINTERNAL_TLS_OUT_OF_INDEXES)
 {
-	if( ::cpputils_thread_key_create(&m_key,&tls_ptr_fast::CleanupFunction) ) {
+	if(CinternalTlsAlloc(&m_key,&tls_ptr_fast::CleanupFunction) ) {
 		throw ::std::bad_alloc();
 	}
 }
@@ -32,7 +32,7 @@ tls_ptr_fast<DataType,Deleter>::tls_ptr_fast(tls_ptr_fast* a_mv_p)
 	:
 	  m_key( a_mv_p->m_key )
 {
-	a_mv_p->m_key = CPPUTILS_TLS_OUT_OF_INDEXES;
+	a_mv_p->m_key = CINTERNAL_TLS_OUT_OF_INDEXES;
 }
 
 #if CPPUTILS_CPP_11_DEFINED
@@ -41,23 +41,23 @@ tls_ptr_fast<DataType,Deleter>::tls_ptr_fast(tls_ptr_fast&& a_mv)
 	:
 	  m_key( a_mv.m_key )
 {
-	a_mv.m_key = CPPUTILS_TLS_OUT_OF_INDEXES;
+	a_mv.m_key = CINTERNAL_TLS_OUT_OF_INDEXES;
 }
 #endif
 
 template <typename DataType, typename Deleter>
 tls_ptr_fast<DataType,Deleter>::~tls_ptr_fast()
 {
-	if(m_key != CPPUTILS_TLS_OUT_OF_INDEXES){
-		cpputils_thread_key_delete(m_key);
+	if(m_key != CINTERNAL_TLS_OUT_OF_INDEXES){
+		CinternalTlsDelete(m_key);
 	}
 }
 
 template <typename DataType, typename Deleter>
 void tls_ptr_fast<DataType,Deleter>::operator=(DataType* a_pData)
 {
-	DataType* pData = static_cast<DataType*>(cpputils_thread_getspecific(m_key));
-	cpputils_thread_setspecific(m_key,a_pData);
+	DataType* pData = static_cast<DataType*>(CinternalTlsGetSpecific(m_key));
+	CinternalTlsSetSpecific(m_key,a_pData);
 	if(pData){ // delete old data
 		Deleter aDeleter;
 		aDeleter(pData);
@@ -67,31 +67,31 @@ void tls_ptr_fast<DataType,Deleter>::operator=(DataType* a_pData)
 template <typename DataType, typename Deleter>
 tls_ptr_fast<DataType,Deleter>::operator DataType* ()const
 {
-	return static_cast<DataType*>(cpputils_thread_getspecific(m_key));
+	return static_cast<DataType*>(CinternalTlsGetSpecific(m_key));
 }
 
 template <typename DataType, typename Deleter>
 DataType* tls_ptr_fast<DataType,Deleter>::get()const
 {
-	return static_cast<DataType*>(cpputils_thread_getspecific(m_key));
+	return static_cast<DataType*>(CinternalTlsGetSpecific(m_key));
 }
 
 template <typename DataType, typename Deleter>
 DataType& tls_ptr_fast<DataType,Deleter>::operator*()const
 {
-	return *static_cast<DataType*>(cpputils_thread_getspecific(m_key));
+	return *static_cast<DataType*>(CinternalTlsGetSpecific(m_key));
 }
 
 template <typename DataType, typename Deleter>
 DataType* tls_ptr_fast<DataType,Deleter>::operator->()const
 {
-	return static_cast<DataType*>(cpputils_thread_getspecific(m_key));
+	return static_cast<DataType*>(CinternalTlsGetSpecific(m_key));
 }
 
 template <typename DataType, typename Deleter>
 DataType& tls_ptr_fast<DataType,Deleter>::operator[](size_t a_index)const
 {
-	return static_cast<DataType*>(cpputils_thread_getspecific(m_key))[a_index];
+	return static_cast<DataType*>(CinternalTlsGetSpecific(m_key))[a_index];
 }
 
 template <typename DataType, typename Deleter>
@@ -107,10 +107,10 @@ void tls_ptr_fast<DataType,Deleter>::CleanupFunction(void* a_pData)
 template <typename DataType>
 tls_data<DataType>::tls_data()
 	:
-	  m_key( CPPUTILS_TLS_OUT_OF_INDEXES )
+	  m_key( CINTERNAL_TLS_OUT_OF_INDEXES )
 {
 	static_assert (sizeof(DataType)<=sizeof(void*),"unable to store bigger data" );
-	if( ::cpputils_thread_key_create(&m_key,CPPUTILS_NULL) ) {
+	if(CinternalTlsAlloc(&m_key,CPPUTILS_NULL) ) {
 		throw ::std::bad_alloc();
 	}
 }
@@ -118,23 +118,23 @@ tls_data<DataType>::tls_data()
 template <typename DataType>
 tls_data<DataType>::~tls_data()
 {
-	if(m_key != CPPUTILS_TLS_OUT_OF_INDEXES){
-		cpputils_thread_key_delete(m_key);
+	if(m_key != CINTERNAL_TLS_OUT_OF_INDEXES){
+		CinternalTlsDelete(m_key);
 	}
 }
 
 template <typename DataType>
 tls_data<DataType>::operator DataType ()const
 {
-	//return static_cast<DataType>(reinterpret_cast<size_t>(cpputils_thread_getspecific(m_key)));
-	return (DataType)((size_t)cpputils_thread_getspecific(m_key));
+	//return static_cast<DataType>(reinterpret_cast<size_t>(CinternalTlsGetSpecific(m_key)));
+	return (DataType)((size_t)CinternalTlsGetSpecific(m_key));
 }
 
 template <typename DataType>
 void tls_data<DataType>::operator=(const DataType& a_data)
 {
-	//cpputils_thread_setspecific(m_key, reinterpret_cast<void*>(static_cast<size_t>(a_data))  );
-	cpputils_thread_setspecific(m_key, (void*)((size_t)a_data) );
+	//CinternalTlsSetSpecific(m_key, reinterpret_cast<void*>(static_cast<size_t>(a_data))  );
+	CinternalTlsSetSpecific(m_key, (void*)((size_t)a_data) );
 }
 
 

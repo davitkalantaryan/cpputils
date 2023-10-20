@@ -10,9 +10,11 @@
 #pragma once
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <vector>
 #include <string>
 #include <utility>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils{ namespace parser{

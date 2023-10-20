@@ -40,12 +40,6 @@ public:
 	void lock();
 	void unlock();
 
-	size_t numberOfLocksInThisThread()const;
-
-#ifdef CPPUTILS_CPP_11_DEFINED
-	::std::mutex& std_mutex()const;
-#endif
-
 private:
 	mutex_ml_p* const m_mutex_ml_data_ptr;
 };

@@ -24,6 +24,12 @@
 
 namespace cpputils { namespace hash {
 
+#ifdef _MSC_VER
+#pragma warning (disable:4625)
+#pragma warning (disable:4626)
+#pragma warning (disable:5026)
+#pragma warning (disable:5027)
+#endif
 
 template <typename Input,size_t defSize,TypeMalloc mallocFn,TypeCalloc callocFn,TypeRealloc reallocFn,TypeFree freeFn>
 class VHashApi : public ApiData<Input,defSize,mallocFn,callocFn,freeFn>

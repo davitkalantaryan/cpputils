@@ -7,7 +7,9 @@
 
 #include <cpputils/parser/conf01.hpp>
 #include <cpputils/hash/lhash.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string>
+#include <cinternal/undisable_compiler_warnings.h>
 #include <string.h>
 #include <stdlib.h>
 #include <cstring>

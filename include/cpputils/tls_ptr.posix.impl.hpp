@@ -41,10 +41,10 @@ namespace cpputils {
 template <typename DataType, typename Deleter>
 tls_unique_ptr<DataType,Deleter>::tls_unique_ptr()
 	:
-	  m_key( CPPUTILS_TLS_OUT_OF_INDEXES ),
+      m_key( CINTERNAL_TLS_OUT_OF_INDEXES ),
 	  m_pFirst(CPPUTILS_NULL)
 {
-	if( ::cpputils_thread_key_create(&m_key,&tls_unique_ptr::CleanupFunctionStatic) ) {
+    if( CinternalTlsAlloc(&m_key,&tls_unique_ptr::CleanupFunctionStatic) ) {
 		throw ::std::bad_alloc();
 	}
 	//m_mutex_for_list
@@ -57,7 +57,7 @@ tls_unique_ptr<DataType,Deleter>::tls_unique_ptr(tls_unique_ptr* a_mv_p)
 	  m_key( a_mv_p->m_key ),
 	  m_pFirst(a_mv_p->m_pFirst)
 {
-	a_mv_p->m_key = CPPUTILS_TLS_OUT_OF_INDEXES;
+    a_mv_p->m_key = CINTERNAL_TLS_OUT_OF_INDEXES;
 	a_mv_p->m_pFirst = CPPUTILS_NULL;
 }
 
@@ -73,11 +73,11 @@ tls_unique_ptr<DataType,Deleter>::tls_unique_ptr(tls_unique_ptr&& a_mv)
 template <typename DataType, typename Deleter>
 tls_unique_ptr<DataType,Deleter>::~tls_unique_ptr()
 {
-	if(m_key != CPPUTILS_TLS_OUT_OF_INDEXES){
+    if(m_key != CINTERNAL_TLS_OUT_OF_INDEXES){
 		TlsItem* pItem;
 		__p::__i::LockGuard aGuard;
 		Deleter aDeleter;
-		cpputils_thread_key_delete(m_key);
+        CinternalTlsDelete(m_key);
 		aGuard.Lock(&m_mutex_for_list);
 		pItem = m_pFirst;
 		while(pItem){
@@ -93,7 +93,7 @@ template <typename DataType, typename Deleter>
 void tls_unique_ptr<DataType,Deleter>::operator=(DataType* a_pData)
 {
 	__p::__i::LockGuard aGuard;
-	TlsItem* pItem = static_cast<TlsItem*>(cpputils_thread_getspecific(m_key));
+    TlsItem* pItem = static_cast<TlsItem*>(CinternalTlsGetSpecific(m_key));
 	aGuard.Lock(&m_mutex_for_list);
 	if(pItem){ // delete old data
 		if(pItem->pData!=a_pData){
@@ -101,11 +101,11 @@ void tls_unique_ptr<DataType,Deleter>::operator=(DataType* a_pData)
 			aDeleter(pItem->pData);
 		}
 		if(a_pData){ pItem->pData =a_pData; }
-		else { cpputils_thread_setspecific(m_key,CPPUTILS_NULL);delete pItem; }
+        else { CinternalTlsSetSpecific(m_key,CPPUTILS_NULL);delete pItem; }
 	}
 	else if(a_pData){
 		pItem = new TlsItem(a_pData,this);
-		cpputils_thread_setspecific(m_key,pItem);
+        CinternalTlsSetSpecific(m_key,pItem);
 	}
 	aGuard.Unlock();
 }
@@ -119,26 +119,26 @@ tls_unique_ptr<DataType,Deleter>::operator DataType* ()const
 template <typename DataType, typename Deleter>
 DataType* tls_unique_ptr<DataType,Deleter>::get()const
 {
-	TlsItem* pItem =  static_cast<TlsItem*>(cpputils_thread_getspecific(m_key));
+    TlsItem* pItem =  static_cast<TlsItem*>(CinternalTlsGetSpecific(m_key));
 	return pItem ? pItem->pData : CPPUTILS_NULL;
 }
 
 template <typename DataType, typename Deleter>
 DataType& tls_unique_ptr<DataType,Deleter>::operator*()const
 {
-	return *(static_cast<TlsItem*>(cpputils_thread_getspecific(m_key))->pData);
+    return *(static_cast<TlsItem*>(CinternalTlsGetSpecific(m_key))->pData);
 }
 
 template <typename DataType, typename Deleter>
 DataType* tls_unique_ptr<DataType,Deleter>::operator->()const
 {
-	return static_cast<TlsItem*>(cpputils_thread_getspecific(m_key))->pData;
+    return static_cast<TlsItem*>(CinternalTlsGetSpecific(m_key))->pData;
 }
 
 template <typename DataType, typename Deleter>
 DataType& tls_unique_ptr<DataType,Deleter>::operator[](size_t a_index)const
 {
-	return (static_cast<TlsItem*>(cpputils_thread_getspecific(m_key))->pData)[a_index];
+    return (static_cast<TlsItem*>(CinternalTlsGetSpecific(m_key))->pData)[a_index];
 }
 
 template <typename DataType, typename Deleter>

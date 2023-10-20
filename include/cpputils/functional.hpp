@@ -40,8 +40,18 @@ using  function =  ::std::function<Args...>;
 
 #else
 
-//#define function	function_old
-typedef function_old function;
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+template <class ...Args>
+using  function =  function_old<Args...>;
+#else
+#define function    function_old
+//template <typename IType01,typename IType02, typename IType03, typename IType04>
+//class function : public function_old<IType01,IType02, IType03,IType04>
+//{
+    //
+//};
+#endif
 
 #endif
 

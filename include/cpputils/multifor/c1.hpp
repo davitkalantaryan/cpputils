@@ -12,7 +12,9 @@
 #include <cpputils/functional.hpp>
 #include <stddef.h>
 #include <stdint.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <vector>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace  multifor {
@@ -56,11 +58,22 @@ private:
             TypeLimit limitMax;
             ::std::vector<int64_t>  iterationPoints;
             bool shouldMakeIter;
+            bool reserved01[7];
         };
 
         friend class C1;
 
+#ifdef CPPUTILS_CPP_11_DEFINED
+        Dimension(const Dimension&) = delete;
+        Dimension& operator=(const Dimension&) = delete;
+#endif
+
     }*const m_pFirstDimesion;
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+    C1(const C1&) = delete;
+    C1& operator=(const C1&) = delete;
+#endif
 
 };
 

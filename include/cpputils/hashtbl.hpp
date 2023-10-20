@@ -16,6 +16,11 @@
 #include <string>
 #include "hashtbl.def.hpp"
 
+// todo: get rid of below disabling
+#ifdef _MSC_VER
+#pragma warning (disable:4626)  //  assignment operator was implicitly defined as deleted
+#endif
+
 
 namespace cpputils { namespace hashtbl {
 

@@ -5,22 +5,23 @@
 # created by:	Davit Kalantaryan
 #
 
-include ( "$${PWD}/../../common/common_qt/sys_common.pri" )
-include ( "$${PWD}/../../common/common_qt/flags_common.pri" )
-
-DESTDIR = "$${artifactRoot}/$${SYSTEM_PATH}/test"
+message("!!! $${_PRO_FILE_}")
+include ( "$${PWD}/../../common/common_qt/flagsandsys_common.pri" )
+DESTDIR     = "$${artifactRoot}/sys/$${CODENAME}/$$CONFIGURATION/test"
 
 QT -= gui
 QT -= core
 QT -= widgets
 CONFIG -= qt
+CONFIG += console
 
-LIBS += -pthread
+DEFINES += CPPUTILS_DO_NOT_USE_STD_FUNCTION
 
-repoRootPath=$${PWD}/../../..
-
-INCLUDEPATH += "$${PWD}/../../../include"
-DEFINES += CPPUTILS_USING_STATIC_LIB_OR_OBJECTS
+win32{
+	LIBS += -lWs2_32
+} else {
+	LIBS += -pthread
+}
 
 
 SOURCES	+=		\
@@ -28,11 +29,9 @@ SOURCES	+=		\
 	"$${PWD}/../../../src/core/cpputils_bigint.cpp"				\
 	"$${PWD}/../../../src/core/cpputils_functional_old.cpp"			\
 	"$${PWD}/../../../src/core/cpputils_hashtbl.cpp"			\
-	"$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp"			\
-	"$${PWD}/../../../src/core/cpputils_thread_local.cpp"
+	"$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp"
 
-COMMON_HDRS	= $$files($${repoRootPath}/include/*.h,true)
-COMMON_HDRSPP	= $$files($${repoRootPath}/include/*.hpp,true)
+HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
+HEADERS += $$files($${cpputilsRepoRoot}/include/*.hpp,true)
 
-HEADERS += $$COMMON_HDRS
-HEADERS += $$COMMON_HDRSPP
+OTHER_FILES += $$files($${PWD}/../any_quick_test_mkfl/*.Makefile,false)

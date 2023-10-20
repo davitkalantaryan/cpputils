@@ -3,40 +3,32 @@
 TEMPLATE = subdirs
 #CONFIG += ordered
 
-include ( "$${PWD}/../../prj/common/common_qt/flags_common.pri" )
-repositoryRoot = $${PWD}/../..
+include ( "$${PWD}/../../prj/common/common_qt/flagsandsys_common_private.pri" )
 
 
-SUBDIRS		+=	"$${repositoryRoot}/prj/tests/any_quick_test_qt/any_quick_test.pro"
-SUBDIRS		+=	"$${repositoryRoot}/prj/tests/googletest_mult/googletest_getter.pro"
+SUBDIRS		+=	"$${cpputilsRepoRoot}/prj/tests/any_quick_test_qt/any_quick_test.pro"
+SUBDIRS		+=	"$${cpputilsRepoRoot}/prj/tests/cpputils_unit_test_mult/cpputils_unit_test.pro"
 
 cinternalFromHere{
-        SUBDIRS	+= "$${repositoryRoot}/contrib/cinternal/workspaces/cinternal_all_qt/cinternal_all.pro"
+        SUBDIRS	+= "$${cinternalRepoRoot}/workspaces/cinternal_all_qt/cinternal_all.pro"
 }
 
 
-OTHER_FILES += $$files($${repositoryRoot}/scripts/*.sh,true)
-OTHER_FILES += $$files($${repositoryRoot}/scripts/*.bat,true)
-OTHER_FILES += $$files($${repositoryRoot}/scripts/.cicd/*.sh,true)
-OTHER_FILES += $$files($${repositoryRoot}/scripts/.cicd/*.bat,true)
-OTHER_FILES += $$files($${repositoryRoot}/scripts/.raw/*.sh,true)
-OTHER_FILES += $$files($${repositoryRoot}/scripts/.raw/*.bat,true)
-OTHER_FILES += $$files($${repositoryRoot}/docs/*.md,true)
-OTHER_FILES += $$files($${repositoryRoot}/docs/*.txt,true)
-OTHER_FILES += $$files($${repositoryRoot}/.github/*.yml,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/scripts/*.sh,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/scripts/*.bat,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/scripts/.cicd/*.sh,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/scripts/.cicd/*.bat,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/scripts/.raw/*.sh,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/scripts/.raw/*.bat,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/docs/*.md,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/docs/*.txt,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/.github/*.yml,true)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/prj/common/common_mkfl/*.Makefile)
+
 
 OTHER_FILES	+=	\
-        "$${repositoryRoot}/.gitattributes"						\
-	"$${repositoryRoot}/.gitignore"							\
-	"$${repositoryRoot}/.gitmodules"						\
-	"$${repositoryRoot}/CMakeLists.txt"						\
-	"$${repositoryRoot}/LICENSE"							\
-	"$${repositoryRoot}/README.md"							\
-	\
-	"$${PWD}/../../scripts/findfiles_no_sp"						\
-	"$${PWD}/../../scripts/findfiles_sp"						\
-	\
-	"$${PWD}/../../prj/common/common_mkfl/unix.common.Makefile"			\
-	"$${PWD}/../../prj/common/common_mkfl/windows.common.Makefile"			\
-	"$${PWD}/../../prj/tests/googletest_mult/unix.Makefile"				\
-	"$${PWD}/../../prj/tests/googletest_mult/windows.Makefile"
+        "$${cpputilsRepoRoot}/.gitattributes"						\
+	"$${cpputilsRepoRoot}/.gitignore"						\
+	"$${cpputilsRepoRoot}/.gitmodules"						\
+	"$${cpputilsRepoRoot}/LICENSE"							\
+	"$${cpputilsRepoRoot}/README.md"

@@ -9,17 +9,22 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_BIGINT_HPP
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string>
 #include <ios>
 #include <stdint.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <array>
 #else
+#include <stdlib.h>
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
 #ifndef _WIN32
 #include <alloca.h>
 #endif
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils {
 

@@ -1,4 +1,5 @@
 //
+// repo:			cpputils
 // file:			fast.hpp
 // path:			include/cpputils/enums/fast.hpp
 // created on:		2021 Apr 12
@@ -11,7 +12,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_HPP
 
 #include <cpputils/export_symbols.h>
-#include <cpputils/macroses.h>
+#include <cinternal/macroses.h>
 #include <stddef.h>
 #include <stdarg.h>
 

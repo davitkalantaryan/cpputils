@@ -15,6 +15,11 @@
 //#include <cpputils/enums/full.hpp>
 //#include <cpputils/enums/fullslow.hpp>
 
+#ifdef _MSC_VER
+#pragma warning (disable:4061)
+#pragma warning (disable:4514)  // 'Enum1::Enum1': unreferenced inline function has been removed
+#endif
+
 
 #define CPPUTILS_ENUM_RAW	CPPUTILS_ENUM_FAST_RAW
 #define CPPUTILS_ENUM		CPPUTILS_ENUM_FAST

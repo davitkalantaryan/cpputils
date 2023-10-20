@@ -15,6 +15,10 @@
 
 #define DEFAULT_TABLE_SIZE	256
 
+#ifdef _MSC_VER
+#pragma warning (disable:4820)  //  '4' bytes padding added after data ...
+#endif
+
 namespace cpputils { namespace hashtbl {
 
 template <typename KeyType,typename DataType,typename Hash, size_t templateDefaultSize> 

@@ -16,6 +16,10 @@
 
 namespace cpputils {
 
+#ifdef _MSC_VER
+#pragma warning (disable:4820)
+#endif
+
 
 template <typename PtrType>
 class SharedPtr
