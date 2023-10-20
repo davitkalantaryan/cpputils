@@ -46,7 +46,7 @@ makeMainJob (){
 
 	case "$LD_LIBRARY_PATH" in
 	        ${cpputilsRepoRoot}/sys/$lsbCode/Debug/lib:${cpputilsRepoRoot}/sys/$lsbCode/Release/lib:* )
-		        echo "LD_LIBRARY_PATH for cppSockets has been already set"
+		        echo "LD_LIBRARY_PATH for cpputils has been already set"
 			;;
 		* )
 		        export LD_LIBRARY_PATH=${cpputilsRepoRoot}/sys/$lsbCode/Debug/lib:${cpputilsRepoRoot}/sys/$lsbCode/Release/lib::$LD_LIBRARY_PATH
