@@ -27,6 +27,6 @@ scriptDirectory=`pwd`
 
 source ${scriptDirectory}/unix_source_per_session.sh ${scriptDirectory}/unix_source_per_session.sh ${scriptDirectory}/unix_source_per_session.sh
 
-cd ${repositoryRoot}/sys/${lsbCode}/Debug/test
+cd ${cpputilsRepoRoot}/sys/${lsbCode}/Debug/test
 
 ./cpputils_unit_test
