@@ -60,9 +60,9 @@ class _Name : public ::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(_
 public:																																						\
 	CPPUTILS_ENUM_TYPED(__Type,_integralType,__VA_ARGS__);																									\
 public:																																						\
-	_Name(__Type a_val) : 																																	\
+	_Name(_integralType a_val) : 																															\
 		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_NAMES(__VA_ARGS__)),			\
-		m_enVal(a_val)																																		\
+		m_enVal(static_cast<__Type>(a_val))																													\
 	{}																																						\
 	_Name() : 																																				\
 		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_NAMES(__VA_ARGS__))			\
