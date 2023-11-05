@@ -17,6 +17,9 @@
 
 #ifdef _MSC_VER
 #pragma warning (disable:4820)  //  '4' bytes padding added after data ...
+#if (_MSC_VER>1929)
+#pragma warning (disable:5267)  // copy constructor for '__p::__i::HashItemBase<KeyType,void>' is deprecated because it has a user-provided destructor
+#endif
 #endif
 
 namespace cpputils { namespace hashtbl {
