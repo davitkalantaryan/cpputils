@@ -13,6 +13,10 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_DLLHASH_HPP
 
 #include <cpputils/export_symbols.h>
+#if defined(_MSC_VER) && (_MSC_VER>1929)
+#pragma warning(push)
+#pragma warning (disable:5267)  // copy constructor for '__p::__i::HashItemBase<KeyType,void>' is deprecated because it has a user-provided destructor
+#endif
 #include <cpputils/hash/items.hpp>
 #include <cpputils/hash/hashbase.hpp>
 #include <string>
@@ -118,6 +122,10 @@ using DllSet = HashBase< Key,SetItem<Key,mFn,fFn>,HashT, Equal,defSize,mFn,cFn,r
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_DLLHASH_IMPL_HPP
 #include "dllhash.impl.hpp"
+#endif
+
+#if defined(_MSC_VER) && (_MSC_VER>1929)
+#pragma warning(pop)
 #endif
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_DLLHASH_HPP
