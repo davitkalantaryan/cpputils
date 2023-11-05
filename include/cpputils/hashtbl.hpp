@@ -10,11 +10,6 @@
 
 
 #include <cpputils/export_symbols.h>
-#include <cpputils/functional.hpp>
-#include <stdint.h>
-#include <stddef.h>
-#include <string>
-#include "hashtbl.def.hpp"
 
 // todo: get rid of below disabling
 #ifdef _MSC_VER
@@ -23,6 +18,12 @@
 #pragma warning (disable:5267)  // copy constructor for '__p::__i::HashItemBase<KeyType,void>' is deprecated because it has a user-provided destructor
 #endif
 #endif
+
+#include <cpputils/functional.hpp>
+#include <stdint.h>
+#include <stddef.h>
+#include <string>
+#include "hashtbl.def.hpp"
 
 
 namespace cpputils { namespace hashtbl {
