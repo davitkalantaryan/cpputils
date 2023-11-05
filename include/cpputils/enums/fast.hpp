@@ -24,6 +24,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#pragma warning (disable:4514) // warning C4514: 'focust::p01::core::SOFTWARE_OS::SOFTWARE_OS': unreferenced inline function has been removed
+#endif
+
 
 namespace cpputils { namespace enums{
 
@@ -49,8 +53,6 @@ protected:
 		size_t			m_numberOfEnumFields;
 	}static ms_data;
 };
-
-
 
 
 }}  // namespace cpputils { namespace enums{
@@ -92,7 +94,6 @@ public:																																						\
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_IMPL_HPP
 #include "fast.impl.hpp"
 #endif
-
 
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_HPP
