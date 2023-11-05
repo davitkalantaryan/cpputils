@@ -912,7 +912,6 @@ void BigUInt<NUM_QWORDS_DEGR>::RightShiftByOneBit()
         m_u.b64[i] = singleRes;
         if(i==0){break;}
     }
-
 }
 
 
