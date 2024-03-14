@@ -25,9 +25,10 @@ public:
 	InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData=CPPUTILS_NULL);
 	~InScopeCleaner();
 	
+public:
+    const TypeDeleteFunc	m_func;
+    void*const              m_clbkData;
 private:
-	TypeDeleteFunc	m_func;
-	void*			m_clbkData;	
 #ifdef CPPUTLS_32_BIT
 	char			m_vcCh[4];
 #endif
