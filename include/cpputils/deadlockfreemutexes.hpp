@@ -20,11 +20,16 @@ namespace cpputils { namespace mutex{
 
 
 template <typename MutexType>
-static inline orderedcalls::OrderedCalls<MutexType> GetMutexCalleesInline(const ::std::vector<MutexType>& a_mutexes){
+static inline ::std::vector< typename orderedcalls::OrderedCalls<MutexType>::GenericCallee > 
+GetMutexCalleesInline(const ::std::vector<MutexType*>& a_mutexes){
     const size_t mutexesCount = a_mutexes.size();
     const typename orderedcalls::OrderedCalls<MutexType>::TypeStart mutexStart = [](MutexType* CPPUTILS_ARG_NN a_mutex_p){a_mutex_p->lock();};
     const typename orderedcalls::OrderedCalls<MutexType>::TypeStop  mutexStop = [](MutexType* CPPUTILS_ARG_NN a_mutex_p){a_mutex_p->unlock();};
-    return ::std::vector< typename orderedcalls::OrderedCalls<MutexType>::GenericCallee > (mutexesCount,{mutexStart,mutexStop});
+    ::std::vector< typename orderedcalls::OrderedCalls<MutexType>::GenericCallee > vCallees(mutexesCount,{CPPUTILS_NULL,mutexStart,mutexStop});
+    for(size_t i(0); i<mutexesCount; ++i){
+        vCallees[i].callee_p = a_mutexes[i];
+    }
+    return vCallees;
 }
 
 
@@ -32,7 +37,7 @@ template <typename MutexType>
 class DeadlockFreeMutexes : public orderedcalls::OrderedCalls<MutexType>
 {    
 public:
-	DeadlockFreeMutexes(const ::std::vector<MutexType>& a_mutexes) : orderedcalls::OrderedCalls<MutexType>(GetMutexCalleesInline(a_mutexes)) {}
+	DeadlockFreeMutexes(const ::std::vector<MutexType*>& a_mutexes) : orderedcalls::OrderedCalls<MutexType>(GetMutexCalleesInline(a_mutexes)) {}
     DeadlockFreeMutexes(const DeadlockFreeMutexes&) = delete;
     DeadlockFreeMutexes& operator=(const DeadlockFreeMutexes&) = delete;
 };

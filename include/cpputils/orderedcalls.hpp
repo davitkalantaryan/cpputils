@@ -34,6 +34,7 @@ public:
     typedef ::std::function<void (CalleeType* CPPUTILS_ARG_NN)> TypeStart;
     typedef ::std::function<void (CalleeType* CPPUTILS_ARG_NN)> TypeStop;
     struct GenericCallee{
+        CalleeType*     callee_p;
         TypeStart       starter;
         TypeStop        stopper;
     };
