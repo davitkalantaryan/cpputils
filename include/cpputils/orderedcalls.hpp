@@ -23,8 +23,9 @@ namespace cpputils { namespace orderedcalls{
 
 template <typename CalleeType>
 class OrderedCalls_p;
-template <typename CalleeType>
+template <typename MutexType>
 class Guard_p;
+struct defer_lock_t { explicit defer_lock_t() = default; };
 
 
 template <typename CalleeType>
@@ -54,27 +55,30 @@ protected:
 };
 
 
-template <typename CalleeType>
+template <typename MutexType>
 class Guard
 {
 public:
-    ~Guard();
-	Guard(OrderedCalls<CalleeType>* CPPUTILS_ARG_NN a_callees_p, size_t a_index, bool a_shouldLock=true);
+    ~Guard();    
+    template<typename... Targs>
+	Guard(MutexType* CPPUTILS_ARG_NN a_callees_p, Targs... a_args);
+    Guard( const defer_lock_t a_def, MutexType* CPPUTILS_ARG_NN a_callees_p);
     Guard(const Guard&) = delete;
     Guard& operator=(const Guard&) = delete;
 
-	void lock();
+    template<typename... Targs>
+    void lock(Targs... a_args);
     void unlock();
 
 private:
-    Guard_p<CalleeType>* const  m_lockGuard_p;
+    Guard_p<MutexType>* const  m_lockGuard_p;
 };
 
 }}  //  namespace cpputils { namespace orderedcalls{
 
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_IMPL_HPP
-#include <cpputils/orderedcalls.impl.hpp>
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
+#include <cpputils/impl/cpputils_orderedcalls.impl.hpp>
 #endif
 
 

@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 
+typedef ::cpputils::orderedcalls::Guard<::cpputils::orderedcalls::OrderedCalls<::std::recursive_mutex> >    Guard;
 static void MakeTestsBig(int a_outTestNumber, int a_innerTestCount);
 
 
@@ -131,10 +132,12 @@ static void ThreadFunction2(int a_outTestNumber, int a_innerTestNumber)
 {
     printf("%s starts (out:%d,in:%d)\n",__FUNCTION__,a_outTestNumber,a_innerTestNumber);
     fflush(stdout);
-    ::cpputils::orderedcalls::Guard<::std::recursive_mutex> aGuard1(s_pMutexes,4);
-    ::cpputils::orderedcalls::Guard<::std::recursive_mutex> aGuard2(s_pMutexes,3);
-    ::cpputils::orderedcalls::Guard<::std::recursive_mutex> aGuard3(s_pMutexes,2);
-    ::cpputils::orderedcalls::Guard<::std::recursive_mutex> aGuard4(s_pMutexes,1);
+    Guard aGuard1(s_pMutexes,4);
+    Guard aGuard2(::cpputils::orderedcalls::defer_lock_t(),s_pMutexes);
+    aGuard2.lock(3);
+    Guard aGuard3(s_pMutexes,2);
+    Guard aGuard4(s_pMutexes,1);
+    aGuard4.unlock();
     printf("%s ends(out:%d,in:%d)\n",__FUNCTION__,a_outTestNumber,a_innerTestNumber);
     fflush(stdout);
 }

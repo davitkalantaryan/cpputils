@@ -45,9 +45,5 @@ public:
 }}  //  namespace cpputils { namespace orderedcalls{
 
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_IMPL_HPP
-#include <cpputils/orderedcalls.impl.hpp>
-#endif
-
 
 #endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_DEALOCKFREEMUTEXES_HPP

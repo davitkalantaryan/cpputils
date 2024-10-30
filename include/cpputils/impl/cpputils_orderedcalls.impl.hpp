@@ -8,8 +8,8 @@
 
 #pragma once
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_IMPL_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_HPP
@@ -52,16 +52,16 @@ public:
 };
 
 
-template <typename CalleeType>
+template <typename MutexType>
 class Guard_p
 {
-    friend class Guard<CalleeType>;
+    friend class Guard<MutexType>;
 public:
-    Guard_p(OrderedCalls<CalleeType>* CPPUTILS_ARG_NN a_mutexes_p, size_t a_index);
+    Guard_p(MutexType* CPPUTILS_ARG_NN a_mutexes_p);
     
 public:
-    OrderedCalls<CalleeType>* const m_callees_p;
-	const size_t                    m_index;
+    MutexType* const                m_callees_p;
+    ::std::function<void()>         m_unlockFunc;
 private:
     bool                            m_isStarted;
     bool                            reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
@@ -212,43 +212,64 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename CalleeType>
-Guard<CalleeType>::~Guard()
+#define UNLOCK_FNC_GET()    \
+    [this, args_tuple = ::std::move(args_tuple)]() mutable {                                                \
+        ::std::apply([this](auto&&... unpacked_args) {                                                      \
+            m_lockGuard_p->m_callees_p->unlock(std::forward<decltype(unpacked_args)>(unpacked_args)...);    \
+        }, args_tuple);                                                                                     \
+    }
+
+template <typename MutexType>
+Guard<MutexType>::~Guard()
 {
     if(m_lockGuard_p->m_isStarted){
-        m_lockGuard_p->m_callees_p->unlock(m_lockGuard_p->m_index);
+        m_lockGuard_p->m_unlockFunc();
     }
     delete m_lockGuard_p;
 }
 
 
-template <typename CalleeType>
-Guard<CalleeType>::Guard(OrderedCalls<CalleeType>* CPPUTILS_ARG_NN a_callees_p, size_t a_index, bool a_bShouldLock)
+template <typename MutexType>
+template<typename... Targs>
+Guard<MutexType>::Guard(MutexType* CPPUTILS_ARG_NN a_callees_p, Targs... a_args)
     :
-      m_lockGuard_p(new Guard_p<CalleeType>(a_callees_p,a_index))
+      m_lockGuard_p(new Guard_p<MutexType>(a_callees_p))
 {
-    if(a_bShouldLock){
-        m_lockGuard_p->m_callees_p->lock(a_index);
-    }
-    m_lockGuard_p->m_isStarted = a_bShouldLock;
+    m_lockGuard_p->m_callees_p->lock(a_args...);
+    auto args_tuple = std::make_tuple(std::forward<Targs>(a_args)...);
+    m_lockGuard_p->m_unlockFunc = UNLOCK_FNC_GET();
+    m_lockGuard_p->m_isStarted = true;
 }
 
 
-template <typename CalleeType>
-void Guard<CalleeType>::lock()
+template <typename MutexType>
+Guard<MutexType>::Guard( const defer_lock_t a_def, MutexType* CPPUTILS_ARG_NN a_callees_p)
+    :
+      m_lockGuard_p(new Guard_p<MutexType>(a_callees_p))
 {
-    if(!(m_lockGuard_p->m_isLocked)){
-        m_lockGuard_p->m_callees_p->lock(m_lockGuard_p->m_index);
-        m_lockGuard_p->m_isStarted = true;
+    static_cast<void>(a_def);
+    m_lockGuard_p->m_isStarted = false;
+}
+
+
+template <typename MutexType>
+template<typename... Targs>
+void Guard<MutexType>::lock(Targs... a_args)
+{
+    if(!(m_lockGuard_p->m_isStarted)){
+        m_lockGuard_p->m_callees_p->lock(a_args...);
+        m_lockGuard_p->m_isStarted = true;        
+        auto args_tuple = std::make_tuple(std::forward<Targs>(a_args)...);
+        m_lockGuard_p->m_unlockFunc = UNLOCK_FNC_GET();
     }
 }
 
 
-template <typename CalleeType>
-void Guard<CalleeType>::unlock()
+template <typename MutexType>
+void Guard<MutexType>::unlock()
 {
     if(m_lockGuard_p->m_isStarted){
-        m_lockGuard_p->m_callees_p->unlock(m_lockGuard_p->m_index);
+        m_lockGuard_p->m_unlockFunc();
         m_lockGuard_p->m_isStarted = false;
     }
 }
@@ -256,11 +277,10 @@ void Guard<CalleeType>::unlock()
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-template <typename CalleeType>
-Guard_p<CalleeType>::Guard_p(OrderedCalls<CalleeType>* CPPUTILS_ARG_NN a_mutexes_p, size_t a_index)
+template <typename MutexType>
+Guard_p<MutexType>::Guard_p(MutexType* CPPUTILS_ARG_NN a_mutexes_p)
     :
-      m_callees_p(a_mutexes_p),
-      m_index(a_index)
+      m_callees_p(a_mutexes_p)
 {
     static_cast<void>(this->reserved);
 }
@@ -269,4 +289,4 @@ Guard_p<CalleeType>::Guard_p(OrderedCalls<CalleeType>* CPPUTILS_ARG_NN a_mutexes
 }}  //  namespace cpputils { namespace genericmutexes{
 
 
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
