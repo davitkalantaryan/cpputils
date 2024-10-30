@@ -266,7 +266,18 @@ void Guard<MutexType>::lock(Targs... a_args)
 
 
 template <typename MutexType>
-void Guard<MutexType>::unlock()
+template<typename... Targs>
+void Guard<MutexType>::unlock(Targs... a_args)
+{
+    if(m_lockGuard_p->m_isStarted){
+        m_lockGuard_p->m_callees_p->unlock(a_args...);
+        m_lockGuard_p->m_isStarted = false;
+    }
+}
+
+
+template <typename MutexType>
+void Guard<MutexType>::unlock(const symetric_unlock_t&)
 {
     if(m_lockGuard_p->m_isStarted){
         m_lockGuard_p->m_unlockFunc();

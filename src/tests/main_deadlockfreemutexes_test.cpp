@@ -137,7 +137,8 @@ static void ThreadFunction2(int a_outTestNumber, int a_innerTestNumber)
     aGuard2.lock(3);
     Guard aGuard3(s_pMutexes,2);
     Guard aGuard4(s_pMutexes,1);
-    aGuard4.unlock();
+    aGuard4.unlock(1);
+    aGuard1.unlock(::cpputils::orderedcalls::symetric_unlock_t());
     printf("%s ends(out:%d,in:%d)\n",__FUNCTION__,a_outTestNumber,a_innerTestNumber);
     fflush(stdout);
 }

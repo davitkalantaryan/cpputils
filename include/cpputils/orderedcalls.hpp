@@ -26,6 +26,7 @@ class OrderedCalls_p;
 template <typename MutexType>
 class Guard_p;
 struct defer_lock_t { explicit defer_lock_t() = default; };
+struct symetric_unlock_t { explicit symetric_unlock_t() = default; };
 
 
 template <typename CalleeType>
@@ -68,7 +69,9 @@ public:
 
     template<typename... Targs>
     void lock(Targs... a_args);
-    void unlock();
+    template<typename... Targs>
+    void unlock(Targs... a_args);
+    void unlock(const symetric_unlock_t&);
 
 private:
     Guard_p<MutexType>* const  m_lockGuard_p;
