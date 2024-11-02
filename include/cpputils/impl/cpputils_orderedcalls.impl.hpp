@@ -210,6 +210,13 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
 }
 
 
+template <typename CalleeType>
+size_t OrderedCalls<CalleeType>::size()const
+{
+    return m_orderedCalls_p->m_callees.size();
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 #define UNLOCK_FNC_GET()    \
@@ -236,7 +243,7 @@ Guard<MutexType>::Guard(MutexType* CPPUTILS_ARG_NN a_callees_p, Targs... a_args)
       m_lockGuard_p(new Guard_p<MutexType>(a_callees_p))
 {
     m_lockGuard_p->m_callees_p->lock(a_args...);
-    auto args_tuple = std::make_tuple(std::forward<Targs>(a_args)...);
+    auto args_tuple = ::std::make_tuple( ::std::forward<Targs>(a_args)...);
     m_lockGuard_p->m_unlockFunc = UNLOCK_FNC_GET();
     m_lockGuard_p->m_isStarted = true;
 }
@@ -259,7 +266,7 @@ void Guard<MutexType>::lock(Targs... a_args)
     if(!(m_lockGuard_p->m_isStarted)){
         m_lockGuard_p->m_callees_p->lock(a_args...);
         m_lockGuard_p->m_isStarted = true;        
-        auto args_tuple = std::make_tuple(std::forward<Targs>(a_args)...);
+        auto args_tuple = ::std::make_tuple( ::std::forward<Targs>(a_args)...);
         m_lockGuard_p->m_unlockFunc = UNLOCK_FNC_GET();
     }
 }

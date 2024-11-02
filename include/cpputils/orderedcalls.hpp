@@ -50,6 +50,7 @@ public:
     // I keep names lock/unlock name to demonstrate that the main use case is multiple mutexes
 	void lock(size_t a_index);
 	void unlock(size_t a_index);
+    size_t size()const;
 
 protected:
 	OrderedCalls_p<CalleeType>* const   m_orderedCalls_p;

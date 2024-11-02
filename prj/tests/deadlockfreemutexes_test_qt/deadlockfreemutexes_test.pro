@@ -25,7 +25,10 @@ win32{
 
 
 SOURCES	+=		\
-	"$${PWD}/../../../src/tests/main_deadlockfreemutexes_test.cpp"			
+    "$${cpputilsRepoRoot}/src/tests/main_deadlockfreemutexes_test.cpp"			
 
-HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
-HEADERS += $$files($${cpputilsRepoRoot}/include/*.hpp,true)
+HEADERS += \
+    "$${cpputilsRepoRoot}/include/cpputils/impl/cpputils_orderedcalls.impl.hpp"	    \
+    "$${cpputilsRepoRoot}/include/cpputils/deadlockfreemutexes.hpp"		    \
+    "$${cpputilsRepoRoot}/include/cpputils/export_symbols.h"			    \
+    "$${cpputilsRepoRoot}/include/cpputils/orderedcalls.hpp"
