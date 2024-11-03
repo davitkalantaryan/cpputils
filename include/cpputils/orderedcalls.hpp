@@ -25,8 +25,6 @@ template <typename CalleeType>
 class OrderedCalls_p;
 template <typename MutexType>
 class Guard_p;
-struct defer_lock_t { explicit defer_lock_t() = default; };
-struct symetric_unlock_t { explicit symetric_unlock_t() = default; };
 
 
 template <typename CalleeType>
@@ -41,6 +39,24 @@ public:
         TypeStop        stopper;
     };
     
+    // owner can delete this
+    class Item final
+    {
+        friend class OrderedCalls;
+    public:
+        void lock();
+        void unlock();
+    private:
+        OrderedCalls* const m_parent_p;
+        const size_t        m_index;
+    private:
+        Item(OrderedCalls* a_parent_p, size_t a_index);
+        Item(const Item&)=delete;
+        Item(Item&&)=delete;
+        Item& operator=(const Item&)=delete;
+        Item& operator=(Item&&)=delete;
+    };
+    
 public:
     virtual ~OrderedCalls();
 	OrderedCalls(const ::std::vector<GenericCallee>& a_callees);
@@ -51,6 +67,7 @@ public:
 	void lock(size_t a_index);
 	void unlock(size_t a_index);
     size_t size()const;
+    Item* getSingleMutex(size_t a_index)const;
 
 protected:
 	OrderedCalls_p<CalleeType>* const   m_orderedCalls_p;
@@ -61,10 +78,15 @@ template <typename MutexType>
 class Guard
 {
 public:
+    struct defer_lock_t { explicit defer_lock_t() = default; };
+    struct symetric_unlock_t { explicit symetric_unlock_t() = default; };
+    static constexpr defer_lock_t defer_lock {};
+    static constexpr symetric_unlock_t symetric_unlock {};
+public:
     ~Guard();    
     template<typename... Targs>
 	Guard(MutexType* CPPUTILS_ARG_NN a_callees_p, Targs... a_args);
-    Guard( const defer_lock_t a_def, MutexType* CPPUTILS_ARG_NN a_callees_p);
+    Guard( const defer_lock_t& a_def, MutexType* CPPUTILS_ARG_NN a_callees_p);
     Guard(const Guard&) = delete;
     Guard& operator=(const Guard&) = delete;
 

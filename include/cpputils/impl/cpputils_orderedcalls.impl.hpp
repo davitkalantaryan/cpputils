@@ -217,6 +217,18 @@ size_t OrderedCalls<CalleeType>::size()const
 }
 
 
+template <typename CalleeType>
+typename OrderedCalls<CalleeType>::Item* OrderedCalls<CalleeType>::getSingleMutex(size_t a_index)const
+{
+    const size_t mutexesCount = m_orderedCalls_p->m_callees.size();
+    if(a_index>=mutexesCount){
+        return nullptr;  // or make some error report
+    }
+    
+    return new OrderedCalls<CalleeType>::Item(this,a_index);
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 #define UNLOCK_FNC_GET()    \
@@ -250,7 +262,7 @@ Guard<MutexType>::Guard(MutexType* CPPUTILS_ARG_NN a_callees_p, Targs... a_args)
 
 
 template <typename MutexType>
-Guard<MutexType>::Guard( const defer_lock_t a_def, MutexType* CPPUTILS_ARG_NN a_callees_p)
+Guard<MutexType>::Guard( const defer_lock_t& a_def, MutexType* CPPUTILS_ARG_NN a_callees_p)
     :
       m_lockGuard_p(new Guard_p<MutexType>(a_callees_p))
 {
@@ -301,6 +313,31 @@ Guard_p<MutexType>::Guard_p(MutexType* CPPUTILS_ARG_NN a_mutexes_p)
       m_callees_p(a_mutexes_p)
 {
     static_cast<void>(this->reserved);
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename CalleeType>
+void OrderedCalls<CalleeType>::Item::lock()
+{
+    m_parent_p->lock(m_index);
+}
+
+
+template <typename CalleeType>
+void OrderedCalls<CalleeType>::Item::unlock()
+{
+    m_parent_p->unlock(m_index);
+}
+
+
+template <typename CalleeType>
+OrderedCalls<CalleeType>::Item::Item(OrderedCalls* a_parent_p, size_t a_index)
+    :
+      m_parent_p(a_parent_p),
+      m_index(a_index)
+{
 }
 
 
