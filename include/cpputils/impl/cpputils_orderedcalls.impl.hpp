@@ -333,10 +333,11 @@ void OrderedCalls<CalleeType>::Item::unlock()
 
 
 template <typename CalleeType>
-OrderedCalls<CalleeType>::Item::Item(OrderedCalls* a_parent_p, size_t a_index)
+OrderedCalls<CalleeType>::Item::Item(OrderedCalls* a_parent_p, size_t a_index, const CalleeType* a_mutex_p)
     :
       m_parent_p(a_parent_p),
-      m_index(a_index)
+      m_index(a_index),
+      m_mutex_p(a_mutex_p)
 {
 }
 

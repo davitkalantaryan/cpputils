@@ -46,11 +46,12 @@ public:
     public:
         void lock();
         void unlock();
+        const CalleeType* const m_mutex_p;
     private:
         OrderedCalls* const m_parent_p;
         const size_t        m_index;
     private:
-        Item(OrderedCalls* a_parent_p, size_t a_index);
+        Item(OrderedCalls* a_parent_p, size_t a_index, const CalleeType* a_mutex_p);
         Item(const Item&)=delete;
         Item(Item&&)=delete;
         Item& operator=(const Item&)=delete;
