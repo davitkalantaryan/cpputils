@@ -16,7 +16,6 @@
 #include <cpputils/orderedcalls.hpp>
 #endif
 
-#include <cpputils/orderedcalls.hpp>
 #include <vector>
 #include <deque>
 #include <mutex>
@@ -28,12 +27,17 @@ namespace cpputils { namespace orderedcalls{
 
 
 template <typename CalleeType>
-struct CalleeData{
+class CalleeData : public OrderedCalls<CalleeType>::Item
+{
+public:
+    CalleeData(OrderedCalls<CalleeType>* a_parent_p, size_t a_index, const typename OrderedCalls<CalleeType>::GenericCallee& a_callee);
+public:
+    const typename OrderedCalls<CalleeType>::TypeStart  m_starter;
+    const typename OrderedCalls<CalleeType>::TypeStop   m_stopper;
     ::std::thread::id                                   m_lockerThread;
-    typename OrderedCalls<CalleeType>::GenericCallee    m_genericCallee;
     ptrdiff_t                                           m_lockCount;
     bool                                                m_canBeStopped;
-    bool                                                reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
+    bool                                                m_reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
 };
 
 
@@ -70,7 +74,7 @@ private:
 
 template <typename CalleeType>
 static inline void lockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_NN a_callee_p, const ::std::thread::id& a_this_id){
-    a_callee_p->m_genericCallee.starter(a_callee_p->m_genericCallee.callee_p);
+    a_callee_p->m_starter(const_cast<CalleeType*>(a_callee_p->m_mutex_p));
     a_callee_p->m_lockerThread = a_this_id;
     ++(a_callee_p->m_lockCount);
 }
@@ -83,7 +87,7 @@ static inline void UnlockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_
         a_callee_p->m_canBeStopped = false;
         a_callee_p->m_lockerThread = ::std::thread::id();
     }
-    a_callee_p->m_genericCallee.stopper(a_callee_p->m_genericCallee.callee_p);
+    a_callee_p->m_stopper(const_cast<CalleeType*>(a_callee_p->m_mutex_p));
 }
 
 
@@ -110,10 +114,9 @@ OrderedCalls<CalleeType>::OrderedCalls(const ::std::vector<GenericCallee>& a_cal
     const ptrdiff_t calleesCount = static_cast<ptrdiff_t>(a_callees.size());
     m_orderedCalls_p->m_callees.resize(calleesCount);
     for(ptrdiff_t i(0); i<calleesCount;++i){
-        m_orderedCalls_p->m_callees[i] = new CalleeData<CalleeType>();
+        m_orderedCalls_p->m_callees[i] = new CalleeData<CalleeType>(this,size_t(i),a_callees[i]);
         m_orderedCalls_p->m_callees[i]->m_lockCount = 0;
         m_orderedCalls_p->m_callees[i]->m_canBeStopped = false;
-        m_orderedCalls_p->m_callees[i]->m_genericCallee = a_callees[i];
     }
 }
 
@@ -225,7 +228,7 @@ typename OrderedCalls<CalleeType>::Item* OrderedCalls<CalleeType>::getSingleMute
         return nullptr;  // or make some error report
     }
     
-    return new OrderedCalls<CalleeType>::Item(this,a_index);
+    return m_orderedCalls_p->m_callees[a_index];
 }
 
 
@@ -333,12 +336,30 @@ void OrderedCalls<CalleeType>::Item::unlock()
 
 
 template <typename CalleeType>
+OrderedCalls<CalleeType>::Item::~Item()
+{
+}
+
+
+template <typename CalleeType>
 OrderedCalls<CalleeType>::Item::Item(OrderedCalls* a_parent_p, size_t a_index, const CalleeType* a_mutex_p)
     :
       m_parent_p(a_parent_p),
       m_index(a_index),
       m_mutex_p(a_mutex_p)
 {
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+template <typename CalleeType>
+CalleeData<CalleeType>::CalleeData(OrderedCalls<CalleeType>* a_parent_p, size_t a_index, const typename OrderedCalls<CalleeType>::GenericCallee& a_callee)
+    :
+      OrderedCalls<CalleeType>::Item(a_parent_p,a_index,a_callee.callee_p),
+      m_starter(a_callee.starter),
+      m_stopper(a_callee.stopper)
+{
+    static_cast<void>(m_reserved);
 }
 
 

@@ -27,13 +27,14 @@ public:
 };
 
 
-class CPPUTILS_EXPORT Mutexes : public DeadlockFreeMutexes<Base>
+class CPPUTILS_EXPORT Mutexes : public DeadlockFreeMutexesOwn<Base>
 {
 public:
-    using DeadlockFreeMutexes<Base>::DeadlockFreeMutexes;
+    using DeadlockFreeMutexesOwn<Base>::DeadlockFreeMutexesOwn;
     Mutexes(const Mutexes&)=delete;
     Mutexes& operator=(const Mutexes&)=delete;        
 };
+
 
 
 }}}  //  namespace cpputils { namespace mutex{ namespace runtimedeadlockfreemutexes{

@@ -25,12 +25,13 @@ win32{
 
 
 SOURCES	+=		\
-    "$${cpputilsRepoRoot}/src/tests/main_deadlockfreemutexes_test.cpp"		    \
+    "$${cpputilsRepoRoot}/src/tests/main_deadlockfreemutexes_test.cpp"			\
     "$${cpputilsRepoRoot}/src/core/cpputils_runtimedeadlockfreemutexes.cpp"
 
 HEADERS += \
-    "$${cpputilsRepoRoot}/include/cpputils/impl/cpputils_orderedcalls.impl.hpp"	    \
-    "$${cpputilsRepoRoot}/include/cpputils/deadlockfreemutexes.hpp"		    \
-    "$${cpputilsRepoRoot}/include/cpputils/export_symbols.h"			    \
-    "$${cpputilsRepoRoot}/include/cpputils/orderedcalls.hpp"			    \
+    "$${cpputilsRepoRoot}/include/cpputils/impl/cpputils_orderedcalls.impl.hpp"		\
+    "$${cpputilsRepoRoot}/include/cpputils/impl/cpputils_deadlockfreemutexes.impl.hpp"	\
+    "$${cpputilsRepoRoot}/include/cpputils/deadlockfreemutexes.hpp"			\
+    "$${cpputilsRepoRoot}/include/cpputils/export_symbols.h"				\
+    "$${cpputilsRepoRoot}/include/cpputils/orderedcalls.hpp"				\
     "$${cpputilsRepoRoot}/include/cpputils/runtimedeadlockfreemutexes.hpp"

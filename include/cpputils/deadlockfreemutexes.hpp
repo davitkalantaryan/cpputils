@@ -14,36 +14,45 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/orderedcalls.hpp>
+#include <vector>
 
 
 namespace cpputils { namespace mutex{
 
 
 template <typename MutexType>
-static inline ::std::vector< typename orderedcalls::OrderedCalls<MutexType>::GenericCallee > 
-GetMutexCalleesInline(const ::std::vector<MutexType*>& a_mutexes){
-    const size_t mutexesCount = a_mutexes.size();
-    const typename orderedcalls::OrderedCalls<MutexType>::TypeStart mutexStart = [](MutexType* CPPUTILS_ARG_NN a_mutex_p){a_mutex_p->lock();};
-    const typename orderedcalls::OrderedCalls<MutexType>::TypeStop  mutexStop = [](MutexType* CPPUTILS_ARG_NN a_mutex_p){a_mutex_p->unlock();};
-    ::std::vector< typename orderedcalls::OrderedCalls<MutexType>::GenericCallee > vCallees(mutexesCount,{CPPUTILS_NULL,mutexStart,mutexStop});
-    for(size_t i(0); i<mutexesCount; ++i){
-        vCallees[i].callee_p = a_mutexes[i];
-    }
-    return vCallees;
-}
-
-
-template <typename MutexType>
 class DeadlockFreeMutexes : public orderedcalls::OrderedCalls<MutexType>
 {    
 public:
-	DeadlockFreeMutexes(const ::std::vector<MutexType*>& a_mutexes) : orderedcalls::OrderedCalls<MutexType>(GetMutexCalleesInline(a_mutexes)) {}
+	DeadlockFreeMutexes(const ::std::vector<MutexType*>& a_mutexes);
     DeadlockFreeMutexes(const DeadlockFreeMutexes&) = delete;
     DeadlockFreeMutexes& operator=(const DeadlockFreeMutexes&) = delete;
 };
 
+
+template <typename MutexType>
+class DeadlockFreeMutexesOwn : public DeadlockFreeMutexes<MutexType>
+{    
+public:
+    virtual ~DeadlockFreeMutexesOwn() override;
+    template <typename... Targs>
+    DeadlockFreeMutexesOwn(size_t a_count, Targs... a_args);
+    DeadlockFreeMutexesOwn(const ::std::vector<MutexType*>& a_mutexes);
+    DeadlockFreeMutexesOwn( ::std::vector<MutexType*>&& a_mutexes );
+    DeadlockFreeMutexesOwn(const DeadlockFreeMutexesOwn&) = delete;
+    DeadlockFreeMutexesOwn& operator=(const DeadlockFreeMutexesOwn&) = delete;
+    
+protected:
+    const ::std::vector<MutexType*>     m_mutexes;
+};
+
+
 }}  //  namespace cpputils { namespace orderedcalls{
 
+
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_DEALOCKFREEMUTEXES_IMPL_HPP
+#include <cpputils/impl/cpputils_deadlockfreemutexes.impl.hpp>
+#endif
 
 
 #endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_DEALOCKFREEMUTEXES_HPP

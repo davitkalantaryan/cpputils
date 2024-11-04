@@ -33,24 +33,24 @@ class OrderedCalls
 public:
     typedef ::std::function<void (CalleeType* CPPUTILS_ARG_NN)> TypeStart;
     typedef ::std::function<void (CalleeType* CPPUTILS_ARG_NN)> TypeStop;
+    
     struct GenericCallee{
         CalleeType*     callee_p;
         TypeStart       starter;
         TypeStop        stopper;
     };
     
-    // owner can delete this
-    class Item final
+    class Item
     {
         friend class OrderedCalls;
     public:
         void lock();
         void unlock();
-        const CalleeType* const m_mutex_p;
-    private:
-        OrderedCalls* const m_parent_p;
-        const size_t        m_index;
-    private:
+        OrderedCalls* const         m_parent_p;
+        const size_t                m_index;
+        const CalleeType* const     m_mutex_p;
+    protected:
+        ~Item();
         Item(OrderedCalls* a_parent_p, size_t a_index, const CalleeType* a_mutex_p);
         Item(const Item&)=delete;
         Item(Item&&)=delete;
@@ -71,7 +71,7 @@ public:
     Item* getSingleMutex(size_t a_index)const;
 
 protected:
-	OrderedCalls_p<CalleeType>* const   m_orderedCalls_p;
+	OrderedCalls_p<CalleeType>* const   m_orderedCalls_p;    
 };
 
 
