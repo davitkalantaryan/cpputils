@@ -74,6 +74,15 @@ DeadlockFreeMutexesOwn<MutexType>::DeadlockFreeMutexesOwn(const ::std::vector<Mu
 
 
 template <typename MutexType>
+DeadlockFreeMutexesOwn<MutexType>::DeadlockFreeMutexesOwn(::std::vector<MutexType*>&& a_mutexes)
+    :
+      DeadlockFreeMutexes<MutexType>(a_mutexes),
+      m_mutexes(a_mutexes)
+{
+}
+
+
+template <typename MutexType>
 template <typename... Targs>
 DeadlockFreeMutexesOwn<MutexType>::DeadlockFreeMutexesOwn(size_t a_count, Targs... a_args)
     :

@@ -9,6 +9,8 @@
 
 #pragma once
 
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_RUNTIMEDEALOCKFREEMUTEXES_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_RUNTIMEDEALOCKFREEMUTEXES_HPP
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/deadlockfreemutexes.hpp>
@@ -38,3 +40,6 @@ public:
 
 
 }}}  //  namespace cpputils { namespace mutex{ namespace runtimedeadlockfreemutexes{
+
+
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_RUNTIMEDEALOCKFREEMUTEXES_HPP
