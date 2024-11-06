@@ -64,7 +64,11 @@ template <typename CalleeType>
 class OrderedCalls_p
 {
 public:
-    ::std::vector<CalleeData<CalleeType>*>  m_callees;
+    typedef CalleeData<CalleeType>* CalleeDataPtr;
+    ~OrderedCalls_p();
+    OrderedCalls_p(size_t a_calleesSize);
+    const size_t            m_count;
+    CalleeDataPtr* const    m_callees;
 };
 
 
@@ -109,8 +113,7 @@ template <typename CalleeType>
 OrderedCalls<CalleeType>::~OrderedCalls()
 {
     if(m_orderedCalls_p){
-        const size_t calleesCount = m_orderedCalls_p->m_callees.size();
-        for(size_t i(0); i<calleesCount;++i){
+        for(size_t i(0); i<(m_orderedCalls_p->m_count);++i){
             delete m_orderedCalls_p->m_callees[i];
         }
         delete m_orderedCalls_p;
@@ -121,10 +124,9 @@ OrderedCalls<CalleeType>::~OrderedCalls()
 template <typename CalleeType>
 OrderedCalls<CalleeType>::OrderedCalls(const ::std::vector<GenericCallee>& a_callees)
 	:
-	m_orderedCalls_p(new OrderedCalls_p<CalleeType>())
+	m_orderedCalls_p(new OrderedCalls_p<CalleeType>(a_callees.size()))
 {
-    const ptrdiff_t calleesCount = static_cast<ptrdiff_t>(a_callees.size());
-    m_orderedCalls_p->m_callees.resize(calleesCount);
+    const ptrdiff_t calleesCount = static_cast<ptrdiff_t>(m_orderedCalls_p->m_count);
     for(ptrdiff_t i(0); i<calleesCount;++i){
         m_orderedCalls_p->m_callees[i] = new CalleeData<CalleeType>(this,size_t(i),a_callees[i]);
         m_orderedCalls_p->m_callees[i]->m_lockCount = 0;
@@ -137,7 +139,7 @@ template <typename CalleeType>
 void OrderedCalls<CalleeType>::lock(size_t a_index)
 {
     // first let's check the range of index
-    const ptrdiff_t mutexesCount = static_cast<ptrdiff_t>(m_orderedCalls_p->m_callees.size());
+    const ptrdiff_t mutexesCount = static_cast<ptrdiff_t>(m_orderedCalls_p->m_count);
     if(static_cast<ptrdiff_t>(a_index)>=mutexesCount){
         return;  // or make some error report
     }
@@ -182,7 +184,7 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
 {
     // first let's check the range of index
     const ptrdiff_t cnIndex = static_cast<ptrdiff_t>(a_index);
-    const ptrdiff_t mutexesCount = static_cast<ptrdiff_t>(m_orderedCalls_p->m_callees.size());
+    const ptrdiff_t mutexesCount = static_cast<ptrdiff_t>(m_orderedCalls_p->m_count);
     if(cnIndex>=mutexesCount){
         return;  // or make some error report
     }
@@ -228,15 +230,14 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
 template <typename CalleeType>
 size_t OrderedCalls<CalleeType>::size()const
 {
-    return m_orderedCalls_p->m_callees.size();
+    return m_orderedCalls_p->m_count;
 }
 
 
 template <typename CalleeType>
 typename OrderedCalls<CalleeType>::Item* OrderedCalls<CalleeType>::getSingleMutex(size_t a_index)const
 {
-    const size_t mutexesCount = m_orderedCalls_p->m_callees.size();
-    if(a_index>=mutexesCount){
+    if(a_index>=(m_orderedCalls_p->m_count)){
         return nullptr;  // or make some error report
     }
     
@@ -359,6 +360,24 @@ OrderedCalls<CalleeType>::Item::Item(OrderedCalls* a_parent_p, size_t a_index, c
       m_parent_p(a_parent_p),
       m_index(a_index),
       m_mutex_p(a_mutex_p)
+{
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename CalleeType>
+OrderedCalls_p<CalleeType>::~OrderedCalls_p()
+{
+    delete [] m_callees;
+}
+
+
+template <typename CalleeType>
+OrderedCalls_p<CalleeType>::OrderedCalls_p(size_t a_calleesSize)
+    :
+      m_count(a_calleesSize),
+      m_callees(new CalleeDataPtr[a_calleesSize])
 {
 }
 
