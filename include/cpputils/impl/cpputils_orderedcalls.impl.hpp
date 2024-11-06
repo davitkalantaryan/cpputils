@@ -22,6 +22,17 @@
 #include <thread>
 #include <stddef.h>
 #include <stdint.h>
+#ifdef _WIN32
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
+#define GetTidMacro()     static_cast<int>(GetCurrentThreadId())
+#else
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/syscall.h>
+#define GetTidMacro()     static_cast<int>(syscall(SYS_gettid))
+#endif
 
 namespace cpputils { namespace orderedcalls{
 
@@ -34,7 +45,8 @@ public:
 public:
     const typename OrderedCalls<CalleeType>::TypeStart  m_starter;
     const typename OrderedCalls<CalleeType>::TypeStop   m_stopper;
-    ::std::thread::id                                   m_lockerThread;
+    //::std::thread::id                                   m_lockerThread;
+    int                                                 m_lockerThreadId;
     ptrdiff_t                                           m_lockCount;
     bool                                                m_canBeStopped;
     bool                                                m_reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
@@ -73,9 +85,9 @@ private:
 
 
 template <typename CalleeType>
-static inline void lockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_NN a_callee_p, const ::std::thread::id& a_this_id){
+static inline void lockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_NN a_callee_p, int a_this_id){
     a_callee_p->m_starter(const_cast<CalleeType*>(a_callee_p->m_mutex_p));
-    a_callee_p->m_lockerThread = a_this_id;
+    a_callee_p->m_lockerThreadId = a_this_id;
     ++(a_callee_p->m_lockCount);
 }
 
@@ -85,7 +97,7 @@ static inline void UnlockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_
     --(a_callee_p->m_lockCount);
     if(!(a_callee_p->m_lockCount)){
         a_callee_p->m_canBeStopped = false;
-        a_callee_p->m_lockerThread = ::std::thread::id();
+        a_callee_p->m_lockerThreadId = -1;
     }
     a_callee_p->m_stopper(const_cast<CalleeType*>(a_callee_p->m_mutex_p));
 }
@@ -131,8 +143,8 @@ void OrderedCalls<CalleeType>::lock(size_t a_index)
     }
     
     // check maybe this mutex is already locked by this thread
-    const std::thread::id this_id = std::this_thread::get_id();
-    if(m_orderedCalls_p->m_callees[a_index]->m_lockerThread==this_id){
+    const int this_id = GetTidMacro();
+    if(m_orderedCalls_p->m_callees[a_index]->m_lockerThreadId==this_id){
         lockSingleMutexInline(m_orderedCalls_p->m_callees[a_index],this_id);
         return;
     }
@@ -144,7 +156,7 @@ void OrderedCalls<CalleeType>::lock(size_t a_index)
     CalleeAndCount<CalleeType> nextLocked;
     std::deque< CalleeAndCount<CalleeType> >  vLockedMutexes;
     for(i = mutexesCount - 1; i>static_cast<ptrdiff_t>(a_index); --i){
-        if(m_orderedCalls_p->m_callees[i]->m_lockerThread==this_id){
+        if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
             nextLocked.count = m_orderedCalls_p->m_callees[i]->m_lockCount;
             nextLocked.callee_p = m_orderedCalls_p->m_callees[i];
             for(j=0; j<nextLocked.count; ++j){
@@ -182,10 +194,10 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
     }
     
     // in case mutex with higher index is locked by this thread we can not unlock this
-    const std::thread::id this_id = std::this_thread::get_id();
+    const int this_id = GetTidMacro();
     ptrdiff_t i;
     for(i = mutexesCount - 1; i>cnIndex; --i){
-        if(m_orderedCalls_p->m_callees[i]->m_lockerThread==this_id){
+        if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
             // we have mutex with higher index still locked, we should wait
             pMutexData->m_canBeStopped = true;
             return;
@@ -199,7 +211,7 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
     // let's check mutexes with lower indexes, 
     // if there is mutex belonging to this thread and marked canBeUnlocked let's unlock them
     for(i = cnIndex - 1; i>=0; --i){
-        if(m_orderedCalls_p->m_callees[i]->m_lockerThread==this_id){
+        if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
             // we have mutex with higher index still locked, we should wait
             if(m_orderedCalls_p->m_callees[i]->m_canBeStopped){
                 UnlockSingleMutexInline(m_orderedCalls_p->m_callees[i]);
