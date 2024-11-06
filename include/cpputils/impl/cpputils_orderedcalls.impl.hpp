@@ -212,7 +212,7 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
     
     // let's check mutexes with lower indexes, 
     // if there is mutex belonging to this thread and marked canBeUnlocked let's unlock them
-    for(i = cnIndex - 1; i>=0; --i){
+    for(i = cnIndex - 1; i>-1; --i){
         if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
             // we have mutex with higher index still locked, we should wait
             while(m_orderedCalls_p->m_callees[i]->m_canBeStoppedCount>0){
