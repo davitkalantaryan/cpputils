@@ -48,8 +48,8 @@ public:
     //::std::thread::id                                   m_lockerThread;
     int                                                 m_lockerThreadId;
     ptrdiff_t                                           m_lockCount;
-    bool                                                m_canBeStopped;
-    bool                                                m_reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
+    ptrdiff_t                                           m_canBeStoppedCount;
+    //bool                                                m_reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
 };
 
 
@@ -99,8 +99,7 @@ static inline void lockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_NN
 template <typename CalleeType>
 static inline void UnlockSingleMutexInline(CalleeData<CalleeType>* CPPUTILS_ARG_NN a_callee_p){
     --(a_callee_p->m_lockCount);
-    if(!(a_callee_p->m_lockCount)){
-        a_callee_p->m_canBeStopped = false;
+    if((a_callee_p->m_lockCount)<1){
         a_callee_p->m_lockerThreadId = -1;
     }
     a_callee_p->m_stopper(const_cast<CalleeType*>(a_callee_p->m_mutex_p));
@@ -130,7 +129,8 @@ OrderedCalls<CalleeType>::OrderedCalls(const ::std::vector<GenericCallee>& a_cal
     for(ptrdiff_t i(0); i<calleesCount;++i){
         m_orderedCalls_p->m_callees[i] = new CalleeData<CalleeType>(this,size_t(i),a_callees[i]);
         m_orderedCalls_p->m_callees[i]->m_lockCount = 0;
-        m_orderedCalls_p->m_callees[i]->m_canBeStopped = false;
+        m_orderedCalls_p->m_callees[i]->m_lockerThreadId = -1;
+        m_orderedCalls_p->m_callees[i]->m_canBeStoppedCount = 0;
     }
 }
 
@@ -201,7 +201,7 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
     for(i = mutexesCount - 1; i>cnIndex; --i){
         if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
             // we have mutex with higher index still locked, we should wait
-            pMutexData->m_canBeStopped = true;
+            ++(pMutexData->m_canBeStoppedCount);
             return;
         }
     }  //  for(i = mutexesCount - 1; i>cnIndex; --i){
@@ -215,13 +215,14 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
     for(i = cnIndex - 1; i>=0; --i){
         if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
             // we have mutex with higher index still locked, we should wait
-            if(m_orderedCalls_p->m_callees[i]->m_canBeStopped){
+            while(m_orderedCalls_p->m_callees[i]->m_canBeStoppedCount>0){
                 UnlockSingleMutexInline(m_orderedCalls_p->m_callees[i]);
+                --(m_orderedCalls_p->m_callees[i]->m_canBeStoppedCount);
             }
-            else{
+            if((m_orderedCalls_p->m_callees[i]->m_lockCount)>0){
                 return;  // do not leave a gap
             }
-        }
+        }  //  if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){
     }  //  for(i = cnIndex - 1; i>=0; ++i){
     
 }
@@ -390,7 +391,6 @@ CalleeData<CalleeType>::CalleeData(OrderedCalls<CalleeType>* a_parent_p, size_t 
       m_starter(a_callee.starter),
       m_stopper(a_callee.stopper)
 {
-    static_cast<void>(m_reserved);
 }
 
 
