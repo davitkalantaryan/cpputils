@@ -16,25 +16,21 @@
 #include <cpputils/orderedcalls.hpp>
 #endif
 
+#ifndef cinternal_gettid_needed
+#define cinternal_gettid_needed
+#endif
+
+#include <cinternal/gettid.h>
 #include <vector>
 #include <deque>
 #include <mutex>
 #include <thread>
 #include <stddef.h>
 #include <stdint.h>
-#ifdef _WIN32
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#define GetTidMacro()     static_cast<int>(GetCurrentThreadId())
-#else
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/syscall.h>
-#define GetTidMacro()     static_cast<int>(syscall(SYS_gettid))
-#endif
 
 namespace cpputils { namespace orderedcalls{
+
+//#define GetTidMacro     CinternalGetCurrentTid
 
 
 template <typename CalleeType>
@@ -45,11 +41,9 @@ public:
 public:
     const typename OrderedCalls<CalleeType>::TypeStart  m_starter;
     const typename OrderedCalls<CalleeType>::TypeStop   m_stopper;
-    //::std::thread::id                                   m_lockerThread;
-    int                                                 m_lockerThreadId;
+    int64_t                                             m_lockerThreadId;
     ptrdiff_t                                           m_lockCount;
     ptrdiff_t                                           m_canBeStoppedCount;
-    //bool                                                m_reserved[(sizeof(ptrdiff_t)-sizeof(bool))/sizeof(bool)];
 };
 
 
@@ -145,7 +139,7 @@ void OrderedCalls<CalleeType>::lock(size_t a_index)
     }
     
     // check maybe this mutex is already locked by this thread
-    const int this_id = GetTidMacro();
+    const int64_t this_id = CinternalGetCurrentTid();
     if(m_orderedCalls_p->m_callees[a_index]->m_lockerThreadId==this_id){
         lockSingleMutexInline(m_orderedCalls_p->m_callees[a_index],this_id);
         return;
@@ -196,7 +190,7 @@ void OrderedCalls<CalleeType>::unlock(size_t a_index)
     }
     
     // in case mutex with higher index is locked by this thread we can not unlock this
-    const int this_id = GetTidMacro();
+    const int64_t this_id = CinternalGetCurrentTid();
     ptrdiff_t i;
     for(i = mutexesCount - 1; i>cnIndex; --i){
         if(m_orderedCalls_p->m_callees[i]->m_lockerThreadId==this_id){

@@ -16,6 +16,7 @@ CONFIG -= qt
 CONFIG += console
 
 DEFINES += CPPUTILS_DO_NOT_USE_STD_FUNCTION
+DEFINES += cinternal_gettid_needed
 
 win32{
 	LIBS += -lWs2_32
