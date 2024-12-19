@@ -7,7 +7,7 @@
 
 message("!!! $${_PRO_FILE_}")
 include ( "$${PWD}/../../common/common_qt/flagsandsys_common.pri" )
-DESTDIR     = "$${artifactRoot}/sys/$${CODENAME}/$$CONFIGURATION/test"
+DESTDIR = "$${ArifactFinal}/test"
 
 QT -= gui
 QT -= core

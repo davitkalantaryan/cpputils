@@ -1007,7 +1007,7 @@ bool FuncF<KeyType,DataType>::DefaultFind(void*,const KeyType&, const DataType&)
 template <typename CharType>
 size_t FHashStr<CharType>::operator()(const ::std::basic_string<CharType>& a_key)const
 {
-	return ::cinternal_hash1_raw_mem(a_key.c_str(),a_key.length()*sizeof(CharType));
+	return ::cinternal_hash1_raw_mem_inline(a_key.c_str(),a_key.length()*sizeof(CharType));
 }
 
 template <typename IntType>
