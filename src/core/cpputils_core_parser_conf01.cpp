@@ -7,19 +7,12 @@
 
 #include <cpputils/parser/conf01.hpp>
 #include <cpputils/hash/lhash.hpp>
+#include <cinternal/wrapper.h>
 #include <cinternal/disable_compiler_warnings.h>
 #include <string>
-#include <cinternal/undisable_compiler_warnings.h>
 #include <string.h>
 #include <stdlib.h>
-#include <cstring>
-
-#ifdef _MSC_VER
-#ifdef strdup
-#undef strdup
-#endif
-#define strdup  _strdup
-#endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils{ namespace parser{
@@ -87,7 +80,7 @@ Conf01& Conf01::operator=(Conf01&& a_mM)
 
 void Conf01::ParseString(const char* a_str)
 {
-    char* pcStrDp = strdup(a_str);
+    char* pcStrDp = CinternalWrapperStrdup(a_str);
     if(pcStrDp){
         ParseStringNC(pcStrDp);
         free(pcStrDp);

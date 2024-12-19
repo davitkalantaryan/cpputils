@@ -5,9 +5,11 @@
 
 #include <cinternal/unit_test.h>
 #include <cpputils/hashtbl.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <utility>
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 // todo: get rid of this
 #define DEF_SIZE	10

@@ -11,10 +11,12 @@
 
 #include <cpputils/hashtbl.hpp>
 #include <cinternal/hash_functions.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace __private { namespace __implementation {
 

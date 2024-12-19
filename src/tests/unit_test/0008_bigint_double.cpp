@@ -5,8 +5,10 @@
 
 #include <cinternal/unit_test.h>
 #include <cpputils/bigint.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <stdio.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 TEST(f_0008_bigint_double, t0001_double_to_int)
