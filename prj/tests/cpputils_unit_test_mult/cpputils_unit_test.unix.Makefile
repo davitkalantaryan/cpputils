@@ -21,7 +21,7 @@ EXTRA_SOURCSES += $(cinternalRepoRoot)/src/core/cinternal_core_logger.c
 
 COMMON_FLAGS += -DCINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES
 # c=+ 11 is needed for google test
-CPPFLAGS += -std=c++11
+CPPFLAGS += -std=c++14
 
 LIBS += -pthread
 
