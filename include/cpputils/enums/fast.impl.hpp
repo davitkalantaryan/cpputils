@@ -12,8 +12,10 @@
 #include "fast.hpp"
 #endif
 
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
 #include <new>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace enums{

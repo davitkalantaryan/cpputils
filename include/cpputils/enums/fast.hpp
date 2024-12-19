@@ -13,8 +13,10 @@
 
 #include <cpputils/export_symbols.h>
 #include <cinternal/macroses.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdarg.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #ifndef CPPUTILS_ENUM_TYPED
 #if CPPUTILS_CPP_11_DEFINED

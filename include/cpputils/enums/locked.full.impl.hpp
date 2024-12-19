@@ -11,9 +11,10 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULL_HPP
 #include "locked.full.hpp"
 #endif
-
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
 #include <new>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace enums{

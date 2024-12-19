@@ -15,11 +15,13 @@
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/items.hpp>
 #include <cpputils/functional.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string>
 #include <functional>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace hash {

@@ -12,7 +12,9 @@
 #ifndef INCLUDE_CPPUTILS_TLS_DATA_HPP
 #include "tls_data.hpp"
 #endif
+#include <cinternal/disable_compiler_warnings.h>
 #include <new>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {

@@ -10,8 +10,9 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
-
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {

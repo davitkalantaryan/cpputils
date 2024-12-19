@@ -69,6 +69,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\deadlockfreemutexes.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp" />
@@ -99,9 +100,11 @@
     <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\mutex_ml.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\orderedcalls.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\protecteddata.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\runtimedeadlockfreemutexes.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp" />

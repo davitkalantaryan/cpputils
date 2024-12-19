@@ -11,7 +11,9 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_BASE_HPP
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace enums{
 

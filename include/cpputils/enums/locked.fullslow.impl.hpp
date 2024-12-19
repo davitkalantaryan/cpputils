@@ -11,10 +11,11 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FULLSLOW_HPP
 #include "locked.fullslow.hpp"
 #endif
-
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
 #include <string.h>
 #include <new>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace enums{

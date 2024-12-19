@@ -286,6 +286,10 @@
     <None Include="..\any_quick_test_mkfl\any_quick_test.unix.Makefile" />
     <None Include="..\any_quick_test_qt\any_quick_test.pro" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

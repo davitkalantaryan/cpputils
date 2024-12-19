@@ -12,7 +12,7 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/enums/locked.base.hpp>
-#include <cpputils/macroses.h>
+#include <cinternal/macroses.h>
 #include <cpputils/hashtbl.hpp>
 #include <stddef.h>
 #include <stdarg.h>

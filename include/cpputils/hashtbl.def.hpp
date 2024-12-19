@@ -10,8 +10,10 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <string>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #define DEFAULT_TABLE_SIZE	256
 

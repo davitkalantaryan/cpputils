@@ -259,5 +259,14 @@
     <ClInclude Include="..\..\..\include\cpputils\unnamedsemaphore.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\deadlockfreemutexes.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\orderedcalls.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\runtimedeadlockfreemutexes.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,6 +24,13 @@ public:
 public:
 	InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData=CPPUTILS_NULL);
 	~InScopeCleaner();
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+    InScopeCleaner(const InScopeCleaner&) = delete;
+    InScopeCleaner(InScopeCleaner&&) = delete;
+    InScopeCleaner& operator=(const InScopeCleaner&) = delete;
+    InScopeCleaner& operator=(InScopeCleaner&&) = delete;
+#endif
 	
 public:
     const TypeDeleteFunc	m_func;

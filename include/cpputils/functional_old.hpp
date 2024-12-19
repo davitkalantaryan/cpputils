@@ -9,7 +9,9 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 #define FUNC_ARGS_OLD(_ret,...)		_ret (*)(__VA_ARGS__)

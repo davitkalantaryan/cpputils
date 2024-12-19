@@ -12,12 +12,14 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/enums/locked.base.hpp>
-#include <cpputils/macroses.h>
+#include <cinternal/macroses.h>
 #include <cpputils/hashtbl.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <string>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace enums{
 
