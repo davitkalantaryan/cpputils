@@ -75,6 +75,20 @@ protected:
 };
 
 
+class CPPUTILS_DLL_PRIVATE NamedStructBase
+{
+protected:
+    ~NamedStructBase() = default;
+    NamedStructBase() = default;
+    NamedStructBase(const NamedStructBase&) = default;
+    NamedStructBase(NamedStructBase&&) = default;
+    NamedStructBase& operator=(const NamedStructBase&) = default;
+    NamedStructBase& operator=(NamedStructBase&&) = default;
+protected:
+    static StructNamesCollection    sm_collection;
+};
+
+
 template <int NamedEnumBaseSeed>
 class CPPUTILS_DLL_PRIVATE NamedEnumBaseTmpl : public NamedEnumBase
 {
@@ -89,48 +103,66 @@ protected:
 };
 
 
-extern CPPUTILS_DLL_PRIVATE StructNamesCollection  g_structsNamesCollection;
+template <int NamedStructBaseSeed>
+class CPPUTILS_DLL_PRIVATE NamedStructBaseTmpl : public NamedStructBase
+{
+public:
+    static const char* getOffsetFieldName(size_t a_offset);
+protected:
+    ~NamedStructBaseTmpl() = default;
+    NamedStructBaseTmpl(int a_number, ...);
+    NamedStructBaseTmpl() = delete;
+    NamedStructBaseTmpl(const NamedStructBaseTmpl&) = default;
+    NamedStructBaseTmpl(NamedStructBaseTmpl&&) = default;
+    NamedStructBaseTmpl& operator=(const NamedStructBaseTmpl&) = default;
+    NamedStructBaseTmpl& operator=(NamedStructBaseTmpl&&) = default;
+};
 
 
 }}  //  namespace cpputils {namespace named_types {
 
 
 #define CPPUTILS_NAMED_ENUM_TYPED(_Name,_integralType,...)	enum _Name : _integralType { __VA_ARGS__ }
-#define CPPUTILS_NAMED_ENUM_RAW(_IntSeed,_Name,_integralType,...)																							\
-class _Name : public ::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed > {													                            \
-public:																																						\
-	CPPUTILS_NAMED_ENUM_TYPED(__Type,_integralType,__VA_ARGS__);																							\
-public:																																						\
-	_Name(const __Type& a_val) : 																															\
-		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__)),			            \
-		m_enVal(a_val)																													                    \
-	{}																																						\
-	_Name() : 																																				\
-		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__))			            \
-	{}																																						\
-	operator const __Type& () const { return m_enVal; }																										\
-    operator __Type& () { return m_enVal; }																											        \
-	const char* toString()const {																															\
-        const size_t unIndex = static_cast<size_t>(_IntSeed);                                                                                          \
-		const int nValue = static_cast<int>( static_cast<_integralType>(m_enVal) );																		    \
-		return  ::cpputils::named_types::NamedEnumBase::sm_collection.getEnumName(unIndex,nValue);								                            \
-	}																																						\
-public:																																						\
-	__Type	m_enVal;																																		\
+#define CPPUTILS_NAMED_ENUM_RAW(_IntSeed,_Name,_integralType,...)																		    \
+class _Name : public ::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed > {													            \
+public:																																	    \
+	CPPUTILS_NAMED_ENUM_TYPED(__Type,_integralType,__VA_ARGS__);																		    \
+public:																																	    \
+	_Name(const __Type& a_val) : 																										    \
+		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__)),	    \
+		m_enVal(a_val)																													    \
+	{}																																	    \
+	_Name() : 																															    \
+		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__))	    \
+	{}																																	    \
+	operator const __Type& () const { return m_enVal; }																					    \
+    operator __Type& () { return m_enVal; }																								    \
+	const char* toString()const {																										    \
+        const size_t unIndex = static_cast<size_t>(_IntSeed);                                                                               \
+		const int nValue = static_cast<int>( static_cast<_integralType>(m_enVal) );														    \
+		return  ::cpputils::named_types::NamedEnumBase::sm_collection.getName(unIndex,nValue);								                \
+	}																																	    \
+public:																																	    \
+	__Type	m_enVal;																													    \
 }
-
 #define CPPUTILS_NAMED_ENUM_TP(_Name,_integralType,...)     CPPUTILS_NAMED_ENUM_RAW(__COUNTER__,_Name,_integralType,__VA_ARGS__)
 #define CPPUTILS_NAMED_ENUM(_Name,...)		                CPPUTILS_NAMED_ENUM_TP(_Name,int,__VA_ARGS__)
 
 
-#define CPPUTILS_NAMED_STRUCT_RAW(_IntSeed,_Name,...)																							\
-struct _Name {													                            \
-	_Name()  																																				        \
-	{                                                                                                                                                               \
-        g_structsNamesCollection.AddNamesToCollection(static_cast<size_t>(_IntSeed),CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_STRUCT_LIKE_DATA_NAMES(__VA_ARGS__),CPPUTILS_VARIABLE_OFFSETOF());      \
-    }																																						        \
-    CPPUTILS_VAR_MACRO_APPY_OP(CPPUTILS_DEFINE_VARIABLE,;,__VA_ARGS__);                                                                                             \
+#define CPPUTILS_NAMED_STRUCT_RAW(_IntSeed,_Name,...)																						\
+struct _Name : public ::cpputils::named_types::NamedStructBaseTmpl< _IntSeed > {													        \
+	_Name()  																																\
+        :                                                                                                                                   \
+            ::cpputils::named_types::NamedStructBaseTmpl< _IntSeed > (                                                                      \
+                    CPPUTILS_NARGS(__VA_ARGS__),                                                                                            \
+                    CPPUTILS_STRUCT_LIKE_DATA_NAMES(__VA_ARGS__),                                                                           \
+                    CPPUTILS_STRUCT_LIKE_DATA_OFFSETS(struct _Name,__VA_ARGS__)     )                                                       \
+	{}                                                                                                                                      \
+    CPPUTILS_VAR_MACRO_APPY_OP(CPPUTILS_DEFINE_VARIABLE,;,__VA_ARGS__);                                                                     \
 }
+#define CPPUTILS_NAMED_STRUCT(_Name,...)                            CPPUTILS_NAMED_STRUCT_RAW(__COUNTER__,_Name,__VA_ARGS__)
+#define CPPUTILS_NAMED_STRUCT_FIELD_NAME(_StrName,_strAdr,_fldAdr)     ( _StrName::getOffsetFieldName( static_cast<size_t>(  ((const char*)(_fldAdr))-((const char*)(_strAdr)) ) ) )
+#define CPPUTILS_NAMED_STRUCT_FIELD_NAME02(_StrName,_fldName)           ( _StrName::getOffsetFieldName( static_cast<size_t>(  offsetof(_StrName,_fldName) ) ) )
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_CPPUTILS_NAMED_TYPES_HPP

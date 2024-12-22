@@ -143,6 +143,9 @@
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_typeinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp">
+      <Filter>Source Files\tests\unit_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">

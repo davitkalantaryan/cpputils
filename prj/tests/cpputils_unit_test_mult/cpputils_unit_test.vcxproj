@@ -69,6 +69,7 @@
     <ClCompile Include="..\..\..\src\tests\unit_test\0010_endian_h.cpp" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0011_multifor.cpp" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0012_hash_dllhash.cpp" />
+    <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />

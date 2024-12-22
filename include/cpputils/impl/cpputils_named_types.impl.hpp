@@ -30,6 +30,23 @@ NamedEnumBaseTmpl<NamedEnumBaseSeed>::NamedEnumBaseTmpl(int a_number, ...)
 }
 
 
+template <int NamedStructBaseSeed>
+NamedStructBaseTmpl<NamedStructBaseSeed>::NamedStructBaseTmpl(int a_number, ...)
+{
+    va_list argList;
+    va_start(argList, a_number);
+    sm_collection.AddNamesToCollectionVA(static_cast<size_t>(NamedStructBaseSeed), a_number, argList);
+    va_end(argList);
+}
+
+
+template <int NamedStructBaseSeed>
+const char* NamedStructBaseTmpl<NamedStructBaseSeed>::getOffsetFieldName(size_t a_offset)
+{
+    return sm_collection.getName(static_cast<size_t>(NamedStructBaseSeed), a_offset);
+}
+
+
 }}  //  namespace cpputils {namespace named_types {
 
 
