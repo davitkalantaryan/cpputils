@@ -10,8 +10,8 @@ include $(mkfile_dir)/../../common/common_mkfl/flagsandsys_common_private.unix.M
 
 CORE_SRCS_DIR=$(cpputilsRepoRoot)/src/core
 CORE_SRCS	= $(shell find $(CORE_SRCS_DIR) -name "*.cpp")
-
 SOURCES += $(cpputilsRepoRoot)/src/tests/main_any_quick_test.cpp
+EXTRA_SOURCSES += $(shell find $(cinternalRepoRoot)/src/core -name "*.c")
 
 LIBS += -pthread
 CPPFLAGS += -std=c++17
@@ -20,7 +20,8 @@ all: $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName)
 
 $(artifactRoot)/sys/$(lsbCode)/$(Configuration)/test/$(targetName): \
                 $(SOURCES:%=$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)	    \
-		$(CORE_SRCS:%=$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)
+		$(CORE_SRCS:%=$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)   \
+		$(EXTRA_SOURCSES:%=$(artifactRoot)/sys/$(lsbCode)/$(Configuration)/.objects/$(targetName)/%.o)
 	@mkdir -p $(@D)
 	@$(LINK) $^ $(LIBS) $(LFLAGS) -o $@
 

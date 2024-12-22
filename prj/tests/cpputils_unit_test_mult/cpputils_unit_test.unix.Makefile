@@ -15,9 +15,7 @@ CORE_SRCS_DIR=$(cpputilsRepoRoot)/src/core
 UNIT_TEST_SRCS	= $(shell find $(UNIT_TEST_SRCS_DIR) -name "*.cpp")
 CORE_SRCS	= $(shell find $(CORE_SRCS_DIR) -name "*.cpp")
 
-EXTRA_SOURCSES += $(cinternalRepoRoot)/src/core/cinternal_core_unit_test_checks.c
-EXTRA_SOURCSES += $(cinternalRepoRoot)/src/core/cinternal_core_unit_test_main.c
-EXTRA_SOURCSES += $(cinternalRepoRoot)/src/core/cinternal_core_logger.c
+EXTRA_SOURCSES += $(shell find $(cinternalRepoRoot)/src/core -name "*.c")
 
 COMMON_FLAGS += -DCINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES
 # c=+ 11 is needed for google test
