@@ -6,13 +6,13 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //
 
-#include <cpputils/enums/fast.hpp>
+#include <cpputils/named_types.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <cinternal/undisable_compiler_warnings.h>
 
 
-CPPUTILS_ENUM_FAST(Enum1,int, fld1, fld2);
+CPPUTILS_NAMED_ENUM_TP(Enum1,int, fld1, fld2);
 
 int main(void)
 {

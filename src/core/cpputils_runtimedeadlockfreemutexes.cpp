@@ -6,6 +6,10 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
+
+#include <cinternal/internal_header.h>
+#ifdef CPPUTILS_CPP_17_DEFINED
+
 #include <cpputils/runtimedeadlockfreemutexes.hpp>
 
 
@@ -21,3 +25,6 @@ Base::~Base()
 
 
 }}}  //  namespace cpputils { namespace mutex{ namespace runtimedeadlockfreemutexes{
+
+
+#endif  //  #ifdef CPPUTILS_CPP_17_DEFINED

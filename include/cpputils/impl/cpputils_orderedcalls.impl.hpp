@@ -8,9 +8,11 @@
 
 #pragma once
 
+#include <cinternal/internal_header.h>
+#ifdef CPPUTILS_CPP_17_DEFINED
+
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
-
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_HPP
 #include <cpputils/orderedcalls.hpp>
@@ -21,12 +23,14 @@
 #endif
 
 #include <cinternal/gettid.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <vector>
 #include <deque>
 #include <mutex>
 #include <thread>
 #include <stddef.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace orderedcalls{
 
@@ -392,3 +396,4 @@ CalleeData<CalleeType>::CalleeData(OrderedCalls<CalleeType>* a_parent_p, size_t 
 
 
 #endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_ORDEREDCALLS_IMPL_HPP
+#endif  //  #ifdef CPPUTILS_CPP_17_DEFINED

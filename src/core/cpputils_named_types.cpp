@@ -14,6 +14,7 @@
 
 namespace cpputils {namespace named_types {
 
+
 EnumNamesCollection::~EnumNamesCollection()
 {
     CInternalTypeinfoCleanCollectionEnumNames(m_collection_p);
@@ -58,4 +59,9 @@ const char* EnumNamesCollection::getEnumName(size_t a_index, int a_value)const
 }
 
 
-}}
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+EnumNamesCollection  NamedEnumBase::sm_collection;
+
+
+}}  //  namespace cpputils {namespace named_types {

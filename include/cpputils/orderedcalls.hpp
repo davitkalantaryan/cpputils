@@ -9,13 +9,18 @@
 
 #pragma once
 
+#include <cinternal/internal_header.h>
+#ifdef CPPUTILS_CPP_17_DEFINED
+
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_HPP
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <functional>
 #include <vector>
 #include <stddef.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace orderedcalls{
@@ -110,3 +115,4 @@ private:
 
 
 #endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_ORDEREDCALLS_HPP
+#endif  //  #ifdef CPPUTILS_CPP_17_DEFINED

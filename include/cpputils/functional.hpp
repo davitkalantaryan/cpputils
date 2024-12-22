@@ -16,14 +16,9 @@
 
 #if defined(CPPUTILS_CPP_11_DEFINED) && !defined(CPPUTILS_DO_NOT_USE_STD_FUNCTION)
 #define CPPUTILS_STD_FUNCTION_IS_USED
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable:4365)
-#endif
+#include <cinternal/disable_compiler_warnings.h>
 #include <functional>
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
+#include <cinternal/undisable_compiler_warnings.h>
 #define FUNC_ARGS		FUNC_ARGS_CPP11
 #else
 #include <cpputils/functional_old.hpp>

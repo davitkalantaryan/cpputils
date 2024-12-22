@@ -272,6 +272,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c" />
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_logger.c" />
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_typeinfo.c" />
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c" />
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c" />
     <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
@@ -288,8 +293,7 @@
     <None Include="..\any_quick_test_qt\any_quick_test.pro" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\named_types.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
