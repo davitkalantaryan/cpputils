@@ -23,13 +23,11 @@ win32{
 	LIBS += -pthread
 }
 
-
 SOURCES	+=		\
-	"$${PWD}/../../../src/tests/main_any_quick_test.cpp"			\
-	"$${PWD}/../../../src/core/cpputils_bigint.cpp"				\
-	"$${PWD}/../../../src/core/cpputils_functional_old.cpp"			\
-	"$${PWD}/../../../src/core/cpputils_hashtbl.cpp"			\
-	"$${PWD}/../../../src/core/cpputils_inscopecleaner.cpp"
+	"$${PWD}/../../../src/tests/main_any_quick_test.cpp"
+	
+SOURCES	+= $$files($${cpputilsRepoRoot}/src/core/*.cpp)  # I assume, that in core we will not have subdirs
+SOURCES += $$files($${cinternalRepoRoot}/src/core/*.c)
 
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.hpp,true)

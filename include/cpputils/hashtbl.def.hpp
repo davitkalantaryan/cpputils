@@ -36,7 +36,7 @@ template <typename KeyType, typename DataType>
 class FuncF 
 {
 public:
-	typedef ::cpputils::function< FUNC_ARGS(bool,void* clbkData,const KeyType& key, const DataType& data) > Find;
+	typedef ::cpputils::function< CPPUTILS_FUNC_ARGS(bool,void* clbkData,const KeyType& key, const DataType& data) > Find;
 	static bool		DefaultFind(void* clbkData,const KeyType& key, const DataType& data);
 };
 

@@ -12,17 +12,20 @@
 
 #include <cpputils/export_symbols.h>
 
-#define FUNC_ARGS_CPP11(_ret,...)	_ret(__VA_ARGS__)
+#define CPPUTILS_DECLARE_FUNC_AFTER_CPP11(_type,_ret,...)   _ret(__VA_ARGS__)   _type
+#define CPPUTILS_FUNC_ARGS_AFTER_CPP11(_ret,...)            _ret(__VA_ARGS__)
 
 #if defined(CPPUTILS_CPP_11_DEFINED) && !defined(CPPUTILS_DO_NOT_USE_STD_FUNCTION)
 #define CPPUTILS_STD_FUNCTION_IS_USED
 #include <cinternal/disable_compiler_warnings.h>
 #include <functional>
 #include <cinternal/undisable_compiler_warnings.h>
-#define FUNC_ARGS		FUNC_ARGS_CPP11
+#define CPPUTILS_DECLARE_FUNC   CPPUTILS_DECLARE_FUNC_AFTER_CPP11
+#define CPPUTILS_FUNC_ARGS      CPPUTILS_FUNC_ARGS_AFTER_CPP11
 #else
 #include <cpputils/functional_old.hpp>
-#define FUNC_ARGS		FUNC_ARGS_OLD
+#define CPPUTILS_DECLARE_FUNC   CPPUTILS_DECLARE_FUNC_BEFORE_CPP11
+#define CPPUTILS_FUNC_ARGS      CPPUTILS_FUNC_ARGS_OLD
 #endif
 
 namespace cpputils {

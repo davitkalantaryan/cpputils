@@ -64,14 +64,14 @@ function_old<Signature>::function_old(Signature a_fclbl)
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename InputType, typename ReturnType>
-function_old< FUNC_ARGS_OLD(ReturnType,InputType) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(ReturnType,InputType) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(ReturnType,InputType) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(ReturnType,InputType) > (a_fclbl)
 {
 }
 
 template <typename InputType, typename ReturnType>
-ReturnType function_old< FUNC_ARGS_OLD(ReturnType,InputType) >::operator()(InputType a_inp)const
+ReturnType function_old< CPPUTILS_FUNC_ARGS_OLD(ReturnType,InputType) >::operator()(InputType a_inp)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -84,14 +84,14 @@ ReturnType function_old< FUNC_ARGS_OLD(ReturnType,InputType) >::operator()(Input
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename InputType>
-function_old< FUNC_ARGS_OLD(void,InputType) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(void,InputType) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(void,InputType) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,InputType) > (a_fclbl)
 {
 }
 
 template <typename InputType>
-void function_old< FUNC_ARGS_OLD(void,InputType) >::operator()(InputType a_inp)const
+void function_old< CPPUTILS_FUNC_ARGS_OLD(void,InputType) >::operator()(InputType a_inp)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -104,14 +104,14 @@ void function_old< FUNC_ARGS_OLD(void,InputType) >::operator()(InputType a_inp)c
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename ReturnType>
-function_old< FUNC_ARGS_OLD(ReturnType,void) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(ReturnType,void) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(ReturnType,void) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(ReturnType,void) > (a_fclbl)
 {
 }
 
 template <typename ReturnType>
-ReturnType function_old< FUNC_ARGS_OLD(ReturnType,void) >::operator()(void)const
+ReturnType function_old< CPPUTILS_FUNC_ARGS_OLD(ReturnType,void) >::operator()(void)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -124,14 +124,14 @@ ReturnType function_old< FUNC_ARGS_OLD(ReturnType,void) >::operator()(void)const
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02, typename RType>
-function_old< FUNC_ARGS_OLD(RType,IType01,IType02) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02) > (a_fclbl)
 {
 }
 
 template <typename IType01,typename IType02, typename RType>
-RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02) >::operator()(IType01 a_inp01,IType02 a_inp02)const
+RType function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02) >::operator()(IType01 a_inp01,IType02 a_inp02)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -144,14 +144,14 @@ RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02) >::operator()(IType01 a
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02>
-function_old< FUNC_ARGS_OLD(void,IType01,IType02) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(void,IType01,IType02) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02) > (a_fclbl)
 {
 }
 
 template <typename IType01,typename IType02>
-void function_old< FUNC_ARGS_OLD(void,IType01,IType02) >::operator()(IType01 a_inp01,IType02 a_inp02)const
+void function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02) >::operator()(IType01 a_inp01,IType02 a_inp02)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -164,14 +164,14 @@ void function_old< FUNC_ARGS_OLD(void,IType01,IType02) >::operator()(IType01 a_i
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02,typename IType03, typename RType>
-function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02,IType03) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03) > (a_fclbl)
 {
 }
 
 template <typename IType01,typename IType02,typename IType03, typename RType>
-RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03)const
+RType function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -184,14 +184,14 @@ RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >::operator()(I
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02,typename IType03>
-function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(void,IType01,IType02,IType03) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03) > (a_fclbl)
 {
 }
 
 template <typename IType01,typename IType02,typename IType03>
-void function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03)const
+void function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -204,14 +204,14 @@ void function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03) >::operator()(ITy
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02,typename IType03,typename IType04, typename RType>
-function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) > (a_fclbl)
 {
 }
 
 template <typename IType01,typename IType02,typename IType03, typename IType04, typename RType>
-RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03, IType04 a_inp04)const
+RType function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03, IType04 a_inp04)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception
@@ -224,14 +224,14 @@ RType function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >::oper
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02,typename IType03,typename IType04>
-function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::function_old(FnType a_fclbl)
+function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::function_old(FnType a_fclbl)
 	:
-	  function_old_base< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) > (a_fclbl)
+	  function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) > (a_fclbl)
 {
 }
 
 template <typename IType01,typename IType02,typename IType03, typename IType04>
-void function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03, IType04 a_inp04)const
+void function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >::operator()(IType01 a_inp01,IType02 a_inp02,IType03 a_inp03, IType04 a_inp04)const
 {
 	if(!this->m_fclbl){
 		throw "bad function call";  // todo: replace this with proper exception

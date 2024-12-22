@@ -129,9 +129,9 @@ void Conf01::ParseStringNC(char* a_str)
     pcStrNext = a_str;
 
     while(1){
-        unOffsetToValid = ::std::strspn(pcStrNext,CPPUTILS_WHITE_CHARS);
+        unOffsetToValid = strspn(pcStrNext,CPPUTILS_WHITE_CHARS);
         pcStrNext += unOffsetToValid;
-        unOffsetToInvalid = ::std::strcspn(pcStrNext,CPPUTILS_WHITE_CHARS);
+        unOffsetToInvalid = strcspn(pcStrNext,CPPUTILS_WHITE_CHARS);
         pcEqual = strchr(pcStrNext,'=');
         if(!pcEqual){return;}
         unOffsetToEqual = static_cast<size_t>(pcEqual-pcStrNext);
@@ -139,7 +139,7 @@ void Conf01::ParseStringNC(char* a_str)
             if(unOffsetToInvalid<1){return;}
             keyStr = ::std::string(pcStrNext,unOffsetToInvalid);
             pcStrNext += unOffsetToInvalid;
-            unOffsetToValid = ::std::strspn(pcStrNext,CPPUTILS_WHITE_CHARS);
+            unOffsetToValid = strspn(pcStrNext,CPPUTILS_WHITE_CHARS);
             pcStrNext += unOffsetToValid;
             if(pcStrNext[0]!='='){return;}
             ++pcStrNext;
@@ -150,7 +150,7 @@ void Conf01::ParseStringNC(char* a_str)
             pcStrNext += (unOffsetToEqual+1);
         }
 
-        unOffsetToValid = ::std::strspn(pcStrNext,CPPUTILS_WHITE_CHARS);
+        unOffsetToValid = strspn(pcStrNext,CPPUTILS_WHITE_CHARS);
         pcStrNext += unOffsetToValid;
 
         if(pcStrNext[0]=='\"'){
@@ -160,7 +160,7 @@ void Conf01::ParseStringNC(char* a_str)
         }
         else{
             pcQuote = nullptr;
-            unOffsetToInvalid = ::std::strcspn(pcStrNext,CPPUTILS_WHITE_CHARS);
+            unOffsetToInvalid = strcspn(pcStrNext,CPPUTILS_WHITE_CHARS);
         }
 
         if(unOffsetToInvalid<1){return;}
