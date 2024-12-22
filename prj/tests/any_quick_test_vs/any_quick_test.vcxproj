@@ -279,6 +279,7 @@
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_multifor_c1.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_mutex_ml.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_named_types.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_unnamedsemaphore.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp" />
   </ItemGroup>
@@ -289,6 +290,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\named_types.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

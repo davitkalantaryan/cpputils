@@ -131,6 +131,12 @@
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_named_types.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_runtimedeadlockfreemutexes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">

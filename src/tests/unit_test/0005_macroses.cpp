@@ -10,7 +10,7 @@
 #include <string>
 #include <cinternal/undisable_compiler_warnings.h>
 
-#define ARGS_TO_NUM_AND_STRS(...)	CPPUTILS_NARGS(__VA_ARGS__), CPPUTILS_NAMES(__VA_ARGS__)
+#define ARGS_TO_NUM_AND_STRS(...)	CPPUTILS_NARGS(__VA_ARGS__), CPPUTILS_ALL_NAMES(__VA_ARGS__)
 
 
 TEST(f_0005_macroses, t0000_nargs)

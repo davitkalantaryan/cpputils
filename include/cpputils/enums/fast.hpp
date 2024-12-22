@@ -12,11 +12,12 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_ENUMS_FAST_HPP
 
 #include <cpputils/export_symbols.h>
-#include <cinternal/macroses.h>
+#include <cinternal/typeinfo.h>
 #include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdarg.h>
 #include <cinternal/undisable_compiler_warnings.h>
+
 
 #ifndef CPPUTILS_ENUM_TYPED
 #if CPPUTILS_CPP_11_DEFINED
@@ -65,11 +66,11 @@ public:																																						\
 	CPPUTILS_ENUM_TYPED(__Type,_integralType,__VA_ARGS__);																									\
 public:																																						\
 	_Name(_integralType a_val) : 																															\
-		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_NAMES(__VA_ARGS__)),			\
+		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__)),			\
 		m_enVal(static_cast<__Type>(a_val))																													\
 	{}																																						\
 	_Name() : 																																				\
-		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_NAMES(__VA_ARGS__))			\
+		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__))			\
 	{}																																						\
 	_Name(const _Name& a_cM) : /* here no need to create static array, because copy const means other object did this*/ 									\
 		::cpputils::enums::BaseFast< _integralType,CPPUTILS_NARGS(__VA_ARGS__),_IntSeed >(),																\
