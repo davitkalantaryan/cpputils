@@ -11,8 +11,9 @@
 //#define CPPUTILS_DO_NOT_USE_STD_FUNCTION
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/macroses.h>
 
-#define CPPUTILS_DECLARE_FUNC_AFTER_CPP11(_type,_ret,...)   _ret(__VA_ARGS__)   _type
+#define CPPUTILS_DECLARE_FUNC_AFTER_CPP11(_type,_ret,...)   ::cpputils::function< CPPUTILS_ID(_ret)(__VA_ARGS__) >   _type
 #define CPPUTILS_FUNC_ARGS_AFTER_CPP11(_ret,...)            _ret(__VA_ARGS__)
 
 #if defined(CPPUTILS_CPP_11_DEFINED) && !defined(CPPUTILS_DO_NOT_USE_STD_FUNCTION)
