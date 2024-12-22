@@ -20,6 +20,7 @@
 
 namespace cpputils {namespace named_types {
     
+
 class CPPUTILS_EXPORT EnumNamesCollection final
 {
 public:
@@ -33,10 +34,30 @@ public:
     void AddNamesToCollection(size_t a_index, int a_number, ...);
     void AddNamesToCollectionVA(size_t a_index, int a_number, va_list a_argList);
 
-    const char* getEnumName(size_t a_index, int a_value)const;
+    const char* getName(size_t a_index, int a_value)const;
 
 private:
     CInternalTypeinfoCollectionEnumNames* const m_collection_p;
+};
+
+
+class CPPUTILS_EXPORT StructNamesCollection final
+{
+public:
+    ~StructNamesCollection();
+    StructNamesCollection();
+    StructNamesCollection(const StructNamesCollection&) = delete;
+    StructNamesCollection(StructNamesCollection&&) = delete;
+    StructNamesCollection& operator=(const StructNamesCollection&) = delete;
+    StructNamesCollection& operator=(StructNamesCollection&&) = delete;
+
+    void AddNamesToCollection(size_t a_index, int a_number, ...);
+    void AddNamesToCollectionVA(size_t a_index, int a_number, va_list a_argList);
+
+    const char* getName(size_t a_index, size_t a_offset)const;
+
+private:
+    CInternalTypeinfoCollectionStructNames* const m_collection_p;
 };
 
 
@@ -68,12 +89,13 @@ protected:
 };
 
 
+extern CPPUTILS_DLL_PRIVATE StructNamesCollection  g_structsNamesCollection;
+
+
 }}  //  namespace cpputils {namespace named_types {
 
 
 #define CPPUTILS_NAMED_ENUM_TYPED(_Name,_integralType,...)	enum _Name : _integralType { __VA_ARGS__ }
-
-
 #define CPPUTILS_NAMED_ENUM_RAW(_IntSeed,_Name,_integralType,...)																							\
 class _Name : public ::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed > {													                            \
 public:																																						\
@@ -97,9 +119,18 @@ public:																																						\
 	__Type	m_enVal;																																		\
 }
 
-
 #define CPPUTILS_NAMED_ENUM_TP(_Name,_integralType,...)     CPPUTILS_NAMED_ENUM_RAW(__COUNTER__,_Name,_integralType,__VA_ARGS__)
 #define CPPUTILS_NAMED_ENUM(_Name,...)		                CPPUTILS_NAMED_ENUM_TP(_Name,int,__VA_ARGS__)
+
+
+#define CPPUTILS_NAMED_STRUCT_RAW(_IntSeed,_Name,...)																							\
+struct _Name {													                            \
+	_Name()  																																				        \
+	{                                                                                                                                                               \
+        g_structsNamesCollection.AddNamesToCollection(static_cast<size_t>(_IntSeed),CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_STRUCT_LIKE_DATA_NAMES(__VA_ARGS__),CPPUTILS_VARIABLE_OFFSETOF());      \
+    }																																						        \
+    CPPUTILS_VAR_MACRO_APPY_OP(CPPUTILS_DEFINE_VARIABLE,;,__VA_ARGS__);                                                                                             \
+}
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_CPPUTILS_NAMED_TYPES_HPP

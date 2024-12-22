@@ -15,6 +15,12 @@
 namespace cpputils {namespace named_types {
 
 
+EnumNamesCollection  NamedEnumBase::sm_collection;
+CPPUTILS_DLL_PRIVATE StructNamesCollection  g_structsNamesCollection;
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
 EnumNamesCollection::~EnumNamesCollection()
 {
     CInternalTypeinfoCleanCollectionEnumNames(m_collection_p);
@@ -53,7 +59,7 @@ void EnumNamesCollection::AddNamesToCollectionVA(size_t a_index, int a_number, v
 }
 
 
-const char* EnumNamesCollection::getEnumName(size_t a_index, int a_value)const
+const char* EnumNamesCollection::getName(size_t a_index, int a_value)const
 {
     return CInternalTypeinfoGetEnumNameFromCollection(m_collection_p, a_index, a_value);
 }
@@ -61,7 +67,48 @@ const char* EnumNamesCollection::getEnumName(size_t a_index, int a_value)const
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-EnumNamesCollection  NamedEnumBase::sm_collection;
+StructNamesCollection::~StructNamesCollection()
+{
+    CInternalTypeinfoCleanCollectionStructNames(m_collection_p);
+}
+
+
+StructNamesCollection::StructNamesCollection()
+    :
+    m_collection_p(CInternalTypeinfoCreateCollectionStructNames())
+{
+    if (!m_collection_p) {
+        throw ::std::bad_alloc();
+    }
+}
+
+
+void StructNamesCollection::AddNamesToCollection(size_t a_index, int a_number, ...)
+{
+    va_list argList;
+    va_start(argList, a_number);
+    CInternalTypeinfoStructNames* const pNames = CInternalTypeinfoSetStructNamesToCollectionVA(m_collection_p, a_index, a_number, argList);
+    va_end(argList);
+
+    if (!pNames) {
+        throw ::std::bad_alloc();
+    }
+}
+
+
+void StructNamesCollection::AddNamesToCollectionVA(size_t a_index, int a_number, va_list a_argList)
+{
+    CInternalTypeinfoStructNames* const pNames = CInternalTypeinfoSetStructNamesToCollectionVA(m_collection_p, a_index, a_number, a_argList);
+    if (!pNames) {
+        throw ::std::bad_alloc();
+    }
+}
+
+
+const char* StructNamesCollection::getName(size_t a_index, size_t a_offset)const
+{
+    return CInternalTypeinfoGetStructNameFromCollection(m_collection_p, a_index, a_offset);
+}
 
 
 }}  //  namespace cpputils {namespace named_types {
