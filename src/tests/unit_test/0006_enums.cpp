@@ -24,12 +24,12 @@ CPPUTILS_NAMED_ENUM_TP(Enum8, int, Field1, Field2);
 
 //
 CPPUTILS_NAMED_ENUM_TP(Color, char, Red, Blue);
-CPPUTILS_NAMED_ENUM_TP(Auto, char, Wolkswagen, Renault, Bmw, Mers);
+CPPUTILS_NAMED_ENUM_TP(Auto, char, Wolkswagen, Renault=5, Bmw, Mers);
 
 class TestClass{
 public:
     CPPUTILS_NAMED_ENUM(Red, Green, Blue);
-    CPPUTILS_NAMED_ENUM(Auto,Wolkswagen, Renault, Bmw, Mers);
+    CPPUTILS_NAMED_ENUM(Auto,Wolkswagen, Renault=4, Bmw, Mers);
 };
 
 
@@ -85,8 +85,10 @@ TEST(f_0006_enums, t0000_enum01)
 TEST(f_0006_enums, t0001_enum_raw)
 {
 	TestClass::Auto aAuto;
+    const char* cpcEnumName;
 
 	aAuto = TestClass::Auto::Bmw;
 	ASSERT_EQ(aAuto,TestClass::Auto::Bmw);
-	ASSERT_STREQ(aAuto.toString(),"Bmw");
+    cpcEnumName = aAuto.toString();
+	ASSERT_STREQ(cpcEnumName,"Bmw");
 }
