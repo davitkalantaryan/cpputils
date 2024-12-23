@@ -16,6 +16,10 @@
 #include <vector>
 #include <cinternal/undisable_compiler_warnings.h>
 
+#ifdef _MSC_VER
+#pragma warning(disable:4820)
+#endif
+
 
 namespace cpputils { namespace  multifor {
 
@@ -24,8 +28,6 @@ class C1
 public:
     typedef CPPUTILS_DECLARE_FUNC(TypeIter,void,const void*, size_t,const ::std::vector<int64_t>&);
     typedef CPPUTILS_DECLARE_FUNC(TypeLimit,int64_t,const void*, size_t,const ::std::vector<int64_t>&);
-    //typedef ::cpputils::function<void(const void*, size_t,const ::std::vector<int64_t>&)> TypeIter;
-    //typedef ::cpputils::function<int64_t(const void*, size_t,const ::std::vector<int64_t>&)> TypeLimit;
 
 public:
     C1(size_t a_deepness, TypeIter a_iter, TypeLimit a_min, TypeLimit a_max);
