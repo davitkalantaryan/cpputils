@@ -11,9 +11,11 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <string>
+#include <cinternal/undisable_compiler_warnings.h>
 #include "hashtbl.def.hpp"
 
 // todo: get rid of below disabling

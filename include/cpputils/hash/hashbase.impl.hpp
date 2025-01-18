@@ -15,9 +15,10 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_HASHBASE_HPP
 #include "hashbase.hpp"
 #endif
-
+#include <cinternal/disable_compiler_warnings.h>
 #include <utility>
 #include <string.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace __private { namespace __implementation {

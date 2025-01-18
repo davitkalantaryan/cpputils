@@ -14,9 +14,11 @@
 #include "hashtbl.hpp"
 #endif
 
-#define cinternal_hash1_raw_mem_needed							1
-#include <cinternal/hash/functions.h>
-
+#ifndef cinternal_hash1_raw_mem_inline_needed
+#define cinternal_hash1_raw_mem_inline_needed
+#endif
+#include <cinternal/hash_functions.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdlib.h>
 #include <memory.h>
 #include <new>
@@ -27,6 +29,7 @@
 #else
 #define CPPUTILS_STD_MOVE(_val)     (_val)
 #endif
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 
@@ -988,7 +991,7 @@ typename Base<KeyType,void,Hash,templateDefaultSize>::const_iterator Base<KeyTyp
 template <typename KeyType>
 size_t FHash<KeyType>::operator()(const KeyType& a_key)const
 {
-	return ::cinternal_hash1_raw_mem(&a_key,sizeof(KeyType));
+	return ::cinternal_hash1_raw_mem_inline(&a_key,sizeof(KeyType));
 }
 
 
@@ -1004,7 +1007,7 @@ bool FuncF<KeyType,DataType>::DefaultFind(void*,const KeyType&, const DataType&)
 template <typename CharType>
 size_t FHashStr<CharType>::operator()(const ::std::basic_string<CharType>& a_key)const
 {
-	return ::cinternal_hash1_raw_mem(a_key.c_str(),a_key.length()*sizeof(CharType));
+	return ::cinternal_hash1_raw_mem_inline(a_key.c_str(),a_key.length()*sizeof(CharType));
 }
 
 template <typename IntType>

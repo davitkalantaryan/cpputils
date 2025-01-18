@@ -5,7 +5,9 @@
 
 #include <cinternal/unit_test.h>
 #include <cinternal/endian.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #define CPPUTILS_INIT_VAL	1
 

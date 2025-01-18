@@ -11,8 +11,9 @@
 #ifndef CPPUTILS_INCLUDE_PROTECTEDDATA_HPP
 #include "protecteddata.hpp"
 #endif
-
+#include <cinternal/disable_compiler_warnings.h>
 #include <utility>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {

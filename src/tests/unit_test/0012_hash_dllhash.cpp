@@ -9,7 +9,9 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 #include <cpputils/hash/dllhash.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <string>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 TEST(f_0012_hash_dllhash, t0001)

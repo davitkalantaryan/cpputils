@@ -16,6 +16,15 @@
     <Filter Include="files">
       <UniqueIdentifier>{5465848b-d0f1-4058-a2ce-4040d507b621}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{caecc274-deb9-4d49-a3b6-97f2dbed13f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cpputils">
+      <UniqueIdentifier>{01376eae-64f9-4005-a6d7-c63c17fb9600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\cpputils\impl">
+      <UniqueIdentifier>{f2bbcc5f-d6bb-4aef-82d1-67f01a2d97ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tests\main_any_quick_test.cpp">
@@ -45,6 +54,24 @@
     <ClCompile Include="..\..\..\src\core\cpputils_unnamedsemaphore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_named_types.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_logger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_typeinfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\any_quick_test_mkfl\any_quick_test.unix.Makefile">
@@ -53,5 +80,13 @@
     <None Include="..\any_quick_test_qt\any_quick_test.pro">
       <Filter>files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\cpputils\named_types.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,8 +9,10 @@
 #include <cpputils/mutex_ml.hpp>
 #define cinternal_lw_recursive_mutex_create_needed
 #include <cinternal/lw_mutex_recursive.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils {
 

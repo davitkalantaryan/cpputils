@@ -7,6 +7,7 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 #include <cinternal/unit_test.h>
 #include <cpputils/tls_data.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <mutex>
 #include <vector>
@@ -14,6 +15,7 @@
 #include <stdlib.h>  
 #include <stdio.h>  
 #include <time.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 #define MAX_NUMBER_OF_THREADS	100
 static size_t s_nNumberOfCreated = 0;

@@ -10,8 +10,9 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
-
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {
@@ -26,7 +27,7 @@ class SharedPtr
 {
 public:
 	struct Core;
-	typedef ::cpputils::function< FUNC_ARGS(void,void* clbkData,PtrType* pData,size_t numberOfPreviousReferences,size_t numberOfReferences) > TypeClbk;
+	typedef ::cpputils::function< CPPUTILS_FUNC_ARGS(void,void* clbkData,PtrType* pData,size_t numberOfPreviousReferences,size_t numberOfReferences) > TypeClbk;
 public:
 	SharedPtr();
 	SharedPtr(PtrType* pPtr, TypeClbk a_fnClbk=CPPUTILS_NULL, void* clbkData=CPPUTILS_NULL);

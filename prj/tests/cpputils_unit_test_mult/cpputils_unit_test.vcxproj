@@ -41,7 +41,9 @@
     <None Include="packages.config.locked" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c" />
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_logger.c" />
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_typeinfo.c" />
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c" />
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c" />
     <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
@@ -51,6 +53,8 @@
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_multifor_c1.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_mutex_ml.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_named_types.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_runtimedeadlockfreemutexes.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_unnamedsemaphore.cpp" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0000_initial.cpp" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0001_hash.cpp" />
@@ -65,18 +69,12 @@
     <ClCompile Include="..\..\..\src\tests\unit_test\0010_endian_h.cpp" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0011_multifor.cpp" />
     <ClCompile Include="..\..\..\src\tests\unit_test\0012_hash_dllhash.cpp" />
+    <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.base.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\deadlockfreemutexes.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h" />
     <ClInclude Include="..\..\..\include\cpputils\functional.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp" />
@@ -96,12 +94,18 @@
     <ClInclude Include="..\..\..\include\cpputils\hash\lhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\vhash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\vhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_deadlockfreemutexes.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_orderedcalls.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\mutex_ml.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\named_types.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\orderedcalls.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\protecteddata.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\runtimedeadlockfreemutexes.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp" />

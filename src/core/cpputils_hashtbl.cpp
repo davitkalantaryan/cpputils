@@ -5,13 +5,18 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
+#ifndef cinternal_hash1_raw_mem_inline_needed
+#define cinternal_hash1_raw_mem_inline_needed
+#endif
+
 #include <cpputils/hashtbl.hpp>
-#define cinternal_hash1_raw_mem_needed							1
-#include <cinternal/hash/functions.h>
+#include <cinternal/hash_functions.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace __private { namespace __implementation {
 
@@ -23,7 +28,7 @@ namespace cpputils { namespace hashtbl {
 
 size_t FHashVoidPtr::operator()(const VoidPtrKey& a_key)const
 {
-	return ::cinternal_hash1_raw_mem(a_key.key,a_key.keyLen);
+	return ::cinternal_hash1_raw_mem_inline(a_key.key,a_key.keyLen);
 }
 
 /*///////////////////////////////////////////////////////////////////////////*/

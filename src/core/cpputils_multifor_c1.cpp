@@ -6,7 +6,9 @@
 //
 
 #include <cpputils/multifor/c1.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <assert.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace  multifor {

@@ -19,11 +19,18 @@ namespace cpputils {
 class CPPUTILS_EXPORT InScopeCleaner
 {
 public:
-	typedef ::cpputils::function< FUNC_ARGS(void,void*) > TypeDeleteFunc;
+	typedef ::cpputils::function< CPPUTILS_FUNC_ARGS(void,void*) > TypeDeleteFunc;
 	
 public:
 	InScopeCleaner(TypeDeleteFunc a_func, void* a_pClbkData=CPPUTILS_NULL);
 	~InScopeCleaner();
+
+#ifdef CPPUTILS_CPP_11_DEFINED
+    InScopeCleaner(const InScopeCleaner&) = delete;
+    InScopeCleaner(InScopeCleaner&&) = delete;
+    InScopeCleaner& operator=(const InScopeCleaner&) = delete;
+    InScopeCleaner& operator=(InScopeCleaner&&) = delete;
+#endif
 	
 public:
     const TypeDeleteFunc	m_func;

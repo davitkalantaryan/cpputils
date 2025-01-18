@@ -10,8 +10,10 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 #include <cpputils/bigint.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 using namespace ::cpputils;
 

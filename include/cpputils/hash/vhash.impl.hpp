@@ -15,9 +15,10 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_VHASH_HPP
 #include "vhash.hpp"
 #endif
-
+#include <cinternal/disable_compiler_warnings.h>
 #include <utility>
 #include <string.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace hash {
 

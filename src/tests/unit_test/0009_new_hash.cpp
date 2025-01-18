@@ -11,7 +11,9 @@
 #include <cpputils/hash/hash.hpp>
 #include <cpputils/hash/lhash.hpp>
 #include <cpputils/hash/vhash.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <utility>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 

@@ -10,6 +10,7 @@
 
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #ifdef CPPUTILS_CPP_11_DEFINED
 #ifdef _MSC_VER
@@ -21,8 +22,7 @@
 #pragma warning (pop)
 #endif
 #endif
-
-#include <cinternal/disable_compiler_warnings.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {

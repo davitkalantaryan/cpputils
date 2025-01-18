@@ -24,6 +24,7 @@ OTHER_FILES += $$files($${cpputilsRepoRoot}/docs/*.md,true)
 OTHER_FILES += $$files($${cpputilsRepoRoot}/docs/*.txt,true)
 OTHER_FILES += $$files($${cpputilsRepoRoot}/.github/*.yml,true)
 OTHER_FILES += $$files($${cpputilsRepoRoot}/prj/common/common_mkfl/*.Makefile)
+OTHER_FILES += $$files($${cpputilsRepoRoot}/workspaces/cpputils_all_mkfl/*.Makefile, true)
 
 
 OTHER_FILES	+=	\

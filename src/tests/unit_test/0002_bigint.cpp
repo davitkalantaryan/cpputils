@@ -5,7 +5,9 @@
 
 #include <cinternal/unit_test.h>
 #include <cpputils/bigint.hpp>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stdio.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 template <uint64_t BiSize>
 static void TestBigInteger();

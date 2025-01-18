@@ -7,7 +7,7 @@
 
 message("!!! $${_PRO_FILE_}")
 include ( "$${PWD}/../../common/common_qt/flagsandsys_common.pri" )
-DESTDIR     = "$${artifactRoot}/sys/$${CODENAME}/$$CONFIGURATION/test"
+DESTDIR = "$${ArifactFinal}/test"
 
 QT -= gui
 QT -= core
@@ -24,15 +24,9 @@ win32{
 
 DEFINES += CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES
 
-
-SOURCES	+= $$files($${cpputilsRepoRoot}/src/core/*.cpp)  # I assume, that in core we will not have subdirs
 SOURCES += $$files($${cpputilsRepoRoot}/src/tests/unit_test/*.cpp)
-
-SOURCES +=  \
-    "$${cinternalRepoRoot}/src/core/cinternal_core_logger.c"				\
-    "$${cinternalRepoRoot}/src/core/cinternal_core_unit_test_checks.c"			\
-    "$${cinternalRepoRoot}/src/core/cinternal_core_unit_test_main.c"
-
+SOURCES	+= $$files($${cpputilsRepoRoot}/src/core/*.cpp)  # I assume, that in core we will not have subdirs
+SOURCES += $$files($${cinternalRepoRoot}/src/core/*.c)
 
 
 HEADERS =  $$files($${cpputilsRepoRoot}/include/*.h,true)

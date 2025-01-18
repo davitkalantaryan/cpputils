@@ -34,14 +34,14 @@
     <Filter Include="Source Files\tests\unit_test">
       <UniqueIdentifier>{68f0ce51-e8b8-4479-8958-358531f194f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\incude\cpputils\enums">
-      <UniqueIdentifier>{c595c8b4-a880-46ba-886e-aada516ec418}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\incude\cpputils\multifor">
       <UniqueIdentifier>{75755178-7613-44ec-9055-454c04ae1687}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\incude\cpputils\parser">
       <UniqueIdentifier>{432c22f5-9e2c-4dd4-a7c2-8610c5cace1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\incude\cpputils\impl">
+      <UniqueIdentifier>{6448a097-fb08-480d-821b-f51371ef91d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,15 +131,27 @@
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_named_types.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_runtimedeadlockfreemutexes.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_typeinfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp">
+      <Filter>Source Files\tests\unit_test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\functional.hpp">
@@ -205,27 +217,6 @@
     <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.impl.hpp">
       <Filter>Header Files\incude\cpputils\hash</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\fast.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\fast.impl.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.base.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.full.impl.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\enums\locked.fullslow.impl.hpp">
-      <Filter>Header Files\incude\cpputils\enums</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp">
       <Filter>Header Files\incude\cpputils\multifor</Filter>
     </ClInclude>
@@ -258,6 +249,27 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\unnamedsemaphore.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\deadlockfreemutexes.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\orderedcalls.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\runtimedeadlockfreemutexes.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\named_types.hpp">
+      <Filter>Header Files\incude\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_deadlockfreemutexes.impl.hpp">
+      <Filter>Header Files\incude\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp">
+      <Filter>Header Files\incude\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_orderedcalls.impl.hpp">
+      <Filter>Header Files\incude\cpputils\impl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

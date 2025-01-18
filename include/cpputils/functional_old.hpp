@@ -9,10 +9,13 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_FUNCTIONAL_OLD_HPP
 
 #include <cpputils/export_symbols.h>
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
-#define FUNC_ARGS_OLD(_ret,...)		_ret (*)(__VA_ARGS__)
+#define CPPUTILS_DECLARE_FUNC_BEFORE_CPP11(_type,_ret,...)  _ret (*_type)(__VA_ARGS__)
+#define CPPUTILS_FUNC_ARGS_OLD(_ret,...)                    _ret (*)(__VA_ARGS__)
 
 
 namespace cpputils {
@@ -44,7 +47,7 @@ public:
 };
 
 template <typename InputType, typename ReturnType>
-class function_old< FUNC_ARGS_OLD(ReturnType,InputType) > : public function_old_base< FUNC_ARGS_OLD(ReturnType,InputType) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(ReturnType,InputType) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(ReturnType,InputType) >
 {
 public:
 	typedef ReturnType (*FnType)(InputType);
@@ -57,7 +60,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename InputType>
-class function_old< FUNC_ARGS_OLD(void,InputType) > : public function_old_base< FUNC_ARGS_OLD(void,InputType) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(void,InputType) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,InputType) >
 {
 public:
 	typedef void (*FnType)(InputType);
@@ -70,7 +73,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename ReturnType>
-class function_old< FUNC_ARGS_OLD(ReturnType,void) > : public function_old_base< FUNC_ARGS_OLD(ReturnType,void) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(ReturnType,void) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(ReturnType,void) >
 {
 public:
 	typedef ReturnType (*FnType)(void);
@@ -84,7 +87,7 @@ public:
 
 
 template <typename IType01,typename IType02, typename RType>
-class function_old< FUNC_ARGS_OLD(RType,IType01,IType02) > : public function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02) >
 {
 public:
 	typedef RType (*FnType)(IType01,IType02);
@@ -97,7 +100,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02>
-class function_old< FUNC_ARGS_OLD(void,IType01,IType02) > : public function_old_base< FUNC_ARGS_OLD(void,IType01,IType02) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02) >
 {
 public:
 	typedef void (*FnType)(IType01,IType02);
@@ -110,7 +113,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02, typename IType03, typename RType>
-class function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03) > : public function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03) >
 {
 public:
 	typedef RType (*FnType)(IType01,IType02,IType03);
@@ -123,7 +126,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02, typename IType03>
-class function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03) > : public function_old_base< FUNC_ARGS_OLD(void,IType01,IType02,IType03) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03) >
 {
 public:
 	typedef void (*FnType)(IType01,IType02,IType03);
@@ -136,7 +139,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02, typename IType03, typename IType04, typename RType>
-class function_old< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) > : public function_old_base< FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(RType,IType01,IType02,IType03,IType04) >
 {
 public:
 	typedef RType (*FnType)(IType01,IType02,IType03,IType04);
@@ -149,7 +152,7 @@ public:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename IType01,typename IType02, typename IType03, typename IType04>
-class function_old< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) > : public function_old_base< FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >
+class function_old< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) > : public function_old_base< CPPUTILS_FUNC_ARGS_OLD(void,IType01,IType02,IType03,IType04) >
 {
 public:
 	typedef void (*FnType)(IType01,IType02,IType03,IType04);

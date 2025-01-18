@@ -17,16 +17,12 @@ DEFINES       			= /D "CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES"
 LIBS					= $(LIBS) "Ws2_32.lib"
 LFLAGS					= $(LFLAGS) /SUBSYSTEM:CONSOLE
 
-Objects					=	..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.$(Platform)_$(ObjectsExtension)_obj
-Objects					=	$(Objects) ..\contrib\cinternal\src\core\cinternal_core_unit_test_main.$(Platform)_$(ObjectsExtension)_obj
-Objects					=	$(Objects) ..\contrib\cinternal\src\core\cinternal_core_logger.$(Platform)_$(ObjectsExtension)_obj
-
-
 #SourcesToCompile	=
 #DirectoriesToCompile	= $(DirectoriesToCompile) nr-build\gen\cpp\sss\ssslang\antlr
 DirectoriesToCompile	=
 DirectoriesToCompile	= tests\unit_test
 DirectoriesToCompile	= $(DirectoriesToCompile) core
+DirectoriesToCompile	= $(DirectoriesToCompile) ..\contrib\cinternal\src\core
 
 default: unittest
 

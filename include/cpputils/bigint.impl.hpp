@@ -13,7 +13,7 @@
 //#error do not include this header directly
 #include "bigint.hpp"
 #endif
-
+#include <cinternal/disable_compiler_warnings.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <ostream>
@@ -24,6 +24,7 @@
 #include <vector>
 #include <string.h>
 #include <math.h>
+#include <cinternal/undisable_compiler_warnings.h>
 
 namespace __private { namespace __implementation {
 
@@ -1102,7 +1103,7 @@ inline void BigUInt<NUM_QWORDS_DEGR>::toStreamU( ::std::basic_ostream<CharType>*
             while(ullnCount){
                 (*a_pStream) << vValues[--ullnCount];
             }
-            a_pStream->width(initialWidth);
+            a_pStream->width(static_cast<std::streamsize>(initialWidth));
             a_pStream->fill(initialFill);
         }
 
