@@ -132,6 +132,10 @@ public:																																	    \
 		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__)),	    \
 		m_enVal(a_val)																													    \
 	{}																																	    \
+    _Name(const _integralType& a_val) : 																										    \
+		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__)),	    \
+		m_enVal(static_cast<__Type>(a_val))																													    \
+	{}																																	    \
 	_Name() : 																															    \
 		::cpputils::named_types::NamedEnumBaseTmpl< _IntSeed >(CPPUTILS_NARGS(__VA_ARGS__),CPPUTILS_ENUM_LIKE_DATA_NAMES(__VA_ARGS__))	    \
 	{}																																	    \
