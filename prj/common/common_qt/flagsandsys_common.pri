@@ -1,10 +1,10 @@
 #
-# repo:			cpputils
-# name:			flagsandsys_common.pri
-# path:			prj/common/common_qt/flagsandsys_common.pri
+# repo:		cpputils
+# name:		flagsandsys_common.pri
+# path:		prj/common/common_qt/flagsandsys_common.pri
 # created on:   2023 Jun 21
 # created by:   Davit Kalantaryan (davit.kalantaryan@desy.de)
-# usage:		Use this qt include file to calculate some platform specific stuff
+# usage:	Use this qt include file to calculate some platform specific stuff
 #
 
 
@@ -17,17 +17,21 @@ isEmpty(cpputilsFlagsAndSysCommonIncluded){
 
     isEmpty(artifactRoot) {
         artifactRoot = $$(artifactRoot)
-	        isEmpty(artifactRoot) {
-		        artifactRoot = $${cpputilsRepoRoot}
-		}
+	isEmpty(artifactRoot) {
+	    artifactRoot = $${cpputilsRepoRoot}
+	}
     }
 
     include("$${cpputilsRepoRoot}/contrib/cinternal/prj/common/common_qt/flagsandsys_common.pri")
 
     INCLUDEPATH += $${cpputilsRepoRoot}/include
 
-    LIBS	+= -L$${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib
-    LIBS	+= -L$${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib
+    exists($${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib) {
+        LIBS += -L$${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/lib
+    }
+    exists($${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib) {
+        LIBS += -L$${cpputilsRepoRoot}/sys/$${CODENAME}/$$CONFIGURATION/tlib
+    }
 
     OTHER_FILES += $$files($${PWD}/../common_mkfl/*.Makefile,true)
 }
