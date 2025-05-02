@@ -63,7 +63,8 @@ ListAndHash<DataType>::~ListAndHash() noexcept
         pItemNext = pItem->next;
         CInternalHashRemoveDataEx(m_hash,pItem->hashIter);
         pItem->~Item();
-        *(m_hash->deallocator)(pItem);
+        (*(m_hash->deallocator))(pItem);
+        pItem = pItemNext;
     }  //  while(pItem){
 }
 
@@ -317,8 +318,8 @@ inline void ListAndHash<DataType>::RemoveEx(Iterator CPPUTILS_ARG_NN a_iter) noe
     }
     
     CInternalHashRemoveDataEx(m_hash,a_iter->hashIter);
-    a_iter->~Iter();
-    (*(m_hash->deallocator))(a_iter);
+    a_iter->~Item();
+    (*(m_hash->deallocator))(const_cast<Item*>(a_iter));
 }
 
 
