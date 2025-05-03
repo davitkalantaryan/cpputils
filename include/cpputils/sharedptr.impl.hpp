@@ -30,43 +30,47 @@ namespace cpputils {
 
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr()
+SharedPtrBase<PtrType>::SharedPtrBase() CPPUTILS_NOEXCEPT
 	:
 	  m_pCore(CPPUTILS_NULL)
 {
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(PtrType* a_pCell, TypeClbk a_fnClbk, void* a_clbkData)
+SharedPtrBase<PtrType>::SharedPtrBase(PtrType* a_pCell, TypeClbk a_fnClbk, void* a_clbkData)
 	:
-	  m_pCore( new Core  )
-{	
-	m_pCore->m_pData = a_pCell;
-	m_pCore->m_pClbkData = a_clbkData;
-	m_pCore->m_clbk = a_fnClbk?a_fnClbk:( TypeClbk(&__private::__implementation::SharedPtrImpl<PtrType>::DefaultFunction) );
-	m_pCore->m_unReferences = 1;
+	  m_pCore( CPPUTILS_NULL  )
+{
+    if(a_pCell){
+        m_pCore = new Core();
+        m_pCore->m_pData = a_pCell;
+        m_pCore->m_pClbkData = a_clbkData;
+        m_pCore->m_clbk = a_fnClbk?a_fnClbk:( TypeClbk(&__private::__implementation::SharedPtrImpl<PtrType>::DefaultFunction) );
+        m_pCore->m_unReferences = 1;
+        m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,0,1);
+    }
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(Core* a_pCore)
+SharedPtrBase<PtrType>::SharedPtrBase(Core* a_pCore) CPPUTILS_NOEXCEPT
 	:
 	  m_pCore(a_pCore)
 {
 	if(m_pCore){
-		const size_t unPrevRef(m_pCore->m_unReferences);
-		m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,unPrevRef,++(m_pCore->m_unReferences));
+		const size_t unRefsAfter(++(m_pCore->m_unReferences));
+		m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,unRefsAfter-1,unRefsAfter);
 	}
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(const SharedPtr& a_cM) CPPUTILS_NOEXCEPT
+SharedPtrBase<PtrType>::SharedPtrBase(const SharedPtrBase& a_cM) CPPUTILS_NOEXCEPT
 	:
-	  SharedPtr(a_cM.m_pCore)
+	  SharedPtrBase(a_cM.m_pCore)
 {
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::SharedPtr(SharedPtr&& a_cM) CPPUTILS_NOEXCEPT
+SharedPtrBase<PtrType>::SharedPtrBase(SharedPtrBase&& a_cM) CPPUTILS_NOEXCEPT
 	:
 	  m_pCore(a_cM.m_pCore)
 {
@@ -74,45 +78,44 @@ SharedPtr<PtrType>::SharedPtr(SharedPtr&& a_cM) CPPUTILS_NOEXCEPT
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::~SharedPtr()
+SharedPtrBase<PtrType>::~SharedPtrBase() CPPUTILS_NOEXCEPT
 {
-	if(m_pCore){
-		const size_t unPrevRef(m_pCore->m_unReferences);
-		m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,unPrevRef,--(m_pCore->m_unReferences));
-		if(!(m_pCore->m_unReferences)){
-			delete m_pCore->m_pData;
+	this->reset();
+}
+
+template <typename PtrType>
+void SharedPtrBase<PtrType>::reset() CPPUTILS_NOEXCEPT
+{
+    if(m_pCore){
+		const size_t unRefsAfter(--(m_pCore->m_unReferences));
+		m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,unRefsAfter+1,unRefsAfter);
+		if(unRefsAfter<1){
 			delete (m_pCore);
 		}
+        m_pCore = nullptr;
 	}
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>& SharedPtr<PtrType>::operator=(const SharedPtr& a_cM)
+SharedPtrBase<PtrType>& SharedPtrBase<PtrType>::operator=(const SharedPtrBase& a_cM) CPPUTILS_NOEXCEPT
 {
 	if(m_pCore==a_cM.m_pCore){
 		return *this;
 	}
 	
-	if(m_pCore){
-		const size_t unPrevRef(m_pCore->m_unReferences);
-		m_pCore->m_clbk(m_pCore->m_pClbkData, m_pCore->m_pData,unPrevRef,--(m_pCore->m_unReferences));
-		if(!(m_pCore->m_unReferences)){
-			delete m_pCore->m_pData;
-			free(m_pCore);
-		}
-	}
+	this->reset();
 	m_pCore=a_cM.m_pCore;
 	
 	if(m_pCore){
-		const size_t unPrevRef(m_pCore->m_unReferences);
-		m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,unPrevRef,++(m_pCore->m_unReferences));
+		const size_t unRefsAfter(++(m_pCore->m_unReferences));
+		m_pCore->m_clbk(m_pCore->m_pClbkData,m_pCore->m_pData,unRefsAfter-1,unRefsAfter);
 	}
 	
 	return *this;
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>& SharedPtr<PtrType>::operator=(SharedPtr&& a_cM)
+SharedPtrBase<PtrType>& SharedPtrBase<PtrType>::operator=(SharedPtrBase&& a_cM)CPPUTILS_NOEXCEPT
 {
 	if(m_pCore==a_cM.m_pCore){
 		return *this;
@@ -126,7 +129,7 @@ SharedPtr<PtrType>& SharedPtr<PtrType>::operator=(SharedPtr&& a_cM)
 
 
 template <typename PtrType>
-PtrType* SharedPtr<PtrType>::get()const
+PtrType* SharedPtrBase<PtrType>::get()const CPPUTILS_NOEXCEPT 
 {
     if(m_pCore){
         return m_pCore->m_pData;
@@ -136,7 +139,7 @@ PtrType* SharedPtr<PtrType>::get()const
 }
 
 template <typename PtrType>
-PtrType* SharedPtr<PtrType>::operator ->()const
+PtrType* SharedPtrBase<PtrType>::operator ->()const CPPUTILS_NOEXCEPT
 {
 	if(m_pCore){
 		return m_pCore->m_pData;
@@ -146,13 +149,13 @@ PtrType* SharedPtr<PtrType>::operator ->()const
 }
 
 template <typename PtrType>
-PtrType& SharedPtr<PtrType>::operator *()const
+PtrType& SharedPtrBase<PtrType>::operator *()const CPPUTILS_NOEXCEPT
 {	
 	return *(m_pCore->m_pData);
 }
 
 template <typename PtrType>
-SharedPtr<PtrType>::operator const PtrType*()const
+SharedPtrBase<PtrType>::operator const PtrType*()const CPPUTILS_NOEXCEPT
 {
 	if(m_pCore){
 		return m_pCore->m_pData;
@@ -162,19 +165,50 @@ SharedPtr<PtrType>::operator const PtrType*()const
 }
 
 template <typename PtrType>
-typename SharedPtr<PtrType>::Core* SharedPtr<PtrType>::GetCore()
+SharedPtrBase<PtrType>::operator bool () const CPPUTILS_NOEXCEPT
+{
+    return m_pCore && (m_pCore->m_pData);
+}
+
+template <typename PtrType>
+const typename SharedPtrBase<PtrType>::Core* 
+SharedPtrBase<PtrType>::GetCore() CPPUTILS_NOEXCEPT
 {
 	return m_pCore;
 }
 
 template <typename PtrType>
-int SharedPtr<PtrType>::getReferences()const
+int SharedPtrBase<PtrType>::getReferences()const CPPUTILS_NOEXCEPT
 {
 	if(m_pCore){
 		return static_cast<int>(m_pCore->m_unReferences);
 	}
 	
 	return -1;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename PtrType>
+SharedPtr<PtrType>::~SharedPtr() CPPUTILS_NOEXCEPT
+{
+}
+
+
+template <typename PtrType>
+template<typename... Targs>
+SharedPtr<PtrType>::SharedPtr(Targs... a_args)
+    :
+      SharedPtrBase<PtrType>(a_args...)
+{
+    if(SharedPtrBase<PtrType>::m_pCore){
+        SharedPtrBase<PtrType>::m_pCore->m_clbk = [](void*,PtrType* a_pData,size_t a_referencesBefore, size_t a_referencesAfter){
+            if((a_referencesBefore>0) && (a_referencesAfter<1)){
+                delete a_pData;
+            }
+        };
+    }
 }
 
 
