@@ -171,7 +171,8 @@ SharedPtrBase<PtrType>::operator bool () const CPPUTILS_NOEXCEPT
 }
 
 template <typename PtrType>
-typename SharedPtrBase<PtrType>::Core* SharedPtrBase<PtrType>::GetCore() CPPUTILS_NOEXCEPT
+const typename SharedPtrBase<PtrType>::Core* 
+SharedPtrBase<PtrType>::GetCore() CPPUTILS_NOEXCEPT
 {
 	return m_pCore;
 }
@@ -184,6 +185,30 @@ int SharedPtrBase<PtrType>::getReferences()const CPPUTILS_NOEXCEPT
 	}
 	
 	return -1;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename PtrType>
+SharedPtr<PtrType>::~SharedPtr() CPPUTILS_NOEXCEPT
+{
+}
+
+
+template <typename PtrType>
+template<typename... Targs>
+SharedPtr<PtrType>::SharedPtr(Targs... a_args)
+    :
+      SharedPtrBase<PtrType>(a_args...)
+{
+    if(SharedPtrBase<PtrType>::m_pCore){
+        SharedPtrBase<PtrType>::m_pCore->m_clbk = [](void*,PtrType* a_pData,size_t a_referencesBefore, size_t a_referencesAfter){
+            if((a_referencesBefore>0) && (a_referencesAfter<1)){
+                delete a_pData;
+            }
+        };
+    }
 }
 
 

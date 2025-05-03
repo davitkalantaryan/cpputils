@@ -44,7 +44,7 @@ public:
 	operator const PtrType*()const CPPUTILS_NOEXCEPT;
     operator bool () const CPPUTILS_NOEXCEPT ;
 	
-	Core* GetCore() CPPUTILS_NOEXCEPT;
+	const Core* GetCore() CPPUTILS_NOEXCEPT;
 	int getReferences()const CPPUTILS_NOEXCEPT;
     PtrType* get()const CPPUTILS_NOEXCEPT;
     void reset() CPPUTILS_NOEXCEPT;
@@ -61,10 +61,17 @@ protected:
     Core*   m_pCore;
 };
 
-// todo: implement below class in such a way, that it is almost the same as ::std::shared_ptr
-//template <typename PtrType>
-//class SharedPtr : public SharedPtrBase<PtrType>
-//{};
+
+// almost the same as ::std::shared_ptr
+// you can make this friend to class with non public destructor
+template <typename PtrType>
+class SharedPtr : public SharedPtrBase<PtrType>
+{
+public:
+    virtual ~SharedPtr() CPPUTILS_NOEXCEPT;
+    template<typename... Targs>
+    SharedPtr(Targs... a_args);
+};
 
 
 }  // namespace cpputils {
