@@ -17,6 +17,7 @@
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
 #include <utility>
+#include <stdint.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils {
@@ -109,13 +110,15 @@ CollectionMap::AddBegWithKnownHash(DataType* CPPUTILS_ARG_NN a_data_p, const Typ
     if (!(pNewItem->data_p)) {
         throw ::std::bad_alloc();
     }
+    const uint64_t typeIndex = (uint64_t)getUniqueIdInline<DataType>();
+    const uint64_t wholeKey = (typeIndex << 32) | ((uint64_t)((uint32_t)a_key));
     new(pNewItem->data_p) DataType( ::std::move(*a_data_p) );
-    pNewItemVoid->hashIter = CInternalHashAddDataWithKnownHash(m_clmp_data_p->m_hash, pNewItem, (void*)((size_t)a_key), sizeof(a_key), a_hash);
+    pNewItemVoid->hashIter = CInternalHashAddDataWithKnownHash(m_clmp_data_p->m_hash, pNewItem, (void*)((size_t)wholeKey), sizeof(wholeKey), a_hash);
     if (!(pNewItemVoid->hashIter)) {
         throw ::std::bad_alloc();
     }
 
-    AddToTheListBegPrivate(pNewItemVoid, getUniqueIdInline<DataType>());
+    AddToTheListBegPrivate(pNewItemVoid,(int)typeIndex);
     return pNewItem;
 }
 
