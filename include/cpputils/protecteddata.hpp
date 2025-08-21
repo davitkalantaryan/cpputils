@@ -42,10 +42,10 @@ public:
     void SetDataM(DataType&& a_data);
     DataType data()const;
 
-private:
-    Mutex*                  m_pMutex;
+protected:
+    Mutex* const            m_pMutex;
     DataType                m_data;
-    bool                    m_bOwnerOfMutex;
+    const bool              m_bOwnerOfMutex;
 };
 
 

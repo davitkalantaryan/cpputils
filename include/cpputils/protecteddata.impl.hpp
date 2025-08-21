@@ -18,14 +18,15 @@
 
 namespace cpputils {
 
+
 template <typename DataType, typename Mutex>
 template<typename... Targs>
 ProtectedData<DataType,Mutex>::ProtectedData(Targs... a_args)
     :
-      m_data(a_args...)
+    m_pMutex(new Mutex()),
+    m_data(a_args...),
+    m_bOwnerOfMutex(true)
 {
-    m_pMutex = new Mutex();
-    m_bOwnerOfMutex = true;
 }
 
 
@@ -33,16 +34,10 @@ template <typename DataType, typename Mutex>
 template<typename... Targs>
 ProtectedData<DataType, Mutex>::ProtectedData(Mutex* a_pMutex, Targs... a_args)
     :
-    m_data(a_args...)
+    m_pMutex(a_pMutex ? a_pMutex : (new Mutex())),
+    m_data(a_args...),
+    m_bOwnerOfMutex(a_pMutex ? false : true)
 {
-    if (a_pMutex) {
-        m_pMutex = a_pMutex;
-        m_bOwnerOfMutex = false;
-    }
-    else {
-        m_pMutex = new Mutex();
-        m_bOwnerOfMutex = true;
-    }
 }
 
 
@@ -58,13 +53,15 @@ ProtectedData<DataType, Mutex>::~ProtectedData()
 template <typename DataType, typename Mutex>
 ProtectedData<DataType,Mutex>& ProtectedData<DataType,Mutex>::operator=(const ProtectedData& a_data)
 {
+    DataType otherData;
     {
         ::std::lock_guard<Mutex> aGuard(*(a_data.m_pMutex));
+        otherData = a_data.m_data;
+    }
 
-        {
-            ::std::lock_guard<Mutex> aGuard(*(m_pMutex));
-            m_data = a_data.m_data;
-        }
+    {
+        ::std::lock_guard<Mutex> aGuard(*(m_pMutex));
+        m_data = ::std::move(otherData);
     }
 
     return *this;
@@ -74,9 +71,15 @@ ProtectedData<DataType,Mutex>& ProtectedData<DataType,Mutex>::operator=(const Pr
 template <typename DataType, typename Mutex>
 ProtectedData<DataType,Mutex>& ProtectedData<DataType,Mutex>::operator=(ProtectedData&& a_data)
 {
+    DataType otherData;
     {
-        ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-        m_data = ::std::move(a_data.m_data);
+        ::std::lock_guard<Mutex> aGuard(*(a_data.m_pMutex));
+        otherData = ::std::move(a_data.m_data);
+    }
+
+    {
+        ::std::lock_guard<Mutex> aGuard(*(m_pMutex));
+        m_data = ::std::move(otherData);
     }
 
     return *this;
@@ -86,8 +89,12 @@ ProtectedData<DataType,Mutex>& ProtectedData<DataType,Mutex>::operator=(Protecte
 template <typename DataType, typename Mutex>
 ProtectedData<DataType,Mutex>::operator DataType()const
 {
-    ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-    return m_data;
+    DataType retData;
+    {
+        ::std::lock_guard<Mutex> aGuard(*m_pMutex);
+        retData = m_data;
+    }
+    return retData;
 }
 
 
@@ -145,8 +152,12 @@ void ProtectedData<DataType,Mutex>::SetDataM(DataType&& a_data)
 template <typename DataType, typename Mutex>
 DataType ProtectedData<DataType,Mutex>::data()const
 {
-    ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-    return m_data;
+    DataType retData;
+    {
+        ::std::lock_guard<Mutex> aGuard(*m_pMutex);
+        retData = m_data;
+    }
+    return retData;
 }
 
 
