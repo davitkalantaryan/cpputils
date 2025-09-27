@@ -66,6 +66,7 @@ ListAndHash<DataType>::~ListAndHash() noexcept
         (*(m_hash->deallocator))(pItem);
         pItem = pItemNext;
     }  //  while(pItem){
+    CInternalHashDestroy(m_hash);
 }
 
 
