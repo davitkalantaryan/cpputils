@@ -88,5 +88,83 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\collectionmap.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\deadlockfreemutexes.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\functional.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\listandhash.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\listandhash.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\mutex_ml.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\orderedcalls.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\protecteddata.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\runtimedeadlockfreemutexes.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_data.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.posix.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\unnamedsemaphore.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
