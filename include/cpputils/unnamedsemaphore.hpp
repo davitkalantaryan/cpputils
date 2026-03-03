@@ -27,8 +27,12 @@ public:
 
     void Post();
     void Post(size_t postCount);
-    void Wait();
-    void Wait(size_t waitTimeMs);
+    int Wait();
+    int Wait(size_t waitTimeMs);
+
+    static bool IsWaitRetOk(int a_waitRet) noexcept;
+    static bool IsWaitInterrupted(int a_waitRet) noexcept;
+    static bool IsWaitTimedOut(int a_waitRet) noexcept;
 
 private:
     UnnamedSemaphore(const UnnamedSemaphore&) CPPUTILS_DELETE
