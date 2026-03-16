@@ -56,15 +56,35 @@ void UnnamedSemaphore::Post(size_t a_postCount)
 }
 
 
-void UnnamedSemaphore::Wait()
+int UnnamedSemaphore::Wait()
 {
-    cinternal_unnamed_sema_wait(&(m_sema_data_p->m_sema));
+    const cinternal_sema_wait_ret_t waitRet = cinternal_unnamed_sema_wait(&(m_sema_data_p->m_sema));
+    return (int)waitRet;
 }
 
 
-void UnnamedSemaphore::Wait(size_t a_waitTimeMs)
+int UnnamedSemaphore::Wait(size_t a_waitTimeMs)
 {
-    cinternal_unnamed_sema_wait_ms(&(m_sema_data_p->m_sema), a_waitTimeMs);
+    const cinternal_sema_wait_ret_t waitRet = cinternal_unnamed_sema_wait_ms(&(m_sema_data_p->m_sema), a_waitTimeMs);
+    return (int)waitRet;
+}
+
+
+bool UnnamedSemaphore::IsWaitRetOk(int a_waitRet) noexcept
+{
+    return cinternal_unnamed_sema_is_ok(a_waitRet);
+}
+
+
+bool UnnamedSemaphore::IsWaitInterrupted(int a_waitRet) noexcept
+{
+    return cinternal_unnamed_sema_is_wait_interrupted(a_waitRet);
+}
+
+
+bool UnnamedSemaphore::IsWaitTimedOut(int a_waitRet) noexcept
+{
+    return cinternal_unnamed_sema_is_wait_timeout(a_waitRet);
 }
 
 
