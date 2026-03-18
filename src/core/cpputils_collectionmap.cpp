@@ -12,6 +12,7 @@
 #include <new>
 #include <stddef.h>
 #include <string.h>
+#include <stdlib.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace collectionmap{
@@ -21,17 +22,20 @@ static size_t WithAnyKeyHasherStatic(const void* a_key, size_t a_keySize) CPPUTI
 static bool WithAnyKeyIsKeyTheSameStatic(const void* a_key1, size_t a_keySize1, const void* a_key2, size_t a_keySize2) CPPUTILS_NOEXCEPT;
 static bool WithAnyKeyStoreKeyStatic(TypeCinternalAllocator a_allocator, void** a_pKeyStore, size_t* a_pKeySizeStore, const void* a_key, size_t a_keySize) CPPUTILS_NOEXCEPT;
 static void WithAnyKeyStoreKeyUnstoreStatic(TypeCinternalDeallocator a_deallocator, void* a_key, size_t a_keySize) CPPUTILS_NOEXCEPT;
+static CollectionMap_p* CreateCollectionMap_p(TypeCinternalAllocator a_allocator);
 
 
 Base::~Base() noexcept
 {
-    delete m_clmp_data_p;
+    const TypeCinternalDeallocator aDeallocator = m_clmp_data_p->m_hash->deallocator;
+    m_clmp_data_p->~CollectionMap_p();
+    (*aDeallocator)(m_clmp_data_p);
 }
 
 
-Base::Base()
+Base::Base(TypeCinternalAllocator a_allocator)
     :
-    m_clmp_data_p(new CollectionMap_p())
+    m_clmp_data_p(CreateCollectionMap_p(a_allocator))
 {
 }
 
@@ -40,7 +44,7 @@ Base::Base()
 
 WithIntKey::WithIntKey(size_t a_numberOfBaskets,TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    Base()
+    Base(a_allocator)
 {
     m_clmp_data_p->m_hash = CInternalHashCreateSmlIntEx(a_numberOfBaskets, a_allocator, a_deallocator);
     if (!(m_clmp_data_p->m_hash)) {
@@ -53,7 +57,7 @@ WithIntKey::WithIntKey(size_t a_numberOfBaskets,TypeCinternalAllocator a_allocat
 
 WithAnyKey::WithAnyKey(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    Base()
+    Base(a_allocator)
 {
     m_clmp_data_p->m_hash = CInternalHashCreateAnyEx(
         a_numberOfBaskets,
@@ -78,7 +82,9 @@ CollectionMap_p::~CollectionMap_p() noexcept
         pItem = m_lists[i].m_first;
         while (pItem) {
             pItemNext = static_cast<__private::ItemVoid*>(pItem->next);
-            CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
+            CInternalHashRemoveDataEx(m_hash, pItem->hashIter2);
+            (*(pItem->dataDeleter))(pItem->data_p);
+            (*(m_hash->deallocator))(pItem->data_p);
             pItem->~ItemVoid();
             (*(m_hash->deallocator))(pItem);
             pItem = pItemNext;
@@ -102,6 +108,25 @@ CollectionMap_p::CollectionMap_p()
 }
 
 
+inline void CollectionMap_p::MakeSureListHasEnoughElements(int a_typeIndex)
+{
+    const int requieredNumberOfTypes = a_typeIndex + 1;
+    if (requieredNumberOfTypes > m_numberOfTypes) {
+        const size_t requieredBufferSize = static_cast<size_t>(requieredNumberOfTypes) * sizeof(__private::SnglListItem);
+        char* const pTmpList = (char*)m_hash->allocator(requieredBufferSize);
+        if (!pTmpList) {
+            throw ::std::bad_alloc();
+        }
+        memcpy(pTmpList, m_lists, m_bufferSize);
+        memset(pTmpList + m_bufferSize, 0, (requieredBufferSize - m_bufferSize));
+        m_hash->deallocator(m_lists);
+        m_lists = (__private::SnglListItem*)pTmpList;
+        m_bufferSize = requieredBufferSize;
+        m_numberOfTypes = requieredNumberOfTypes;
+    }  //  if (a_typeIndex >= (m_clmp_data_p->m_numberOfTypes)) {
+}
+
+
 const Base::Item<void>* CollectionMap_p::getFirstByTypeIndex(int a_typeIndex)const
 {
     if (a_typeIndex < m_numberOfTypes) {
@@ -122,20 +147,7 @@ const Base::Item<void>* CollectionMap_p::getLastByTypeIndex(int a_typeIndex)cons
 
 void CollectionMap_p::AddToTheListBegPrivate(Base::Item<void>* CPPUTILS_ARG_NN a_item_p, int a_typeIndex)
 {
-    const int requieredNumberOfTypes = a_typeIndex + 1;
-    if (requieredNumberOfTypes > m_numberOfTypes) {
-        const size_t requieredBufferSize = static_cast<size_t>(requieredNumberOfTypes) * sizeof(__private::SnglListItem);
-        char* const pTmpList = (char*)m_hash->allocator(requieredBufferSize);
-        if (!pTmpList) {
-            throw ::std::bad_alloc();
-        }
-        memcpy(pTmpList, m_lists, m_bufferSize);
-        memset(pTmpList + m_bufferSize, 0, (requieredBufferSize - m_bufferSize));
-        m_hash->deallocator(m_lists);
-        m_lists = (__private::SnglListItem*)pTmpList;
-        m_bufferSize = requieredBufferSize;
-        m_numberOfTypes = requieredNumberOfTypes;
-    }  //  if (a_typeIndex >= (m_clmp_data_p->m_numberOfTypes)) {
+    MakeSureListHasEnoughElements(a_typeIndex);
 
     a_item_p->prev = CPPUTILS_NULL;
     a_item_p->next = m_lists[a_typeIndex].m_first;
@@ -150,18 +162,52 @@ void CollectionMap_p::AddToTheListBegPrivate(Base::Item<void>* CPPUTILS_ARG_NN a
 }
 
 
-void CollectionMap_p::AddBegWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN a_pNewItem, void* CPPUTILS_ARG_NN a_key, size_t a_keySize, size_t a_hash)
+void CollectionMap_p::AddToTheListEndPrivate(Base::Item<void>* CPPUTILS_ARG_NN a_item_p, int a_typeIndex)
+{
+    MakeSureListHasEnoughElements(a_typeIndex);
+
+    a_item_p->prev = m_lists[a_typeIndex].m_last;
+    a_item_p->next = CPPUTILS_NULL;
+    if (m_lists[a_typeIndex].m_last) {
+        m_lists[a_typeIndex].m_last->next = a_item_p;
+    }
+    else {
+        m_lists[a_typeIndex].m_first = (__private::ItemVoid*)a_item_p;
+    }
+    m_lists[a_typeIndex].m_last = (__private::ItemVoid*)a_item_p;
+    ++(m_lists[a_typeIndex].m_count);
+}
+
+
+void CollectionMap_p::AddBegWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN a_pNewItem, void* CPPUTILS_ARG_NN a_key, size_t a_keySize, size_t a_hash, const __private::TypeWithAnyKeyDeleteKey& a_dataDeleter)
 {
     __private::ItemVoid* const pNewItemVoid = (__private::ItemVoid*)a_pNewItem;
     pNewItemVoid->prev = pNewItemVoid->next = CPPUTILS_NULL;
-    pNewItemVoid->hashIter = CPPUTILS_NULL;
 
-    pNewItemVoid->hashIter = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
-    if (!(pNewItemVoid->hashIter)) {
+    pNewItemVoid->hashIter2 = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
+    if (!(pNewItemVoid->hashIter2)) {
         throw ::std::bad_alloc();
     }
 
+    pNewItemVoid->dataDeleter = a_dataDeleter;
+
     AddToTheListBegPrivate(pNewItemVoid, a_typeIndex);
+}
+
+
+void CollectionMap_p::AddEndWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN a_pNewItem, void* CPPUTILS_ARG_NN a_key, size_t a_keySize, size_t a_hash, const __private::TypeWithAnyKeyDeleteKey& a_dataDeleter)
+{
+    __private::ItemVoid* const pNewItemVoid = (__private::ItemVoid*)a_pNewItem;
+    pNewItemVoid->prev = pNewItemVoid->next = CPPUTILS_NULL;
+
+    pNewItemVoid->hashIter2 = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
+    if (!(pNewItemVoid->hashIter2)) {
+        throw ::std::bad_alloc();
+    }
+
+    pNewItemVoid->dataDeleter = a_dataDeleter;
+
+    AddToTheListEndPrivate(pNewItemVoid, a_typeIndex);
 }
 
 
@@ -193,7 +239,7 @@ static bool WithAnyKeyIsKeyTheSameStatic(const void* a_key1, size_t a_keySize1, 
 static bool WithAnyKeyStoreKeyStatic(TypeCinternalAllocator a_allocator, void** a_pKeyStore, size_t* a_pKeySizeStore, const void* a_key, size_t a_keySize) CPPUTILS_NOEXCEPT
 {
     const __private::SWithAnyKeyKeyExt* const pKeyExt = (const __private::SWithAnyKeyKeyExt*)a_key;
-    __private::SWithAnyKeyKeyExt* const pKeyToStoreExt = __private::SWithAnyKeyKeyExt::MakeCopy(*pKeyExt);
+    __private::SWithAnyKeyKeyExt* const pKeyToStoreExt = __private::SWithAnyKeyKeyExt::MakeCopy(a_allocator ,*pKeyExt);
     *a_pKeyStore = (void*)pKeyToStoreExt;
 
     (void)a_pKeySizeStore;
@@ -206,8 +252,23 @@ static bool WithAnyKeyStoreKeyStatic(TypeCinternalAllocator a_allocator, void** 
 static void WithAnyKeyStoreKeyUnstoreStatic(TypeCinternalDeallocator a_deallocator, void* a_key, size_t a_keySize) CPPUTILS_NOEXCEPT
 {
     __private::SWithAnyKeyKeyExt* const pKeyExt = (__private::SWithAnyKeyKeyExt*)a_key;
-    delete pKeyExt;
+    pKeyExt->~SWithAnyKeyKeyExt();
+    (*a_deallocator)(pKeyExt);
     (void)a_keySize;
+}
+
+
+static CollectionMap_p* CreateCollectionMap_p(TypeCinternalAllocator a_allocator)
+{
+    if (!a_allocator) {
+        a_allocator = &malloc;
+    }
+    CollectionMap_p* const pClmpData = (CollectionMap_p*)(a_allocator(sizeof(CollectionMap_p)));
+    if (!pClmpData) {
+        throw ::std::bad_alloc();
+    }
+    new(pClmpData) CollectionMap_p();
+    return pClmpData;
 }
 
 
@@ -243,11 +304,15 @@ SWithAnyKeyKeyExt::SWithAnyKeyKeyExt(
 }
 
 
-SWithAnyKeyKeyExt* SWithAnyKeyKeyExt::MakeCopy(const SWithAnyKeyKeyExt& a_cM)
+SWithAnyKeyKeyExt* SWithAnyKeyKeyExt::MakeCopy(TypeCinternalAllocator a_allocator, const SWithAnyKeyKeyExt& a_cM)
 {
-    SWithAnyKeyKeyExt* const retVal = new SWithAnyKeyKeyExt(a_cM);
+    SWithAnyKeyKeyExt* const retVal = (SWithAnyKeyKeyExt*)((*a_allocator)(sizeof(SWithAnyKeyKeyExt)));
+    if (!retVal) {
+        throw ::std::bad_alloc();
+    }
+    new(retVal) SWithAnyKeyKeyExt(a_cM);
     if (a_cM.keyRaw_p) {
-        retVal->keyRaw_p = a_cM.fncDublicateKey(a_cM.keyRaw_p);
+        (*(a_cM.fncDublicateKey))(retVal->keyRaw_p,a_cM.keyRaw_p);
     }
     return retVal;
 }

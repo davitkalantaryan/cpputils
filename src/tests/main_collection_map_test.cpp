@@ -74,6 +74,9 @@ int main(void)
     ::cpputils::collectionmap::Base::Iterator<int> iter4Tst = aMap.findNextTheSame<int>(iter3Tst);
     ::std::cout << "iter4Tst:" << (const void*)iter4Tst << ::std::endl;
 
+
+    aMap.AddEndWithKnownHash<int>(1, 1, unHash);
+
     aMap.AddBegWithKnownHash<int>(1, 1, unHash);
     iter3Tst = aMap.find<int>(1);
     ::cpputils::collectionmap::Base::Iterator<int> iter5Tst = aMap.findNextTheSame<int>(iter3Tst);

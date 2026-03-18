@@ -34,7 +34,7 @@ public:
 
 protected:
     ~Base() noexcept;
-    Base();
+    Base(TypeCinternalAllocator a_allocator);
 
 private:
     Base(const Base&) = delete;
@@ -84,6 +84,14 @@ public:
     Iterator<TypeData> AddBegWithKnownHash(const TypeData& a_data, const TypeInt& a_key, size_t a_hash);
     template <typename TypeData, typename TypeInt>
     Iterator<TypeData> AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key, size_t a_hash);
+    template <typename TypeData, typename TypeInt>
+    Iterator<TypeData> AddEndWithKnownHash(const TypeData& a_data, const TypeInt& a_key, size_t a_hash);
+    template <typename TypeData, typename TypeInt>
+    Iterator<TypeData> AddEndWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key, size_t a_hash);
+    //template <typename TypeData, typename TypeInt>
+    //Iterator<TypeData> AddBegEvenIfExist(const TypeData& a_data, const TypeInt& a_key);
+    //template <typename TypeData, typename TypeInt>
+    //Iterator<TypeData> AddBegEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key);
 };
 
 
@@ -100,6 +108,10 @@ public:
     Iterator<TypeData> AddBegWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
     Iterator<TypeData> AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
+    Iterator<TypeData> AddEndWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
+    Iterator<TypeData> AddEndWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
 };
 
 

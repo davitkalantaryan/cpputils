@@ -26,9 +26,10 @@ namespace cpputils { namespace collectionmap{
 namespace __private{
 
 CPPUTILS_EXPORT int GetNextIndex(void) noexcept;
+typedef void (*TypeWithAnyKeyDeleteKey)(void* a_key);
 struct ItemVoid final : public Base::Item<void> {
-    CinternalHashItem_t hashIter;
-    void* reserved01;
+    CinternalHashItem_t     hashIter2;
+    TypeWithAnyKeyDeleteKey dataDeleter;
 };
 
 
@@ -43,8 +44,7 @@ struct SWithAnyKeyKeyExt;
 
 typedef size_t (*TypeWithAnyKeyHasher)(const void* key);
 typedef bool (*TypeWithAnyKeyIsMemoriesIdentical)(const void* key1,const void* key2);
-typedef void* (*TypeWithAnyKeyDublicateKey)(const void* a_key);
-typedef void (*TypeWithAnyKeyDeleteKey)(void* a_key);
+typedef void (*TypeWithAnyKeyDublicateKey)(void* a_createdMemory, const void* a_key);
 
 struct SWithAnyKeyKeyExt {
     const TypeWithAnyKeyHasher              fncHasher;
@@ -70,7 +70,7 @@ private:
 
 public:
     ~SWithAnyKeyKeyExt() noexcept;
-    static SWithAnyKeyKeyExt* MakeCopy(const SWithAnyKeyKeyExt& a_cM);
+    static SWithAnyKeyKeyExt* MakeCopy(TypeCinternalAllocator a_allocator, const SWithAnyKeyKeyExt& a_cM);
     template <typename TypeData, typename KeyType, typename TypeHasher>
     static SWithAnyKeyKeyExt Create(const KeyType& a_keyRaw);
     template <typename KeyType>
@@ -79,15 +79,23 @@ public:
 };
 
 
+template <typename DataType>
+class WithAnyKeyFncs1
+{
+public:
+    static bool WithAnyKeyIsMemoriesIdentical(const void* a_key1, const void* a_key2);
+    static void WithAnyKeyStoreKey(void* a_createdMemory, const void* a_key);
+    static void WithAnyKeyUnstoreKey(void* a_key);
+};
+
+
 template <typename KeyType, typename TypeHasher>
-class WithAnyKeyFncs
+class WithAnyKeyFncs2
 {
 public:
     static size_t WithAnyKeyHasher(const void* a_key);
-    static bool WithAnyKeyIsMemoriesIdentical(const void* a_key1, const void* a_key2);
-    static void* WithAnyKeyStoreKey(const void* a_key);
-    static void WithAnyKeyUnstoreKey(void* a_key);
 };
+
 
 }  //  namespace __private{
 
@@ -99,23 +107,26 @@ public:
     CollectionMap_p();
 
 public:
-    ConstCinternalHash_t                        m_hash;
-    size_t                                      m_bufferSize;
-    int                                         m_numberOfTypes;
-    int                                         m_reserved01;
-    collectionmap::__private::SnglListItem*     m_lists;
+    ConstCinternalHash_t        m_hash;
+    size_t                      m_bufferSize;
+    int                         m_numberOfTypes;
+    int                         m_reserved01;
+    __private::SnglListItem*    m_lists;
 
 public:
     const Base::Item<void>* getFirstByTypeIndex(int a_typeIndex)const;
     const Base::Item<void>* getLastByTypeIndex(int a_typeIndex)const;
-    void AddToTheListBegPrivate(Base::Item<void>* CPPUTILS_ARG_NN a_item_p, int a_typeIndex);
-    void AddBegWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN a_data_p, void* CPPUTILS_ARG_NN a_key, size_t a_keySize, size_t a_hash);;
+    void AddBegWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN a_data_p, void* CPPUTILS_ARG_NN a_key, size_t a_keySize, size_t a_hash, const __private::TypeWithAnyKeyDeleteKey& a_dataDeleter);
+    void AddEndWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN a_data_p, void* CPPUTILS_ARG_NN a_key, size_t a_keySize, size_t a_hash, const __private::TypeWithAnyKeyDeleteKey& a_dataDeleter);
 
 private:
     CollectionMap_p(const CollectionMap_p&) = delete;
     CollectionMap_p(CollectionMap_p&&) = delete;
     CollectionMap_p& operator=(const CollectionMap_p&) = delete;
     CollectionMap_p& operator=(CollectionMap_p&&) = delete;
+    inline void MakeSureListHasEnoughElements(int a_typeIndex);
+    void AddToTheListBegPrivate(Base::Item<void>* CPPUTILS_ARG_NN a_item_p, int a_typeIndex);
+    void AddToTheListEndPrivate(Base::Item<void>* CPPUTILS_ARG_NN a_item_p, int a_typeIndex);
 };
 
 
@@ -150,7 +161,7 @@ Base::findNextTheSame(const Iterator<TypeData>& a_prev)const noexcept
 {
     const Item<TypeData>* const pNewItem = (const Item<TypeData>*)a_prev;
     __private::ItemVoid* const pNewItemVoid = (__private::ItemVoid*)pNewItem;
-    const CinternalHashItem_t iter = CInternalHashFindNextTheSame(m_clmp_data_p->m_hash, pNewItemVoid->hashIter);
+    const CinternalHashItem_t iter = CInternalHashFindNextTheSame(m_clmp_data_p->m_hash, pNewItemVoid->hashIter2);
     if (iter) {
         const Item<TypeData>* const pNewItemInner = (const Item<TypeData>*)iter->data;
         return pNewItemInner;
@@ -219,6 +230,59 @@ WithIntKey::AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeIn
 }
 
 
+template <typename TypeData, typename TypeInt>
+typename Base::Iterator<TypeData>
+WithIntKey::AddEndWithKnownHash(const TypeData& a_data, const TypeInt& a_key, size_t a_hash)
+{
+    TypeData aData(a_data);
+    return AddBegWithKnownHash(&aData, a_key, a_hash);
+}
+
+
+template <typename TypeData, typename TypeInt>
+typename Base::Iterator<TypeData>
+WithIntKey::AddEndWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key, size_t a_hash)
+{
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clmp_data_p->m_hash->allocator))(sizeof(__private::ItemVoid)));
+    if (!pNewItem) {
+        throw ::std::bad_alloc();
+    }
+
+    pNewItem->data_p = (TypeData*)((*(m_clmp_data_p->m_hash->allocator))(sizeof(TypeData)));
+    if (!(pNewItem->data_p)) {
+        throw ::std::bad_alloc();
+    }
+
+    new(pNewItem->data_p) TypeData(::std::move(*a_data_p));
+    const uint64_t typeIndex = (uint64_t)getReserveUniqueIdInline<TypeData>();
+    const uint64_t wholeKey = (typeIndex << 32) | ((uint64_t)((uint32_t)a_key));
+
+    m_clmp_data_p->AddBegWithKnownHash((int)typeIndex, (void*)pNewItem, (void*)((size_t)wholeKey), sizeof(wholeKey), a_hash);
+
+    return pNewItem;
+}
+
+
+//template <typename TypeData, typename TypeInt>
+//typename Base::Iterator<TypeData>
+//WithIntKey::AddBegEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key)
+//{
+//    Item* const pNewItem = (Item*)((*(m_hash->allocator))(sizeof(Item)));
+//    if (!pNewItem) {
+//        throw ::std::bad_alloc();
+//    }
+//
+//    new(pNewItem) Item(a_data_p);
+//    pNewItem->hashIter = CInternalHashAddDataEvenIfExist(m_hash, pNewItem, a_key, a_keySize);
+//    if (!(pNewItem->hashIter)) {
+//        throw ::std::bad_alloc();
+//    }
+//
+//    AddToTheListBegPrivate(pNewItem);
+//    return pNewItem;
+//}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeData, typename TypeKey, typename TypeHasher >
@@ -270,7 +334,39 @@ WithAnyKey::AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKe
     new(pNewItem->data_p) TypeData(::std::move(*a_data_p));
     const __private::SWithAnyKeyKeyExt keyExt = __private::SWithAnyKeyKeyExt::Create<TypeData, TypeKey, TypeHasher>(a_key);
 
-    m_clmp_data_p->AddBegWithKnownHash((int)(keyExt.typeIndex), (void*)pNewItem, (void*)&keyExt, 0, a_hash);
+    m_clmp_data_p->AddBegWithKnownHash((int)(keyExt.typeIndex), (void*)pNewItem, (void*)&keyExt, 0, a_hash,&__private::WithAnyKeyFncs1<TypeData>::WithAnyKeyUnstoreKey);
+
+    return pNewItem;
+}
+
+
+template <typename TypeData, typename TypeKey, typename TypeHasher >
+typename Base::Iterator<TypeData>
+WithAnyKey::AddEndWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
+{
+    TypeData aData(a_data);
+    return AddEndWithKnownHash(&aData, a_key, a_hash);
+}
+
+
+template <typename TypeData, typename TypeKey, typename TypeHasher >
+typename Base::Iterator<TypeData>
+WithAnyKey::AddEndWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
+{
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clmp_data_p->m_hash->allocator))(sizeof(__private::ItemVoid)));
+    if (!pNewItem) {
+        throw ::std::bad_alloc();
+    }
+
+    pNewItem->data_p = (TypeData*)((*(m_clmp_data_p->m_hash->allocator))(sizeof(TypeData)));
+    if (!(pNewItem->data_p)) {
+        throw ::std::bad_alloc();
+    }
+
+    new(pNewItem->data_p) TypeData(::std::move(*a_data_p));
+    const __private::SWithAnyKeyKeyExt keyExt = __private::SWithAnyKeyKeyExt::Create<TypeData, TypeKey, TypeHasher>(a_key);
+
+    m_clmp_data_p->AddEndWithKnownHash((int)(keyExt.typeIndex), (void*)pNewItem, (void*)&keyExt, 0, a_hash, &__private::WithAnyKeyFncs1<TypeData>::WithAnyKeyUnstoreKey);
 
     return pNewItem;
 }
@@ -282,7 +378,7 @@ namespace __private{
 
 
 template <typename TypeKey, typename TypeHasher>
-size_t WithAnyKeyFncs<TypeKey, TypeHasher>::WithAnyKeyHasher(const void* a_key)
+size_t WithAnyKeyFncs2<TypeKey, TypeHasher>::WithAnyKeyHasher(const void* a_key)
 {
     const TypeKey* const pKeyRaw = (const TypeKey*)a_key;
     const TypeHasher aHasher;
@@ -291,31 +387,31 @@ size_t WithAnyKeyFncs<TypeKey, TypeHasher>::WithAnyKeyHasher(const void* a_key)
 }
 
 
-template <typename TypeKey, typename TypeHasher>
-bool WithAnyKeyFncs<TypeKey, TypeHasher>::WithAnyKeyIsMemoriesIdentical(const void* a_key1, const void* a_key2)
+template <typename TypeData>
+bool WithAnyKeyFncs1<TypeData>::WithAnyKeyIsMemoriesIdentical(const void* a_key1, const void* a_key2)
 {
-    const TypeKey* const pKey1 = (const TypeKey*)a_key1;
-    const TypeKey* const pKey2 = (const TypeKey*)a_key2;
+    const TypeData* const pKey1 = (const TypeData*)a_key1;
+    const TypeData* const pKey2 = (const TypeData*)a_key2;
     return (*pKey1) == (*pKey2);
 }
 
 
-template <typename TypeKey, typename TypeHasher>
-void* WithAnyKeyFncs<TypeKey, TypeHasher>::WithAnyKeyStoreKey(const void* a_key)
+template <typename TypeData>
+void WithAnyKeyFncs1<TypeData>::WithAnyKeyStoreKey(void* a_createdMemory, const void* a_key)
 {
-    const TypeKey* const pKeyRaw = (const TypeKey*)a_key;
-    if (pKeyRaw) {
-        return new TypeKey(*pKeyRaw);
+    if (a_key) {
+        const TypeData* const pKeyRaw = (const TypeData*)a_key;
+        TypeData* const pKeyRawRet = (TypeData*)a_createdMemory;
+        new(pKeyRawRet) TypeData(*pKeyRaw);
     }
-    return nullptr;
 }
 
 
-template <typename TypeKey, typename TypeHasher>
-void WithAnyKeyFncs<TypeKey, TypeHasher>::WithAnyKeyUnstoreKey(void* a_key)
+template <typename TypeData>
+void WithAnyKeyFncs1<TypeData>::WithAnyKeyUnstoreKey(void* a_key)
 {
-    TypeKey* const pKey = (TypeKey*)a_key;
-    delete pKey;
+    TypeData* const pKey = (TypeData*)a_key;
+    pKey->~TypeData();
 }
 
 
@@ -324,10 +420,10 @@ SWithAnyKeyKeyExt SWithAnyKeyKeyExt::CreateRaw(const void* a_keyRaw_p) noexcept
 {
     return SWithAnyKeyKeyExt(
         a_keyRaw_p,
-        &WithAnyKeyFncs<KeyType, TypeHasher>::WithAnyKeyHasher, 
-        &WithAnyKeyFncs<KeyType, TypeHasher>::WithAnyKeyIsMemoriesIdentical, 
-        &WithAnyKeyFncs<KeyType, TypeHasher>::WithAnyKeyStoreKey, 
-        &WithAnyKeyFncs<KeyType, TypeHasher>::WithAnyKeyUnstoreKey, 
+        &WithAnyKeyFncs2<KeyType, TypeHasher>::WithAnyKeyHasher, 
+        &WithAnyKeyFncs1<KeyType>::WithAnyKeyIsMemoriesIdentical, 
+        &WithAnyKeyFncs1<KeyType>::WithAnyKeyStoreKey, 
+        &WithAnyKeyFncs1<KeyType>::WithAnyKeyUnstoreKey, 
         Base::getReserveUniqueIdInline<TypeData>());
 }
 
