@@ -13,63 +13,50 @@
 
 #include <cpputils/export_symbols.h>
 #include <cinternal/hash.h>
+#include <cinternal/disable_compiler_warnings.h>
+#include <memory>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
-namespace cpputils {
-    
-class CPPUTILS_DLL_PRIVATE CollectionMap_p;
+namespace cpputils { namespace collectionmap{ 
 
-class CPPUTILS_EXPORT CollectionMap
+
+class CPPUTILS_EXPORT CollectionMap_p;
+
+
+class CPPUTILS_EXPORT Base
 {
 public:
-    template <typename DataType>
+    template <typename TypeData>
     struct Item;
-    template <typename DataType>
-    using Iterator = const Item<DataType>*;
+    template <typename TypeData>
+    using Iterator = const Item<TypeData>*;
 
-public:
-    ~CollectionMap() noexcept;
-    CollectionMap(size_t a_numberOfBaskets,TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
-
-    template <typename DataType>
-    Iterator<DataType> first()const noexcept;
-    template <typename DataType>
-    Iterator<DataType> last()const noexcept;
-    template <typename DataType, typename TypeInt=size_t>
-    Iterator<DataType> AddBegWithKnownHash(const DataType& a_data, const TypeInt& a_key, size_t a_hash);
-    template <typename DataType, typename TypeInt = size_t>
-    Iterator<DataType> AddBegWithKnownHash(DataType* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key, size_t a_hash);
-    
-    //Iterator AddEndWithKnownHash(const DataType& a_data, const void* a_key, size_t a_keySize, size_t a_hash);
-    //Iterator AddEndWithKnownHash(DataType* CPPUTILS_ARG_NN a_data_p, const void* a_key, size_t a_keySize, size_t a_hash);
-    //Iterator AddBegEvenIfExist(const DataType& a_data, const void* a_key, size_t a_keySize);
-    //Iterator AddBegEvenIfExist(DataType* CPPUTILS_ARG_NN a_data_p, const void* a_key, size_t a_keySize);
-    //Iterator AddEndEvenIfExist(const DataType& a_data, const void* a_key, size_t a_keySize);
-    //Iterator AddEndEvenIfExist(DataType* CPPUTILS_ARG_NN a_data_p, const void* a_key, size_t a_keySize);
-    //Iterator AddBegIfNotExists(const DataType& a_data, const void* a_key, size_t a_keySize);
-    //Iterator AddBegIfNotExists(DataType* CPPUTILS_ARG_NN a_data_p, const void* a_key, size_t a_keySize);
-    //Iterator AddEndIfNotExists(const DataType& a_data, const void* a_key, size_t a_keySize);
-    //Iterator AddEndIfNotExists(DataType* CPPUTILS_ARG_NN a_data_p, const void* a_key, size_t a_keySize);
-    //inline void RemoveEx(Iterator CPPUTILS_ARG_NN a_iter) noexcept;
-    //bool Remove(const void* a_key, size_t a_keySize) noexcept;
-    //inline Iterator findEx(const void* a_key, size_t a_keySize, size_t* CPPUTILS_ARG_NN a_pHash) const noexcept;
-    //Iterator find(const void* a_key, size_t a_keySize) const noexcept;
-    //Iterator findNextTheSame(Iterator CPPUTILS_ARG_NN a_prev) const noexcept;
+protected:
+    ~Base() noexcept;
+    Base();
 
 private:
-    template <typename DataType>
-    static inline int getUniqueIdInline(void) noexcept;
-
-private:
-    const Item<void>* getFirstByTypeIndex(int a_typeIndex)const;
-    const Item<void>* getLastByTypeIndex(int a_typeIndex)const;
-    void AddToTheListBegPrivate(Item<void>* CPPUTILS_ARG_NN a_item_p, int a_typeIndex);
+    Base(const Base&) = delete;
+    Base(Base&&) = delete;
+    Base& operator=(const Base&) = delete;
+    Base& operator=(Base&&) = delete;
 
 public:
-    template <typename DataType>
+    template <typename TypeData>
+    static inline int getReserveUniqueIdInline(void) noexcept;
+    template <typename TypeData>
+    Iterator<TypeData> first()const noexcept;
+    template <typename TypeData>
+    Iterator<TypeData> last()const noexcept;
+    template <typename TypeData >
+    Iterator<TypeData> findNextTheSame(const Iterator<TypeData>& a_prev)const noexcept;
+
+public:
+    template <typename TypeData>
     struct Item {
         struct Item *prev, *next;
-        DataType*    data_p;
+        TypeData*    data_p;
 
     protected:
         Item(const Item&) = delete;
@@ -79,12 +66,44 @@ public:
         friend class CollectionMap;
     };
 
-private:
+protected:
     CollectionMap_p* const  m_clmp_data_p;
 };
 
 
-}  //  namespace cpputils 
+class CPPUTILS_EXPORT WithIntKey : public Base
+{
+public:
+    WithIntKey(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
+
+    template <typename TypeData, typename TypeInt>
+    Iterator<TypeData> findEx(const TypeInt& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
+    template <typename TypeData, typename TypeInt>
+    Iterator<TypeData> find(const TypeInt& a_key)const noexcept;
+    template <typename TypeData, typename TypeInt>
+    Iterator<TypeData> AddBegWithKnownHash(const TypeData& a_data, const TypeInt& a_key, size_t a_hash);
+    template <typename TypeData, typename TypeInt>
+    Iterator<TypeData> AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeInt& a_key, size_t a_hash);
+};
+
+
+class CPPUTILS_EXPORT WithAnyKey : public Base
+{
+public:
+    WithAnyKey(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
+
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
+    Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
+    Iterator<TypeData> find(const TypeKey& a_key)const noexcept;
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
+    Iterator<TypeData> AddBegWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
+    Iterator<TypeData> AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
+};
+
+
+}}  //  namespace cpputils { namespace collectionmap{ 
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_COLLECTIONMAP_IMPL_HPP
