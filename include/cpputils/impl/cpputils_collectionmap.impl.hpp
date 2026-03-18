@@ -63,8 +63,8 @@ private:
         const void* a_keyRaw_p, TypeWithAnyKeyHasher a_fncHasher, 
         TypeWithAnyKeyIsMemoriesIdentical a_fncIsEq, TypeWithAnyKeyDublicateKey a_fncDublicateKey, 
         TypeWithAnyKeyDeleteKey a_fncDeleteKey, int a_typeIndex) noexcept;
-    SWithAnyKeyKeyExt& operator=(const SWithAnyKeyKeyExt&) = default;
-    SWithAnyKeyKeyExt& operator=(SWithAnyKeyKeyExt&&) = default;
+    SWithAnyKeyKeyExt& operator=(const SWithAnyKeyKeyExt&) = delete;
+    SWithAnyKeyKeyExt& operator=(SWithAnyKeyKeyExt&&) = delete;
     template <typename TypeData, typename KeyType, typename TypeHasher>
     static SWithAnyKeyKeyExt CreateRaw(const void* a_keyRaw_p) noexcept;
 
@@ -224,7 +224,7 @@ WithIntKey::AddBegWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeIn
     const uint64_t typeIndex = (uint64_t)getReserveUniqueIdInline<TypeData>();
     const uint64_t wholeKey = (typeIndex << 32) | ((uint64_t)((uint32_t)a_key));
 
-    m_clmp_data_p->AddBegWithKnownHash((int)typeIndex, (void*)pNewItem, (void*)((size_t)wholeKey), sizeof(wholeKey), a_hash);
+    m_clmp_data_p->AddBegWithKnownHash((int)typeIndex, (void*)pNewItem, (void*)((size_t)wholeKey), sizeof(wholeKey), a_hash, &__private::WithAnyKeyFncs1<TypeData>::WithAnyKeyUnstoreKey);
 
     return pNewItem;
 }
@@ -257,7 +257,7 @@ WithIntKey::AddEndWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeIn
     const uint64_t typeIndex = (uint64_t)getReserveUniqueIdInline<TypeData>();
     const uint64_t wholeKey = (typeIndex << 32) | ((uint64_t)((uint32_t)a_key));
 
-    m_clmp_data_p->AddBegWithKnownHash((int)typeIndex, (void*)pNewItem, (void*)((size_t)wholeKey), sizeof(wholeKey), a_hash);
+    m_clmp_data_p->AddBegWithKnownHash((int)typeIndex, (void*)pNewItem, (void*)((size_t)wholeKey), sizeof(wholeKey), a_hash, &__private::WithAnyKeyFncs1<TypeData>::WithAnyKeyUnstoreKey);
 
     return pNewItem;
 }
