@@ -28,7 +28,7 @@ namespace __private{
 CPPUTILS_EXPORT int GetNextIndex(void) noexcept;
 typedef void (*TypeWithAnyKeyDeleteKey)(void* a_key);
 struct ItemVoid final : public Base::Item<void> {
-    CinternalHashItem_t     hashIter2;
+    CinternalHashItem_t     hashIter;
     TypeWithAnyKeyDeleteKey dataDeleter;
 };
 
@@ -161,7 +161,7 @@ Base::findNextTheSame(const Iterator<TypeData>& a_prev)const noexcept
 {
     const Item<TypeData>* const pNewItem = (const Item<TypeData>*)a_prev;
     __private::ItemVoid* const pNewItemVoid = (__private::ItemVoid*)pNewItem;
-    const CinternalHashItem_t iter = CInternalHashFindNextTheSame(m_clmp_data_p->m_hash, pNewItemVoid->hashIter2);
+    const CinternalHashItem_t iter = CInternalHashFindNextTheSame(m_clmp_data_p->m_hash, pNewItemVoid->hashIter);
     if (iter) {
         const Item<TypeData>* const pNewItemInner = (const Item<TypeData>*)iter->data;
         return pNewItemInner;

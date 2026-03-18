@@ -82,7 +82,7 @@ CollectionMap_p::~CollectionMap_p() noexcept
         pItem = m_lists[i].m_first;
         while (pItem) {
             pItemNext = static_cast<__private::ItemVoid*>(pItem->next);
-            CInternalHashRemoveDataEx(m_hash, pItem->hashIter2);
+            CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
             (*(pItem->dataDeleter))(pItem->data_p);
             (*(m_hash->deallocator))(pItem->data_p);
             pItem->~ItemVoid();
@@ -184,8 +184,8 @@ void CollectionMap_p::AddBegWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN
     __private::ItemVoid* const pNewItemVoid = (__private::ItemVoid*)a_pNewItem;
     pNewItemVoid->prev = pNewItemVoid->next = CPPUTILS_NULL;
 
-    pNewItemVoid->hashIter2 = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
-    if (!(pNewItemVoid->hashIter2)) {
+    pNewItemVoid->hashIter = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
+    if (!(pNewItemVoid->hashIter)) {
         throw ::std::bad_alloc();
     }
 
@@ -200,8 +200,8 @@ void CollectionMap_p::AddEndWithKnownHash(int a_typeIndex, void* CPPUTILS_ARG_NN
     __private::ItemVoid* const pNewItemVoid = (__private::ItemVoid*)a_pNewItem;
     pNewItemVoid->prev = pNewItemVoid->next = CPPUTILS_NULL;
 
-    pNewItemVoid->hashIter2 = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
-    if (!(pNewItemVoid->hashIter2)) {
+    pNewItemVoid->hashIter = CInternalHashAddDataWithKnownHash(m_hash, a_pNewItem, a_key, a_keySize, a_hash);
+    if (!(pNewItemVoid->hashIter)) {
         throw ::std::bad_alloc();
     }
 
@@ -283,7 +283,7 @@ CPPUTILS_EXPORT int GetNextIndex(void) noexcept
 }
 
 
-SWithAnyKeyKeyExt::~SWithAnyKeyKeyExt()
+SWithAnyKeyKeyExt::~SWithAnyKeyKeyExt() noexcept
 {
     (*(this->fncDeleteKey))(this->keyRaw_p);
 }
