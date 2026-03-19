@@ -7,6 +7,7 @@
 //
 
 #include <cpputils/collectionmap.hpp>
+#include <cpputils/collectionhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <memory>

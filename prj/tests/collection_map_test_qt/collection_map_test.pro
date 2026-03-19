@@ -23,9 +23,13 @@ win32{
 	LIBS += -pthread
 }
 
-SOURCES	+= "$${PWD}/../../../src/tests/main_collection_map_test.cpp"
+SOURCES	+= "$${PWD}/../../../src/tests/main_collection_hash_test.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_collectionmap.cpp"
+SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_collectionhash.cpp"
 SOURCES += "$${cinternalRepoRoot}/src/core/cinternal_core_hash.c"
 	
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.hpp,true)
+
+
+OTHER_FILES	+= "$${PWD}/../../../src/tests/main_collection_map_test.cpp"
