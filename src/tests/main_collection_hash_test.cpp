@@ -6,17 +6,31 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //
 
-#include <cpputils/collectionhash.hpp>
+
+#define TRY_LISTHASH
+
+
+#ifdef TRY_LISTHASH
+#include <cpputils/hash2/listhash.hpp>
+#else
+#include <cpputils/hash2/purehash.hpp>
+#endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
-#include <stdint.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
 
+#ifdef TRY_LISTHASH
 
+typedef ::cpputils::hash::ListHash  MapToTest;
+#define CPPUTILS_TTCHI              CPPUTILS_LHCHI
 
-//typedef ::cpputils::collectionmap::WithIntKey MapToTest;
-typedef ::cpputils::collectionhash::Hash MapToTest;
+#else
+
+typedef ::cpputils::hash::PureHash  MapToTest;
+#define CPPUTILS_TTCHI              CPPUTILS_PHCHI
+
+#endif
 
 
 int main(void)
@@ -45,7 +59,7 @@ int main(void)
     }
 
     // CPPUTILS_CHI
-    iter = aMap.findEx<int,CPPUTILS_CHI(int) >(1,&unHash);
+    iter = aMap.findEx<int,CPPUTILS_TTCHI(int) >(1,&unHash);
     ::std::cout << "iter_06: " << iter << ::std::endl;
 
     iter = aMap.AddEvenIfExist<int,int>(1,1);
@@ -68,7 +82,18 @@ int main(void)
     iter = aMap.find<int,int>(1);
     ::std::cout << "iter_12: " << iter << ::std::endl;
 
-    if(iter){
+    if(iter){        
+#ifdef TRY_LISTHASH
+
+        iter = aMap.first<int>();
+        ::std::cout << "iter_13: " << iter << ::std::endl;
+
+        iter = aMap.last<int>();
+        ::std::cout << "iter_13: " << iter << ::std::endl;
+
+        aMap.MoveToStart(iter);
+        aMap.MoveToEnd(iter);
+#endif
         aMap.RemoveEx(iter);
     }
 
