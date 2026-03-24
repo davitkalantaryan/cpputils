@@ -127,6 +127,8 @@ public:
     Iterator<TypeData> first()const noexcept;
     template <typename TypeData>
     Iterator<TypeData> last()const noexcept;
+    template <typename TypeData>
+    size_t count()const noexcept;
 
 public:
     template <typename TypeData>

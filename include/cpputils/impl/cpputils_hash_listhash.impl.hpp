@@ -313,6 +313,14 @@ typename ListHash::Iterator<TypeData> ListHash::last()const noexcept
 }
 
 
+template <typename TypeData>
+size_t ListHash::count()const noexcept
+{
+    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
+    return m_clhash_data_p->m_dataFncs[dataIndex].m_count;
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 namespace lh{

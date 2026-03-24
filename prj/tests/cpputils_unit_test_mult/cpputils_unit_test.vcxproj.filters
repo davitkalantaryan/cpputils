@@ -143,6 +143,12 @@
     <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp">
       <Filter>Source Files\tests\unit_test</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\bigint.hpp">
