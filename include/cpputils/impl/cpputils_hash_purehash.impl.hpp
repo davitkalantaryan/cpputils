@@ -206,11 +206,10 @@ template <typename TypeData>
 inline void PureHash::RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
 {
     ph::ItemBase* const pItemBaseToDelete = (ph::ItemBase*)a_iter;
-    ph::CKeyBase* const pKeyExt = (ph::CKeyBase*)(pItemBaseToDelete->hashIter->key);
     const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;
     pItemBaseToDelete->~ItemBase();
-    (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
     CInternalHashRemoveDataEx(m_clhash_data_p->m_hash,hashIter);
+    (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
 }
 
 

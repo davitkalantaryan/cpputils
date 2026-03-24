@@ -159,7 +159,7 @@ void Conf01::ParseStringNC(char* a_str)
 
     if(iter){
         if (a_ifExist) { *a_ifExist = true; }
-        return *(iter->data_p);
+        return iter->data;
     }
 
     if (a_ifExist) { *a_ifExist = false; }

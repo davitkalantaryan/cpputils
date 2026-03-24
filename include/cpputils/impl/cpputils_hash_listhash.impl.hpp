@@ -232,8 +232,8 @@ inline void ListHash::RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter)
     const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;
     m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemBaseToDelete);
     pItemBaseToDelete->~ItemBase();
-    (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
     CInternalHashRemoveDataEx(m_clhash_data_p->m_hash,hashIter);
+    (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
 }
 
 

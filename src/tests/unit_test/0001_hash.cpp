@@ -14,5 +14,5 @@ TEST(f_0001_hash, t0001_base)
     aHash.AddIfNotExist(1, 1);
     aHash.AddEvenIfExist(1, 1);
 
-    ASSERT_EQ(*(aHash.find<int,int>(1)->data_p),1);
+    ASSERT_EQ((aHash.find<int,int>(1)->data),1);
 }

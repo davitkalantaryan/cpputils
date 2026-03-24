@@ -18,7 +18,7 @@ TEST(f_0009_new_hash, t0001_Hash)
 
 	cpputils::hash::PureHash::Iterator<int> iter = aHash.AddEvenIfExist(1,1);
 
-	ASSERT_EQ(*(aHash.find<int,int>(1)->data_p),1);
+	ASSERT_EQ((aHash.find<int,int>(1)->data),1);
 	
     aHash.RemoveEx(iter);
     iter = aHash.find<int, int>(1);
@@ -35,7 +35,7 @@ TEST(f_0009_new_hash, t0002_LHash)
 
     ASSERT_EQ(aHash.count<int>(), size_t(2));
     ASSERT_EQ(aHash.count<double>(), size_t(0));
-    ASSERT_EQ(*(aHash.find<int, int>(1)->data_p), 1);
+    ASSERT_EQ((aHash.find<int, int>(1)->data), 1);
     aHash.RemoveEx(iter);
     ASSERT_EQ(aHash.count<int>(), size_t(1));
 }

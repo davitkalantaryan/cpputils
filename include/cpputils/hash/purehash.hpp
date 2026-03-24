@@ -67,6 +67,11 @@ public:
     CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
 private:
     const TypeKey      rawKey;
+private:
+    SKeyAny(const SKeyAny&) = default;
+    SKeyAny(SKeyAny&&) = delete;
+    SKeyAny& operator=(const SKeyAny&) = delete;
+    SKeyAny& operator=(SKeyAny&&) = delete;
 };
 
 
@@ -80,6 +85,11 @@ public:
     CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
 private:
     const TypeIntKey    rawKey;
+private:
+    SKeyInt(const SKeyInt&) = default;
+    SKeyInt(SKeyInt&&) = delete;
+    SKeyInt& operator=(const SKeyInt&) = delete;
+    SKeyInt& operator=(SKeyInt&&) = delete;
 };
 
 
