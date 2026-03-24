@@ -7,7 +7,7 @@
 //
 
 
-#define TRY_LISTHASH
+//#define TRY_LISTHASH
 
 
 #ifdef TRY_LISTHASH

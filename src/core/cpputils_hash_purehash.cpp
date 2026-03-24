@@ -27,6 +27,8 @@ static bool StoreKeyStatic(TypeCinternalAllocator a_allocator, void** a_pKeyStor
 static void UnstoreStatic(TypeCinternalDeallocator a_deallocator, void* a_key, size_t a_keySize) CPPUTILS_NOEXCEPT;
 static Hash_p* CreateCollectionHash_p(TypeCinternalAllocator a_allocator);
 
+static int32_t s_dataIndexCounter = -1;
+
 
 }  //  namespace ph{
 
@@ -49,7 +51,7 @@ PureHash::PureHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator,
 
 ConstCinternalHash_t PureHash::getHash()const
 {
-    return m_clhash_data_p->m_hash;
+        return m_clhash_data_p->m_hash;
 }
 
 
@@ -61,18 +63,13 @@ namespace ph{
 
 Hash_p::~Hash_p() noexcept
 {
-    (*(m_hash->deallocator))(m_dataFncs);
     CInternalHashDestroy(m_hash);
 }
 
 
 Hash_p::Hash_p(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    m_hash(CPPUTILS_NULL),
-    m_numberOfAllocatedTables(0),
-    m_numberOfDataTypes(0),
-    m_counterOfKeyAndHashTypes(-1),
-    m_dataFncs(CPPUTILS_NULL)
+    m_hash(CPPUTILS_NULL)
 {
     m_hash = CInternalHashCreateAnyEx(
         a_numberOfBaskets,
@@ -84,55 +81,20 @@ Hash_p::Hash_p(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, Typ
     if (!m_hash) {
         throw ::std::bad_alloc();
     }
-
-    m_dataFncs = (ph::SDataFunctions*)(*(m_hash->allocator))(sizeof(ph::SDataFunctions));
-    if (!m_dataFncs) {
-        throw ::std::bad_alloc();
-    }
-    m_numberOfAllocatedTables = 1;
 }
 
 
-int32_t Hash_p::GetNextDataIndex(const ph::TypeCallDestructFnc& a_callDestructFnc)
+int32_t Hash_p::getNextDataIndex(void) noexcept
 {
-    const size_t cunThisFuncIndex = (size_t)(m_numberOfDataTypes++);
-    if(cunThisFuncIndex>=m_numberOfAllocatedTables){
-        const size_t numberOfAllocatedTablesNew = 2 * m_numberOfAllocatedTables;
-        ph::SDataFunctions* const dataFncs = m_dataFncs;
-        m_dataFncs = (ph::SDataFunctions*)(*(m_hash->allocator))(numberOfAllocatedTablesNew * sizeof(ph::SDataFunctions));
-        if (!m_dataFncs) {
-            throw ::std::bad_alloc();
-        }
-        memcpy(m_dataFncs,dataFncs,m_numberOfAllocatedTables * sizeof(ph::SDataFunctions));
-        for(size_t i(m_numberOfAllocatedTables); i<numberOfAllocatedTablesNew; ++i){
-            m_dataFncs[i].callDestructFnc = [](void*){};
-            m_dataFncs[i].isReal = false;
-        }  //  for(size_t i(m_numberOfAllocatedTables); i<numberOfAllocatedTablesNew; ++i){
-    }  //  if(cunThisFuncIndex>=m_numberOfAllocatedTables){
-
-    m_dataFncs[cunThisFuncIndex].callDestructFnc = a_callDestructFnc;
-    m_dataFncs[cunThisFuncIndex].isReal = true;
-    return (int32_t)cunThisFuncIndex;
+    return (++s_dataIndexCounter);
 }
 
-
-int32_t Hash_p::getNextKeyAndHasherIndex(void) const noexcept
-{
-    return (++m_counterOfKeyAndHashTypes);
-}
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-
-CKeyBase::~CKeyBase()
-{
-}
-
-
-CKeyBase::CKeyBase(int32_t a_dataIndex, int32_t a_keyAndHashIndex)
+CKeyBase::CKeyBase(int32_t a_dataIndex)
 :
-    dataIndex(a_dataIndex),
-    keyAndHashIndex(a_keyAndHashIndex)
+    dataIndex(a_dataIndex)
 {
 }
 
@@ -193,7 +155,7 @@ static Hash_p* CreateCollectionHash_p(TypeCinternalAllocator a_allocator)
 }
 
 
-}  //  namespace ph{
+}  //  namespace lh{
 
 
-}}  //  namespace cpputils { namespace collectionhash{
+}}  //  namespace cpputils { namespace hash{

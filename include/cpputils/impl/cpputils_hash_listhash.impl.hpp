@@ -53,7 +53,7 @@ private:
     Hash_p(Hash_p&&) = delete;
     Hash_p& operator=(const Hash_p&) = delete;
     Hash_p& operator=(Hash_p&&) = delete;
-    friend class ::cpputils::hash::ListHash;
+    friend class ListHash;
 };
 
 }  //  namespace lh{
@@ -95,12 +95,12 @@ ListHash::find(const TypeKey& a_key)const noexcept
 
 template <typename TypeData>
 typename ListHash::Iterator<TypeData>
-ListHash::findNextTheSame( const ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_prev ) const noexcept
+ListHash::findNextTheSame( const Iterator<TypeData>& CPPUTILS_ARG_NN a_prev ) const noexcept
 {
-    const lh::ItemBool* const itemPrevVoid_p = (const lh::ItemBool*)((lh::ItemBase*)a_prev);
+    const lh::ItemBase* const itemPrevVoid_p = (const lh::ItemBase*)a_prev;
     const CinternalHashItem_t hsIter = CInternalHashFindNextTheSame(m_clhash_data_p->m_hash,itemPrevVoid_p->hashIter);
     if(hsIter){
-        return (ListHash::Iterator<TypeData>)hsIter->data;
+        return (Iterator<TypeData>)hsIter->data;
     }
     return nullptr;
 }
