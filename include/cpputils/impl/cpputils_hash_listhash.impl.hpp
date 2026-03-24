@@ -53,7 +53,7 @@ private:
     Hash_p(Hash_p&&) = delete;
     Hash_p& operator=(const Hash_p&) = delete;
     Hash_p& operator=(Hash_p&&) = delete;
-    friend class ListHash;
+    friend class ::cpputils::hash::ListHash;
 };
 
 }  //  namespace lh{

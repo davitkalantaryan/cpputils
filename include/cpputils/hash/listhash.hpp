@@ -105,7 +105,7 @@ protected:
     ItemBase& operator=(const ItemBase&) = delete;
     ItemBase& operator=(ItemBase&&) = delete;
     friend class Hash_p;
-    friend class ListHash;
+    friend class ::cpputils::hash::ListHash;
 };
 
 
