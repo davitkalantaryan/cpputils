@@ -10,10 +10,6 @@
 #include <cinternal/unit_test.h>
 #include <cpputils/hash/purehash.hpp>
 #include <cpputils/hash/listhash.hpp>
-#include <cinternal/disable_compiler_warnings.h>
-#include <utility>
-#include <cinternal/undisable_compiler_warnings.h>
-
 
 
 TEST(f_0009_new_hash, t0001_Hash)
