@@ -70,7 +70,6 @@ Hash_p::~Hash_p() noexcept
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
             (*(m_dataFncs[i].callDestructFnc))(pItem->data_p);
             (*(m_hash->deallocator))(pItem->data_p);
-            pItem->~ItemVoid();
             (*(m_hash->deallocator))(pItem);
             pItem = pItemNext;
         }  //  while(pItem){

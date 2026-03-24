@@ -61,7 +61,6 @@ namespace ph{
 
 Hash_p::~Hash_p() noexcept
 {
-    //(*(m_hash->deallocator))(m_keyAndHasherFncs);
     (*(m_hash->deallocator))(m_dataFncs);
     CInternalHashDestroy(m_hash);
 }

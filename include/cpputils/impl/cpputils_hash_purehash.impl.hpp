@@ -258,6 +258,7 @@ inline void PureHash::RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter)
     const ph::SDataFunctions& dtFncs = (m_clhash_data_p->m_dataFncs)[pKeyExt->dataIndex];
     const CinternalHashItem_t hashIter = pItemVoid->hashIter;
     (*(dtFncs.callDestructFnc))(pItemVoid->data_p);
+    (*(m_clhash_data_p->m_hash->deallocator))(pItemVoid->data_p);
     (*(m_clhash_data_p->m_hash->deallocator))(pItemVoid);
     CInternalHashRemoveDataEx(m_clhash_data_p->m_hash,hashIter);
 }
