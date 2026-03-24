@@ -269,16 +269,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c" />
-    <ClCompile Include="..\..\..\src\core\cpputils_collectionmap.cpp" />
-    <ClCompile Include="..\..\..\src\tests\main_collection_map_test.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp" />
+    <ClCompile Include="..\..\..\src\tests\main_collection_hash_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\contrib\cinternal\include\cinternal\hash.h" />
-    <ClInclude Include="..\..\..\include\cpputils\collectionmap.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_collectionmap.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\listandhash.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\listandhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

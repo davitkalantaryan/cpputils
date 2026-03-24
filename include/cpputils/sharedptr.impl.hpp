@@ -121,7 +121,7 @@ SharedPtrBase<PtrType>& SharedPtrBase<PtrType>::operator=(SharedPtrBase&& a_cM)C
 		return *this;
 	}
 	
-	Core* pThisCore = m_pCore;
+	Core* const pThisCore = m_pCore;
 	m_pCore = a_cM.m_pCore;
 	a_cM.m_pCore = pThisCore;
 	return *this;

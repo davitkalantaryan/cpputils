@@ -7,7 +7,7 @@
 //
 
 
-#include <cpputils/hash2/purehash.hpp>
+#include <cpputils/hash/purehash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
 #include <stddef.h>
@@ -44,6 +44,12 @@ PureHash::PureHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator,
     m_clhash_data_p(ph::CreateCollectionHash_p(a_allocator))
 {
     new(m_clhash_data_p) ph::Hash_p(a_numberOfBaskets,a_allocator,a_deallocator);
+}
+
+
+ConstCinternalHash_t PureHash::getHash()const
+{
+    return m_clhash_data_p->m_hash;
 }
 
 

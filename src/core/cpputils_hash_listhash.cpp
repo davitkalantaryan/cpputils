@@ -7,7 +7,7 @@
 //
 
 
-#include <cpputils/hash2/listhash.hpp>
+#include <cpputils/hash/listhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
 #include <stddef.h>
@@ -44,6 +44,12 @@ ListHash::ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator,
     m_clhash_data_p(lh::CreateCollectionHash_p(a_allocator))
 {
     new(m_clhash_data_p) lh::Hash_p(a_numberOfBaskets,a_allocator,a_deallocator);
+}
+
+
+ConstCinternalHash_t ListHash::getHash()const
+{
+        return m_clhash_data_p->m_hash;
 }
 
 

@@ -7,13 +7,13 @@
 //
 
 
-#define TRY_LISTHASH
+//#define TRY_LISTHASH
 
 
 #ifdef TRY_LISTHASH
-#include <cpputils/hash2/listhash.hpp>
+#include <cpputils/hash/listhash.hpp>
 #else
-#include <cpputils/hash2/purehash.hpp>
+#include <cpputils/hash/purehash.hpp>
 #endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
@@ -40,6 +40,9 @@ int main(void)
 
     MapToTest::Iterator<int> iter;
     MapToTest::Iterator<double> iterD;
+
+    const ConstCinternalHash_t rawHash = aMap.getHash();
+    ::std::cout << "rawHash: " << rawHash << ::std::endl;
 
     iter = aMap.findEx<int,int>(1,&unHash);
     ::std::cout << "iter_01: " << iter << ::std::endl;

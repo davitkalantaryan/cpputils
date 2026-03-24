@@ -4,7 +4,7 @@
 //
 
 #include <cinternal/unit_test.h>
-#include <cpputils/hash2/listhash.hpp>
+#include <cpputils/hash/listhash.hpp>
 
 
 TEST(f_0001_hash, t0001_base)

@@ -65,9 +65,6 @@
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_hashtbl.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -163,15 +160,6 @@
     <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hashtbl.def.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hashtbl.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hashtbl.impl.hpp">
-      <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
     </ClInclude>
@@ -180,42 +168,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp">
       <Filter>Header Files\incude\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\hash.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\hash.impl.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\hashbase.impl.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\items.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\items.impl.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\lhash.impl.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\vhash.impl.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\hash\dllhash.impl.hpp">
-      <Filter>Header Files\incude\cpputils\hash</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp">
       <Filter>Header Files\incude\cpputils\multifor</Filter>
@@ -270,6 +222,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_orderedcalls.impl.hpp">
       <Filter>Header Files\incude\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp">
+      <Filter>Header Files\incude\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp">
+      <Filter>Header Files\incude\cpputils\hash</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

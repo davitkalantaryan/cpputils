@@ -11,13 +11,9 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_LISTHASH_IMPL_HPP
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_LISTHASH_HPP
-#include <cpputils/hash2/listhash.hpp>
+#include <cpputils/hash/listhash.hpp>
 #endif
 
-#include <cinternal/disable_compiler_warnings.h>
-//#include <new>
-//#include <utility>
-#include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace hash{
 
@@ -29,6 +25,11 @@ typedef void (*TypeCallDestructFnc)(void* a_key);
 
 struct ItemVoid final : public ListHash::Item<void> {
     CinternalHashItem_t     hashIter;
+private:
+    ItemVoid(const ItemVoid&)=delete;
+    ItemVoid(ItemVoid&&) = delete;
+    ItemVoid& operator=(const ItemVoid&) = delete;
+    ItemVoid& operator=(ItemVoid&&) = delete;
 };
 
 struct SDataFunctions{
