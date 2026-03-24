@@ -27,6 +27,8 @@ static bool StoreKeyStatic(TypeCinternalAllocator a_allocator, void** a_pKeyStor
 static void UnstoreStatic(TypeCinternalDeallocator a_deallocator, void* a_key, size_t a_keySize) CPPUTILS_NOEXCEPT;
 static Hash_p* CreateCollectionHash_p(TypeCinternalAllocator a_allocator);
 
+static int32_t s_dataIndexCounter = -1;
+
 
 }  //  namespace ph{
 
@@ -53,6 +55,12 @@ ConstCinternalHash_t ListHash::getHash()const
 }
 
 
+void ListHash::AllocateListsInAdvance(int32_t a_numberOfLists)
+{
+    m_clhash_data_p->MakeSureHasEnoughLists(a_numberOfLists);
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 
@@ -61,21 +69,21 @@ namespace lh{
 
 Hash_p::~Hash_p() noexcept
 {
-    ItemVoid* pItemNext, * pItem;
+    ItemBool* pItemNext, * pItem;
 
-    for (size_t i(0); i < m_numberOfAllocatedTables; ++i) {
-        pItem = m_dataFncs[i].m_first;
+    for (int32_t i(0); i < m_numberOfAllocatedDataTypes; ++i) {
+        pItem = m_lists_p[i].m_first;
         while (pItem) {
-            pItemNext = static_cast<ItemVoid*>(pItem->next);
+            pItemNext = pItem->next;
+            ItemBase* const pItemBaseToDelete = (ItemBase*)pItem;
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
-            (*(m_dataFncs[i].callDestructFnc))(pItem->data_p);
-            (*(m_hash->deallocator))(pItem->data_p);
+            pItemBaseToDelete->~ItemBase();
             (*(m_hash->deallocator))(pItem);
             pItem = pItemNext;
         }  //  while(pItem){
     }  //  for (size_t i(0); i < m_clmp_data_p->m_numberOfTypes; ++i) {
 
-    (*(m_hash->deallocator))(m_dataFncs);
+    (*(m_hash->deallocator))(m_lists_p);
     CInternalHashDestroy(m_hash);
 }
 
@@ -83,10 +91,8 @@ Hash_p::~Hash_p() noexcept
 Hash_p::Hash_p(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
     m_hash(CPPUTILS_NULL),
-    m_numberOfAllocatedTables(0),
-    m_numberOfDataTypes(0),
-    m_counterOfKeyAndHashTypes(-1),
-    m_dataFncs(CPPUTILS_NULL)
+    m_numberOfAllocatedDataTypes(0),
+    m_lists_p(CPPUTILS_NULL)
 {
     m_hash = CInternalHashCreateAnyEx(
         a_numberOfBaskets,
@@ -98,107 +104,93 @@ Hash_p::Hash_p(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, Typ
     if (!m_hash) {
         throw ::std::bad_alloc();
     }
-
-    m_dataFncs = (lh::SDataFunctions*)(*(m_hash->allocator))(sizeof(lh::SDataFunctions));
-    if (!m_dataFncs) {
-        throw ::std::bad_alloc();
-    }
-    m_numberOfAllocatedTables = 1;
 }
 
 
-int32_t Hash_p::GetNextDataIndex(const lh::TypeCallDestructFnc& a_callDestructFnc)
+int32_t Hash_p::getNextDataIndex(void) noexcept
 {
-    const size_t cunThisFuncIndex = (size_t)(m_numberOfDataTypes++);
-    if(cunThisFuncIndex>=m_numberOfAllocatedTables){
-        const size_t numberOfAllocatedTablesNew = 2 * m_numberOfAllocatedTables;
-        lh::SDataFunctions* const dataFncs = m_dataFncs;
-        m_dataFncs = (lh::SDataFunctions*)(*(m_hash->allocator))(numberOfAllocatedTablesNew * sizeof(lh::SDataFunctions));
-        if (!m_dataFncs) {
-            throw ::std::bad_alloc();
+    return (++s_dataIndexCounter);
+}
+
+
+void Hash_p::AddItemExtraPart(int32_t a_dataIndex, ItemBase* CPPUTILS_ARG_NN a_item) noexcept
+{
+    ItemBool* const pItemBool = (ItemBool*)a_item;
+    if(m_lists_p[a_dataIndex].m_first){
+        m_lists_p[a_dataIndex].m_first->prev = pItemBool;
+    }
+    else{
+        m_lists_p[a_dataIndex].m_last = pItemBool;
+    }
+    pItemBool->next = m_lists_p[a_dataIndex].m_first;
+    pItemBool->prev = CPPUTILS_NULL;
+    m_lists_p[a_dataIndex].m_first = pItemBool;
+    ++(m_lists_p[a_dataIndex].m_count);
+}
+
+
+void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, ItemBase* CPPUTILS_ARG_NN a_item) noexcept
+{
+    ItemBool* const pItemBool = (ItemBool*)a_item;
+    if(m_lists_p[a_dataIndex].m_last){
+        m_lists_p[a_dataIndex].m_last->next = pItemBool;
+    }
+    else{
+        m_lists_p[a_dataIndex].m_first = pItemBool;
+    }
+    pItemBool->prev = m_lists_p[a_dataIndex].m_last;
+    pItemBool->next = CPPUTILS_NULL;
+    m_lists_p[a_dataIndex].m_last = pItemBool;
+    ++(m_lists_p[a_dataIndex].m_count);
+}
+
+
+void Hash_p::RemoveItemExtraPart(int32_t a_dataIndex, ItemBase* CPPUTILS_ARG_NN a_item) noexcept
+{
+    ItemBool* const pItemBool = (ItemBool*)a_item;
+    if(pItemBool->prev){
+        pItemBool->prev->next = pItemBool->next;
+    }
+    else{
+        m_lists_p[a_dataIndex].m_first = pItemBool->next;
+    }
+
+    if(pItemBool->next){
+        pItemBool->next->prev = pItemBool->prev;
+    }
+    else{
+        m_lists_p[a_dataIndex].m_last = pItemBool->prev;
+    }
+
+    --(m_lists_p[a_dataIndex].m_count);
+}
+
+
+void Hash_p::MakeSureHasEnoughLists(int32_t a_dataIndex) noexcept
+{
+    if (a_dataIndex >= m_numberOfAllocatedDataTypes) {
+        const int32_t numberOfAllocatedTablesNew = a_dataIndex+1;
+        lh::SListData* const lists_p = m_lists_p;
+        m_lists_p = (lh::SListData*)(*(m_hash->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(lh::SListData)));
+        if (!m_lists_p) {
+            m_lists_p = lists_p;
+            return;
         }
-        memcpy(m_dataFncs,dataFncs,m_numberOfAllocatedTables * sizeof(lh::SDataFunctions));
-        for(size_t i(m_numberOfAllocatedTables); i<numberOfAllocatedTablesNew; ++i){
-            m_dataFncs[i].callDestructFnc = [](void*){};
-            m_dataFncs[i].isReal = false;
-            m_dataFncs[i].m_first = m_dataFncs[i].m_last = 0;
-            m_dataFncs[i].m_count = 0;
+        memcpy(m_lists_p, lists_p, (size_t)(m_numberOfAllocatedDataTypes * sizeof(lh::SListData)));
+        for (int32_t i(m_numberOfAllocatedDataTypes); i < numberOfAllocatedTablesNew; ++i) {
+            m_lists_p[i].m_first = m_lists_p[i].m_last = CPPUTILS_NULL;
+            m_lists_p[i].m_count = 0;
         }  //  for(size_t i(m_numberOfAllocatedTables); i<numberOfAllocatedTablesNew; ++i){
+        m_numberOfAllocatedDataTypes = numberOfAllocatedTablesNew;
     }  //  if(cunThisFuncIndex>=m_numberOfAllocatedTables){
-
-    m_dataFncs[cunThisFuncIndex].callDestructFnc = a_callDestructFnc;
-    m_dataFncs[cunThisFuncIndex].isReal = true;
-    return (int32_t)cunThisFuncIndex;
 }
 
-
-int32_t Hash_p::getNextKeyAndHasherIndex(void) const noexcept
-{
-    return (++m_counterOfKeyAndHashTypes);
-}
-
-
-void Hash_p::AddItemExtraPart(int32_t a_dataIndex, lh::ItemVoid* CPPUTILS_ARG_NN a_item) noexcept
-{
-    if(m_dataFncs[a_dataIndex].m_first){
-        m_dataFncs[a_dataIndex].m_first->prev = a_item;
-    }
-    else{
-        m_dataFncs[a_dataIndex].m_last = a_item;
-    }
-    a_item->next = m_dataFncs[a_dataIndex].m_first;
-    a_item->prev = CPPUTILS_NULL;
-    m_dataFncs[a_dataIndex].m_first = a_item;
-    ++(m_dataFncs[a_dataIndex].m_count);
-}
-
-
-void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, lh::ItemVoid* CPPUTILS_ARG_NN a_item) noexcept
-{
-    if(m_dataFncs[a_dataIndex].m_last){
-        m_dataFncs[a_dataIndex].m_last->next = a_item;
-    }
-    else{
-        m_dataFncs[a_dataIndex].m_first = a_item;
-    }
-    a_item->prev = m_dataFncs[a_dataIndex].m_last;
-    a_item->next = CPPUTILS_NULL;
-    m_dataFncs[a_dataIndex].m_last = a_item;
-    ++(m_dataFncs[a_dataIndex].m_count);
-}
-
-
-void Hash_p::RemoveItemExtraPart(int32_t a_dataIndex, lh::ItemVoid* CPPUTILS_ARG_NN a_item) noexcept
-{
-    if(a_item->prev){
-        a_item->prev->next = a_item->next;
-    }
-    else{
-        m_dataFncs[a_dataIndex].m_first = (lh::ItemVoid*)a_item->next;
-    }
-
-    if(a_item->next){
-        a_item->next->prev = a_item->prev;
-    }
-    else{
-        m_dataFncs[a_dataIndex].m_last = (lh::ItemVoid*)a_item->prev;
-    }
-
-    --(m_dataFncs[a_dataIndex].m_count);
-}
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-
-CKeyBase::~CKeyBase()
-{
-}
-
-
-CKeyBase::CKeyBase(int32_t a_dataIndex, int32_t a_keyAndHashIndex)
+CKeyBase::CKeyBase(int32_t a_dataIndex)
 :
-    dataIndex(a_dataIndex),
-    keyAndHashIndex(a_keyAndHashIndex)
+    dataIndex(a_dataIndex)
 {
 }
 

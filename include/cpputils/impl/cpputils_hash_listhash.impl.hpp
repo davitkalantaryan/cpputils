@@ -21,24 +21,12 @@ namespace cpputils { namespace hash{
 namespace lh{
 
 
-typedef void (*TypeCallDestructFnc)(void* a_key);
+typedef ListHash::Item<bool> ItemBool;
 
-struct ItemVoid final : public ListHash::Item<void> {
-    CinternalHashItem_t     hashIter;
-private:
-    ItemVoid(const ItemVoid&)=delete;
-    ItemVoid(ItemVoid&&) = delete;
-    ItemVoid& operator=(const ItemVoid&) = delete;
-    ItemVoid& operator=(ItemVoid&&) = delete;
-};
-
-struct SDataFunctions{
-    TypeCallDestructFnc callDestructFnc;
-    ItemVoid*           m_first;
-    ItemVoid*           m_last;
-    size_t              m_count;
-    bool                isReal;
-    bool                reserved01[(sizeof(TypeCallDestructFnc)-sizeof(bool))/sizeof(bool)];
+struct SListData {
+    ItemBool*   m_first;
+    ItemBool*   m_last;
+    size_t      m_count;
 };
 
 
@@ -50,17 +38,15 @@ private:
 
 protected:
     ConstCinternalHash_t    m_hash;
-    size_t                  m_numberOfAllocatedTables;
-    int32_t                 m_numberOfDataTypes;
-    mutable int32_t         m_counterOfKeyAndHashTypes;
-    SDataFunctions*         m_dataFncs;
+    int32_t                 m_numberOfAllocatedDataTypes;
+    SListData*              m_lists_p;
 
 private:
-    int32_t GetNextDataIndex(const TypeCallDestructFnc& a_callDestructFnc);
-    int32_t getNextKeyAndHasherIndex(void) const noexcept;
-    void AddItemExtraPart(int32_t a_dataIndex, lh::ItemVoid* CPPUTILS_ARG_NN a_item) noexcept;
-    void AddItemToEndOfList(int32_t a_dataIndex, lh::ItemVoid* CPPUTILS_ARG_NN a_item) noexcept;
-    void RemoveItemExtraPart(int32_t a_dataIndex, lh::ItemVoid* CPPUTILS_ARG_NN a_item) noexcept;
+    static int32_t getNextDataIndex(void) noexcept;
+    void AddItemExtraPart(int32_t a_dataIndex, ItemBase* CPPUTILS_ARG_NN a_item) noexcept;
+    void AddItemToEndOfList(int32_t a_dataIndex, ItemBase* CPPUTILS_ARG_NN a_item) noexcept;
+    void RemoveItemExtraPart(int32_t a_dataIndex, ItemBase* CPPUTILS_ARG_NN a_item) noexcept;
+    void MakeSureHasEnoughLists(int32_t a_dataIndex) noexcept;
 
 private:
     Hash_p(const Hash_p&) = delete;
@@ -76,15 +62,9 @@ private:
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeData>
-inline int ListHash::getReserveUniqueIdForDataInline(void) const noexcept {
-    static int dataIndex = m_clhash_data_p->GetNextDataIndex([](void* a_data_p){((TypeData*)a_data_p)->~TypeData();});
-    return dataIndex;
-}
-
-
-template <typename TypeKey, typename TypeHasher>
-inline int ListHash::getReserveUniqueIdForKeyAndHasherInline(void) const noexcept {
-    static int dataIndex = m_clhash_data_p->getNextKeyAndHasherIndex();
+inline int32_t ListHash::reserveUniqueIdForDataInline(void) const noexcept {
+    static int32_t dataIndex = lh::Hash_p::getNextDataIndex();
+    m_clhash_data_p->MakeSureHasEnoughLists(dataIndex);
     return dataIndex;
 }
 
@@ -93,9 +73,8 @@ template <typename TypeData, typename TypeKey, typename TypeHasher, typename Typ
 typename ListHash::Iterator<TypeData>
 ListHash::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept
 {
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    const int32_t keyAndHashIndex = getReserveUniqueIdForKeyAndHasherInline<TypeKey,TypeHasher>();
-    const TypeKeyExt extKey(a_key,dataIndex,keyAndHashIndex);
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    const TypeKeyExt extKey(a_key,dataIndex);
     const CinternalHashItem_t iter = CInternalHashFindEx(m_clhash_data_p->m_hash, (const void*)&extKey, sizeof(TypeKeyExt), a_pHash);
     if (iter) {
         const Item<TypeData>* const pNewItem = (const Item<TypeData>*)iter->data;
@@ -118,7 +97,7 @@ template <typename TypeData>
 typename ListHash::Iterator<TypeData>
 ListHash::findNextTheSame( const ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_prev ) const noexcept
 {
-    const lh::ItemVoid* const itemPrevVoid_p = (const lh::ItemVoid*)a_prev;
+    const lh::ItemBool* const itemPrevVoid_p = (const lh::ItemBool*)((lh::ItemBase*)a_prev);
     const CinternalHashItem_t hsIter = CInternalHashFindNextTheSame(m_clhash_data_p->m_hash,itemPrevVoid_p->hashIter);
     if(hsIter){
         return (ListHash::Iterator<TypeData>)hsIter->data;
@@ -140,28 +119,23 @@ template <typename TypeData, typename TypeKey, typename TypeHasher, typename Typ
 typename ListHash::Iterator<TypeData>
 ListHash::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
 {
-    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(lh::ItemVoid)));
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
     if (!pNewItem) {
         throw ::std::bad_alloc();
     }
-    lh::ItemVoid* const pNewItemVoid = (lh::ItemVoid*)pNewItem;
+    new(pNewItem) Item<TypeData>(a_data_p);
 
-    pNewItem->data_p = (TypeData*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(TypeData)));
-    if (!(pNewItem->data_p)) {
-        throw ::std::bad_alloc();
-    }
-    new(pNewItem->data_p) TypeData(::std::move(*a_data_p));
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    const TypeKeyExt extKey(a_key,dataIndex);
 
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    const int32_t keyAndHashIndex = getReserveUniqueIdForKeyAndHasherInline<TypeKey,TypeHasher>();
-    const TypeKeyExt extKey(a_key,dataIndex,keyAndHashIndex);
-
-    pNewItemVoid->hashIter = CInternalHashAddDataWithKnownHash(m_clhash_data_p->m_hash,pNewItemVoid, (const void*)&extKey,sizeof(TypeKeyExt), a_hash);
-    if (!(pNewItemVoid->hashIter)) {
+    pNewItem->hashIter = CInternalHashAddDataWithKnownHash(m_clhash_data_p->m_hash, pNewItem, (const void*)&extKey,sizeof(TypeKeyExt), a_hash);
+    if (!(pNewItem->hashIter)) {
+        pNewItem->~Item<TypeData>();
+        (*(m_clhash_data_p->m_hash->deallocator))(pNewItem);
         throw ::std::bad_alloc();
     }
 
-    m_clhash_data_p->AddItemExtraPart(dataIndex, pNewItemVoid);
+    m_clhash_data_p->AddItemExtraPart(dataIndex, pNewItem);
 
     return pNewItem;
 }
@@ -180,28 +154,23 @@ template <typename TypeData, typename TypeKey, typename TypeHasher, typename Typ
 typename ListHash::Iterator<TypeData>
 ListHash::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
-    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(lh::ItemVoid)));
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
     if (!pNewItem) {
         throw ::std::bad_alloc();
     }
-    lh::ItemVoid* const pNewItemVoid = (lh::ItemVoid*)pNewItem;
+    new(pNewItem) Item<TypeData>(a_data_p);
 
-    pNewItem->data_p = (TypeData*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(TypeData)));
-    if (!(pNewItem->data_p)) {
-        throw ::std::bad_alloc();
-    }
-    new(pNewItem->data_p) TypeData(::std::move(*a_data_p));
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    const TypeKeyExt extKey(a_key,dataIndex);
 
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    const int32_t keyAndHashIndex = getReserveUniqueIdForKeyAndHasherInline<TypeKey,TypeHasher>();
-    const TypeKeyExt extKey(a_key,dataIndex,keyAndHashIndex);
-
-    pNewItemVoid->hashIter = CInternalHashAddDataEvenIfExist(m_clhash_data_p->m_hash,pNewItemVoid, (const void*)&extKey,sizeof(TypeKeyExt));
-    if (!(pNewItemVoid->hashIter)) {
+    pNewItem->hashIter = CInternalHashAddDataEvenIfExist(m_clhash_data_p->m_hash, pNewItem, (const void*)&extKey,sizeof(TypeKeyExt));
+    if (!(pNewItem->hashIter)) {
+        pNewItem->~Item<TypeData>();
+        (*(m_clhash_data_p->m_hash->deallocator))(pNewItem);
         throw ::std::bad_alloc();
     }
 
-    m_clhash_data_p->AddItemExtraPart(dataIndex,pNewItemVoid);
+    m_clhash_data_p->AddItemExtraPart(dataIndex, pNewItem);
 
     return pNewItem;
 }
@@ -220,30 +189,23 @@ template <typename TypeData, typename TypeKey, typename TypeHasher, typename Typ
 typename ListHash::Iterator<TypeData>
 ListHash::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
-    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(lh::ItemVoid)));
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
     if (!pNewItem) {
         throw ::std::bad_alloc();
     }
-    lh::ItemVoid* const pNewItemVoid = (lh::ItemVoid*)pNewItem;
+    new(pNewItem) Item<TypeData>(a_data_p);
 
-    pNewItem->data_p = (TypeData*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(TypeData)));
-    if (!(pNewItem->data_p)) {
-        throw ::std::bad_alloc();
-    }
-    new(pNewItem->data_p) TypeData(::std::move(*a_data_p));
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    const TypeKeyExt extKey(a_key,dataIndex);
 
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    const int32_t keyAndHashIndex = getReserveUniqueIdForKeyAndHasherInline<TypeKey,TypeHasher>();
-    const TypeKeyExt extKey(a_key,dataIndex,keyAndHashIndex);
-
-    pNewItemVoid->hashIter = CInternalHashAddDataIfNotExists(m_clhash_data_p->m_hash,pNewItemVoid, (const void*)&extKey,sizeof(TypeKeyExt));
-    if (!(pNewItemVoid->hashIter)) {
-        pNewItem->data_p->~TypeData();
+    pNewItem->hashIter = CInternalHashAddDataIfNotExists(m_clhash_data_p->m_hash, pNewItem, (const void*)&extKey,sizeof(TypeKeyExt));
+    if (!(pNewItem->hashIter)) {
+        pNewItem->~Item<TypeData>();
         (*(m_clhash_data_p->m_hash->deallocator))(pNewItem);
         return nullptr;
     }
 
-    m_clhash_data_p->AddItemExtraPart(dataIndex, pNewItemVoid);
+    m_clhash_data_p->AddItemExtraPart(dataIndex, pNewItem);
 
     return pNewItem;
 }
@@ -265,14 +227,12 @@ bool ListHash::Remove(const TypeKey& a_key) noexcept
 template <typename TypeData>
 inline void ListHash::RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
 {
-    lh::ItemVoid* const pItemVoid = (lh::ItemVoid*)a_iter;
-    lh::CKeyBase* const pKeyExt = (lh::CKeyBase*)(pItemVoid->hashIter->key);
-    const lh::SDataFunctions& dtFncs = (m_clhash_data_p->m_dataFncs)[pKeyExt->dataIndex];
-    const CinternalHashItem_t hashIter = pItemVoid->hashIter;
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex,pItemVoid);
-    (*(dtFncs.callDestructFnc))(pItemVoid->data_p);
-    (*(m_clhash_data_p->m_hash->deallocator))(pItemVoid->data_p);
-    (*(m_clhash_data_p->m_hash->deallocator))(pItemVoid);
+    lh::ItemBase* const pItemBaseToDelete = (lh::ItemBase*)a_iter;
+    lh::CKeyBase* const pKeyExt = (lh::CKeyBase*)(pItemBaseToDelete->hashIter->key);
+    const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemBaseToDelete);
+    pItemBaseToDelete->~ItemBase();
+    (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
     CInternalHashRemoveDataEx(m_clhash_data_p->m_hash,hashIter);
 }
 
@@ -280,55 +240,66 @@ inline void ListHash::RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter)
 template <typename TypeData>
 void ListHash::MoveToStart(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
 {
-    lh::ItemVoid* const pItemVoid = (lh::ItemVoid*)a_iter;
-    lh::CKeyBase* const pKeyExt = (lh::CKeyBase*)(pItemVoid->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex,pItemVoid);
-    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex,pItemVoid);
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    lh::CKeyBase* const pKeyExt = (lh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
 }
 
 
 template <typename TypeData>
 void ListHash::MoveToEnd(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
 {
-    lh::ItemVoid* const pItemVoid = (lh::ItemVoid*)a_iter;
-    lh::CKeyBase* const pKeyExt = (lh::CKeyBase*)(pItemVoid->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex,pItemVoid);
-    m_clhash_data_p->AddItemToEndOfList(pKeyExt->dataIndex,pItemVoid);
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    lh::CKeyBase* const pKeyExt = (lh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    m_clhash_data_p->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
 }
 
 
 template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
 {
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    return (Iterator<TypeData>)m_clhash_data_p->m_dataFncs[dataIndex].m_first;
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    return (Iterator<TypeData>)((lh::ItemBase*)m_clhash_data_p->m_lists_p[dataIndex].m_first);
 }
 
 
 template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::last()const noexcept
 {
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    return (Iterator<TypeData>)m_clhash_data_p->m_dataFncs[dataIndex].m_last;
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    return (Iterator<TypeData>)((lh::ItemBase*)m_clhash_data_p->m_lists_p[dataIndex].m_last);
 }
 
 
 template <typename TypeData>
 size_t ListHash::count()const noexcept
 {
-    const int32_t dataIndex = getReserveUniqueIdForDataInline<TypeData>();
-    return m_clhash_data_p->m_dataFncs[dataIndex].m_count;
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    return m_clhash_data_p->m_lists_p[dataIndex].m_count;
 }
 
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+
+template <typename TypeData>
+ListHash::Item<TypeData>::Item(TypeData* CPPUTILS_ARG_NN a_data_p)
+    :
+    prev(CPPUTILS_NULL),
+    next(CPPUTILS_NULL),
+    data(::std::move(*a_data_p))
+{
+}
+
+
 namespace lh{
 
 template <typename TypeKey, typename TypeHasher >
-SKeyAny<TypeKey,TypeHasher>::SKeyAny(const TypeKey& a_rawKey, int32_t a_dataIndex, int32_t a_keyAndHashIndex)
+SKeyAny<TypeKey,TypeHasher>::SKeyAny(const TypeKey& a_rawKey, int32_t a_dataIndex)
     :
-    CKeyBase(a_dataIndex,a_keyAndHashIndex),
+    CKeyBase(a_dataIndex),
     rawKey(a_rawKey)
 {
 }
@@ -346,7 +317,7 @@ uint64_t SKeyAny<TypeKey,TypeHasher>::hash()const
 template <typename TypeKey, typename TypeHasher >
 bool SKeyAny<TypeKey,TypeHasher>::areTheKeysSame(const CKeyBase& a_key2) const
 {
-    if(((this->keyAndHashIndex)==(a_key2.keyAndHashIndex))&&((this->dataIndex)==(a_key2.dataIndex))){
+    if((this->dataIndex)==(a_key2.dataIndex)){
         const SKeyAny<TypeKey,TypeHasher>& key2Ext = (const SKeyAny<TypeKey,TypeHasher>&)a_key2;
         return (this->rawKey)==(key2Ext.rawKey);
     }
@@ -367,9 +338,9 @@ CKeyBase* SKeyAny<TypeKey,TypeHasher>::clone(TypeCinternalAllocator a_allocator)
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeIntKey>
-SKeyInt<TypeIntKey>::SKeyInt(const TypeIntKey& a_rawKey, int32_t a_dataIndex, int32_t a_keyAndHashIndex)
+SKeyInt<TypeIntKey>::SKeyInt(const TypeIntKey& a_rawKey, int32_t a_dataIndex)
     :
-    CKeyBase(a_dataIndex,a_keyAndHashIndex),
+    CKeyBase(a_dataIndex),
     rawKey(a_rawKey)
 {
 }
@@ -386,7 +357,7 @@ uint64_t SKeyInt<TypeIntKey>::hash()const
 template <typename TypeIntKey >
 bool SKeyInt<TypeIntKey>::areTheKeysSame(const CKeyBase& a_key2) const
 {
-    if(((this->keyAndHashIndex)==(a_key2.keyAndHashIndex))&&((this->dataIndex)==(a_key2.dataIndex))){
+    if((this->dataIndex)==(a_key2.dataIndex)){
         const SKeyInt<TypeIntKey>& key2Ext = (const SKeyInt<TypeIntKey>&)a_key2;
         return (this->rawKey)==(key2Ext.rawKey);
     }

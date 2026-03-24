@@ -27,24 +27,32 @@ namespace cpputils { namespace hash{
 
 #define CPPUTILS_LHCHI(_typeInt)  _typeInt,::std::hash<_typeInt>, ::cpputils::hash::lh::SKeyInt<_typeInt>
 
+class CPPUTILS_EXPORT ListHash;
 
 namespace lh{
 
 class CPPUTILS_EXPORT Hash_p;
 
-class CKeyBase
+class CPPUTILS_EXPORT CKeyBase
 {
 public:
-    virtual ~CKeyBase();
-    CKeyBase(int32_t a_dataIndex, int32_t a_keyAndHashIndex);
+    virtual ~CKeyBase() = default;
+
+protected:
+    CKeyBase(int32_t a_dataIndex);
+
+public:
     virtual uint64_t hash()const = 0;
     virtual bool areTheKeysSame(const CKeyBase& a_key2) const = 0;
     virtual CKeyBase* clone(TypeCinternalAllocator a_allocator)const=0;
 public:
     const int32_t   dataIndex;
-    const int32_t   keyAndHashIndex;
+
 protected:
     CKeyBase(const CKeyBase&)=default;
+    CKeyBase(CKeyBase&&) = delete;
+    CKeyBase& operator=(const CKeyBase&) = delete;
+    CKeyBase& operator=(CKeyBase&&) = delete;
 };
 
 
@@ -52,7 +60,7 @@ template <typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
 struct SKeyAny : public CKeyBase
 {
 public:
-    SKeyAny(const TypeKey& a_rawKey, int32_t a_dataIndex, int32_t a_keyAndHashIndex);
+    SKeyAny(const TypeKey& a_rawKey, int32_t a_dataIndex);
     uint64_t hash()const override;
     bool areTheKeysSame(const CKeyBase& a_key2) const override;
     CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
@@ -65,12 +73,29 @@ template <typename TypeIntKey>
 struct SKeyInt : public CKeyBase
 {
 public:
-    SKeyInt(const TypeIntKey& a_rawKey, int32_t a_dataIndex, int32_t a_keyAndHashIndex);
+    SKeyInt(const TypeIntKey& a_rawKey, int32_t a_dataIndex);
     uint64_t hash()const override;
     bool areTheKeysSame(const CKeyBase& a_key2) const override;
     CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
 private:
     const TypeIntKey    rawKey;
+};
+
+
+class CPPUTILS_EXPORT ItemBase
+{
+protected:
+    CinternalHashItem_t     hashIter;
+
+protected:
+    virtual ~ItemBase() = default;
+    ItemBase() = default;
+    ItemBase(const ItemBase&) = delete;
+    ItemBase(ItemBase&&) = delete;
+    ItemBase& operator=(const ItemBase&) = delete;
+    ItemBase& operator=(ItemBase&&) = delete;
+    friend class Hash_p;
+    friend class ListHash;
 };
 
 
@@ -90,9 +115,7 @@ public:
     ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
     template <typename TypeData>
-    inline int32_t getReserveUniqueIdForDataInline(void) const noexcept;
-    template <typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
-    inline int32_t getReserveUniqueIdForKeyAndHasherInline(void) const noexcept;
+    inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = lh::SKeyAny<TypeKey,TypeHasher> >
     Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = lh::SKeyAny<TypeKey,TypeHasher> >
@@ -129,18 +152,21 @@ public:
     Iterator<TypeData> last()const noexcept;
     template <typename TypeData>
     size_t count()const noexcept;
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
 
 public:
     template <typename TypeData>
-    struct Item {
+    struct Item : public lh::ItemBase {
         struct Item *prev, *next;
-        TypeData*    data_p;
+        mutable TypeData    data;
 
     protected:
+        Item(TypeData* CPPUTILS_ARG_NN a_data_p);
         Item(const Item&) = delete;
         Item(Item&&) = delete;
         Item& operator=(const Item&) = delete;
         Item& operator=(Item&&) = delete;
+        friend class ListHash;
     };
 
 protected:
