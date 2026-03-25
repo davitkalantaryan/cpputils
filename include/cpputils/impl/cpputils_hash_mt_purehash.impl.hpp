@@ -11,7 +11,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_MT_PUREHASH_IMPL_HPP
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_MT_PUREHASH_HPP
-#include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/mt/purehash.hpp>
 #endif
 
 

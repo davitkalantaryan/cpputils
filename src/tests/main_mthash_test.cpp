@@ -41,6 +41,9 @@ int main(void)
     MapToTest::Iterator<int> iter;
     MapToTest::Iterator<double> iterD;
 
+    int32_t reserveResult = aMap.reserveUniqueIdForDataInline<double>();
+    ::std::cout << "reserveResult: " << reserveResult << ::std::endl;
+
     const ConstCinternalHash_t rawHash = aMap.getHash();
     ::std::cout << "rawHash: " << rawHash << ::std::endl;
 

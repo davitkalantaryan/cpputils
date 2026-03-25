@@ -11,7 +11,7 @@
 #define CPPUTILS_INCLUDE_CPPUTILS_HASH_MT_LISTHASH_IMPL_HPP
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_LISTHASH_HPP
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/mt/listhash.hpp>
 #endif
 
 
