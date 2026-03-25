@@ -107,7 +107,7 @@ static size_t HasherStatic(const void* a_key, size_t a_keySize) CPPUTILS_NOEXCEP
     (void)a_keySize;
     const uint64_t hashByRawKey = pKeyExt->hash();
     const uint64_t typeIndex = (uint64_t)(pKeyExt->dataIndex);
-    const uint64_t wholeHash = (typeIndex << 32) | ((uint64_t)((uint32_t)hashByRawKey));
+    const uint64_t wholeHash = typeIndex | (hashByRawKey<<8);
     return (size_t)wholeHash;
 }
 
