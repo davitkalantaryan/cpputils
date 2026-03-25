@@ -1,0 +1,38 @@
+//
+// repo:            cpputils
+// file:			cpputils_hash_listhash.cpp
+// path:			src/core/cpputils_hash_listhash.cpp
+// created on:		2025 Jul 17
+// created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
+//
+
+
+#include <cpputils/hash/mt/listhash.hpp>
+
+
+namespace cpputils { namespace hash{ namespace mt{
+
+
+MtListHash::MtListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
+    :
+    m_nsHash(a_numberOfBaskets,a_allocator,a_deallocator)
+{
+}
+
+
+ConstCinternalHash_t MtListHash::getHash()const
+{
+        return m_nsHash.getHash();
+}
+
+
+void MtListHash::AllocateListsInAdvance(int32_t a_numberOfLists)
+{
+    {  //  lock guard starts
+        ::std::lock_guard<::std::shared_mutex>  aGuard(m_mutex);
+        m_nsHash.AllocateListsInAdvance(a_numberOfLists);
+    }  //  lock guard ends
+}
+
+
+}}}  //  namespace cpputils { namespace hash{ namespace mt{
