@@ -21,7 +21,7 @@ namespace cpputils { namespace hash{ namespace mt{
 
 template <typename TypeData>
 inline int32_t MtListHash::reserveUniqueIdForDataInline(void) const noexcept {
-    return m_nsHash.reserveUniqueIdForDataInline();
+    return m_nsHash.reserveUniqueIdForDataInline<TypeData>();
 }
 
 
