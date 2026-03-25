@@ -36,64 +36,63 @@ static void TestHash()
     typename TypeHash::template Iterator<int> iter;
     typename TypeHash::template Iterator<double> iterD;
 
-    int32_t reserveResult = aMap.reserveUniqueIdForDataInline<double>();
+    int32_t reserveResult = aMap.template reserveUniqueIdForDataInline<double>();
     ::std::cout << "reserveResult: " << reserveResult << ::std::endl;
 
     const ConstCinternalHash_t rawHash = aMap.getHash();
     ::std::cout << "rawHash: " << rawHash << ::std::endl;
 
-    iter = aMap.findEx<int, int>(1, &unHash);
+    iter = aMap.template findEx<int, int>(1, &unHash);
     ::std::cout << "iter_01: " << iter << ::std::endl;
 
-    iter = aMap.AddWithKnownHash<int, int>(1, 1, unHash);
+    iter = aMap.template AddWithKnownHash<int, int>(1, 1, unHash);
     ::std::cout << "iter_02: " << iter << ::std::endl;
 
-    iter = aMap.findEx<int, int>(1, &unHash);
+    iter = aMap.template findEx<int, int>(1, &unHash);
     ::std::cout << "iter_03: " << iter << ::std::endl;
 
-    iter = aMap.find<int, int>(1);
+    iter = aMap.template find<int, int>(1);
     ::std::cout << "iter_04: " << iter << ::std::endl;
 
     if (iter) {
-        iter = aMap.findNextTheSame<int>(iter);
+        iter = aMap.template findNextTheSame<int>(iter);
         ::std::cout << "iter_05: " << iter << ::std::endl;
     }
 
-    // CPPUTILS_CHI
-    iter = aMap.findEx<int, CPPUTILS_LHCHI(int) >(1, &unHash);
+    iter = aMap.template findEx<int, CPPUTILS_PHCHI(int) >(1, &unHash);
     ::std::cout << "iter_06: " << iter << ::std::endl;
 
-    iter = aMap.AddEvenIfExist<int, int>(2, 1);
+    iter = aMap.template AddEvenIfExist<int, int>(2, 1);
     ::std::cout << "iter_07: " << iter << ::std::endl;
 
-    iter = aMap.AddIfNotExist<int, int>(1, 1);
+    iter = aMap.template AddIfNotExist<int, int>(1, 1);
     ::std::cout << "iter_08: " << iter << ::std::endl;
 
-    iterD = aMap.findEx<double, int>(1, &unHash);
+    iterD = aMap.template findEx<double, int>(1, &unHash);
     ::std::cout << "iterD_09: " << iterD << ::std::endl;
 
-    iter = aMap.find<int, int>(1);
+    iter = aMap.template find<int, int>(1);
     ::std::cout << "iter_10: " << iter << ::std::endl;
     int i = 0;
     while (iter) {
-        iter = aMap.findNextTheSame<int>(iter);
+        iter = aMap.template findNextTheSame<int>(iter);
         ::std::cout << "iter_11: " << (++i) << "  " << iter << ::std::endl;
     }  //  while(iter){
 
-    iter = aMap.find<int, int>(1);
+    iter = aMap.template find<int, int>(1);
     ::std::cout << "iter_12: " << iter << ::std::endl;
 
     if (iter) {
 
         if constexpr (::std::is_same<TypeHash, ::cpputils::hash::mt::MtListHash>::value) {
             int nIter = 0;
-            aMap.iterateBegToEnd<int>([&nIter](int& a_data)->bool {
+            aMap.template iterateBegToEnd<int>([&nIter](int& a_data)->bool {
                 ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_data << ::std::endl;
                 return true;
             });
 
             nIter = 0;
-            aMap.iterateEndToBeg<int>([&nIter](int& a_data)->bool {
+            aMap.template iterateEndToBeg<int>([&nIter](int& a_data)->bool {
                 ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "):" << a_data << ::std::endl;
                 return true;
             });
