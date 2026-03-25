@@ -39,6 +39,8 @@ public:
     using Iterator = ::cpputils::hash::ListHash::Iterator<TypeData>;
     template <typename TypeData>
     using TypeIterFunc = ::std::function<bool(TypeData&)>;  // true -> continue, false stop
+    template <typename TypeData>
+    using TypeIterFuncChng = ::std::function<bool(const Iterator<TypeData>&)>;  // true -> continue, false stop
 
 public:
     MtListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
@@ -64,7 +66,7 @@ public:
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = lh::SKeyAny<TypeKey,TypeHasher> >
     Iterator<TypeData> AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
     template <typename TypeData>
-    inline void RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    inline void RemoveEx(Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = lh::SKeyAny<TypeKey,TypeHasher> >
     bool Remove(const TypeKey& a_key) noexcept;
 
@@ -82,6 +84,12 @@ public:
     template <typename TypeData>
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
+    template <typename TypeData>
+    void IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc);
+    template <typename TypeData>
+    void IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc);
+    template <typename TypeData>
+    inline void RemoveExNoLockFromIterator(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
 
 protected:
     ::cpputils::hash::ListHash  m_nsHash;
