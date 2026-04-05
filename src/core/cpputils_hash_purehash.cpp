@@ -10,6 +10,7 @@
 #include <cpputils/hash/purehash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
+#include <stdlib.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace hash{

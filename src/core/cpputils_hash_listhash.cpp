@@ -10,6 +10,8 @@
 #include <cpputils/hash/listhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
+#include <stdlib.h>
+#include <string.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
 namespace cpputils { namespace hash{
@@ -68,8 +70,30 @@ Hash_p::Hash_p(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, Typ
 }
 
 
+inline void Hash_p::MakeSureHasEnoughLists(int32_t a_dataIndex)
+{
+    if (a_dataIndex >= m_numberOfAllocatedDataTypes) {
+        const int32_t numberOfAllocatedTablesNew = a_dataIndex+1;
+        lh::SListData* const lists_p = m_lists_p;
+        m_lists_p = (lh::SListData*)(*(m_hash->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(lh::SListData)));
+        if (!m_lists_p) {
+            m_lists_p = lists_p;
+            throw ::std::bad_alloc();
+        }
+        memcpy(m_lists_p, lists_p, (size_t)(m_numberOfAllocatedDataTypes * sizeof(lh::SListData)));
+        for (int32_t i(m_numberOfAllocatedDataTypes); i < numberOfAllocatedTablesNew; ++i) {
+            m_lists_p[i].m_first = m_lists_p[i].m_last = CPPUTILS_NULL;
+            m_lists_p[i].m_count = 0;
+        }  //  for(size_t i(m_numberOfAllocatedTables); i<numberOfAllocatedTablesNew; ++i){
+        m_numberOfAllocatedDataTypes = numberOfAllocatedTablesNew;
+    }  //  if(cunThisFuncIndex>=m_numberOfAllocatedTables){
+}
+
+
 void Hash_p::AddItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept
 {
+    MakeSureHasEnoughLists(a_dataIndex);
+
     ItemBool* const pItemBool = (ItemBool*)a_item;
     if(m_lists_p[a_dataIndex].m_first){
         m_lists_p[a_dataIndex].m_first->prev = pItemBool;
@@ -86,6 +110,8 @@ void Hash_p::AddItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN
 
 void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept
 {
+    MakeSureHasEnoughLists(a_dataIndex);
+
     ItemBool* const pItemBool = (ItemBool*)a_item;
     if(m_lists_p[a_dataIndex].m_last){
         m_lists_p[a_dataIndex].m_last->next = pItemBool;
@@ -118,26 +144,6 @@ void Hash_p::RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG
     }
 
     --(m_lists_p[a_dataIndex].m_count);
-}
-
-
-void Hash_p::MakeSureHasEnoughLists(int32_t a_dataIndex) noexcept
-{
-    if (a_dataIndex >= m_numberOfAllocatedDataTypes) {
-        const int32_t numberOfAllocatedTablesNew = a_dataIndex+1;
-        lh::SListData* const lists_p = m_lists_p;
-        m_lists_p = (lh::SListData*)(*(m_hash->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(lh::SListData)));
-        if (!m_lists_p) {
-            m_lists_p = lists_p;
-            return;
-        }
-        memcpy(m_lists_p, lists_p, (size_t)(m_numberOfAllocatedDataTypes * sizeof(lh::SListData)));
-        for (int32_t i(m_numberOfAllocatedDataTypes); i < numberOfAllocatedTablesNew; ++i) {
-            m_lists_p[i].m_first = m_lists_p[i].m_last = CPPUTILS_NULL;
-            m_lists_p[i].m_count = 0;
-        }  //  for(size_t i(m_numberOfAllocatedTables); i<numberOfAllocatedTablesNew; ++i){
-        m_numberOfAllocatedDataTypes = numberOfAllocatedTablesNew;
-    }  //  if(cunThisFuncIndex>=m_numberOfAllocatedTables){
 }
 
 

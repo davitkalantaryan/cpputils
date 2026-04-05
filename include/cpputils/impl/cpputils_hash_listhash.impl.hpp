@@ -43,10 +43,10 @@ protected:
     SListData*              m_lists_p;
 
 private:
+    inline void MakeSureHasEnoughLists(int32_t a_dataIndex);
     virtual void AddItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept override;
     virtual void RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept override;
     void AddItemToEndOfList(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept;
-    void MakeSureHasEnoughLists(int32_t a_dataIndex) noexcept;
 
 private:
     Hash_p(const Hash_p&) = delete;
