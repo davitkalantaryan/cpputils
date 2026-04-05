@@ -47,7 +47,7 @@ template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash
 using ListHash = ListHashBase<hash::ListHash, hash::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtListHash = Base<hash::mt::MtListHash, hash::mt::MtListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtListHash = ListHashBase<hash::mt::MtListHash, hash::mt::MtListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 
