@@ -21,6 +21,8 @@ static void TestHash(void);
 
 int main(void)
 {
+    TestHash<::cpputils::hash::ListHash>();
+    TestHash<::cpputils::hash::PureHash>();
     TestHash<::cpputils::hash::mt::MtListHash>();
     TestHash<::cpputils::hash::mt::MtPureHash>();
 	return 0;
@@ -45,8 +47,22 @@ static void TestHash()
     iter = aMap.template findEx<int, int>(1, &unHash);
     ::std::cout << "iter_01: " << iter << ::std::endl;
 
+    iter = aMap.template find<int, int>(1);
+    ::std::cout << "iter_01b: " << iter << ::std::endl;
+
+    if (iter) {
+        iter = aMap.template findNextTheSame<int>(iter);
+        ::std::cout << "iter_01c: " << iter << ::std::endl;
+    }
+
     iter = aMap.template AddWithKnownHash<int, int>(1, 1, unHash);
     ::std::cout << "iter_02: " << iter << ::std::endl;
+
+    iter = aMap.template AddEvenIfExist<int, int>(1, 1);
+    ::std::cout << "iter_02b: " << iter << ::std::endl;
+
+    iter = aMap.template AddIfNotExist<int, int>(1, 1);
+    ::std::cout << "iter_02c: " << iter << ::std::endl;
 
     iter = aMap.template findEx<int, int>(1, &unHash);
     ::std::cout << "iter_03: " << iter << ::std::endl;
@@ -59,7 +75,7 @@ static void TestHash()
         ::std::cout << "iter_05: " << iter << ::std::endl;
     }
 
-    iter = aMap.template findEx<int, CPPUTILS_PHCHI(int) >(1, &unHash);
+    iter = aMap.template findEx<int, CPPUTILS_HASH_CHI(int) >(1, &unHash);
     ::std::cout << "iter_06: " << iter << ::std::endl;
 
     iter = aMap.template AddEvenIfExist<int, int>(2, 1);
@@ -90,13 +106,13 @@ static void TestHash()
                 ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_data << ::std::endl;
                 return true;
             });
-
+            
             nIter = 0;
             aMap.template iterateEndToBeg<int>([&nIter](int& a_data)->bool {
                 ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "):" << a_data << ::std::endl;
                 return true;
             });
-
+            
             aMap.MoveToStart(iter);
             aMap.MoveToEnd(iter);
         }  //  if constexpr ( ::std::is_same_v<TypeHash, ::cpputils::hash::mt::MtListHash>) {
