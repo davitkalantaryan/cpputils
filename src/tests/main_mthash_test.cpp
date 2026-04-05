@@ -9,6 +9,7 @@
 
 #include <cpputils/hash/mt/listhash.hpp>
 #include <cpputils/hash/mt/purehash.hpp>
+#include <cpputils/hash/templ/purehash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <type_traits>
@@ -17,6 +18,8 @@
 
 template <typename TypeHash>
 static void TestHash(void);
+template <typename TypeTemplHash, typename TypeData, typename TypeKey>
+static void TestTemplHash(void);
 
 
 int main(void)
@@ -25,6 +28,9 @@ int main(void)
     TestHash<::cpputils::hash::PureHash>();
     TestHash<::cpputils::hash::mt::MtListHash>();
     TestHash<::cpputils::hash::mt::MtPureHash>();
+
+    TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
+
 	return 0;
 }
 
@@ -119,4 +125,17 @@ static void TestHash()
 
         aMap.RemoveEx(iter);
     }  //  if (iter) {
+}
+
+
+template <typename TypeTemplHash, typename TypeData, typename TypeKey>
+static void TestTemplHash(void)
+{
+    size_t unHash;
+    typename TypeTemplHash::TypeRawHash aHashBase(1024);
+    TypeTemplHash aHash(&aHashBase);
+
+    typename TypeTemplHash::TypeRawHash::template Iterator<int> iter;
+    iter = aHash.findEx(1, &unHash);
+    ::std::cout << "iter_01: " << iter << ::std::endl;
 }
