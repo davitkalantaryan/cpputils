@@ -21,42 +21,77 @@ namespace cpputils { namespace hash{ namespace templ{
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 void ListHashBase<TypeHash, TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::MoveToStart(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
 {
-    BaseR::m_hash_p->template MoveToStart<TypeData>(a_iter);
+    this->m_hash_p->template MoveToStart<TypeData>(a_iter);
 }
 
 
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToEnd(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
 {
-    BaseR::m_hash_p->template MoveToEnd<TypeData>(a_iter);
+    this->m_hash_p->template MoveToEnd<TypeData>(a_iter);
 }
 
 
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 TypeIter ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::first() const noexcept
 {
-    BaseR::m_hash_p->template first<TypeData>();
+    return this->m_hash_p->template first<TypeData>();
 }
 
 
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 TypeIter ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::last() const noexcept
 {
-    BaseR::m_hash_p->template last<TypeData>();
+    return this->m_hash_p->template last<TypeData>();
 }
 
 
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 size_t ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::count() const noexcept
 {
-    return BaseR::m_hash_p->template count<TypeData>();
+    return this->m_hash_p->template count<TypeData>();
 }
 
 
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AllocateListsInAdvance(int32_t a_numberOfLists)
 {
-    BaseR::m_hash_p->AllocateListsInAdvance(a_numberOfLists);
+    this->m_hash_p->AllocateListsInAdvance(a_numberOfLists);
+}
+
+
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::iterateBegToEnd(const TypeIterFunc& a_iterFunc) const noexcept
+{
+    this->m_hash_p->template iterateBegToEnd<TypeData>(a_iterFunc);
+}
+
+
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::iterateEndToBeg(const TypeIterFunc& a_iterFunc) const noexcept
+{
+    this->m_hash_p->template iterateEndToBeg<TypeData>(a_iterFunc);
+}
+
+
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::IterateBegToEnd(const TypeIterFuncChng& a_iterFunc)
+{
+    this->m_hash_p->template IterateBegToEnd<TypeData>(a_iterFunc);
+}
+
+
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::IterateEndToBeg(const TypeIterFuncChng& a_iterFunc)
+{
+    this->m_hash_p->template IterateEndToBeg<TypeData>(a_iterFunc);
+}
+
+
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::RemoveExNoLockFromIterator(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
+{
+    this->m_hash_p->template RemoveExNoLockFromIterator<TypeData>(a_iter);
 }
 
 

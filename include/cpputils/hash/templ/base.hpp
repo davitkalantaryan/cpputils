@@ -43,7 +43,7 @@ public:
     typedef TypeHash TypeRawHash;
     typedef TypeIter Iterator;
 
-private:
+protected:
     Base(const Base&) = delete;
     Base(Base&&) = delete;
     Base& operator=(const Base&) = delete;

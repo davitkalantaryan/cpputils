@@ -231,7 +231,7 @@ void MtListHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
     MtListHash::Iterator<TypeData> item, itemNext;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::lock_guard<::std::shared_mutex>  shGuard(m_mutex);
         item = m_nsHash.template first<TypeData>();
         while (bContinue && item) {
             itemNext = item->next;
@@ -249,7 +249,7 @@ void MtListHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
     MtListHash::Iterator<TypeData> item, itemPrev;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::lock_guard<::std::shared_mutex>  shGuard(m_mutex);
         item = m_nsHash.template last<TypeData>();
         while (bContinue && item) {
             itemPrev = item->prev;
