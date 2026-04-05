@@ -97,7 +97,7 @@ bool Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Remove(cons
 
 
 template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::RemoveEx(const bh::Item<TypeData>* CPPUTILS_ARG_NN a_iter) noexcept
+void Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::RemoveEx(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
 {
     m_hash_p->template RemoveEx<TypeData>(a_iter);
 }

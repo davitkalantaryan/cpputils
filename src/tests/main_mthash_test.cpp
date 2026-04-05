@@ -32,6 +32,8 @@ int main(void)
 
     TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
     TestTemplHash<::cpputils::hash::templ::ListHash<int, int>, int, int >();
+    TestTemplHash<::cpputils::hash::templ::MtPureHash<int, int>, int, int >();
+    TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
 
 	return 0;
 }
@@ -140,4 +142,33 @@ static void TestTemplHash(void)
     typename TypeTemplHash::TypeRawHash::template Iterator<int> iter;
     iter = aHash.findEx(1, &unHash);
     ::std::cout << "iter_01: " << iter << ::std::endl;
+
+    iter = aHash.find(1);
+    ::std::cout << "iter_02: " << iter << ::std::endl;
+
+    if (iter) {
+        iter = aHash.findNextTheSame(iter);
+        ::std::cout << "iter_03: " << iter << ::std::endl;
+    }
+
+    iter = aHash.AddWithKnownHash(1, 1, unHash);
+    ::std::cout << "iter_04: " << iter << ::std::endl;
+
+    iter = aHash.AddEvenIfExist(1, 1);
+    ::std::cout << "iter_05: " << iter << ::std::endl;
+
+    iter = aHash.AddIfNotExist(1, 1);
+    ::std::cout << "iter_06: " << iter << ::std::endl;
+
+    if (iter) {
+        aHash.RemoveEx(iter);
+    }
+
+    iter = aHash.findEx(1, &unHash);
+    if (iter) {
+        aHash.RemoveEx(iter);
+    }
+
+    const bool removeResult = aHash.Remove(1);
+    ::std::cout << "removeResult: " << removeResult << ::std::endl;
 }

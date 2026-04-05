@@ -14,32 +14,40 @@
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/templ/base.hpp>
 #include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/mt/listhash.hpp>
 
 
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-class CPPUTILS_DLL_PUBLIC ListHash : public Base<hash::ListHash,hash::ListHash::Iterator<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>
+template <typename TypeHash, typename TypeIter,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+class CPPUTILS_DLL_PUBLIC ListHashBase : public Base<hash::ListHash,hash::ListHash::Iterator<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>
 {
 public:
     using Base<hash::ListHash, hash::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
-    void MoveToStart(const hash::ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
-    void MoveToEnd(const typename hash::ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
-    hash::ListHash::Iterator<TypeData> first()const noexcept;
-    hash::ListHash::Iterator<TypeData> last()const noexcept;
+    void MoveToStart(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
+    void MoveToEnd(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
+    TypeIter first()const noexcept;
+    TypeIter last()const noexcept;
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
 
 private:
-    ListHash(const ListHash&) = delete;
-    ListHash(ListHash&&) = delete;
-    ListHash& operator=(const ListHash&) = delete;
-    ListHash& operator=(ListHash&&) = delete;
+    ListHashBase(const ListHash&) = delete;
+    ListHashBase(ListHash&&) = delete;
+    ListHashBase& operator=(const ListHash&) = delete;
+    ListHashBase& operator=(ListHash&&) = delete;
 
 private:
-    using BaseR = Base<hash::ListHash,hash::ListHash::Iterator<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>;
+    using BaseR = Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>;
 };
+
+
+template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+using ListHash = ListHashBase<hash::ListHash, hash::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+
+template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+using MtListHash = Base<hash::mt::MtListHash, hash::mt::MtListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 

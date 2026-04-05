@@ -34,7 +34,7 @@ public:
     TypeIter AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
     TypeIter AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
     bool Remove(const TypeKey& a_key) noexcept;
-    void RemoveEx(const bh::Item<TypeData>* CPPUTILS_ARG_NN a_iter) noexcept;
+    void RemoveEx(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
 
 protected:
     TypeHash* const m_hash_p;

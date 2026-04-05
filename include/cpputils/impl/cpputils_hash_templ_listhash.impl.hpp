@@ -18,43 +18,43 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>::MoveToStart(const hash::ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::MoveToStart(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
 {
     BaseR::m_hash_p->template MoveToStart<TypeData>(a_iter);
 }
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>::MoveToEnd(const hash::ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToEnd(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
 {
     BaseR::m_hash_p->template MoveToEnd<TypeData>(a_iter);
 }
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-hash::ListHash::Iterator<TypeData> ListHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>::first() const noexcept
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+TypeIter ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::first() const noexcept
 {
     BaseR::m_hash_p->template first<TypeData>();
 }
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-hash::ListHash::Iterator<TypeData> ListHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>::last() const noexcept
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+TypeIter ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::last() const noexcept
 {
     BaseR::m_hash_p->template last<TypeData>();
 }
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-size_t ListHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>::count() const noexcept
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+size_t ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::count() const noexcept
 {
     return BaseR::m_hash_p->template count<TypeData>();
 }
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>::AllocateListsInAdvance(int32_t a_numberOfLists)
+template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AllocateListsInAdvance(int32_t a_numberOfLists)
 {
     BaseR::m_hash_p->AllocateListsInAdvance(a_numberOfLists);
 }

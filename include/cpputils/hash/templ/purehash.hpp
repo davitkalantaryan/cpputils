@@ -14,6 +14,7 @@
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/templ/base.hpp>
 #include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/mt/purehash.hpp>
 
 
 namespace cpputils { namespace hash{ namespace templ{
@@ -22,6 +23,8 @@ namespace cpputils { namespace hash{ namespace templ{
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
 using PureHash = Base<hash::PureHash,hash::PureHash::Iterator<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>;
 
+template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+using MtPureHash = Base<hash::mt::MtPureHash, hash::mt::MtPureHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 }}}  //  namespace cpputils { namespace hash{ namespace templ{
