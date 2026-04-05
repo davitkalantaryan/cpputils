@@ -24,6 +24,7 @@ win32{
 }
 
 SOURCES	+= "$${PWD}/../../../src/tests/main_mthash_test.cpp"
+SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_base.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_purehash.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_listhash.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_mt_purehash.cpp"
