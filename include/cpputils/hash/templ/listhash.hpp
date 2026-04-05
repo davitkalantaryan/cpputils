@@ -23,6 +23,7 @@ template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash
 class CPPUTILS_DLL_PUBLIC ListHash : public Base<hash::ListHash,hash::ListHash::Iterator<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>
 {
 public:
+    using Base<hash::ListHash, hash::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
     void MoveToStart(const hash::ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
     void MoveToEnd(const typename hash::ListHash::Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
     hash::ListHash::Iterator<TypeData> first()const noexcept;

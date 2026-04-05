@@ -31,6 +31,9 @@
     <Filter Include="Header Files\include\cpputils\hash\mt">
       <UniqueIdentifier>{7b05f53a-dd59-400d-bb17-cd89cff12a6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\cpputils\hash\templ">
+      <UniqueIdentifier>{c10d5f07-faf6-4433-8da1-78818f0bc664}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c">
@@ -91,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_base.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\base.hpp">
+      <Filter>Header Files\include\cpputils\hash\templ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\listhash.hpp">
+      <Filter>Header Files\include\cpputils\hash\templ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\purehash.hpp">
+      <Filter>Header Files\include\cpputils\hash\templ</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

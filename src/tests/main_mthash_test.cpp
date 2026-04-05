@@ -10,6 +10,7 @@
 #include <cpputils/hash/mt/listhash.hpp>
 #include <cpputils/hash/mt/purehash.hpp>
 #include <cpputils/hash/templ/purehash.hpp>
+#include <cpputils/hash/templ/listhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <type_traits>
@@ -30,6 +31,7 @@ int main(void)
     TestHash<::cpputils::hash::mt::MtPureHash>();
 
     TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
+    TestTemplHash<::cpputils::hash::templ::ListHash<int, int>, int, int >();
 
 	return 0;
 }
