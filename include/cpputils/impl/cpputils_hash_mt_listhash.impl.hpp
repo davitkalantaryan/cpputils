@@ -151,7 +151,7 @@ bool MtListHash::Remove(const TypeKey& a_key) noexcept
 
 
 template <typename TypeData>
-inline void MtListHash::RemoveEx(Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
+inline void MtListHash::RemoveEx(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
 {
     ::std::lock_guard<::std::shared_mutex>  aGuard(m_mutex);
     m_nsHash.template RemoveEx<TypeData>(a_iter);
