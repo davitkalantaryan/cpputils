@@ -280,6 +280,7 @@
     <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />

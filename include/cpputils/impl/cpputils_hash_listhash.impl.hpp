@@ -188,7 +188,10 @@ template <typename TypeData>
 size_t ListHash::count()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    return ((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_count;
+    if (dataIndex < (((lh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
+        return ((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_count;
+    }
+    return 0;
 }
 
 

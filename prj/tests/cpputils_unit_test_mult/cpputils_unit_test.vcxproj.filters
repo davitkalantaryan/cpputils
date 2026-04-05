@@ -143,11 +143,20 @@
     <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp">
       <Filter>Source Files\tests\unit_test</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_purehash.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

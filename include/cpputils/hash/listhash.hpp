@@ -72,6 +72,7 @@ public:
         Item(Item&&) = delete;
         Item& operator=(const Item&) = delete;
         Item& operator=(Item&&) = delete;
+        friend class ::cpputils::hash::Base;
     };
 
 private:

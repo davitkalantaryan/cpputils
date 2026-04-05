@@ -78,6 +78,9 @@
     <ClCompile Include="..\..\..\src\core\cpputils_runtimedeadlockfreemutexes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\any_quick_test_mkfl\any_quick_test.unix.Makefile">
