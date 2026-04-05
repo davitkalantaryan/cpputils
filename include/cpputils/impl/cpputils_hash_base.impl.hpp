@@ -173,6 +173,8 @@ inline void Base::RemoveEx(const bh::Item<TypeData>* CPPUTILS_ARG_NN a_iter) noe
 {
     bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)a_iter;
     const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    m_clhash_data_p->RemoveItemExtraPart(dataIndex, pItemBaseToDelete);
     pItemBaseToDelete->~ItemBase();
     (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
     CInternalHashRemoveDataEx(m_clhash_data_p->m_hash,hashIter);

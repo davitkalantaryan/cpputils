@@ -57,7 +57,6 @@ Hash_p::~Hash_p() noexcept
     }  //  for (size_t i(0); i < m_clmp_data_p->m_numberOfTypes; ++i) {
 
     (*(m_hash->deallocator))(m_lists_p);
-    CInternalHashDestroy(m_hash);
 }
 
 
