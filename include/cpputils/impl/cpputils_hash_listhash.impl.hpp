@@ -81,7 +81,10 @@ template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    return (Iterator<TypeData>)((bh::ItemBase*)((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_first);
+    if (dataIndex < (((lh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
+        return (Iterator<TypeData>)((bh::ItemBase*)((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_first);
+    }
+    return CPPUTILS_NULL;
 }
 
 
@@ -89,7 +92,10 @@ template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::last()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    return (Iterator<TypeData>)((bh::ItemBase*)((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_last);
+    if (dataIndex < (((lh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
+        return (Iterator<TypeData>)((bh::ItemBase*)((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_last);
+    }
+    return CPPUTILS_NULL;
 }
 
 
