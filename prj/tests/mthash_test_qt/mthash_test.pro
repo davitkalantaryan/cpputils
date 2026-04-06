@@ -29,6 +29,7 @@ SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_purehash.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_listhash.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_vecthash.cpp"
 SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_mt_listhash.cpp"
+SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_mt_vecthash.cpp"
 SOURCES += "$${cinternalRepoRoot}/src/core/cinternal_core_hash.c"
 	
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)

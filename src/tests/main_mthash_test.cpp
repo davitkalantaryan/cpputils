@@ -38,10 +38,14 @@ int main(void)
     //TestHash<::cpputils::hash::mt::ListHash>();
     //TestHash<::cpputils::hash::mt::PureHash>();
 
+#ifndef _MSC_VER
     TestTemplHash<::cpputils::hash::templ::MtPureHash<int,int>,int,int >();
     TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
     TestTemplHash<::cpputils::hash::templ::MtVectHash<int, int>, int, int >();
-    //TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
+#endif
+    TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
+    TestTemplHash<::cpputils::hash::templ::ListHash<int, int>, int, int >();
+    TestTemplHash<::cpputils::hash::templ::VectHash<int, int>, int, int >();
 
 	return 0;
 }
@@ -159,10 +163,10 @@ static void TestTemplHash(void)
         (::std::is_same<TypeTemplHash, ::cpputils::hash::ListHash>::value)  ||  
         (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value)   )
     {
-        //if (iter) {
-        //    iter = aHash.findNextTheSame(iter);
-        //    ::std::cout << "iter_03: " << iter << ::std::endl;
-        //}
+        if (iter) {
+            iter = aHash.findNextTheSame(iter);
+            ::std::cout << "iter_03: " << iter << ::std::endl;
+        }
     }
 
     iter = aHash.AddWithKnownHash(1, 1, unHash);
@@ -179,9 +183,9 @@ static void TestTemplHash(void)
         (::std::is_same<TypeTemplHash, ::cpputils::hash::ListHash>::value) ||
         (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value))
     {
-        //if (iter) {
-        //    aHash.RemoveEx(iter);
-        //}
+        if (iter) {
+            aHash.RemoveEx(iter);
+        }
     }
 
     iter = aHash.findEx(1, &unHash);
@@ -190,9 +194,9 @@ static void TestTemplHash(void)
         (::std::is_same<TypeTemplHash, ::cpputils::hash::ListHash>::value) ||
         (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value))
     {
-        //if (iter) {
-        //    aHash.RemoveEx(iter);
-        //}
+        if (iter) {
+            aHash.RemoveEx(iter);
+        }
     }
 
     const bool removeResult = aHash.Remove(1);
