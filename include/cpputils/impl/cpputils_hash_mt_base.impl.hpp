@@ -13,6 +13,9 @@
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_MT_BASE_HPP
 #include <cpputils/hash/mt/base.hpp>
 #endif
+#include <cinternal/disable_compiler_warnings.h>
+#include <mutex>
+#include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace hash{ namespace mt{
