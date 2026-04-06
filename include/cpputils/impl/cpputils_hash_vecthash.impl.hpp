@@ -82,7 +82,7 @@ template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::first()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    if ((dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) && (((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count)>0)) {
+    if ((dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) && ((((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count)>0)) {
         return (Iterator<TypeData>)((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_items_p[0]);
     }
     return CPPUTILS_NULL;
@@ -93,8 +93,8 @@ template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::last()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    if ((dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) && (((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count) > 0)) {
-        return (Iterator<TypeData>)((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_items_p[((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count)-1]);
+    if ((dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) && ((((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count) > 0)) {
+        return (Iterator<TypeData>)((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_items_p[(((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count)-1]);
     }
     return CPPUTILS_NULL;
 }
@@ -104,7 +104,7 @@ template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    if ((dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) && (((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count) > a_index)) {
+    if ((dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) && ((((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count) > a_index)) {
         return (Iterator<TypeData>)((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_items_p[a_index]);
     }
     return CPPUTILS_NULL;
