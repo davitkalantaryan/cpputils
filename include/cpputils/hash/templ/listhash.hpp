@@ -24,8 +24,8 @@ template <typename TypeHash, typename TypeIter,typename TypeData, typename TypeK
 class CPPUTILS_DLL_PUBLIC ListHashBase : public Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>
 {
 public:
-    typedef mt::MtListHash::TypeIterFunc<TypeData>      TypeIterFunc;
-    typedef mt::MtListHash::TypeIterFuncChng<TypeData>  TypeIterFuncChng;
+    typedef mt::ListHash::TypeIterFunc<TypeData>      TypeIterFunc;
+    typedef mt::ListHash::TypeIterFuncChng<TypeData>  TypeIterFuncChng;
 
 public:
     using Base<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
@@ -53,7 +53,7 @@ template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash
 using ListHash = ListHashBase<hash::ListHash, hash::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtListHash = ListHashBase<hash::mt::MtListHash, hash::mt::MtListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtListHash = ListHashBase<hash::mt::ListHash, hash::mt::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 

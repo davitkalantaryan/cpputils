@@ -18,37 +18,27 @@
 namespace cpputils { namespace hash{
 
 
-class CPPUTILS_EXPORT PureHash : public Base
+class Cph {
+public:
+    template <typename TypeData>
+    struct Item : public bh::ItemBase {
+        mutable TypeData    data;
+
+    public:
+        Item(TypeData* CPPUTILS_ARG_NN a_data_p);
+    protected:
+        Item(const Item&) = delete;
+        Item(Item&&) = delete;
+        Item& operator=(const Item&) = delete;
+        Item& operator=(Item&&) = delete;
+    };
+};
+
+
+class CPPUTILS_EXPORT PureHash : public Base<Cph>
 {
 public:
-    template <typename TypeData>
-    using Item = bh::Item<TypeData>;
-    template <typename TypeData>
-    using Iterator = const Item<TypeData>*;
-
-public:
     PureHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
-
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> find(const TypeKey& a_key)const noexcept;
-    template <typename TypeData>
-    Iterator<TypeData> findNextTheSame( const Iterator<TypeData>& CPPUTILS_ARG_NN a_prev ) const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    bool Remove(const TypeKey& a_key) noexcept;
 
 private:
     PureHash(const PureHash&) = delete;

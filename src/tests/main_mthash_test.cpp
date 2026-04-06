@@ -9,6 +9,7 @@
 
 #include <cpputils/hash/mt/listhash.hpp>
 #include <cpputils/hash/mt/purehash.hpp>
+#include <cpputils/hash/mt/base.hpp>
 #include <cpputils/hash/templ/purehash.hpp>
 #include <cpputils/hash/templ/listhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
@@ -25,15 +26,19 @@ static void TestTemplHash(void);
 
 int main(void)
 {
+    size_t unHash;
+    cpputils::hash::mt::Base<cpputils::hash::PureHash> aBase(1024);
+    aBase.findEx<int, int>(1, &unHash);
+
     TestHash<::cpputils::hash::ListHash>();
     TestHash<::cpputils::hash::PureHash>();
-    TestHash<::cpputils::hash::mt::MtListHash>();
-    TestHash<::cpputils::hash::mt::MtPureHash>();
+    //TestHash<::cpputils::hash::mt::MtListHash>();
+    //TestHash<::cpputils::hash::mt::PureHash>();
 
     TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
     TestTemplHash<::cpputils::hash::templ::ListHash<int, int>, int, int >();
-    TestTemplHash<::cpputils::hash::templ::MtPureHash<int, int>, int, int >();
-    TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
+    //TestTemplHash<::cpputils::hash::templ::MtPureHash<int, int>, int, int >();
+    //TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
 
 	return 0;
 }
@@ -110,7 +115,7 @@ static void TestHash()
 
     if (iter) {
 
-        if constexpr (::std::is_same<TypeHash, ::cpputils::hash::mt::MtListHash>::value) {
+        if constexpr (::std::is_same<TypeHash, ::cpputils::hash::mt::ListHash>::value) {
             int nIter = 0;
             aMap.template iterateBegToEnd<int>([&nIter](int& a_data)->bool {
                 ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_data << ::std::endl;

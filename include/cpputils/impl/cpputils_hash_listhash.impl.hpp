@@ -21,12 +21,10 @@ namespace cpputils { namespace hash{
 namespace lh{
 
 
-typedef ListHash::Item<bool> ItemBool;
-
 struct SListData {
-    ItemBool*   m_first;
-    ItemBool*   m_last;
-    size_t      m_count;
+    Clh::ItemBase*  m_first;
+    Clh::ItemBase*  m_last;
+    size_t          m_count;
 };
 
 
@@ -57,95 +55,6 @@ private:
 };
 
 }  //  namespace lh{
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename ListHash::Iterator<TypeData>
-ListHash::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept
-{
-    return findExRaw<Item<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, a_pHash);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::find(const TypeKey& a_key)const noexcept
-{
-    size_t unHash;
-    return findEx<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_key, &unHash);
-}
-
-
-template <typename TypeData>
-typename ListHash::Iterator<TypeData>
-ListHash::findNextTheSame( const Iterator<TypeData>& CPPUTILS_ARG_NN a_prev ) const noexcept
-{
-    return findNextTheSameRaw<Item<TypeData> >(a_prev);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
-{
-    TypeData aData(a_data);
-    return AddWithKnownHashRaw<Item<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>(&aData, a_key, a_hash);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
-{
-    return AddWithKnownHashRaw<Item<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_data_p, a_key, a_hash);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
-{
-    TypeData aData(a_data);
-    return AddEvenIfExistRaw<Item<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
-{
-    return AddEvenIfExistRaw<Item<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_data_p, a_key);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
-{
-    TypeData aData(a_data);
-    return AddIfNotExistRaw<Item<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHash::Iterator<TypeData>
-ListHash::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
-{
-    return AddIfNotExistRaw<Item<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_data_p, a_key);
-}
-
-
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt>
-bool ListHash::Remove(const TypeKey& a_key) noexcept
-{
-    size_t unHash;
-    const Iterator<TypeData> iter = findEx<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_key,&unHash);
-    if(iter){
-        RemoveEx<TypeData>(iter);
-        return true;
-    }
-    return false;
-}
 
 
 template <typename TypeData>
@@ -192,6 +101,16 @@ size_t ListHash::count()const noexcept
         return ((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_count;
     }
     return 0;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename TypeData>
+Clh::Item<TypeData>::Item(TypeData* CPPUTILS_ARG_NN a_data_p)
+    :
+    data(::std::move(*a_data_p))
+{
 }
 
 

@@ -272,7 +272,6 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_purehash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_mthash_test.cpp" />
   </ItemGroup>
@@ -281,6 +280,7 @@
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h" />
     <ClInclude Include="..\..\..\include\cpputils\hash\base.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\base.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\listhash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\purehash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp" />
@@ -289,8 +289,8 @@
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\purehash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_listhash.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_purehash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp" />

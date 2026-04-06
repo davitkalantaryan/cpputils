@@ -42,7 +42,7 @@ namespace lh {
 
 Hash_p::~Hash_p() noexcept
 {
-    ItemBool* pItemNext, * pItem;
+    Clh::ItemBase* pItemNext, * pItem;
 
     for (int32_t i(0); i < m_numberOfAllocatedDataTypes; ++i) {
         pItem = m_lists_p[i].m_first;
@@ -93,7 +93,7 @@ void Hash_p::AddItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN
 {
     MakeSureHasEnoughLists(a_dataIndex);
 
-    ItemBool* const pItemBool = (ItemBool*)a_item;
+    Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(m_lists_p[a_dataIndex].m_first){
         m_lists_p[a_dataIndex].m_first->prev = pItemBool;
     }
@@ -111,7 +111,7 @@ void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_
 {
     MakeSureHasEnoughLists(a_dataIndex);
 
-    ItemBool* const pItemBool = (ItemBool*)a_item;
+    Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(m_lists_p[a_dataIndex].m_last){
         m_lists_p[a_dataIndex].m_last->next = pItemBool;
     }
@@ -127,7 +127,7 @@ void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_
 
 void Hash_p::RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept
 {
-    ItemBool* const pItemBool = (ItemBool*)a_item;
+    Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(pItemBool->prev){
         pItemBool->prev->next = pItemBool->next;
     }

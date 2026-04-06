@@ -18,37 +18,39 @@
 namespace cpputils { namespace hash{
 
 
-class CPPUTILS_EXPORT ListHash : public Base
+class Clh {
+public:
+
+    struct ItemBase : public bh::ItemBase {
+        struct ItemBase* prev, * next;
+    protected:
+        ~ItemBase() = default;
+        ItemBase() = default;
+        ItemBase(const ItemBase&) = delete;
+        ItemBase(ItemBase&&) = delete;
+        ItemBase& operator=(const ItemBase&) = delete;
+        ItemBase& operator=(ItemBase&&) = delete;
+    };
+
+    template <typename TypeData>
+    struct Item : public ItemBase {
+        mutable TypeData    data;
+
+    public:
+        Item(TypeData* CPPUTILS_ARG_NN a_data_p);
+    protected:
+        Item(const Item&) = delete;
+        Item(Item&&) = delete;
+        Item& operator=(const Item&) = delete;
+        Item& operator=(Item&&) = delete;
+    };
+};
+
+
+class CPPUTILS_EXPORT ListHash : public Base<Clh>
 {
 public:
-    template <typename TypeData>
-    struct Item;
-    template <typename TypeData>
-    using Iterator = const Item<TypeData>*;
-
-public:
     ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
-
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> find(const TypeKey& a_key)const noexcept;
-    template <typename TypeData>
-    Iterator<TypeData> findNextTheSame( const Iterator<TypeData>& CPPUTILS_ARG_NN a_prev ) const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    Iterator<TypeData> AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    bool Remove(const TypeKey& a_key) noexcept;
 
     template <typename TypeData>
     void MoveToStart(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
@@ -61,19 +63,6 @@ public:
     template <typename TypeData>
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
-
-public:
-    template <typename TypeData>
-    struct Item : public bh::Item<TypeData> {
-        struct Item* prev, * next;
-    protected:
-        using bh::Item<TypeData>::Item;
-        Item(const Item&) = delete;
-        Item(Item&&) = delete;
-        Item& operator=(const Item&) = delete;
-        Item& operator=(Item&&) = delete;
-        friend class ::cpputils::hash::Base;
-    };
 
 private:
     ListHash(const ListHash&) = delete;

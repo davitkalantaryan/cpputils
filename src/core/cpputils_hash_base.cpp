@@ -32,26 +32,6 @@ static int32_t s_dataIndexCounter = -1;
 }  //  namespace bh{
 
 
-Base::~Base() noexcept
-{
-    const TypeCinternalDeallocator aDeallocator = m_clhash_data_p->m_hash->deallocator;
-    m_clhash_data_p->~Hash_p();
-    (*aDeallocator)(m_clhash_data_p);
-}
-
-
-Base::Base(bh::Hash_p* CPPUTILS_ARG_NN a_clhash_data_p)
-    :
-    m_clhash_data_p(a_clhash_data_p)
-{
-}
-
-
-ConstCinternalHash_t Base::getHash()const
-{
-        return m_clhash_data_p->m_hash;
-}
-
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 

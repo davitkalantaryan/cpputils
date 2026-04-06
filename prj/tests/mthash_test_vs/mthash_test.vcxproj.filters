@@ -51,9 +51,6 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_purehash.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,9 +71,6 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp">
-      <Filter>Header Files\include\cpputils\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\listhash.hpp">
       <Filter>Header Files\include\cpputils\hash\mt</Filter>
     </ClInclude>
@@ -84,9 +78,6 @@
       <Filter>Header Files\include\cpputils\hash\mt</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_listhash.impl.hpp">
-      <Filter>Header Files\include\cpputils\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_purehash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\hash\base.hpp">
@@ -108,6 +99,15 @@
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\base.hpp">
+      <Filter>Header Files\include\cpputils\hash\mt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
   </ItemGroup>

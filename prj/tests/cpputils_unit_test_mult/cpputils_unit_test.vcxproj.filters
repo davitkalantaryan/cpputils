@@ -152,9 +152,6 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_purehash.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
