@@ -9,6 +9,7 @@
 
 #include <cpputils/hash/mt/listhash.hpp>
 #include <cpputils/hash/mt/purehash.hpp>
+#include <cpputils/hash/vecthash.hpp>
 #include <cpputils/hash/mt/base.hpp>
 #include <cpputils/hash/templ/purehash.hpp>
 #include <cpputils/hash/templ/listhash.hpp>
@@ -32,6 +33,7 @@ int main(void)
 
     TestHash<::cpputils::hash::ListHash>();
     TestHash<::cpputils::hash::PureHash>();
+    TestHash<::cpputils::hash::VectHash>();
     //TestHash<::cpputils::hash::mt::MtListHash>();
     //TestHash<::cpputils::hash::mt::PureHash>();
 

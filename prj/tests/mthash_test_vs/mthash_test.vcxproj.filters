@@ -54,6 +54,9 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_vecthash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
@@ -108,6 +111,12 @@
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\hash\vecthash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_vecthash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
   </ItemGroup>
