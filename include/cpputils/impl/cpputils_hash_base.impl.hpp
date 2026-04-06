@@ -81,7 +81,7 @@ inline int32_t Base<TypeIterCont>::reserveUniqueIdForDataInline(void) const noex
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
@@ -97,7 +97,7 @@ Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 {
     size_t unHash;
@@ -107,7 +107,7 @@ Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 
 template <typename TypeIterCont>
 template <typename TypeData>
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Item<TypeData>* a_prev ) const noexcept
 {
     const bh::ItemBase* const itemPrevVoid_p = (const bh::ItemBase*)a_prev;
@@ -122,7 +122,7 @@ Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Item<TypeData>* a_
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
 {
     Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
@@ -150,7 +150,7 @@ Base<TypeIterCont>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const T
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
 {
     TypeData aData(a_data);
@@ -161,7 +161,7 @@ Base<TypeIterCont>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_ke
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
     Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
@@ -188,7 +188,7 @@ Base<TypeIterCont>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const Typ
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
 {
     TypeData aData(a_data);
@@ -198,7 +198,7 @@ Base<TypeIterCont>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
     Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
@@ -225,7 +225,7 @@ Base<TypeIterCont>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const Type
 
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline const Base<TypeIterCont>::Item<TypeData>*
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
 {
     TypeData aData(a_data);

@@ -30,13 +30,13 @@ template <typename TypeHash>
 template <typename TypeData>
 inline int32_t Base<TypeHash>::reserveUniqueIdForDataInline(void) const noexcept
 {
-    return m_nsHash.reserveUniqueIdForDataInline<TypeData>();
+    return m_nsHash.template reserveUniqueIdForDataInline<TypeData>();
 }
 
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash) const noexcept
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash) const noexcept
 {
     const ItemRaw<Iterator<TypeData> >* retItem;
     Iterator<TypeData> retIter;
@@ -55,7 +55,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::findEx(const TypeKey& 
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::find(const TypeKey& a_key)const noexcept
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::find(const TypeKey& a_key)const noexcept
 {
     size_t unHash;
     return findEx<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, &unHash);
@@ -64,7 +64,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::find(const TypeKey& a_
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
 {
     const ItemRaw<Iterator<TypeData> >* retItem;
     Iterator<TypeData> retIter;
@@ -84,7 +84,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(TypeD
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
 {
     TypeData aData(a_data);
     return AddWithKnownHash<TypeData,TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key, a_hash);
@@ -93,7 +93,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(const
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
     const ItemRaw<Iterator<TypeData> >* retItem;
     Iterator<TypeData> retIter;
@@ -113,7 +113,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(TypeDat
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
 {
     TypeData aData(a_data);
     return AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key);
@@ -122,7 +122,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(const T
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
     const ItemRaw<Iterator<TypeData> >* retItem;
     Iterator<TypeData> retIter;
@@ -142,7 +142,7 @@ inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddIfNotExist(TypeData
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline Base<TypeHash>::Iterator<TypeData> Base<TypeHash>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
 {
     TypeData aData(a_data);
     return AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key);
