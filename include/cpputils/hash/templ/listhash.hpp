@@ -20,26 +20,37 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeHash, typename TypeIter,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-class CPPUTILS_DLL_PUBLIC ListHashBase : public Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+class CPPUTILS_DLL_PUBLIC ListHashBase : public Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>
 {
 public:
     typedef mt::ListHash::TypeIterFunc<TypeData>      TypeIterFunc;
     typedef mt::ListHash::TypeIterFuncChng<TypeData>  TypeIterFuncChng;
+    typedef Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>   BaseRaw;
+
+    using Iterator = typename BaseRaw::template Iterator<TypeData>;
+    using IteratorRaw = typename BaseRaw::template IteratorRaw<TypeData>;
+    using TypeRawHash = typename BaseRaw::TypeHash;
 
 public:
-    using Base<TypeHash, TypeIter, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
-    void MoveToStart(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
-    void MoveToEnd(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
-    TypeIter first()const noexcept;
-    TypeIter last()const noexcept;
+    using Base<TypeHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
+
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
+    //
+    void MoveToStart(const Iterator& a_iter) noexcept;
+    void MoveToEnd(const Iterator& a_iter) noexcept;
+    Iterator first()const noexcept;
+    Iterator last()const noexcept;
+
+    //
     void iterateBegToEnd(const TypeIterFunc& a_iterFunc)const noexcept;
     void iterateEndToBeg(const TypeIterFunc& a_iterFunc)const noexcept;
     void IterateBegToEnd(const TypeIterFuncChng& a_iterFunc);
     void IterateEndToBeg(const TypeIterFuncChng& a_iterFunc);
-    inline void RemoveExNoLockFromIterator(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
+    inline void RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
+    inline void MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
+    inline void MoveToEndNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
 
 private:
     ListHashBase(const ListHash&) = delete;
@@ -50,10 +61,10 @@ private:
 
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using ListHash = ListHashBase<hash::ListHash, hash::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using ListHash = ListHashBase<hash::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtListHash = ListHashBase<hash::mt::ListHash, hash::mt::ListHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtListHash = ListHashBase<hash::mt::ListHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 

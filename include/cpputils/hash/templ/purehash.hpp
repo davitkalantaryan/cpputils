@@ -21,10 +21,10 @@ namespace cpputils { namespace hash{ namespace templ{
 
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-using PureHash = Base<hash::PureHash,hash::PureHash::Iterator<TypeData>,TypeData,TypeKey,TypeHasher,TypeKeyExt>;
+using PureHash = Base<hash::PureHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtPureHash = Base<hash::mt::PureHash, hash::mt::PureHash::Iterator<TypeData>, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtPureHash = Base<hash::mt::PureHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 }}}  //  namespace cpputils { namespace hash{ namespace templ{

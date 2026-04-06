@@ -53,9 +53,9 @@ public:
     ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
     template <typename TypeData>
-    void MoveToStart(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    void MoveToStart(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData>
-    void MoveToEnd(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    void MoveToEnd(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData>
     Iterator<TypeData> first()const noexcept;
     template <typename TypeData>

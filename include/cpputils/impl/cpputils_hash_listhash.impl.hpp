@@ -58,7 +58,7 @@ private:
 
 
 template <typename TypeData>
-void ListHash::MoveToStart(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
+void ListHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
 {
     Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
     bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
@@ -68,7 +68,7 @@ void ListHash::MoveToStart(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noe
 
 
 template <typename TypeData>
-void ListHash::MoveToEnd(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
+void ListHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
 {
     Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
     bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);

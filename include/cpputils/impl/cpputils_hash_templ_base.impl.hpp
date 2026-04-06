@@ -18,86 +18,95 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher, TypeKeyExt>::Base(TypeHash* CPPUTILS_ARG_NN a_hash_p)
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+Base<TypeHash,TypeData,TypeKey,TypeHasher, TypeKeyExt>::Base(TypeHash* CPPUTILS_ARG_NN a_hash_p)
     :
     m_hash_p(a_hash_p)
 {
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept
 {
     return m_hash_p->template findEx<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_key,a_pHash);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::find(const TypeKey& a_key)const noexcept
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::find(const TypeKey& a_key)const noexcept
 {
     return m_hash_p->template find<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_key);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::findNextTheSame(const TypeIter& CPPUTILS_ARG_NN a_prev)const noexcept
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::findNextTheSame(const IteratorRaw& CPPUTILS_ARG_NN a_prev)const noexcept
 {
     return m_hash_p->template findNextTheSame<TypeData>(a_prev);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
 {
     return m_hash_p->template AddWithKnownHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data,a_key,a_hash);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
 {
     return m_hash_p->template AddWithKnownHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data_p,a_key,a_hash);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
 {
     return m_hash_p->template AddEvenIfExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data,a_key);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
     return m_hash_p->template AddEvenIfExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data_p,a_key);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
 {
     return m_hash_p->template AddIfNotExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data,a_key);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-TypeIter Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
+Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
     return m_hash_p->template AddIfNotExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data_p,a_key);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-bool Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Remove(const TypeKey& a_key) noexcept
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+bool Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Remove(const TypeKey& a_key) noexcept
 {
     return m_hash_p->template Remove<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_key);
 }
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void Base<TypeHash,TypeIter,TypeData,TypeKey,TypeHasher,TypeKeyExt>::RemoveEx(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept
+template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept
 {
     m_hash_p->template RemoveEx<TypeData>(a_iter);
 }

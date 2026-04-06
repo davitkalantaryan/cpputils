@@ -108,7 +108,7 @@ Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 template <typename TypeIterCont>
 template <typename TypeData>
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
-Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Item<TypeData>* a_prev ) const noexcept
+Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Iterator<TypeData>& a_prev ) const noexcept
 {
     const bh::ItemBase* const itemPrevVoid_p = (const bh::ItemBase*)a_prev;
     const CinternalHashItem_t hsIter = CInternalHashFindNextTheSame(m_clhash_data_p->m_hash, itemPrevVoid_p->hashIter);
@@ -235,7 +235,7 @@ Base<TypeIterCont>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
 
 template <typename TypeIterCont>
 template <typename TypeData>
-inline void Base<TypeIterCont>::RemoveEx(const Item<TypeData>* a_iter) noexcept
+inline void Base<TypeIterCont>::RemoveEx(const Iterator<TypeData>& a_iter) noexcept
 {
     bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)a_iter;
     const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;

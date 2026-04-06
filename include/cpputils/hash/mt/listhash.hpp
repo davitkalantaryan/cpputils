@@ -26,19 +26,17 @@ class CPPUTILS_EXPORT ListHash : public Base<hash::ListHash>
 {
 public:
     template <typename TypeData>
-    using Iterator = ::cpputils::hash::ListHash::Iterator<TypeData>;
-    template <typename TypeData>
     using TypeIterFunc = ::std::function<bool(TypeData&)>;  // true -> continue, false stop
     template <typename TypeData>
-    using TypeIterFuncChng = ::std::function<bool(const Iterator<TypeData>&)>;  // true -> continue, false stop
+    using TypeIterFuncChng = ::std::function<bool(const IteratorRaw<TypeData>&)>;  // true -> continue, false stop
 
 public:
     ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
     template <typename TypeData>
-    void MoveToStartNoLockFromIterator(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    void MoveToStartNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
     template <typename TypeData>
-    void MoveToEndNoLockFromIterator(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    void MoveToEndNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
     template <typename TypeData>
     void iterateBegToEnd(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept;
     template <typename TypeData>
@@ -51,7 +49,7 @@ public:
     template <typename TypeData>
     void IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc);
     template <typename TypeData>
-    inline void RemoveExNoLockFromIterator(const Iterator<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    inline void RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
 
 private:
     ListHash(const ListHash&) = delete;

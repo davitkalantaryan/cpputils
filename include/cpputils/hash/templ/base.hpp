@@ -18,30 +18,31 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeHash, typename TypeIter, typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
 class Base
 {
 public:
+    using Iterator = typename TypeHash::template Iterator<TypeData>;
+    using IteratorRaw = typename TypeHash::template IteratorRaw<TypeData>;
+    using TypeRawHash = TypeHash;
+
+public:
     Base(TypeHash* CPPUTILS_ARG_NN a_hash_p);
 
-    TypeIter findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
-    TypeIter find(const TypeKey& a_key)const noexcept;
-    TypeIter findNextTheSame( const TypeIter& CPPUTILS_ARG_NN a_prev ) const noexcept;
-    TypeIter AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
-    TypeIter AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
-    TypeIter AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
-    TypeIter AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    TypeIter AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
-    TypeIter AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
+    Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
+    Iterator find(const TypeKey& a_key)const noexcept;
+    Iterator findNextTheSame( const IteratorRaw& a_prev ) const noexcept;
+    Iterator AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
+    Iterator AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
+    Iterator AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
+    Iterator AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
+    Iterator AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
+    Iterator AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
     bool Remove(const TypeKey& a_key) noexcept;
-    void RemoveEx(const TypeIter& CPPUTILS_ARG_NN a_iter) noexcept;
+    void RemoveEx(const Iterator& a_iter) noexcept;
 
 protected:
     TypeHash* const m_hash_p;
-
-public:
-    typedef TypeHash TypeRawHash;
-    typedef TypeIter Iterator;
 
 protected:
     Base(const Base&) = delete;
