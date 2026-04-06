@@ -65,7 +65,7 @@ template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash
 using VectHash = VectHashBase<hash::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtVectHash = ListHashBase<hash::mt::VectHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtVectHash = VectHashBase<hash::mt::VectHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 
