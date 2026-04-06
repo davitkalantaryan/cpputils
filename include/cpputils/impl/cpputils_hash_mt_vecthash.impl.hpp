@@ -39,7 +39,7 @@ void VectHash::iterateBegToEnd(const TypeIterFunc<TypeData>& a_iterFunc)const no
     bool bContinue = true;
     ptrdiff_t unCountMin1;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<TypeData>();
-    const vh::SVectData& vectData = m_nsHash.template getVectDataForTypeData<TypeData>();
+    const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
@@ -56,7 +56,7 @@ void VectHash::iterateEndToBeg(const TypeIterFunc<TypeData>& a_iterFunc)const no
 {
     bool bContinue = true;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<TypeData>();
-    const vh::SVectData& vectData = m_nsHash.template getVectDataForTypeData<TypeData>();
+    const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
@@ -86,7 +86,7 @@ void VectHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
 {
     bool bContinue = true;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<TypeData>();
-    const vh::SVectData& vectData = m_nsHash.template getVectDataForTypeData<TypeData>();
+    const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
@@ -103,7 +103,7 @@ void VectHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
     bool bContinue = true;
     ptrdiff_t unCountMin1;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<TypeData>();
-    const vh::SVectData& vectData = m_nsHash.template getVectDataForTypeData<TypeData>();
+    const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);

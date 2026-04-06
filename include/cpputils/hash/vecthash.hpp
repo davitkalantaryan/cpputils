@@ -59,7 +59,6 @@ public:
     template <typename TypeData>
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
-    template <typename TypeData>
     const vh::SVectData& getVectDataForTypeData(const int32_t a_dataIndex)const noexcept;
 
 private:
