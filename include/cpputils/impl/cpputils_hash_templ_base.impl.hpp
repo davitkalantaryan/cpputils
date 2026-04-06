@@ -42,14 +42,6 @@ Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::find(const TypeKey& a_key
 }
 
 
-template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::findNextTheSame(const IteratorRaw& CPPUTILS_ARG_NN a_prev)const noexcept
-{
-    return m_hash_p->template findNextTheSame<TypeData>(a_prev);
-}
-
-
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
 Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
@@ -102,13 +94,6 @@ template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeH
 bool Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Remove(const TypeKey& a_key) noexcept
 {
     return m_hash_p->template Remove<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_key);
-}
-
-
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept
-{
-    m_hash_p->template RemoveEx<TypeData>(a_iter);
 }
 
 

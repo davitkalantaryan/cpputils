@@ -31,7 +31,7 @@ public:
 
     Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     Iterator find(const TypeKey& a_key)const noexcept;
-    Iterator findNextTheSame( const IteratorRaw& a_prev ) const noexcept;
+    //Iterator findNextTheSame( const IteratorRaw& a_prev ) const noexcept;
     Iterator AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
     Iterator AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
     Iterator AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
@@ -39,7 +39,7 @@ public:
     Iterator AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
     Iterator AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
     bool Remove(const TypeKey& a_key) noexcept;
-    void RemoveEx(const Iterator& a_iter) noexcept;
+    //void RemoveEx(const Iterator& a_iter) noexcept;
 
 protected:
     TypeHash* const m_hash_p;

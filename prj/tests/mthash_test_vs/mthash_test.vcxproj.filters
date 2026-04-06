@@ -134,5 +134,8 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_vecthash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_purehash.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
