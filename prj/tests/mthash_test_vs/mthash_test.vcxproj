@@ -272,6 +272,7 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_vecthash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp" />
     <ClCompile Include="..\..\..\src\core\cpputils_hash_vecthash.cpp" />
     <ClCompile Include="..\..\..\src\tests\main_mthash_test.cpp" />
@@ -284,18 +285,22 @@
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\base.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\listhash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\purehash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\vecthash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\base.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\listhash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\purehash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\vecthash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\vecthash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_vecthash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_vecthash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_vecthash.impl.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

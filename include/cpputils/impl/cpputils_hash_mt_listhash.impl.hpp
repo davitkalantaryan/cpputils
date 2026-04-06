@@ -126,6 +126,42 @@ inline void ListHash::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CP
 }
 
 
+template <typename TypeData>
+typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
+{
+    const ItemRaw<Iterator<TypeData> >* retItem;
+    Iterator<TypeData> retIter;
+
+    {  //  lock guard starts
+        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        retItem = m_nsHash.template first<Iterator<TypeData> >();
+        if (retItem) {
+            retIter = retItem->data;
+        }
+    }  //  lock guard ends
+
+    return retIter;
+}
+
+
+template <typename TypeData>
+typename ListHash::Iterator<TypeData> ListHash::last()const noexcept
+{
+    const ItemRaw<Iterator<TypeData> >* retItem;
+    Iterator<TypeData> retIter;
+
+    {  //  lock guard starts
+        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        retItem = m_nsHash.template last<Iterator<TypeData> >();
+        if (retItem) {
+            retIter = retItem->data;
+        }
+    }  //  lock guard ends
+
+    return retIter;
+}
+
+
 }}}  //  namespace cpputils { namespace hash{ namespace mt{
 
 

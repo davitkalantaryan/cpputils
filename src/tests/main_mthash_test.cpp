@@ -9,10 +9,11 @@
 
 #include <cpputils/hash/mt/listhash.hpp>
 #include <cpputils/hash/mt/purehash.hpp>
-#include <cpputils/hash/vecthash.hpp>
+#include <cpputils/hash/mt/vecthash.hpp>
 #include <cpputils/hash/mt/base.hpp>
 #include <cpputils/hash/templ/purehash.hpp>
 #include <cpputils/hash/templ/listhash.hpp>
+#include <cpputils/hash/templ/vecthash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <iostream>
 #include <type_traits>
@@ -34,12 +35,12 @@ int main(void)
     TestHash<::cpputils::hash::ListHash>();
     TestHash<::cpputils::hash::PureHash>();
     TestHash<::cpputils::hash::VectHash>();
-    //TestHash<::cpputils::hash::mt::MtListHash>();
+    //TestHash<::cpputils::hash::mt::ListHash>();
     //TestHash<::cpputils::hash::mt::PureHash>();
 
-    TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
-    TestTemplHash<::cpputils::hash::templ::ListHash<int, int>, int, int >();
-    //TestTemplHash<::cpputils::hash::templ::MtPureHash<int, int>, int, int >();
+    TestTemplHash<::cpputils::hash::templ::MtPureHash<int,int>,int,int >();
+    TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
+    TestTemplHash<::cpputils::hash::templ::MtVectHash<int, int>, int, int >();
     //TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
 
 	return 0;
@@ -153,9 +154,15 @@ static void TestTemplHash(void)
     iter = aHash.find(1);
     ::std::cout << "iter_02: " << iter << ::std::endl;
 
-    if (iter) {
-        iter = aHash.findNextTheSame(iter);
-        ::std::cout << "iter_03: " << iter << ::std::endl;
+    if constexpr (
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::PureHash>::value) ||
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::ListHash>::value)  ||  
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value)   )
+    {
+        //if (iter) {
+        //    iter = aHash.findNextTheSame(iter);
+        //    ::std::cout << "iter_03: " << iter << ::std::endl;
+        //}
     }
 
     iter = aHash.AddWithKnownHash(1, 1, unHash);
@@ -167,13 +174,25 @@ static void TestTemplHash(void)
     iter = aHash.AddIfNotExist(1, 1);
     ::std::cout << "iter_06: " << iter << ::std::endl;
 
-    if (iter) {
-        aHash.RemoveEx(iter);
+    if constexpr (
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::PureHash>::value) ||
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::ListHash>::value) ||
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value))
+    {
+        //if (iter) {
+        //    aHash.RemoveEx(iter);
+        //}
     }
 
     iter = aHash.findEx(1, &unHash);
-    if (iter) {
-        aHash.RemoveEx(iter);
+    if constexpr (
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::PureHash>::value) ||
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::ListHash>::value) ||
+        (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value))
+    {
+        //if (iter) {
+        //    aHash.RemoveEx(iter);
+        //}
     }
 
     const bool removeResult = aHash.Remove(1);

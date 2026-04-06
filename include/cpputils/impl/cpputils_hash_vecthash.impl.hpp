@@ -122,6 +122,15 @@ size_t VectHash::count()const noexcept
 }
 
 
+template <typename TypeData>
+const vh::SVectData& VectHash::getVectDataForTypeData(const int32_t a_dataIndex)const noexcept
+{
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    ((vh::Hash_p*)m_clhash_data_p)->MakeSureHasEnoughLists(dataIndex);
+    return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex];
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeData>
