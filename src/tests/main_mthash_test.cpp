@@ -38,11 +38,9 @@ int main(void)
     //TestHash<::cpputils::hash::mt::ListHash>();
     //TestHash<::cpputils::hash::mt::PureHash>();
 
-#ifndef _MSC_VER2
     TestTemplHash<::cpputils::hash::templ::MtPureHash<int,int>,int,int >();
     TestTemplHash<::cpputils::hash::templ::MtListHash<int, int>, int, int >();
     TestTemplHash<::cpputils::hash::templ::MtVectHash<int, int>, int, int >();
-#endif
     TestTemplHash<::cpputils::hash::templ::PureHash<int,int>,int,int >();
     TestTemplHash<::cpputils::hash::templ::ListHash<int, int>, int, int >();
     TestTemplHash<::cpputils::hash::templ::VectHash<int, int>, int, int >();
