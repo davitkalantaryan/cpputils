@@ -28,9 +28,9 @@ public:
     typedef mt::ListHash::TypeIterFuncChng<TypeData>  TypeIterFuncChng;
     typedef Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>   BaseRaw;
 
-    using Iterator = typename BaseRaw::template Iterator<TypeData>;
-    using IteratorRaw = typename BaseRaw::template IteratorRaw<TypeData>;
-    using TypeRawHash = typename BaseRaw::TypeHash;
+    using Iterator = typename BaseRaw::Iterator;
+    using IteratorRaw = typename BaseRaw::IteratorRaw;
+    using TypeRawHash = typename BaseRaw::TypeRawHash;
 
 public:
     using Base<TypeHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
