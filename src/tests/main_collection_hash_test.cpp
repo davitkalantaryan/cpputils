@@ -23,12 +23,10 @@
 #ifdef TRY_LISTHASH
 
 typedef ::cpputils::hash::ListHash  MapToTest;
-#define CPPUTILS_TTCHI              CPPUTILS_LHCHI
 
 #else
 
 typedef ::cpputils::hash::PureHash  MapToTest;
-#define CPPUTILS_TTCHI              CPPUTILS_PHCHI
 
 #endif
 
@@ -62,7 +60,7 @@ int main(void)
     }
 
     // CPPUTILS_CHI
-    iter = aMap.findEx<int,CPPUTILS_TTCHI(int) >(1,&unHash);
+    iter = aMap.findEx<int, CPPUTILS_HASH_CHI(int) >(1,&unHash);
     ::std::cout << "iter_06: " << iter << ::std::endl;
 
     iter = aMap.AddEvenIfExist<int,int>(1,1);
