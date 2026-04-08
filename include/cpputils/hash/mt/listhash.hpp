@@ -55,7 +55,7 @@ public:
     template <typename TypeData>
     Iterator<TypeData> last()const noexcept;
 
-private:
+protected:
     ListHash(const ListHash&) = delete;
     ListHash(ListHash&&) = delete;
     ListHash& operator=(const ListHash&) = delete;

@@ -40,7 +40,7 @@ class CPPUTILS_EXPORT PureHash : public Base<Cph>
 public:
     PureHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
-private:
+protected:
     PureHash(const PureHash&) = delete;
     PureHash(PureHash&&) = delete;
     PureHash& operator=(const PureHash&) = delete;

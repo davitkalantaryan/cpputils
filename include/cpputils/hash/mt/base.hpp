@@ -70,7 +70,7 @@ protected:
     TypeHash                    m_nsHash;
     mutable ::std::shared_mutex m_mutex;
 
-private:
+protected:
     Base(const Base&) = delete;
     Base(Base&&) = delete;
     Base& operator=(const Base&) = delete;

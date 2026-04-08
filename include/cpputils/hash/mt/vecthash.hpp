@@ -57,7 +57,7 @@ public:
     template <typename TypeData>
     Iterator<TypeData> at(size_t a_index)const noexcept;
 
-private:
+protected:
     VectHash(const VectHash&) = delete;
     VectHash(VectHash&&) = delete;
     VectHash& operator=(const VectHash&) = delete;

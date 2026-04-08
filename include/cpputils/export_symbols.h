@@ -23,5 +23,13 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define CPPUTILS_C2259_WORKAROUND(_retStat)     {_retStat;}
+#define CPPUTILS_C2280_WORKAROUND               default
+#else
+#define CPPUTILS_C2259_WORKAROUND(_retStat)     =delete;
+#define CPPUTILS_C2280_WORKAROUND               delete
+#endif
+
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_EXPORT_SYMBOLS_H

@@ -61,7 +61,7 @@ public:
     void AllocateListsInAdvance(int32_t a_numberOfLists);
     const vh::SVectData& getVectDataForTypeData(const int32_t a_dataIndex)const noexcept;
 
-private:
+protected:
     VectHash(const VectHash&) = delete;
     VectHash(VectHash&&) = delete;
     VectHash& operator=(const VectHash&) = delete;

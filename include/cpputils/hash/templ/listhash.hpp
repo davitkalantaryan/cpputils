@@ -52,7 +52,7 @@ public:
     inline void MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
     inline void MoveToEndNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
 
-private:
+protected:
     ListHashBase(const ListHash&) = delete;
     ListHashBase(ListHash&&) = delete;
     ListHashBase& operator=(const ListHash&) = delete;

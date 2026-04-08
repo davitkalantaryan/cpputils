@@ -53,7 +53,7 @@ public:
     inline void MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
     inline void MoveToEndNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
 
-private:
+protected:
     VectHashBase(const VectHashBase&) = delete;
     VectHashBase(VectHashBase&&) = delete;
     VectHashBase& operator=(const VectHashBase&) = delete;

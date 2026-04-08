@@ -70,7 +70,7 @@ public:
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
 
-private:
+protected:
     ListHash(const ListHash&) = delete;
     ListHash(ListHash&&) = delete;
     ListHash& operator=(const ListHash&) = delete;

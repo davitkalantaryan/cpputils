@@ -40,7 +40,7 @@ public:
     Iterator findNextTheSame(const Iterator& a_prev) const noexcept;
     void RemoveEx(const Iterator& a_iter) noexcept;
 
-private:
+protected:
     PureHash(const PureHash&) = delete;
     PureHash(PureHash&&) = delete;
     PureHash& operator=(const PureHash&) = delete;
