@@ -48,9 +48,8 @@ Hash_p::~Hash_p() noexcept
         pItem = m_lists_p[i].m_first;
         while (pItem) {
             pItemNext = pItem->next;
-            bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)pItem;
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
-            pItemBaseToDelete->~ItemBase();
+            pItem->~ItemBase();
             (*(m_hash->deallocator))(pItem);
             pItem = pItemNext;
         }  //  while(pItem){

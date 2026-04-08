@@ -18,6 +18,10 @@
 namespace cpputils { namespace hash{
 
 
+namespace lh{
+class CPPUTILS_EXPORT Hash_p;
+}
+
 class Clh {
 public:
 
@@ -30,6 +34,8 @@ public:
         ItemBase(ItemBase&&) = delete;
         ItemBase& operator=(const ItemBase&) = delete;
         ItemBase& operator=(ItemBase&&) = delete;
+    private:
+        friend class lh::Hash_p;
     };
 
     template <typename TypeData>
