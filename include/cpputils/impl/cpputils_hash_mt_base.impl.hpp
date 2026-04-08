@@ -33,7 +33,7 @@ template <typename TypeHash>
 template <typename TypeData>
 inline int32_t Base<TypeHash>::reserveUniqueIdForDataInline(void) const noexcept
 {
-    return m_nsHash.template reserveUniqueIdForDataInline<TypeData>();
+    return m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 }
 
 
@@ -41,14 +41,14 @@ template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash) const noexcept
 {
-    const ItemRaw<Iterator<TypeData> >* retItem;
+    const ItemRaw<Iterator<TypeData> >* itemRaw;
     Iterator<TypeData> retIter;
 
     {  //  lock guard starts
         ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        retItem = m_nsHash.template findEx<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(a_key, a_pHash);
-        if (retItem) {
-            retIter = retItem->data;
+        itemRaw = m_nsHash.template findEx<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(a_key, a_pHash);
+        if (itemRaw) {
+            retIter = itemRaw->data;
         }
     }  //  lock guard ends
 
@@ -69,15 +69,15 @@ template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
 {
-    const ItemRaw<Iterator<TypeData> >* retItem;
+    const ItemRaw<Iterator<TypeData> >* itemRaw;
     Iterator<TypeData> retIter;
     Iterator<TypeData> newData(new TypeData(::std::move(*a_data_p)));
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        retItem = m_nsHash.template AddWithKnownHash<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(&newData,a_key, a_hash);
-        if (retItem) {
-            retIter = retItem->data;
+        itemRaw = m_nsHash.template AddWithKnownHash<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(&newData,a_key, a_hash);
+        if (itemRaw) {
+            retIter = itemRaw->data;
         }
     }  //  lock guard ends
 
@@ -98,15 +98,15 @@ template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
-    const ItemRaw<Iterator<TypeData> >* retItem;
+    const ItemRaw<Iterator<TypeData> >* itemRaw;
     Iterator<TypeData> retIter;
     Iterator<TypeData> newData(new TypeData(::std::move(*a_data_p)));
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        retItem = m_nsHash.template AddEvenIfExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(&newData, a_key);
-        if (retItem) {
-            retIter = retItem->data;
+        itemRaw = m_nsHash.template AddEvenIfExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(&newData, a_key);
+        if (itemRaw) {
+            retIter = itemRaw->data;
         }
     }  //  lock guard ends
 
@@ -127,15 +127,15 @@ template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
 {
-    const ItemRaw<Iterator<TypeData> >* retItem;
+    const ItemRaw<Iterator<TypeData> >* itemRaw;
     Iterator<TypeData> retIter;
     Iterator<TypeData> newData(new TypeData(::std::move(*a_data_p)));
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        retItem = m_nsHash.template AddIfNotExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(&newData, a_key);
-        if (retItem) {
-            retIter = retItem->data;
+        itemRaw = m_nsHash.template AddIfNotExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(&newData, a_key);
+        if (itemRaw) {
+            retIter = itemRaw->data;
         }
     }  //  lock guard ends
 

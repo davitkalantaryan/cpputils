@@ -26,7 +26,7 @@ class CPPUTILS_EXPORT ListHash : public Base<hash::ListHash>
 {
 public:
     template <typename TypeData>
-    using TypeIterFunc = ::std::function<bool(TypeData&)>;  // true -> continue, false stop
+    using TypeIterFunc = ::std::function<bool(const Iterator<TypeData>&)>;  // true -> continue, false stop
     template <typename TypeData>
     using TypeIterFuncChng = ::std::function<bool(const IteratorRaw<TypeData>&)>;  // true -> continue, false stop
 

@@ -28,7 +28,7 @@ public:
     template <typename TypeData>
     using Iterator = ::std::shared_ptr<TypeData>;
     template <typename TypeData>
-    using IteratorRaw = typename TypeHash::template Iterator<TypeData>;
+    using IteratorRaw = typename TypeHash::template Iterator<Iterator<TypeData> >;
 
 public:
     Base(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
