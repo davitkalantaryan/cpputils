@@ -24,7 +24,7 @@ public:
     struct ItemBase : public bh::ItemBase {
         struct ItemBase* prev, * next;
     protected:
-        ~ItemBase() = default;
+        virtual ~ItemBase() override = default;
         ItemBase() = default;
         ItemBase(const ItemBase&) = delete;
         ItemBase(ItemBase&&) = delete;
