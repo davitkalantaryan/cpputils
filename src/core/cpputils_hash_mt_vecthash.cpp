@@ -13,13 +13,6 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-VectHash::VectHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
-    :
-    Base<hash::VectHash>(a_numberOfBaskets,a_allocator,a_deallocator)
-{
-}
-
-
 void VectHash::AllocateListsInAdvance(int32_t a_numberOfLists)
 {
     {  //  lock guard starts

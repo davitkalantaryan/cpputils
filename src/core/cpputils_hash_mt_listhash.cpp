@@ -13,13 +13,6 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-ListHash::ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
-    :
-    Base<hash::ListHash>(a_numberOfBaskets,a_allocator,a_deallocator)
-{
-}
-
-
 void ListHash::AllocateListsInAdvance(int32_t a_numberOfLists)
 {
     {  //  lock guard starts

@@ -23,7 +23,6 @@ class Base
 {
 public:
     using Iterator = typename TypeHash::template Iterator<TypeData>;
-    using IteratorRaw = typename TypeHash::template IteratorRaw<TypeData>;
     using TypeRawHash = TypeHash;
 
 public:
@@ -47,6 +46,28 @@ protected:
     Base(Base&&) = delete;
     Base& operator=(const Base&) = delete;
     Base& operator=(Base&&) = delete;
+};
+
+
+template <typename TypeMtHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+class MtBase : public ::cpputils::hash::templ::Base<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>
+{
+public:
+    using Iterator = typename TypeMtHash::template Iterator<TypeData>;
+    using IteratorRaw = typename TypeMtHash::template IteratorRaw<TypeData>;
+
+public:
+    using Base<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
+
+    void AddWithKnownHash(const Iterator& a_iter, const TypeKey& a_key, size_t a_hash);
+    void AddEvenIfExist(const Iterator& a_iter, const TypeKey& a_key);
+    Iterator AddIfNotExist(const Iterator& a_iter, const TypeKey& a_key);
+
+protected:
+    MtBase(const MtBase&) = delete;
+    MtBase(MtBase&&) = delete;
+    MtBase& operator=(const MtBase&) = delete;
+    MtBase& operator=(MtBase&&) = delete;
 };
 
 

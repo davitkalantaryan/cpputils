@@ -21,7 +21,7 @@ namespace cpputils { namespace hash{ namespace templ{
 
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtPureHash = Base<hash::mt::PureHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtPureHash = MtBase<hash::mt::PureHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >

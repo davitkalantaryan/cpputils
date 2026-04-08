@@ -31,7 +31,7 @@ public:
     using TypeIterFuncChng = ::std::function<bool(const IteratorRaw<TypeData>&)>;  // true -> continue, false stop
 
 public:
-    VectHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
+    using Base<hash::VectHash>::Base;
 
     template <typename TypeData>
     void MoveToStartNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
