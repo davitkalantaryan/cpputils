@@ -20,20 +20,20 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-class CPPUTILS_DLL_PUBLIC VectHashBase : public Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>
+template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+class CPPUTILS_DLL_PUBLIC VectHashBase : public TypeBase
 {
 public:
     typedef mt::VectHash::TypeIterFunc<TypeData>      TypeIterFunc;
     typedef mt::VectHash::TypeIterFuncChng<TypeData>  TypeIterFuncChng;
-    typedef Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>   BaseRaw;
+    typedef TypeBase   BaseRaw;
 
     using Iterator = typename BaseRaw::Iterator;
     using IteratorRaw = typename BaseRaw::IteratorRaw;
     using TypeRawHash = typename BaseRaw::TypeRawHash;
 
 public:
-    using Base<TypeHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
+    using TypeBase::TypeBase;
 
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
@@ -62,10 +62,14 @@ private:
 
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using VectHash = VectHashBase<hash::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using VectHash = VectHashBase<
+    templ::Base<hash::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
+    hash::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtVectHash = VectHashBase<hash::mt::VectHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtVectHash = VectHashBase<
+    templ::MtBase<hash::mt::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
+    hash::mt::VectHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 

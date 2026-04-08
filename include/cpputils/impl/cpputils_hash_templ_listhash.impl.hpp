@@ -18,94 +18,94 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-size_t ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::count() const noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+size_t ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::count() const noexcept
 {
     return this->m_hash_p->template count<TypeData>();
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AllocateListsInAdvance(int32_t a_numberOfLists)
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AllocateListsInAdvance(int32_t a_numberOfLists)
 {
     this->m_hash_p->AllocateListsInAdvance(a_numberOfLists);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData,TypeKey,TypeHasher,TypeKeyExt>::MoveToStart(const Iterator& a_iter) noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData,TypeKey,TypeHasher,TypeKeyExt>::MoveToStart(const Iterator& a_iter) noexcept
 {
     this->m_hash_p->template MoveToStart<TypeData>(a_iter);
 }
 
 
-template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToEnd(const Iterator& a_iter) noexcept
+template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToEnd(const Iterator& a_iter) noexcept
 {
     this->m_hash_p->template MoveToEnd<TypeData>(a_iter);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
-ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::first() const noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
+ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::first() const noexcept
 {
     return this->m_hash_p->template first<TypeData>();
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
-ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::last() const noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
+ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::last() const noexcept
 {
     return this->m_hash_p->template last<TypeData>();
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::iterateBegToEnd(const TypeIterFunc& a_iterFunc) const noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::iterateBegToEnd(const TypeIterFunc& a_iterFunc) const noexcept
 {
     this->m_hash_p->template iterateBegToEnd<TypeData>(a_iterFunc);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::iterateEndToBeg(const TypeIterFunc& a_iterFunc) const noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::iterateEndToBeg(const TypeIterFunc& a_iterFunc) const noexcept
 {
     this->m_hash_p->template iterateEndToBeg<TypeData>(a_iterFunc);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::IterateBegToEnd(const TypeIterFuncChng& a_iterFunc)
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::IterateBegToEnd(const TypeIterFuncChng& a_iterFunc)
 {
     this->m_hash_p->template IterateBegToEnd<TypeData>(a_iterFunc);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::IterateEndToBeg(const TypeIterFuncChng& a_iterFunc)
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::IterateEndToBeg(const TypeIterFuncChng& a_iterFunc)
 {
     this->m_hash_p->template IterateEndToBeg<TypeData>(a_iterFunc);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+inline void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept
 {
     this->m_hash_p->template RemoveExNoLockFromIterator<TypeData>(a_iter);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+inline void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept
 {
     this->m_hash_p->template MoveToStartNoLockFromIterator<TypeData>(a_iter);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline void ListHashBase<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToEndNoLockFromIterator(const IteratorRaw& a_iter) noexcept
+template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+inline void ListHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::MoveToEndNoLockFromIterator(const IteratorRaw& a_iter) noexcept
 {
     this->m_hash_p->template MoveToEndNoLockFromIterator<TypeData>(a_iter);
 }

@@ -20,20 +20,20 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-class CPPUTILS_DLL_PUBLIC ListHashBase : public Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>
+template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+class CPPUTILS_DLL_PUBLIC ListHashBase : public TypeBase
 {
 public:
     typedef mt::ListHash::TypeIterFunc<TypeData>      TypeIterFunc;
     typedef mt::ListHash::TypeIterFuncChng<TypeData>  TypeIterFuncChng;
-    typedef Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>   BaseRaw;
+    typedef TypeBase   BaseRaw;
 
     using Iterator = typename BaseRaw::Iterator;
     using IteratorRaw = typename BaseRaw::IteratorRaw;
     using TypeRawHash = typename BaseRaw::TypeRawHash;
 
 public:
-    using Base<TypeHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
+    using TypeBase::TypeBase;
 
     size_t count()const noexcept;
     void AllocateListsInAdvance(int32_t a_numberOfLists);
@@ -61,10 +61,14 @@ private:
 
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using ListHash = ListHashBase<hash::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using ListHash = ListHashBase<
+    templ::Base<hash::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
+    hash::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtListHash = ListHashBase<hash::mt::ListHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+using MtListHash = ListHashBase<
+    templ::MtBase<hash::mt::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
+    hash::mt::ListHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
 
 
 

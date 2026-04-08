@@ -50,6 +50,28 @@ protected:
 };
 
 
+template <typename TypeMtHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+class MtBase : public templ::Base<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>
+{
+public:
+    using Iterator = typename TypeMtHash::template Iterator<TypeData>;
+    using IteratorRaw = typename TypeMtHash::template IteratorRaw<TypeData>;
+
+public:
+    using Base<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
+
+    void AddWithKnownHashIt(const Iterator& a_iter, const TypeKey& a_key, size_t a_hash);
+    void AddEvenIfExistIt(const Iterator& a_iter, const TypeKey& a_key);
+    Iterator AddIfNotExistIt(const Iterator& a_iter, const TypeKey& a_key);
+
+protected:
+    MtBase(const MtBase&) = delete;
+    MtBase(MtBase&&) = delete;
+    MtBase& operator=(const MtBase&) = delete;
+    MtBase& operator=(MtBase&&) = delete;
+};
+
+
 }}}  //  namespace cpputils { namespace hash{ namespace templ{
 
 

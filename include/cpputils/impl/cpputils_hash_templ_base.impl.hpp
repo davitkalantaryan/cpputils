@@ -97,6 +97,32 @@ bool Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Remove(const TypeKey
 }
 
 
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void 
+MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddWithKnownHashIt(const Iterator& a_iter, const TypeKey& a_key, size_t a_hash)
+{
+    this->m_hash_p->template AddWithKnownHash<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key, a_hash);
+}
+
+
+template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+void
+MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddEvenIfExistIt(const Iterator& a_iter, const TypeKey& a_key)
+{
+    this->m_hash_p->template AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key);
+}
+
+
+template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+typename MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
+MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExistIt(const Iterator& a_iter, const TypeKey& a_key)
+{
+    return this->m_hash_p->template AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key);
+}
+
+
 }}}  //  namespace cpputils { namespace hash{ namespace templ{
 
 

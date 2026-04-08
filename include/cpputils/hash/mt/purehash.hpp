@@ -16,7 +16,7 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-typedef Base<PureHash> PureHash;
+typedef mt::Base<PureHash> PureHash;
 
 
 }}}  //  namespace cpputils { namespace hash{ namespace mt{

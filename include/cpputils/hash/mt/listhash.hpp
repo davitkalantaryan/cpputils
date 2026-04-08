@@ -22,7 +22,7 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-class CPPUTILS_EXPORT ListHash : public Base<hash::ListHash>
+class CPPUTILS_EXPORT ListHash : public mt::Base<hash::ListHash>
 {
 public:
     template <typename TypeData>
@@ -31,7 +31,7 @@ public:
     using TypeIterFuncChng = ::std::function<bool(const IteratorRaw<TypeData>&)>;  // true -> continue, false stop
 
 public:
-    ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
+    using Base<hash::ListHash>::Base;
 
     template <typename TypeData>
     void MoveToStartNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
