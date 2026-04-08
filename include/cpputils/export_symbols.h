@@ -27,7 +27,7 @@
 #define CPPUTILS_C2259_WORKAROUND(_retStat)     {_retStat;}
 #define CPPUTILS_C2280_WORKAROUND               default
 #else
-#define CPPUTILS_C2259_WORKAROUND(_retStat)     =delete;
+#define CPPUTILS_C2259_WORKAROUND(_retStat)     =0;
 #define CPPUTILS_C2280_WORKAROUND               delete
 #endif
 
