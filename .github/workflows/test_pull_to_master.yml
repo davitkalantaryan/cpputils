@@ -52,7 +52,7 @@ jobs:
               run: cmd /C "call .\scripts\windows_prepare_repository.bat"
 
             - name: Compiling for windows
-              run: cmd /C "echo call .\scripts\windows_build_all.bat"
+              run: cmd /C "echo call .\scripts\windows_build_all.bat x64 ARM64"
               #working-directory: blabla
 
             - name: running tests for windows

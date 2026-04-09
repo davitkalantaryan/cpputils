@@ -1,6 +1,6 @@
 //
 // file:			cpputils_bigint.cpp
-// path:			src/core/cpputils_hashtbl.cpp
+// path:			src/core/cpputils_bigint.cpp
 // created on:		2021 Mar 22
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //

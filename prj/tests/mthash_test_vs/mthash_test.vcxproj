@@ -34,84 +34,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="cpputils_unit_test.pro" />
-    <None Include="cpputils_unit_test.unix.Makefile" />
-    <None Include="cpputils_unit_test.windows.Makefile" />
-    <None Include="packages.config.locked" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c" />
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_logger.c" />
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_typeinfo.c" />
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_checks.c" />
-    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_unit_test_main.c" />
-    <ClCompile Include="..\..\..\src\core\cpputils_bigint.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_core_parser_conf01.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_functional_old.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_inscopecleaner.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_multifor_c1.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_mutex_ml.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_named_types.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_runtimedeadlockfreemutexes.cpp" />
-    <ClCompile Include="..\..\..\src\core\cpputils_unnamedsemaphore.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0000_initial.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0001_hash.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0002_bigint.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0003_function_old.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0004_sharedptr.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0005_macroses.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0006_enums.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0007_tls_data.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0008_bigint_double.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0009_new_hash.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0010_endian_h.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0011_multifor.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0012_hash_dllhash.cpp" />
-    <ClCompile Include="..\..\..\src\tests\unit_test\0013_named_structs.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\cpputils\bigint.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\bigint.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\deadlockfreemutexes.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h" />
-    <ClInclude Include="..\..\..\include\cpputils\functional.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\functional_old.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\functional_old.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_deadlockfreemutexes.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_orderedcalls.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\inscopecleaner.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\multifor\c1.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\mutex_ml.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\named_types.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\orderedcalls.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\parser\conf01.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\protecteddata.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\protecteddata.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\runtimedeadlockfreemutexes.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\tls_data.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\tls_data.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.posix.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\tls_ptr.windows.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\unnamedsemaphore.hpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <GoogleTestConfiguration Condition="'$(Configuration)'=='Debug'">d</GoogleTestConfiguration>
-    <GoogleTestConfiguration Condition="'$(Configuration)'=='Release'">
-    </GoogleTestConfiguration>
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e6f8b6c2-4ca9-4b3a-9a00-83d011de88fa}</ProjectGuid>
-    <RootNamespace>boostgetter</RootNamespace>
+    <ProjectGuid>{c90ef81d-6aca-44d8-8e8d-5f3fca6f2d32}</ProjectGuid>
+    <RootNamespace>collectionmaptest</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -173,189 +100,211 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common\common_vs\flagsandsys_common_private.props" />
+    <Import Project="..\..\common\common_vs\flagsandsys_common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <TargetName>$(ProjectName)</TargetName>
-    <LinkIncremental>true</LinkIncremental>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
     <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <TargetName>$(ProjectName)</TargetName>
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
-    <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
-    <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <TargetName>$(ProjectName)</TargetName>
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
     <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <TargetName>$(ProjectName)</TargetName>
-    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
+    <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
+    <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
     <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\test\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(CpputilsVirtProjectDir)..\..\..\sys\win_$(PlatformTarget)\$(Configuration)\.other\objects\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>CINTERNAL_UNIT_TEST_USE_GTEST_LIKE_MACROSES;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir)..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_vecthash.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp" />
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_vecthash.cpp" />
+    <ClCompile Include="..\..\..\src\tests\main_mthash_test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\contrib\cinternal\include\cinternal\hash.h" />
+    <ClInclude Include="..\..\..\include\cpputils\export_symbols.h" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\base.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\base.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\listhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\purehash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\mt\vecthash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\base.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\listhash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\purehash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\templ\vecthash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\hash\vecthash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_base.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_vecthash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_base.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_purehash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_vecthash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_vecthash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

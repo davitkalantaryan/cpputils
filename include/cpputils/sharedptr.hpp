@@ -11,6 +11,7 @@
 #include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
 #include <cinternal/disable_compiler_warnings.h>
+#include <ostream>
 #include <atomic>
 #include <stddef.h>
 #include <cinternal/undisable_compiler_warnings.h>
@@ -55,6 +56,13 @@ public:
 		void*                   m_pClbkData;
 		TypeClbk                m_clbk;
         ::std::atomic<size_t>   m_unReferences;
+    private:
+        Core() = default;
+        Core(const Core&) = delete;
+        Core(Core&&) = delete;
+        Core& operator=(const Core&) = delete;
+        Core& operator=(Core&&) = delete;
+        friend class SharedPtrBase;
 	};
     
 protected:
@@ -71,10 +79,18 @@ public:
     virtual ~SharedPtr() CPPUTILS_NOEXCEPT;
     template<typename... Targs>
     SharedPtr(Targs... a_args);
+    SharedPtr(const SharedPtr&)=default;
+    SharedPtr(SharedPtr&&) = default;
+    SharedPtr& operator=(const SharedPtr&) = default;
+    SharedPtr& operator=(SharedPtr&&) = default;
 };
 
 
 }  // namespace cpputils {
+
+
+template<typename PtrType>
+::std::ostream& operator<<( ::std::ostream& a_os, const ::cpputils::SharedPtr<PtrType>& a_ptr);
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP

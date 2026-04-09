@@ -121,7 +121,7 @@ SharedPtrBase<PtrType>& SharedPtrBase<PtrType>::operator=(SharedPtrBase&& a_cM)C
 		return *this;
 	}
 	
-	Core* pThisCore = m_pCore;
+	Core* const pThisCore = m_pCore;
 	m_pCore = a_cM.m_pCore;
 	a_cM.m_pCore = pThisCore;
 	return *this;
@@ -213,6 +213,14 @@ SharedPtr<PtrType>::SharedPtr(Targs... a_args)
 
 
 }  // namespace cpputils {
+
+
+template<typename PtrType>
+::std::ostream& operator<<(::std::ostream& a_os, const ::cpputils::SharedPtr<PtrType>& a_ptr)
+{
+    a_os << "SharedPtr(" << (void*)a_ptr.get() << ", refs:" << a_ptr.getReferences() << ")";
+    return a_os;
+}
 
 
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP

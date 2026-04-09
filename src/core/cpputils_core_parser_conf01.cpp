@@ -6,7 +6,7 @@
 //
 
 #include <cpputils/parser/conf01.hpp>
-#include <cpputils/hash/lhash.hpp>
+#include <cpputils/hash/listhash.hpp>
 #include <cinternal/wrapper.h>
 #include <cinternal/disable_compiler_warnings.h>
 #include <string>
@@ -17,17 +17,20 @@
 
 namespace cpputils{ namespace parser{
 
-typedef ::cpputils::hash::LHash<::std::string,::std::string>        TypeResults;
+typedef ::cpputils::hash::ListHash        TypeResults;
 
 class CPPUTILS_DLL_PRIVATE Conf01_p
 {
 public:
     Conf01_p(const TypeComments& vectComments);
-    Conf01_p(const Conf01_p& a_cM);
 
 public:
     TypeComments    m_vectComments;
     TypeResults     m_result;
+
+private:
+    Conf01_p(const Conf01_p&)=delete;
+    Conf01_p& operator=(const Conf01_p&) = delete;
 };
 
 
@@ -43,29 +46,6 @@ Conf01::Conf01(const ::std::vector<::std::pair<::std::string,::std::string> >& a
     :
       m_parser_data_p(new Conf01_p(a_vectComments))
 {
-}
-
-
-Conf01::Conf01(const Conf01& a_cM)
-    :
-      m_parser_data_p(new Conf01_p(*a_cM.m_parser_data_p))
-{
-}
-
-
-Conf01::Conf01(Conf01&& a_mM)
-    :
-      m_parser_data_p(a_mM.m_parser_data_p)
-{
-    a_mM.m_parser_data_p= nullptr;
-}
-
-
-Conf01& Conf01::operator=(const Conf01& a_cM)
-{
-    m_parser_data_p->m_vectComments = a_cM.m_parser_data_p->m_vectComments;
-    m_parser_data_p->m_result = a_cM.m_parser_data_p->m_result;
-    return *this;
 }
 
 
@@ -168,22 +148,22 @@ void Conf01::ParseStringNC(char* a_str)
         pcStrNext += unOffsetToInvalid;
         if(pcQuote){++pcStrNext;}
 
-        m_parser_data_p->m_result.AddEntryIfNotExistMv(TypePair(keyStr,valStr));
+        m_parser_data_p->m_result.AddIfNotExist<::std::string,::std::string>(keyStr,valStr);
     }
 }
 
 
 ::std::string Conf01::getValueFromKey(const ::std::string& a_key, const ::std::string& a_defaultValue, bool* a_ifExist)const
 {
-    TypeResults::const_iterator iter = m_parser_data_p->m_result.find(a_key);
+    const TypeResults::Iterator< ::std::string> iter = m_parser_data_p->m_result.find<::std::string, ::std::string>(a_key);
 
-    if(iter==TypeResults::s_constNullIter){
-        if(a_ifExist){*a_ifExist=false;}
-        return a_defaultValue;
+    if(iter){
+        if (a_ifExist) { *a_ifExist = true; }
+        return iter->data;
     }
 
-    if(a_ifExist){*a_ifExist=true;}
-    return iter->second;
+    if (a_ifExist) { *a_ifExist = false; }
+    return a_defaultValue;
 }
 
 
@@ -191,15 +171,8 @@ void Conf01::ParseStringNC(char* a_str)
 
 Conf01_p::Conf01_p(const ::std::vector<::std::pair<::std::string,::std::string> >& a_vectComments)
     :
-      m_vectComments(a_vectComments)
-{
-}
-
-
-Conf01_p::Conf01_p(const Conf01_p& a_cM)
-    :
-      m_vectComments(a_cM.m_vectComments),
-      m_result(a_cM.m_result)
+      m_vectComments(a_vectComments),
+      m_result(1024)
 {
 }
 

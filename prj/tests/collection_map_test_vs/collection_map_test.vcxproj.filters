@@ -25,15 +25,24 @@
     <Filter Include="Header Files\include\cinternal">
       <UniqueIdentifier>{132bbae9-871c-42c1-8b9f-08dd2a387576}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\include\cpputils\hash">
+      <UniqueIdentifier>{1ebbf63b-4380-4de1-bd98-c0eb46be435f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\tests\main_collection_map_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_collectionmap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tests\main_collection_hash_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,20 +50,17 @@
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\collectionmap.hpp">
-      <Filter>Header Files\include\cpputils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_collectionmap.impl.hpp">
-      <Filter>Header Files\include\cpputils\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\contrib\cinternal\include\cinternal\hash.h">
       <Filter>Header Files\include\cinternal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\listandhash.hpp">
-      <Filter>Header Files\include\cpputils</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\listandhash.impl.hpp">
-      <Filter>Header Files\include\cpputils</Filter>
+    <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp">
+      <Filter>Header Files\include\cpputils\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
