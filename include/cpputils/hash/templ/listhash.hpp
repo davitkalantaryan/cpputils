@@ -1,7 +1,7 @@
 //
 // repo:            cpputils
-// file:			purehash.hpp
-// path:			include/cpputils/hash/purehash.hpp
+// file:			listhash.hpp
+// path:			include/cpputils/hash/templ/listhash.hpp
 // created on:		2025 Jul 17
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //

@@ -1,7 +1,7 @@
 //
 // repo:            cpputils
-// file:			templ.hpp
-// path:			include/cpputils/hash/templ.hpp
+// file:			base.hpp
+// path:			include/cpputils/hash/templ/base.hpp
 // created on:		2025 Jul 17
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //

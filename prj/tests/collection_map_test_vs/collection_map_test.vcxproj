@@ -280,7 +280,6 @@
     <ClInclude Include="..\..\..\include\cpputils\hash\listhash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\purehash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_listhash.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

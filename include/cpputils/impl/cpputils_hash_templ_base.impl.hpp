@@ -1,7 +1,7 @@
 //
 // repo:            cpputils
-// file:			cpputils_hash_purehash.impl.hpp
-// path:			include/cpputils/impl/cpputils_hash_purehash.impl.hpp
+// file:			cpputils_hash_templ_base.impl.hpp
+// path:			include/cpputils/impl/cpputils_hash_templ_base.impl.hpp
 // created on:		2025 Jul 17
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //
@@ -105,4 +105,4 @@ MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExistIt(c
 }}}  //  namespace cpputils { namespace hash{ namespace templ{
 
 
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_BASE_IMPL_HPP

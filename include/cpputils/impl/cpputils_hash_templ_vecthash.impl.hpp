@@ -1,7 +1,7 @@
 //
 // repo:            cpputils
-// file:			cpputils_hash_purehash.impl.hpp
-// path:			include/cpputils/impl/cpputils_hash_purehash.impl.hpp
+// file:			cpputils_hash_templ_vecthash.impl.hpp
+// path:			include/cpputils/impl/cpputils_hash_templ_vecthash.impl.hpp
 // created on:		2025 Jul 17
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //

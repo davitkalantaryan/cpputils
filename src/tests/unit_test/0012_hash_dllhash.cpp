@@ -50,7 +50,7 @@ TEST(f_0012_hash_dllhash, t0001)
     ::std::cout << "iter_01: " << iter << ::std::endl;
     ASSERT_FALSE(iter);
 
-    iter = aMap.AddWithKnownHash<int, int>(1, 1, unHash);
+    iter = aMap.AddWithKnownHash<int, int>(unHash,1, 1);
     ::std::cout << "iter_02: " << iter << ::std::endl;
 
     iter = aMap.findEx<int, int>(1, &unHash);

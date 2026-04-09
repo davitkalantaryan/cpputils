@@ -43,7 +43,6 @@ private:
     Hash_p(Hash_p&&) = delete;
     Hash_p& operator=(const Hash_p&) = delete;
     Hash_p& operator=(Hash_p&&) = delete;
-    //friend class ::cpputils::hash::Base;
 };
 
 }  //  namespace bh{
@@ -237,7 +236,6 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
 
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
 
 namespace bh {
 

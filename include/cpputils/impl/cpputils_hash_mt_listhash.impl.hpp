@@ -1,7 +1,7 @@
 //
 // repo:            cpputils
-// file:			cpputils_collectionhash.impl.hpp
-// path:			include/cpputils/cpputils_collectionhash.impl.hpp
+// file:			cpputils_hash_mt_listhash.impl.hpp
+// path:			include/cpputils/impl/cpputils_hash_mt_listhash.impl.hpp
 // created on:		2025 Jul 17
 // created by:		Davit Kalantaryan (davit.kalantaryan@desy.de)
 //

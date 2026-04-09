@@ -28,7 +28,6 @@ namespace cpputils { namespace hash{
 
 #define CPPUTILS_HASH_CHI(_typeInt)  _typeInt,::std::hash<_typeInt>, ::cpputils::hash::bh::SKeyInt<_typeInt>
 
-//class CPPUTILS_EXPORT Base;
 
 namespace bh{
 
@@ -106,7 +105,6 @@ protected:
     ItemBase(ItemBase&&) = delete;
     ItemBase& operator=(const ItemBase&) = delete;
     ItemBase& operator=(ItemBase&&) = delete;
-    //friend class ::cpputils::hash::Base;
 };
 
 

@@ -148,7 +148,7 @@ void Conf01::ParseStringNC(char* a_str)
         pcStrNext += unOffsetToInvalid;
         if(pcQuote){++pcStrNext;}
 
-        m_parser_data_p->m_result.AddIfNotExist(keyStr,valStr);
+        m_parser_data_p->m_result.AddIfNotExist<::std::string,::std::string>(keyStr,valStr);
     }
 }
 
