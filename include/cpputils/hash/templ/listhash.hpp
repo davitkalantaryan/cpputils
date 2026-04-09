@@ -42,7 +42,6 @@ public:
     void MoveToEnd(const Iterator& a_iter) noexcept;
     Iterator first()const noexcept;
     Iterator last()const noexcept;
-
     //
     void iterateBegToEnd(const TypeIterFunc& a_iterFunc)const noexcept;
     void iterateEndToBeg(const TypeIterFunc& a_iterFunc)const noexcept;

@@ -105,16 +105,6 @@ inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddI
 }
 
 
-
-
-
-
-
-
-
-
-
-
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
 inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> > ::type
@@ -145,9 +135,6 @@ Base<TypeHash>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
     Iterator<TypeData> newData(new TypeData(::std::forward<Targs>(a_args)...));
     return AddIfNotExistIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, newData);
 }
-
-
-
 
 
 template <typename TypeHash>

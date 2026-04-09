@@ -124,10 +124,6 @@ Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Iterator<TypeData>
 }
 
 
-
-
-//
-
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
@@ -184,8 +180,6 @@ Base<TypeIterCont>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 }
 
 
-//template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
-//inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
@@ -212,11 +206,6 @@ Base<TypeIterCont>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 
     return (const Item<TypeData>*)pNewItem;
 }
-
-
-
-//
-
 
 
 template <typename TypeIterCont>

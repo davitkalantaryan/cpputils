@@ -30,25 +30,16 @@ public:
     Base(TypeHash* CPPUTILS_ARG_NN a_hash_p);
 
     Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
-    Iterator find(const TypeKey& a_key)const noexcept;
-
-    
+    Iterator find(const TypeKey& a_key)const noexcept;    
     template <typename... Targs>
     typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
         AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
-
     template <typename... Targs>
     typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
         AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
-
     template <typename... Targs>
     typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
         AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
-
-
-
-
-
     bool Remove(const TypeKey& a_key) noexcept;
 
 protected:

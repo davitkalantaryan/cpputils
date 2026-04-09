@@ -147,7 +147,6 @@ public:
     Base(bh::Hash_p* CPPUTILS_ARG_NN a_clhash_data_p);
 
 public:
-
     template <typename TypeData>
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
@@ -156,18 +155,12 @@ public:
     inline const Item<TypeData>* find(const TypeKey& a_key)const noexcept;
     template <typename TypeData>
     inline const Item<TypeData>* findNextTheSame( const Iterator<TypeData>& a_prev ) const noexcept;
-
-
     template <typename TypeData, typename TypeKey,typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
     inline const Item<TypeData>* AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
-
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
     inline const Item<TypeData>* AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
-
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
     inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
-
-
     template <typename TypeData>
     inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >

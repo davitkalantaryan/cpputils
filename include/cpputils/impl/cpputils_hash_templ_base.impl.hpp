@@ -42,10 +42,6 @@ Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::find(const TypeKey& a_key
 }
 
 
-
-
-
-
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 template <typename... Targs>
 typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
@@ -71,15 +67,6 @@ Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExist(const T
 {
     return m_hash_p->template AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_key, ::std::forward<Targs>(a_args)...);
 }
-
-
-
-
-
-
-
-
-
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >

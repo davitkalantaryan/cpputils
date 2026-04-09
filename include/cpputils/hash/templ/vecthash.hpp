@@ -43,7 +43,6 @@ public:
     Iterator first()const noexcept;
     Iterator last()const noexcept;
     Iterator at(size_t a_index)const noexcept;
-
     //
     void iterateBegToEnd(const TypeIterFunc& a_iterFunc)const noexcept;
     void iterateEndToBeg(const TypeIterFunc& a_iterFunc)const noexcept;
