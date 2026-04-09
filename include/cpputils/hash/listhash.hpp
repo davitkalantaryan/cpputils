@@ -39,11 +39,9 @@ public:
     };
 
     template <typename TypeData>
-    struct Item : public ItemBase {
-        mutable TypeData    data;
-
+    struct Item : public bh::Item<Clh::ItemBase,TypeData> {
     public:
-        Item(TypeData* CPPUTILS_ARG_NN a_data_p);
+        using bh::Item<Clh::ItemBase, TypeData>::Item;
     protected:
         Item(const Item&) = delete;
         Item(Item&&) = delete;

@@ -122,16 +122,6 @@ size_t VectHash::count()const noexcept
 }
 
 
-/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-template <typename TypeData>
-Cvh::Item<TypeData>::Item(TypeData* CPPUTILS_ARG_NN a_data_p)
-    :
-    data(::std::move(*a_data_p))
-{
-}
-
-
 }}  //  namespace cpputils { namespace collectionhash{
 
 

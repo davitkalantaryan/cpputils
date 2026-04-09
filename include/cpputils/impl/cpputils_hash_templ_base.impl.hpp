@@ -42,52 +42,46 @@ Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::find(const TypeKey& a_key
 }
 
 
+
+
+
+
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
+template <typename... Targs>
+::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args)
 {
-    return m_hash_p->template AddWithKnownHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data,a_key,a_hash);
-}
-
-
-template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
-{
-    return m_hash_p->template AddWithKnownHash<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data_p,a_key,a_hash);
+    return m_hash_p->template AddWithKnownHash<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_hash,a_key, ::std::forward<Targs>(a_args)...);
 }
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
+template <typename... Targs>
+::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 {
-    return m_hash_p->template AddEvenIfExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data,a_key);
+    return m_hash_p->template AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_key, ::std::forward<Targs>(a_args)...);
 }
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
+template <typename... Targs>
+::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 {
-    return m_hash_p->template AddEvenIfExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data_p,a_key);
+    return m_hash_p->template AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_key, ::std::forward<Targs>(a_args)...);
 }
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
-{
-    return m_hash_p->template AddIfNotExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data,a_key);
-}
 
 
-template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Iterator
-Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
-{
-    return m_hash_p->template AddIfNotExist<TypeData,TypeKey,TypeHasher,TypeKeyExt>(a_data_p,a_key);
-}
+
+
+
+
+
+
+
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
@@ -101,25 +95,25 @@ bool Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::Remove(const TypeKey
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 void 
-MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddWithKnownHashIt(const Iterator& a_iter, const TypeKey& a_key, size_t a_hash)
+MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddWithKnownHashIt(size_t a_hash, const TypeKey& a_key, const Iterator& a_iter)
 {
-    this->m_hash_p->template AddWithKnownHash<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key, a_hash);
+    this->m_hash_p->template AddWithKnownHashIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_hash, a_key, a_iter);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 void
-MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddEvenIfExistIt(const Iterator& a_iter, const TypeKey& a_key)
+MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddEvenIfExistIt(const TypeKey& a_key, const Iterator& a_iter)
 {
-    this->m_hash_p->template AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key);
+    this->m_hash_p->template AddEvenIfExistIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, a_iter);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 typename MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
-MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExistIt(const Iterator& a_iter, const TypeKey& a_key)
+MtBase<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExistIt(const TypeKey& a_key, const Iterator& a_iter)
 {
-    return this->m_hash_p->template AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key);
+    return this->m_hash_p->template AddIfNotExistIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, a_iter);
 }
 
 

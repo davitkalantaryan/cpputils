@@ -110,6 +110,24 @@ protected:
 };
 
 
+template <typename TypeBase, typename TypeData>
+class Item : public TypeBase
+{
+public:
+    mutable TypeData    data;
+public:
+    virtual ~Item() override = default;
+    template<typename... Targs>
+    Item(Targs... a_args);
+protected:
+    Item() = default;
+    Item(const Item&) = delete;
+    Item(Item&&) = delete;
+    Item& operator=(const Item&) = delete;
+    Item& operator=(Item&&) = delete;
+};
+
+
 }  //  namespace bh{
 
 
@@ -138,18 +156,18 @@ public:
     inline const Item<TypeData>* find(const TypeKey& a_key)const noexcept;
     template <typename TypeData>
     inline const Item<TypeData>* findNextTheSame( const Iterator<TypeData>& a_prev ) const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    inline const Item<TypeData>* AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-    inline const Item<TypeData>* AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    inline const Item<TypeData>* AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-    inline const Item<TypeData>* AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
-    inline const Item<TypeData>* AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-    inline const Item<TypeData>* AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
+
+
+    template <typename TypeData, typename TypeKey,typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
+    inline const Item<TypeData>* AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
+
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
+    inline const Item<TypeData>* AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
+
+    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
+    inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
+
+
     template <typename TypeData>
     inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >

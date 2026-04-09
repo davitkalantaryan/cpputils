@@ -27,11 +27,9 @@ class Cvh {
 public:
 
     template <typename TypeData>
-    struct Item : public bh::ItemBase {
-        mutable TypeData    data;
-
+    struct Item : public bh::Item<bh::ItemBase, TypeData> {
     public:
-        Item(TypeData* CPPUTILS_ARG_NN a_data_p);
+        using bh::Item<bh::ItemBase, TypeData>::Item;
     protected:
         Item(const Item&) = delete;
         Item(Item&&) = delete;

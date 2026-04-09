@@ -67,73 +67,35 @@ inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::find
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline void Base<TypeHash>::AddWithKnownHash(const Iterator<TypeData>& a_iter, const TypeKey& a_key, size_t a_hash)
+inline void Base<TypeHash>::AddWithKnownHashIt(size_t a_hash, const TypeKey& a_key, const Iterator<TypeData>& a_iter)
 {
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        m_nsHash.template AddWithKnownHash<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key, a_hash);
+        m_nsHash.template AddWithKnownHash<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt, const Iterator<TypeData>& >(a_hash, a_key,a_iter);
     }  //  lock guard ends
 }
 
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash)
-{
-    Iterator<TypeData> newData(new TypeData(::std::move(*a_data_p)));
-    AddWithKnownHash<TypeData, TypeKey, TypeHasher, TypeKeyExt>(newData,a_key,a_hash);
-    return newData;
-}
-
-
-template <typename TypeHash>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash)
-{
-    TypeData aData(a_data);
-    return AddWithKnownHash<TypeData,TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key, a_hash);
-}
-
-
-template <typename TypeHash>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline void Base<TypeHash>::AddEvenIfExist(const Iterator<TypeData>& a_iter, const TypeKey& a_key)
+inline void Base<TypeHash>::AddEvenIfExistIt(const TypeKey& a_key, const Iterator<TypeData>& a_iter)
 {
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        m_nsHash.template AddEvenIfExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key);
+        m_nsHash.template AddEvenIfExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt, const Iterator<TypeData>& >(a_key, a_iter);
     }  //  lock guard ends
 }
 
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
-{
-    Iterator<TypeData> newData(new TypeData(::std::move(*a_data_p)));
-    AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(newData, a_key);
-    return newData;
-}
-
-
-template <typename TypeHash>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key)
-{
-    TypeData aData(a_data);
-    return AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key);
-}
-
-
-template <typename TypeHash>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExist(const Iterator<TypeData>& a_iter, const TypeKey& a_key)
+inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExistIt(const TypeKey& a_key, const Iterator<TypeData>& a_iter)
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        itemRaw = m_nsHash.template AddIfNotExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt>(a_iter, a_key);
+        itemRaw = m_nsHash.template AddIfNotExist<Iterator<TypeData>, TypeKey, TypeHasher, TypeKeyExt, const Iterator<TypeData>& >(a_key, a_iter);
         if (itemRaw) {
             return itemRaw->data;
         }
@@ -143,22 +105,62 @@ inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddI
 }
 
 
+
+
+
+
+
+
+
+
+
+
 template <typename TypeHash>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key)
+template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
+inline ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> > ::type
+Base<TypeHash>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args)
 {
-    Iterator<TypeData> newData(new TypeData(::std::move(*a_data_p)));
-    return AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(newData, a_key);
+    Iterator<TypeData> newData(new TypeData(::std::forward<Targs>(a_args)...) );
+    AddWithKnownHashIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_hash,a_key, newData);
+    return newData;
 }
 
 
 template <typename TypeHash>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-inline typename Base<TypeHash>::template Iterator<TypeData> Base<TypeHash>::AddIfNotExist(const TypeData& a_data, const TypeKey& a_key)
+template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
+inline ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> > ::type
+Base<TypeHash>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 {
-    TypeData aData(a_data);
-    return AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt>(&aData, a_key);
+    Iterator<TypeData> newData(new TypeData(::std::forward<Targs>(a_args)...));
+    AddEvenIfExistIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, newData);
+    return newData;
 }
+
+
+template <typename TypeHash>
+template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
+inline ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> > ::type
+Base<TypeHash>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
+{
+    Iterator<TypeData> newData(new TypeData(::std::forward<Targs>(a_args)...));
+    return AddIfNotExistIt<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, newData);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 template <typename TypeHash>

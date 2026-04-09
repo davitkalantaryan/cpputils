@@ -113,9 +113,6 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp">
-      <Filter>Header Files\include\cpputils\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\hash\vecthash.hpp">
       <Filter>Header Files\include\cpputils\hash</Filter>
     </ClInclude>

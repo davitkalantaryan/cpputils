@@ -297,7 +297,6 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_listhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_vecthash.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_purehash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_purehash.impl.hpp" />

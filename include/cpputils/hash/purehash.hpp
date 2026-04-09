@@ -7,9 +7,6 @@
 //
 
 #pragma once
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_PUREHASH_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_HASH_PUREHASH_HPP
-
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/base.hpp>
@@ -21,11 +18,9 @@ namespace cpputils { namespace hash{
 class Cph {
 public:
     template <typename TypeData>
-    struct Item : public bh::ItemBase {
-        mutable TypeData    data;
-
+    struct Item : public bh::Item<bh::ItemBase, TypeData> {
     public:
-        Item(TypeData* CPPUTILS_ARG_NN a_data_p);
+        using bh::Item<bh::ItemBase, TypeData>::Item;
     protected:
         Item(const Item&) = delete;
         Item(Item&&) = delete;
@@ -49,11 +44,3 @@ protected:
 
 
 }}  //  namespace cpputils { namespace hash{
-
-
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_PUREHASH_IMPL_HPP
-#include <cpputils/impl/cpputils_hash_purehash.impl.hpp>
-#endif
-
-
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_PUREHASH_HPP

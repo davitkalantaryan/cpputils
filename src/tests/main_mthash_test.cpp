@@ -75,7 +75,7 @@ static void TestHash()
         ::std::cout << "iter_01c: " << iter << ::std::endl;
     }
 
-    iter = aMap.template AddWithKnownHash<int, int>(1, 1, unHash);
+    iter = aMap.template AddWithKnownHash<int, int>(unHash, 1, 1);
     ::std::cout << "iter_02: " << iter << ::std::endl;
 
     iter = aMap.template AddEvenIfExist<int, int>(1, 1);
@@ -167,7 +167,7 @@ static void TestTemplHash(void)
         }
     }
 
-    iter = aHash.AddWithKnownHash(1, 1, unHash);
+    iter = aHash.AddWithKnownHash(unHash, 1, 1);
     ::std::cout << "iter_04: " << iter << ::std::endl;
 
     iter = aHash.AddEvenIfExist(1, 1);

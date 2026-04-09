@@ -110,16 +110,6 @@ size_t ListHash::count()const noexcept
 }
 
 
-/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-template <typename TypeData>
-Clh::Item<TypeData>::Item(TypeData* CPPUTILS_ARG_NN a_data_p)
-    :
-    data(::std::move(*a_data_p))
-{
-}
-
-
 }}  //  namespace cpputils { namespace collectionhash{
 
 

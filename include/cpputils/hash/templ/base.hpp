@@ -31,12 +31,24 @@ public:
 
     Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     Iterator find(const TypeKey& a_key)const noexcept;
-    Iterator AddWithKnownHash(const TypeData& a_data, const TypeKey& a_key, size_t a_hash);
-    Iterator AddWithKnownHash(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key, size_t a_hash);
-    Iterator AddEvenIfExist(const TypeData& a_data, const TypeKey& a_key);
-    Iterator AddEvenIfExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
-    Iterator AddIfNotExist(const TypeData& a_data, const TypeKey& a_key);
-    Iterator AddIfNotExist(TypeData* CPPUTILS_ARG_NN a_data_p, const TypeKey& a_key);
+
+    
+    template <typename... Targs>
+    ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+        AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
+
+    template <typename... Targs>
+    ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+        AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
+
+    template <typename... Targs>
+    ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+        AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
+
+
+
+
+
     bool Remove(const TypeKey& a_key) noexcept;
 
 protected:
@@ -60,9 +72,9 @@ public:
 public:
     using Base<TypeMtHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
 
-    void AddWithKnownHashIt(const Iterator& a_iter, const TypeKey& a_key, size_t a_hash);
-    void AddEvenIfExistIt(const Iterator& a_iter, const TypeKey& a_key);
-    Iterator AddIfNotExistIt(const Iterator& a_iter, const TypeKey& a_key);
+    void AddWithKnownHashIt(size_t a_hash, const TypeKey& a_key, const Iterator& a_iter);
+    void AddEvenIfExistIt(const TypeKey& a_key, const Iterator& a_iter);
+    Iterator AddIfNotExistIt(const TypeKey& a_key, const Iterator& a_iter);
 
 protected:
     MtBase(const MtBase&) = delete;
