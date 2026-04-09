@@ -34,15 +34,15 @@ public:
 
     
     template <typename... Targs>
-    ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+    typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
         AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
 
     template <typename... Targs>
-    ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+    typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
         AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
 
     template <typename... Targs>
-    ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+    typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
         AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
 
 

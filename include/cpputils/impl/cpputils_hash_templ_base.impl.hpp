@@ -48,7 +48,7 @@ Base<TypeHash,TypeData,TypeKey,TypeHasher,TypeKeyExt>::find(const TypeKey& a_key
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 template <typename... Targs>
-::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
 Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args)
 {
     return m_hash_p->template AddWithKnownHash<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_hash,a_key, ::std::forward<Targs>(a_args)...);
@@ -57,7 +57,7 @@ Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddWithKnownHash(size
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 template <typename... Targs>
-::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
 Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 {
     return m_hash_p->template AddEvenIfExist<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_key, ::std::forward<Targs>(a_args)...);
@@ -66,13 +66,11 @@ Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddEvenIfExist(const 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
 template <typename... Targs>
-::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
+typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator >::type
 Base<TypeHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 {
     return m_hash_p->template AddIfNotExist<TypeData, TypeKey, TypeHasher, TypeKeyExt, Targs&&...>(a_key, ::std::forward<Targs>(a_args)...);
 }
-
-
 
 
 

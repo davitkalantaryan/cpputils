@@ -50,15 +50,15 @@ public:
 
 
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs>
-    inline ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
+    inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
         AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
 
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs>
-    inline ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
+    inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
         AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
 
     template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs>
-    inline ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
+    inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
         AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
 
     
