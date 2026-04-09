@@ -13,6 +13,9 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/purehash.hpp>
+#ifdef CPPUTILS_USE_CPPUTILS_SHARED_PTR
+#include <cpputils/sharedptr.hpp>
+#endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <shared_mutex>
 #include <type_traits>
@@ -26,8 +29,13 @@ template <typename TypeHash>
 class CPPUTILS_EXPORT Base
 {
 public:
+#ifdef CPPUTILS_USE_CPPUTILS_SHARED_PTR
+    template <typename TypeData>
+    using Iterator = cpputils::SharedPtr<TypeData>;
+#else
     template <typename TypeData>
     using Iterator = ::std::shared_ptr<TypeData>;
+#endif
     template <typename TypeData>
     using IteratorRaw = typename TypeHash::template Iterator<Iterator<TypeData> >;
 

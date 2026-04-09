@@ -215,4 +215,12 @@ SharedPtr<PtrType>::SharedPtr(Targs... a_args)
 }  // namespace cpputils {
 
 
+template<typename PtrType>
+::std::ostream& operator<<(::std::ostream& a_os, const ::cpputils::SharedPtr<PtrType>& a_ptr)
+{
+    a_os << "SharedPtr(" << (void*)a_ptr.get() << ", refs:" << a_ptr.getReferences() << ")";
+    return a_os;
+}
+
+
 #endif  // #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP

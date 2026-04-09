@@ -11,6 +11,7 @@
 #include <cpputils/export_symbols.h>
 #include <cpputils/functional.hpp>
 #include <cinternal/disable_compiler_warnings.h>
+#include <ostream>
 #include <atomic>
 #include <stddef.h>
 #include <cinternal/undisable_compiler_warnings.h>
@@ -86,6 +87,10 @@ public:
 
 
 }  // namespace cpputils {
+
+
+template<typename PtrType>
+::std::ostream& operator<<( ::std::ostream& a_os, const ::cpputils::SharedPtr<PtrType>& a_ptr);
 
 
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_IMPL_HPP
