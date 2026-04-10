@@ -16,6 +16,7 @@
 
 #include <cinternal/disable_compiler_warnings.h>
 #include <utility>
+#include <memory>
 #include <cinternal/undisable_compiler_warnings.h>
 
 
@@ -83,7 +84,7 @@ inline int32_t Base<TypeIterCont>::reserveUniqueIdForDataInline(void) const noex
 
 
 template <typename TypeIterCont>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept
 {
@@ -99,12 +100,12 @@ Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash
 
 
 template <typename TypeIterCont>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 {
     size_t unHash;
-    return findEx<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key, &unHash);
+    return findEx<TypeData, TypeKey, TypeKeyExt>(a_key, &unHash);
 }
 
 
@@ -124,7 +125,7 @@ Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Iterator<TypeData>
 
 
 template <typename TypeIterCont>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... Targs >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args)
 {
@@ -152,7 +153,7 @@ Base<TypeIterCont>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&
 
 
 template <typename TypeIterCont>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... Targs >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 {
@@ -180,7 +181,7 @@ Base<TypeIterCont>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 
 
 template <typename TypeIterCont>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt, typename... Targs >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... Targs >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 {
@@ -222,11 +223,11 @@ inline void Base<TypeIterCont>::RemoveEx(const Iterator<TypeData>& a_iter) noexc
 
 
 template <typename TypeIterCont>
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
 inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
 {
     size_t unHash;
-    const Item<TypeData>* const pItemToDelete = findEx<TypeData, TypeKey, TypeHasher, TypeKeyExt>(a_key,&unHash);
+    const Item<TypeData>* const pItemToDelete = findEx<TypeData, TypeKey, TypeKeyExt>(a_key,&unHash);
     if (pItemToDelete) {
         RemoveEx<TypeData>(pItemToDelete);
         return true;
@@ -240,8 +241,8 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
 namespace bh {
 
 
-template <typename TypeKey, typename TypeHasher >
-SKeyAny<TypeKey,TypeHasher>::SKeyAny(const TypeKey& a_rawKey, int32_t a_dataIndex)
+template <typename TypeChild, typename TypeKey>
+SKeyExtBase<TypeChild,TypeKey>::SKeyExtBase(const TypeKey& a_rawKey, int32_t a_dataIndex)
     :
     CKeyBase(a_dataIndex),
     rawKey(a_rawKey)
@@ -249,72 +250,39 @@ SKeyAny<TypeKey,TypeHasher>::SKeyAny(const TypeKey& a_rawKey, int32_t a_dataInde
 }
 
 
-template <typename TypeKey, typename TypeHasher >
-uint64_t SKeyAny<TypeKey,TypeHasher>::hash()const
+template <typename TypeChild, typename TypeKey>
+CKeyBase* SKeyExtBase<TypeChild,TypeKey>::clone(TypeCinternalAllocator a_allocator)const
 {
-    TypeHasher aHasher;
+    TypeChild* const pNew = (TypeChild*)(*a_allocator)(sizeof(TypeChild));
+    new(pNew) TypeChild((const TypeChild&)*this);
+    return pNew;
+}
+
+
+template <typename TypeChild, typename TypeKey>
+uint64_t SKeyExtBase<TypeChild, TypeKey>::hash()const
+{
+    ::std::hash<TypeKey> aHasher;
     const uint64_t unHash = (uint64_t)aHasher(this->rawKey);
     return unHash;
 }
 
 
-template <typename TypeKey, typename TypeHasher >
-bool SKeyAny<TypeKey,TypeHasher>::areTheKeysSame(const CKeyBase& a_key2) const
+template <typename TypeChild, typename TypeKey>
+bool SKeyExtBase<TypeChild, TypeKey>::areTheKeysSame(const CKeyBase& a_key2) const
 {
-    if((this->dataIndex)==(a_key2.dataIndex)){
-        const SKeyAny<TypeKey,TypeHasher>& key2Ext = (const SKeyAny<TypeKey,TypeHasher>&)a_key2;
-        return (this->rawKey)==(key2Ext.rawKey);
-    }
-    return false;
+    const SKeyExtBase<TypeChild, TypeKey>& key2Ext = (const SKeyExtBase<TypeChild, TypeKey>&)a_key2;
+    return (this->rawKey) == (key2Ext.rawKey);
 }
-
-
-template <typename TypeKey, typename TypeHasher >
-CKeyBase* SKeyAny<TypeKey,TypeHasher>::clone(TypeCinternalAllocator a_allocator)const
-{
-    SKeyAny<TypeKey,TypeHasher>* const pNew = (SKeyAny<TypeKey,TypeHasher>*)(*a_allocator)(sizeof(SKeyAny<TypeKey,TypeHasher>));
-    new(pNew) SKeyAny<TypeKey,TypeHasher>(*this);
-    return pNew;
-}
-
 
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-template <typename TypeIntKey>
-SKeyInt<TypeIntKey>::SKeyInt(const TypeIntKey& a_rawKey, int32_t a_dataIndex)
-    :
-    CKeyBase(a_dataIndex),
-    rawKey(a_rawKey)
-{
-}
-
 
 template <typename TypeIntKey >
 uint64_t SKeyInt<TypeIntKey>::hash()const
 {
     const size_t unHash = (uint64_t)(this->rawKey);
     return unHash;
-}
-
-
-template <typename TypeIntKey >
-bool SKeyInt<TypeIntKey>::areTheKeysSame(const CKeyBase& a_key2) const
-{
-    if((this->dataIndex)==(a_key2.dataIndex)){
-        const SKeyInt<TypeIntKey>& key2Ext = (const SKeyInt<TypeIntKey>&)a_key2;
-        return (this->rawKey)==(key2Ext.rawKey);
-    }
-    return false;
-}
-
-
-template <typename TypeIntKey >
-CKeyBase* SKeyInt<TypeIntKey>::clone(TypeCinternalAllocator a_allocator)const
-{
-    SKeyInt<TypeIntKey>* const pNew = (SKeyInt<TypeIntKey>*)(*a_allocator)(sizeof(SKeyInt<TypeIntKey>));
-    new(pNew) SKeyInt<TypeIntKey>(*this);
-    return pNew;
 }
 
 

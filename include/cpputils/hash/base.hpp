@@ -14,7 +14,6 @@
 #include <cpputils/export_symbols.h>
 #include <cinternal/hash.h>
 #include <cinternal/disable_compiler_warnings.h>
-#include <memory>
 #include <stdint.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
@@ -26,7 +25,7 @@
 namespace cpputils { namespace hash{
 
 
-#define CPPUTILS_HASH_CHI(_typeInt)  _typeInt,::std::hash<_typeInt>, ::cpputils::hash::bh::SKeyInt<_typeInt>
+#define CPPUTILS_HASH_CHI(_typeInt)  _typeInt,::cpputils::hash::bh::SKeyInt<_typeInt>
 
 
 namespace bh{
@@ -56,37 +55,42 @@ protected:
 };
 
 
-template <typename TypeKey, typename TypeHasher = ::std::hash<TypeKey> >
-struct SKeyAny : public CKeyBase
+template <typename TypeChild, typename TypeKey>
+struct SKeyExtBase : public CKeyBase
 {
 public:
-    SKeyAny(const TypeKey& a_rawKey, int32_t a_dataIndex);
-    uint64_t hash()const override;
-    bool areTheKeysSame(const CKeyBase& a_key2) const override;
-    CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
-private:
+    virtual CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
+    virtual uint64_t hash()const override;
+    virtual bool areTheKeysSame(const CKeyBase& a_key2) const override;
+
+protected:
     const TypeKey      rawKey;
-private:
-    SKeyAny(const SKeyAny&) = default;
-    SKeyAny(SKeyAny&&) = delete;
-    SKeyAny& operator=(const SKeyAny&) = delete;
-    SKeyAny& operator=(SKeyAny&&) = delete;
+public:
+    SKeyExtBase(const TypeKey& a_rawKey, int32_t a_dataIndex);
+protected:
+    virtual ~SKeyExtBase() override = default;
+    SKeyExtBase(const SKeyExtBase&) = default;
+    SKeyExtBase(SKeyExtBase&&) = delete;
+    SKeyExtBase& operator=(const SKeyExtBase&) = delete;
+    SKeyExtBase& operator=(SKeyExtBase&&) = delete;
+};
+
+
+template <typename TypeKey>
+struct SKeyAny : public SKeyExtBase<SKeyAny<TypeKey>, TypeKey>
+{
+public:
+    using SKeyExtBase<SKeyAny<TypeKey>, TypeKey>::SKeyExtBase;
 };
 
 
 template <typename TypeIntKey>
-struct SKeyInt : public CKeyBase
+struct SKeyInt : public SKeyAny<TypeIntKey>
 {
 public:
-    SKeyInt(const TypeIntKey& a_rawKey, int32_t a_dataIndex);
+    using SKeyAny<TypeIntKey>::SKeyAny;
     uint64_t hash()const override;
-    bool areTheKeysSame(const CKeyBase& a_key2) const override;
-    CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
 private:
-    const TypeIntKey    rawKey;
-private:
-    SKeyInt(const SKeyInt&) = default;
-    SKeyInt(SKeyInt&&) = delete;
     SKeyInt& operator=(const SKeyInt&) = delete;
     SKeyInt& operator=(SKeyInt&&) = delete;
 };
@@ -147,21 +151,21 @@ public:
 public:
     template <typename TypeData>
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline const Item<TypeData>* findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline const Item<TypeData>* find(const TypeKey& a_key)const noexcept;
     template <typename TypeData>
     inline const Item<TypeData>* findNextTheSame( const Iterator<TypeData>& a_prev ) const noexcept;
-    template <typename TypeData, typename TypeKey,typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
+    template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs >
+    template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData>
     inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
     // do not use below function to manipulate hash directly
     ConstCinternalHash_t getHash()const;

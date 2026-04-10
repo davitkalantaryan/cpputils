@@ -104,9 +104,12 @@ static bool IsKeysTheSameStatic(const void* a_key1, size_t a_keySize1, const voi
 {
     const CKeyBase* const pKey1Ext = (const CKeyBase*)a_key1;
     const CKeyBase* const pKey2Ext = (const CKeyBase*)a_key2;
+    if ((pKey1Ext->dataIndex) == (pKey2Ext->dataIndex)) {
+        return pKey1Ext->areTheKeysSame(*pKey2Ext);
+    }
     (void)a_keySize1;
     (void)a_keySize2;
-    return pKey1Ext->areTheKeysSame(*pKey2Ext);
+    return false;
 }
 
 

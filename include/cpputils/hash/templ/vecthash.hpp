@@ -20,7 +20,7 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 class CPPUTILS_DLL_PUBLIC VectHashBase : public TypeBase
 {
 public:
@@ -60,15 +60,15 @@ protected:
 };
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 using VectHash = VectHashBase<
-    templ::Base<hash::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
-    hash::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+    templ::Base<hash::VectHash, TypeData, TypeKey, TypeKeyExt>,
+    hash::VectHash, TypeData, TypeKey, TypeKeyExt>;
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 using MtVectHash = VectHashBase<
-    templ::MtBase<hash::mt::VectHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
-    hash::mt::VectHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+    templ::MtBase<hash::mt::VectHash, TypeData, TypeKey, TypeKeyExt>,
+    hash::mt::VectHash,TypeData, TypeKey, TypeKeyExt>;
 
 
 

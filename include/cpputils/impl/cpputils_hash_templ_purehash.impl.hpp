@@ -18,16 +18,16 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-typename PureHash<TypeData, TypeKey, TypeHasher, TypeKeyExt>::Iterator
-PureHash<TypeData, TypeKey, TypeHasher, TypeKeyExt>::findNextTheSame(const Iterator&  a_prev)const noexcept
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+typename PureHash<TypeData, TypeKey, TypeKeyExt>::Iterator
+PureHash<TypeData, TypeKey, TypeKeyExt>::findNextTheSame(const Iterator&  a_prev)const noexcept
 {
     return this->m_hash_p->template findNextTheSame<TypeData>(a_prev);
 }
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher, typename TypeKeyExt >
-void PureHash<TypeData, TypeKey, TypeHasher, TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+void PureHash<TypeData, TypeKey, TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept
 {
     this->m_hash_p->template RemoveEx<TypeData>(a_iter);
 }
