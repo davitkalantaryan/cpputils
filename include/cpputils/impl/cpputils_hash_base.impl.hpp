@@ -260,7 +260,7 @@ CKeyBase* SKeyExtBase<TypeChild,TypeKey>::clone(TypeCinternalAllocator a_allocat
 
 
 template <typename TypeChild, typename TypeKey>
-::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type SKeyExtBase<TypeChild, TypeKey>::hash()const
+typename ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type SKeyExtBase<TypeChild, TypeKey>::hash()const
 {
     ::std::hash<TypeKey> aHasher;
     const uint64_t unHash = (uint64_t)aHasher(this->rawKey);
@@ -269,7 +269,7 @@ template <typename TypeChild, typename TypeKey>
 
 
 template <typename TypeChild, typename TypeKey>
-::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type SKeyExtBase<TypeChild, TypeKey>::areTheKeysSame(const CKeyBase& a_key2) const
+typename ::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type SKeyExtBase<TypeChild, TypeKey>::areTheKeysSame(const CKeyBase& a_key2) const
 {
     const SKeyExtBase<TypeChild, TypeKey>& key2Ext = (const SKeyExtBase<TypeChild, TypeKey>&)a_key2;
     return (this->rawKey) == (key2Ext.rawKey);

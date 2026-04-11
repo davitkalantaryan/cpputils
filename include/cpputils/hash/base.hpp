@@ -61,8 +61,8 @@ struct SKeyExtBase : public CKeyBase
 {
 public:
     virtual CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
-    virtual ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type hash()const override;
-    virtual ::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type areTheKeysSame(const CKeyBase& a_key2) const override;
+    virtual typename ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type hash()const override;
+    virtual typename ::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type areTheKeysSame(const CKeyBase& a_key2) const override;
 
 protected:
     const TypeKey      rawKey;
