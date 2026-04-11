@@ -5,6 +5,7 @@
 // created by:		Davit Kalantaryan (davit.kalantaryan@gmail.com)
 //
 
+#pragma once
 #ifndef CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_HPP
 #define CPPUTILS_INCLUDE_CPPUTILS_SHAREDPTR_HPP
 

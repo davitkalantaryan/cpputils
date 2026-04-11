@@ -304,6 +304,7 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_vecthash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\type_traits.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

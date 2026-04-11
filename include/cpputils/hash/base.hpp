@@ -13,6 +13,7 @@
 
 #include <cpputils/export_symbols.h>
 #include <cinternal/hash.h>
+#include <cpputils/type_traits.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <stdint.h>
 #include <cinternal/undisable_compiler_warnings.h>
@@ -60,8 +61,8 @@ struct SKeyExtBase : public CKeyBase
 {
 public:
     virtual CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
-    virtual uint64_t hash()const override;
-    virtual bool areTheKeysSame(const CKeyBase& a_key2) const override;
+    virtual ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type hash()const override;
+    virtual ::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type areTheKeysSame(const CKeyBase& a_key2) const override;
 
 protected:
     const TypeKey      rawKey;

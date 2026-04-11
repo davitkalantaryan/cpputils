@@ -140,5 +140,8 @@
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp">
       <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\type_traits.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
