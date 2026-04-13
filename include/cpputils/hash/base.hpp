@@ -65,6 +65,8 @@ public:
     SKeyExtBaseBase(const TypeKey& a_rawKey, int32_t a_dataIndex);
 protected:
     ~SKeyExtBaseBase() override = default;
+    SKeyExtBaseBase(const SKeyExtBaseBase&) = default;
+    SKeyExtBaseBase(SKeyExtBaseBase&&) = delete;
 };
 
 
