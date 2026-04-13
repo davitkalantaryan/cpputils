@@ -50,9 +50,6 @@ public:
 
 protected:
     CKeyBase(const CKeyBase&)=default;
-    CKeyBase(CKeyBase&&) = delete;
-    CKeyBase& operator=(const CKeyBase&) = delete;
-    CKeyBase& operator=(CKeyBase&&) = delete;
 };
 
 
@@ -66,7 +63,6 @@ public:
 protected:
     ~SKeyExtBaseBase() override = default;
     SKeyExtBaseBase(const SKeyExtBaseBase&) = default;
-    SKeyExtBaseBase(SKeyExtBaseBase&&) = delete;
 };
 
 
