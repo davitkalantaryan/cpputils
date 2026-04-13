@@ -20,7 +20,7 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey,TypeHasher> >
+template <typename TypeBase, typename TypeHash,typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 class CPPUTILS_DLL_PUBLIC ListHashBase : public TypeBase
 {
 public:
@@ -59,15 +59,15 @@ protected:
 };
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 using ListHash = ListHashBase<
-    templ::Base<hash::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
-    hash::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+    templ::Base<hash::ListHash, TypeData, TypeKey, TypeKeyExt>,
+    hash::ListHash, TypeData, TypeKey, TypeKeyExt>;
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 using MtListHash = ListHashBase<
-    templ::MtBase<hash::mt::ListHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>,
-    hash::mt::ListHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+    templ::MtBase<hash::mt::ListHash, TypeData, TypeKey, TypeKeyExt>,
+    hash::mt::ListHash,TypeData, TypeKey, TypeKeyExt>;
 
 
 

@@ -44,26 +44,26 @@ public:
 
     template <typename TypeData>
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline Iterator<TypeData> find(const TypeKey& a_key)const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline void AddWithKnownHashIt(size_t a_hash, const TypeKey& a_key, const Iterator<TypeData>& a_iter);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline void AddEvenIfExistIt(const TypeKey& a_key, const Iterator<TypeData>& a_iter);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline Iterator<TypeData> AddIfNotExistIt(const TypeKey& a_key, const Iterator<TypeData>& a_iter);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs>
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
     inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
         AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs>
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
     inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
         AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher>, typename... Targs>
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
     inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
         AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
-    template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
     // do not use below function to manipulate hash directly
     ConstCinternalHash_t getHash()const;

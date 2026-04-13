@@ -20,22 +20,22 @@
 namespace cpputils { namespace hash{ namespace templ{
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-using MtPureHash = templ::MtBase<hash::mt::PureHash,TypeData, TypeKey, TypeHasher, TypeKeyExt>;
+template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+using MtPureHash = templ::MtBase<hash::mt::PureHash,TypeData, TypeKey, TypeKeyExt>;
 
 
-template <typename TypeData, typename TypeKey, typename TypeHasher = ::std::hash<TypeKey>, typename TypeKeyExt = bh::SKeyAny<TypeKey, TypeHasher> >
-class CPPUTILS_DLL_PUBLIC PureHash : public Base<hash::PureHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>
+template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+class CPPUTILS_DLL_PUBLIC PureHash : public Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>
 {
 public:
-    typedef Base<hash::PureHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>   BaseRaw;
+    typedef Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>   BaseRaw;
 
     using Iterator = typename BaseRaw::Iterator;
     using IteratorRaw = typename BaseRaw::IteratorRaw;
     using TypeRawHash = typename BaseRaw::TypeRawHash;
 
 public:
-    using Base<hash::PureHash, TypeData, TypeKey, TypeHasher, TypeKeyExt>::Base;
+    using Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>::Base;
 
     Iterator findNextTheSame(const Iterator& a_prev) const noexcept;
     void RemoveEx(const Iterator& a_iter) noexcept;
