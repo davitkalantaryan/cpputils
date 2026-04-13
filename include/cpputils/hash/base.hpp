@@ -12,8 +12,8 @@
 
 
 #include <cpputils/export_symbols.h>
-#include <cinternal/hash.h>
 #include <cpputils/type_traits.hpp>
+#include <cinternal/hash.h>
 #include <cinternal/disable_compiler_warnings.h>
 #include <stdint.h>
 #include <cinternal/undisable_compiler_warnings.h>
@@ -56,29 +56,60 @@ protected:
 };
 
 
-template <typename TypeChild, typename TypeKey>
-struct SKeyExtBase : public CKeyBase
+template <typename TypeKey>
+struct SKeyExtBaseBase : public CKeyBase
 {
-public:
-    virtual CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
-    virtual typename ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type hash()const override;
-    virtual typename ::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type areTheKeysSame(const CKeyBase& a_key2) const override;
-
 protected:
     const TypeKey      rawKey;
 public:
-    SKeyExtBase(const TypeKey& a_rawKey, int32_t a_dataIndex);
+    SKeyExtBaseBase(const TypeKey& a_rawKey, int32_t a_dataIndex);
 protected:
-    virtual ~SKeyExtBase() override = default;
-    SKeyExtBase(const SKeyExtBase&) = default;
-    SKeyExtBase(SKeyExtBase&&) = delete;
-    SKeyExtBase& operator=(const SKeyExtBase&) = delete;
-    SKeyExtBase& operator=(SKeyExtBase&&) = delete;
+    ~SKeyExtBaseBase() override = default;
+};
+
+
+template <typename TypeChild, typename TypeKey, bool TH = types::has_std_hash<TypeKey>::value, bool TE = types::has_operator_equal<TypeKey>::value>
+struct SKeyExtBase : public SKeyExtBaseBase<TypeKey>
+{
+public:
+    using SKeyExtBaseBase<TypeKey>::SKeyExtBaseBase;
+    CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
+};
+
+
+template <typename TypeChild, typename TypeKey, bool TE>
+struct SKeyExtBase<TypeChild, TypeKey, true, TE> : public SKeyExtBaseBase<TypeKey>
+{
+public:
+    using SKeyExtBaseBase<TypeKey>::SKeyExtBaseBase;
+    CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
+    uint64_t hash()const override;
+};
+
+
+template <typename TypeChild, typename TypeKey, bool TH>
+struct SKeyExtBase<TypeChild, TypeKey, TH, true> : public SKeyExtBaseBase<TypeKey>
+{
+public:
+    using SKeyExtBaseBase<TypeKey>::SKeyExtBaseBase;
+    CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
+    bool areTheKeysSame(const CKeyBase& a_key2) const override;
+};
+
+
+template <typename TypeChild, typename TypeKey>
+struct SKeyExtBase<TypeChild, TypeKey,true, true> : public SKeyExtBaseBase<TypeKey>
+{
+public:
+    using SKeyExtBaseBase<TypeKey>::SKeyExtBaseBase;
+    CKeyBase* clone(TypeCinternalAllocator a_allocator)const override;
+    uint64_t hash()const override;
+    bool areTheKeysSame(const CKeyBase& a_key2) const override;
 };
 
 
 template <typename TypeKey>
-struct SKeyAny : public SKeyExtBase<SKeyAny<TypeKey>, TypeKey>
+struct SKeyAny final : public SKeyExtBase<SKeyAny<TypeKey>, TypeKey>
 {
 public:
     using SKeyExtBase<SKeyAny<TypeKey>, TypeKey>::SKeyExtBase;
@@ -86,14 +117,11 @@ public:
 
 
 template <typename TypeIntKey>
-struct SKeyInt : public SKeyAny<TypeIntKey>
+struct SKeyInt final : public SKeyExtBase<SKeyInt<TypeIntKey>, TypeIntKey>
 {
 public:
-    using SKeyAny<TypeIntKey>::SKeyAny;
+    using SKeyExtBase<SKeyInt<TypeIntKey>, TypeIntKey>::SKeyExtBase;
     uint64_t hash()const override;
-private:
-    SKeyInt& operator=(const SKeyInt&) = delete;
-    SKeyInt& operator=(SKeyInt&&) = delete;
 };
 
 

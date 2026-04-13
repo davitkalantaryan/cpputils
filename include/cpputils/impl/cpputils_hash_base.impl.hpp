@@ -241,8 +241,8 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
 namespace bh {
 
 
-template <typename TypeChild, typename TypeKey>
-SKeyExtBase<TypeChild,TypeKey>::SKeyExtBase(const TypeKey& a_rawKey, int32_t a_dataIndex)
+template <typename TypeKey>
+SKeyExtBaseBase<TypeKey>::SKeyExtBaseBase(const TypeKey& a_rawKey, int32_t a_dataIndex)
     :
     CKeyBase(a_dataIndex),
     rawKey(a_rawKey)
@@ -250,8 +250,60 @@ SKeyExtBase<TypeChild,TypeKey>::SKeyExtBase(const TypeKey& a_rawKey, int32_t a_d
 }
 
 
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename TypeChild, typename TypeKey, bool TH, bool TE>
+CKeyBase* SKeyExtBase<TypeChild, TypeKey, TH, TE>::clone(TypeCinternalAllocator a_allocator)const
+{
+    TypeChild* const pNew = (TypeChild*)(*a_allocator)(sizeof(TypeChild));
+    new(pNew) TypeChild((const TypeChild&)*this);
+    return pNew;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename TypeChild, typename TypeKey, bool TE>
+CKeyBase* SKeyExtBase<TypeChild, TypeKey, true, TE>::clone(TypeCinternalAllocator a_allocator)const
+{
+    TypeChild* const pNew = (TypeChild*)(*a_allocator)(sizeof(TypeChild));
+    new(pNew) TypeChild((const TypeChild&)*this);
+    return pNew;
+}
+
+
+template <typename TypeChild, typename TypeKey, bool TE>
+uint64_t SKeyExtBase<TypeChild, TypeKey, true, TE>::hash()const
+{
+    ::std::hash<TypeKey> aHasher;
+    const uint64_t unHash = (uint64_t)aHasher(this->rawKey);
+    return unHash;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+template <typename TypeChild, typename TypeKey, bool TH>
+CKeyBase* SKeyExtBase<TypeChild, TypeKey, TH, true>::clone(TypeCinternalAllocator a_allocator)const
+{
+    TypeChild* const pNew = (TypeChild*)(*a_allocator)(sizeof(TypeChild));
+    new(pNew) TypeChild((const TypeChild&)*this);
+    return pNew;
+}
+
+
+template <typename TypeChild, typename TypeKey, bool TH>
+bool SKeyExtBase<TypeChild, TypeKey, TH, true>::areTheKeysSame(const CKeyBase& a_key2)const
+{
+    const SKeyExtBase<TypeChild, TypeKey>& key2Ext = (const SKeyExtBase<TypeChild, TypeKey>&)a_key2;
+    return (this->rawKey) == (key2Ext.rawKey);
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 template <typename TypeChild, typename TypeKey>
-CKeyBase* SKeyExtBase<TypeChild,TypeKey>::clone(TypeCinternalAllocator a_allocator)const
+CKeyBase* SKeyExtBase<TypeChild, TypeKey, true, true>::clone(TypeCinternalAllocator a_allocator)const
 {
     TypeChild* const pNew = (TypeChild*)(*a_allocator)(sizeof(TypeChild));
     new(pNew) TypeChild((const TypeChild&)*this);
@@ -260,7 +312,7 @@ CKeyBase* SKeyExtBase<TypeChild,TypeKey>::clone(TypeCinternalAllocator a_allocat
 
 
 template <typename TypeChild, typename TypeKey>
-typename ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type SKeyExtBase<TypeChild, TypeKey>::hash()const
+uint64_t SKeyExtBase<TypeChild, TypeKey, true, true>::hash()const
 {
     ::std::hash<TypeKey> aHasher;
     const uint64_t unHash = (uint64_t)aHasher(this->rawKey);
@@ -269,7 +321,7 @@ typename ::std::enable_if< types::has_std_hash<TypeKey>::value, uint64_t >::type
 
 
 template <typename TypeChild, typename TypeKey>
-typename ::std::enable_if< types::has_operator_equal<TypeKey>::value, bool >::type SKeyExtBase<TypeChild, TypeKey>::areTheKeysSame(const CKeyBase& a_key2) const
+bool SKeyExtBase<TypeChild, TypeKey, true, true>::areTheKeysSame(const CKeyBase& a_key2)const
 {
     const SKeyExtBase<TypeChild, TypeKey>& key2Ext = (const SKeyExtBase<TypeChild, TypeKey>&)a_key2;
     return (this->rawKey) == (key2Ext.rawKey);
