@@ -27,9 +27,9 @@ PureHash<TypeData, TypeKey, TypeKeyExt>::findNextTheSame(const Iterator&  a_prev
 
 
 template <typename TypeData, typename TypeKey, typename TypeKeyExt >
-void PureHash<TypeData, TypeKey, TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept
+void PureHash<TypeData, TypeKey, TypeKeyExt>::RemoveExNoLockFromIterator(const Iterator& a_iter) noexcept
 {
-    this->m_hash_p->template RemoveEx<TypeData>(a_iter);
+    this->m_hash_p->template RemoveExNoLockFromIterator<TypeData>(a_iter);
 }
 
 

@@ -21,7 +21,7 @@ TEST(f_0009_new_hash, t0001_Hash)
 	ASSERT_EQ((aHash.find<int,int>(1)->data),1);
 	
     ASSERT_EQ(aHash.getHash()->count, size_t(1));
-    aHash.RemoveEx(iter);
+    aHash.RemoveExNoLockFromIterator(iter);
     iter = aHash.find<int, int>(1);
 	ASSERT_EQ(iter, CPPUTILS_NULL);
     ASSERT_EQ(aHash.getHash()->count, size_t(0));
@@ -38,7 +38,7 @@ TEST(f_0009_new_hash, t0002_LHash)
     ASSERT_EQ(aHash.count<int>(), size_t(2));
     ASSERT_EQ(aHash.count<double>(), size_t(0));
     ASSERT_EQ((aHash.find<int, int>(1)->data), 1);
-    aHash.RemoveEx(iter);
+    aHash.RemoveExNoLockFromIterator(iter);
     ASSERT_EQ(aHash.count<int>(), size_t(1));
     ASSERT_EQ(aHash.getHash()->count, size_t(1));
 }

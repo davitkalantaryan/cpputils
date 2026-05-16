@@ -101,7 +101,7 @@ TEST(f_0012_hash_dllhash, t0001)
         aMap.MoveToStart(iter);
         aMap.MoveToEnd(iter);
 #endif
-        aMap.RemoveEx(iter);
+        aMap.RemoveExNoLockFromIterator(iter);
     }
 }
 

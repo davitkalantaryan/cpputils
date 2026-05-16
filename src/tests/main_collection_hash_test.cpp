@@ -95,7 +95,7 @@ int main(void)
         aMap.MoveToStart(iter);
         aMap.MoveToEnd(iter);
 #endif
-        aMap.RemoveEx(iter);
+        aMap.RemoveExNoLockFromIterator(iter);
     }
 
 	return 0;

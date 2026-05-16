@@ -182,7 +182,7 @@ static void TestTemplHash(void)
         (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value))
     {
         if (iter) {
-            aHash.RemoveEx(iter);
+            aHash.RemoveExNoLockFromIterator(iter);
         }
     }
 
@@ -193,7 +193,7 @@ static void TestTemplHash(void)
         (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value))
     {
         if (iter) {
-            aHash.RemoveEx(iter);
+            aHash.RemoveExNoLockFromIterator(iter);
         }
     }
 
