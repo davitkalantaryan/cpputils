@@ -77,7 +77,7 @@ bool Base<TypeHash,TypeData,TypeKey,TypeKeyExt>::Remove(const TypeKey& a_key) no
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
-Base<TypeHash, TypeData, TypeKey, TypeKeyExt>::IteratorRaw
+typename Base<TypeHash, TypeData, TypeKey, TypeKeyExt>::IteratorRaw
 Base<TypeHash, TypeData, TypeKey, TypeKeyExt>::findNextTheSameNoLockFromIterator(const IteratorRaw& a_prev)const noexcept
 {
     return this->m_hash_p->template findNextTheSameNoLockFromIterator<TypeData>(a_prev);
