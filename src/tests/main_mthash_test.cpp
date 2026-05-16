@@ -162,7 +162,7 @@ static void TestTemplHash(void)
         (::std::is_same<TypeTemplHash, ::cpputils::hash::VectHash>::value)   )
     {
         if (iter) {
-            iter = aHash.findNextTheSame(iter);
+            iter = aHash.findNextTheSameNoLockFromIterator(iter);
             ::std::cout << "iter_03: " << iter << ::std::endl;
         }
     }
