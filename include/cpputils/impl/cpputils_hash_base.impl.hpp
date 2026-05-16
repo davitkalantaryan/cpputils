@@ -210,7 +210,7 @@ Base<TypeIterCont>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 
 template <typename TypeIterCont>
 template <typename TypeData>
-inline void Base<TypeIterCont>::RemoveEx(const Iterator<TypeData>& a_iter) noexcept
+inline void Base<TypeIterCont>::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept
 {
     bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)a_iter;
     const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;
@@ -229,7 +229,7 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
     size_t unHash;
     const Item<TypeData>* const pItemToDelete = findEx<TypeData, TypeKey, TypeKeyExt>(a_key,&unHash);
     if (pItemToDelete) {
-        RemoveEx<TypeData>(pItemToDelete);
+        RemoveExNoLockFromIterator<TypeData>(pItemToDelete);
         return true;
     }
     return false;

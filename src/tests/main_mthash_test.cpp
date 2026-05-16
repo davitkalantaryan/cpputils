@@ -137,7 +137,7 @@ static void TestHash()
             aMap.MoveToEnd(iter);
         }  //  if constexpr ( ::std::is_same_v<TypeHash, ::cpputils::hash::mt::MtListHash>) {
 
-        aMap.RemoveEx(iter);
+        aMap.RemoveExNoLockFromIterator(iter);
     }  //  if (iter) {
 }
 

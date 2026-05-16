@@ -191,7 +191,7 @@ public:
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData>
-    inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
+    inline void RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
     // do not use below function to manipulate hash directly
