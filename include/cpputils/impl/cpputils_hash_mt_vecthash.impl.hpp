@@ -116,13 +116,6 @@ void VectHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
 
 
 template <typename TypeData>
-inline void VectHash::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
-{
-    m_nsHash.template RemoveExNoLockFromIterator<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::first()const noexcept
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;

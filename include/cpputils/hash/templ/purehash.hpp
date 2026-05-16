@@ -7,8 +7,6 @@
 //
 
 #pragma once
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_PUREHASH_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_PUREHASH_HPP
 
 
 #include <cpputils/export_symbols.h>
@@ -23,37 +21,8 @@ namespace cpputils { namespace hash{ namespace templ{
 template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
 using MtPureHash = templ::MtBase<hash::mt::PureHash,TypeData, TypeKey, TypeKeyExt>;
 
-
 template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-class CPPUTILS_DLL_PUBLIC PureHash : public Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>
-{
-public:
-    typedef Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>   BaseRaw;
-
-    using Iterator = typename BaseRaw::Iterator;
-    using IteratorRaw = typename BaseRaw::IteratorRaw;
-    using TypeRawHash = typename BaseRaw::TypeRawHash;
-
-public:
-    using Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>::Base;
-
-    IteratorRaw findNextTheSameNoLockFromIterator(const IteratorRaw& a_prev) const noexcept;
-    void RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
-
-protected:
-    PureHash(const PureHash&) = delete;
-    PureHash(PureHash&&) = delete;
-    PureHash& operator=(const PureHash&) = delete;
-    PureHash& operator=(PureHash&&) = delete;
-};
+using PureHash = Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>;
 
 
 }}}  //  namespace cpputils { namespace hash{ namespace templ{
-
-
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_PUREHASH_IMPL_HPP
-#include <cpputils/impl/cpputils_hash_templ_purehash.impl.hpp>
-#endif
-
-
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_PUREHASH_HPP

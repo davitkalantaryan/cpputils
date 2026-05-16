@@ -41,6 +41,9 @@ public:
     typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash, TypeData, TypeKey, TypeKeyExt>::Iterator >::type
         AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
     bool Remove(const TypeKey& a_key) noexcept;
+    IteratorRaw findNextTheSameNoLockFromIterator(const IteratorRaw& a_prev) const noexcept;
+    inline void RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
+    const TypeHash& getHash()const noexcept;
 
 protected:
     TypeHash* const m_hash_p;

@@ -49,10 +49,6 @@ public:
     template <typename TypeData>
     void IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc);
     template <typename TypeData>
-    inline void RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
-    template <typename TypeData>
-    inline IteratorRaw<TypeData> findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept;
-    template <typename TypeData>
     Iterator<TypeData> first()const noexcept;
     template <typename TypeData>
     Iterator<TypeData> last()const noexcept;

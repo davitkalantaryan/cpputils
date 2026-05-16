@@ -47,7 +47,6 @@ public:
     void iterateEndToBeg(const TypeIterFunc& a_iterFunc)const noexcept;
     void IterateBegToEnd(const TypeIterFuncChng& a_iterFunc);
     void IterateEndToBeg(const TypeIterFuncChng& a_iterFunc);
-    inline void RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
     inline void MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
     inline void MoveToEndNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
 

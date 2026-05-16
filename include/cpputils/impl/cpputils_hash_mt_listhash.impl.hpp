@@ -120,20 +120,6 @@ void ListHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
 
 
 template <typename TypeData>
-inline void ListHash::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
-{
-    m_nsHash.template RemoveExNoLockFromIterator<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
-inline ListHash::IteratorRaw<TypeData> ListHash::findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept
-{
-    return m_nsHash.template findNextTheSameNoLockFromIterator<Iterator<TypeData> >(a_prev);
-}
-
-
-template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;

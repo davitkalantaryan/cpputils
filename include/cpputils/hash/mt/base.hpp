@@ -65,8 +65,14 @@ public:
         AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
+
+    template <typename TypeData>
+    inline void RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept;
+    template <typename TypeData>
+    inline IteratorRaw<TypeData> findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept;
+
     // do not use below function to manipulate hash directly
-    ConstCinternalHash_t getHash()const;
+    const TypeHash& getHash()const;
 
 protected:
     template <typename TypeData>

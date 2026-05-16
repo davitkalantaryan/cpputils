@@ -153,9 +153,25 @@ inline bool Base<TypeHash>::Remove(const TypeKey& a_key) noexcept
 
 
 template <typename TypeHash>
-ConstCinternalHash_t Base<TypeHash>::getHash()const
+template <typename TypeData>
+inline void Base<TypeHash>::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
 {
-    return m_nsHash.getHash();
+    m_nsHash.template RemoveExNoLockFromIterator<Iterator<TypeData> >(a_iter);
+}
+
+
+template <typename TypeHash>
+template <typename TypeData>
+inline Base<TypeHash>::IteratorRaw<TypeData> Base<TypeHash>::findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept
+{
+    return m_nsHash.template findNextTheSameNoLockFromIterator<Iterator<TypeData> >(a_prev);
+}
+
+
+template <typename TypeHash>
+const TypeHash& Base<TypeHash>::getHash()const
+{
+    return m_nsHash;
 }
 
 

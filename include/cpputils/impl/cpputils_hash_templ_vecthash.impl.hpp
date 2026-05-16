@@ -99,13 +99,6 @@ void VectHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeKeyExt>::IterateEnd
 
 
 template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
-inline void VectHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeKeyExt>::RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept
-{
-    this->m_hash_p->template RemoveExNoLockFromIterator<TypeData>(a_iter);
-}
-
-
-template <typename TypeBase, typename TypeHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 inline void VectHashBase<TypeBase, TypeHash, TypeData, TypeKey, TypeKeyExt>::MoveToStartNoLockFromIterator(const IteratorRaw& a_iter) noexcept
 {
     this->m_hash_p->template MoveToStartNoLockFromIterator<TypeData>(a_iter);
