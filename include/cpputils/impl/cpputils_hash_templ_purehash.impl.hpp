@@ -19,15 +19,15 @@ namespace cpputils { namespace hash{ namespace templ{
 
 
 template <typename TypeData, typename TypeKey, typename TypeKeyExt >
-typename PureHash<TypeData, TypeKey, TypeKeyExt>::Iterator
-PureHash<TypeData, TypeKey, TypeKeyExt>::findNextTheSame(const Iterator&  a_prev)const noexcept
+typename PureHash<TypeData, TypeKey, TypeKeyExt>::IteratorRaw
+PureHash<TypeData, TypeKey, TypeKeyExt>::findNextTheSameNoLockFromIterator(const IteratorRaw&  a_prev)const noexcept
 {
-    return this->m_hash_p->template findNextTheSame<TypeData>(a_prev);
+    return this->m_hash_p->template findNextTheSameNoLockFromIterator<TypeData>(a_prev);
 }
 
 
 template <typename TypeData, typename TypeKey, typename TypeKeyExt >
-void PureHash<TypeData, TypeKey, TypeKeyExt>::RemoveExNoLockFromIterator(const Iterator& a_iter) noexcept
+void PureHash<TypeData, TypeKey, TypeKeyExt>::RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept
 {
     this->m_hash_p->template RemoveExNoLockFromIterator<TypeData>(a_iter);
 }

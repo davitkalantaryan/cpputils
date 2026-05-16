@@ -127,6 +127,13 @@ inline void ListHash::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CP
 
 
 template <typename TypeData>
+inline ListHash::IteratorRaw<TypeData> ListHash::findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept
+{
+    return m_nsHash.template findNextTheSameNoLockFromIterator<Iterator<TypeData> >(a_prev);
+}
+
+
+template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;

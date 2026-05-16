@@ -37,8 +37,8 @@ public:
 public:
     using Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>::Base;
 
-    Iterator findNextTheSame(const Iterator& a_prev) const noexcept;
-    void RemoveExNoLockFromIterator(const Iterator& a_iter) noexcept;
+    IteratorRaw findNextTheSameNoLockFromIterator(const IteratorRaw& a_prev) const noexcept;
+    void RemoveExNoLockFromIterator(const IteratorRaw& a_iter) noexcept;
 
 protected:
     PureHash(const PureHash&) = delete;

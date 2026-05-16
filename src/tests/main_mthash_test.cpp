@@ -71,7 +71,7 @@ static void TestHash()
     ::std::cout << "iter_01b: " << iter << ::std::endl;
 
     if (iter) {
-        iter = aMap.template findNextTheSame<int>(iter);
+        iter = aMap.template findNextTheSameNoLockFromIterator<int>(iter);
         ::std::cout << "iter_01c: " << iter << ::std::endl;
     }
 
@@ -91,7 +91,7 @@ static void TestHash()
     ::std::cout << "iter_04: " << iter << ::std::endl;
 
     if (iter) {
-        iter = aMap.template findNextTheSame<int>(iter);
+        iter = aMap.template findNextTheSameNoLockFromIterator<int>(iter);
         ::std::cout << "iter_05: " << iter << ::std::endl;
     }
 
@@ -111,7 +111,7 @@ static void TestHash()
     ::std::cout << "iter_10: " << iter << ::std::endl;
     int i = 0;
     while (iter) {
-        iter = aMap.template findNextTheSame<int>(iter);
+        iter = aMap.template findNextTheSameNoLockFromIterator<int>(iter);
         ::std::cout << "iter_11: " << (++i) << "  " << iter << ::std::endl;
     }  //  while(iter){
 

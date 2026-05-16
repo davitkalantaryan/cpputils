@@ -182,14 +182,14 @@ public:
     inline const Item<TypeData>* findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline const Item<TypeData>* find(const TypeKey& a_key)const noexcept;
-    template <typename TypeData>
-    inline const Item<TypeData>* findNextTheSame( const Iterator<TypeData>& a_prev ) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
+    template <typename TypeData>
+    inline IteratorRaw<TypeData> findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept;
     template <typename TypeData>
     inline void RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey> >
