@@ -111,8 +111,11 @@ Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 
 template <typename TypeIterCont>
 template <typename TypeData>
-//inline const typename Base<TypeIterCont>::template Item<TypeData>*
-inline typename Base<TypeIterCont>::IteratorRaw<TypeData>
+#ifdef _MSC_VER  // this is because of bug in the MS compiler
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
+#else
+inline typename Base<TypeIterCont>::template IteratorRaw<TypeData>
+#endif
 Base<TypeIterCont>::findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev ) const noexcept
 {
     const bh::ItemBase* const itemPrevVoid_p = (const bh::ItemBase*)a_prev;
