@@ -37,7 +37,7 @@ public:
     virtual void RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept;
 
 public:
-    ConstCinternalHash_t    m_hash;
+    CinternalHash_t     m_hash;
 
 private:
     Hash_p(const Hash_p&) = delete;
@@ -69,7 +69,7 @@ Base<TypeIterCont>::Base(bh::Hash_p* CPPUTILS_ARG_NN a_clhash_data_p)
 
 
 template <typename TypeIterCont>
-ConstCinternalHash_t Base<TypeIterCont>::getHash()const
+CinternalHashConst_t Base<TypeIterCont>::getConstHash()const
 {
     return m_clhash_data_p->m_hash;
 }
@@ -83,6 +83,15 @@ inline int32_t Base<TypeIterCont>::reserveUniqueIdForDataInline(void) const noex
 }
 
 
+//template <typename TypeHash>
+//template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+//inline typename Base<TypeHash>:: Iterator<TypeData> Base<TypeHash>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash) const noexcept
+
+//template <typename TypeIterCont>
+//template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+//inline typename Base<TypeIterCont>:: Iterator<TypeData> 
+//Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash) const noexcept
+
 template <typename TypeIterCont>
 template <typename TypeData, typename TypeKey, typename TypeKeyExt >
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
@@ -93,7 +102,7 @@ Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash
     const CinternalHashItem_t iter = CInternalHashFindEx(m_clhash_data_p->m_hash, (const void*)&extKey, sizeof(TypeKeyExt), a_pHash);
     if (iter) {
         const bh::ItemBase* const pNewItem = (const bh::ItemBase*)iter->data;
-        return (const Base<TypeIterCont>::Item<TypeData>*)pNewItem;
+        return (const Item<TypeData>*)pNewItem;
     }
     return nullptr;
 }
@@ -111,12 +120,8 @@ Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 
 template <typename TypeIterCont>
 template <typename TypeData>
-#ifdef _MSC_VER  // this is because of bug in the MS compiler
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
-#else
-inline typename Base<TypeIterCont>::template IteratorRaw<TypeData>
-#endif
-Base<TypeIterCont>::findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev ) const noexcept
+Base<TypeIterCont>::findNextTheSame(const Iterator<TypeData>& a_prev) const noexcept
 {
     const bh::ItemBase* const itemPrevVoid_p = (const bh::ItemBase*)a_prev;
     const CinternalHashItem_t hsIter = CInternalHashFindNextTheSame(m_clhash_data_p->m_hash, itemPrevVoid_p->hashIter);
@@ -213,8 +218,23 @@ Base<TypeIterCont>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 
 
 template <typename TypeIterCont>
+template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... Targs >
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
+Base<TypeIterCont>::AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args)
+{
+    size_t unHash;
+    const Item<TypeData>* const pFoundItem = findEx < TypeData, TypeKey, TypeKeyExt>(a_key, &unHash);
+    if (pFoundItem) {
+        return pFoundItem;
+    }
+
+    return AddWithKnownHash<TypeData, TypeKey, TypeKeyExt, Targs...>(unHash, a_key, ::std::forward<Targs>(a_args)...);
+}
+
+
+template <typename TypeIterCont>
 template <typename TypeData>
-inline void Base<TypeIterCont>::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept
+inline void Base<TypeIterCont>::RemoveEx(const Iterator<TypeData>& a_iter) noexcept
 {
     bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)a_iter;
     const CinternalHashItem_t hashIter = pItemBaseToDelete->hashIter;

@@ -168,8 +168,6 @@ public:
     using Item = typename TypeIterCont::template Item<TypeData>;
     template <typename TypeData>
     using Iterator = const Item<TypeData>*;
-    template <typename TypeData>
-    using IteratorRaw = Iterator<TypeData>;
 
 public:
     ~Base() noexcept;
@@ -179,23 +177,26 @@ public:
     template <typename TypeData>
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    //inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     inline const Item<TypeData>* findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline const Item<TypeData>* find(const TypeKey& a_key)const noexcept;
+    template <typename TypeData>
+    inline const Item<TypeData>* findNextTheSame(const Iterator<TypeData>& a_prev) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
     inline const Item<TypeData>* AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs >
+    inline const Item<TypeData>* AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData>
-    inline IteratorRaw<TypeData> findNextTheSameNoLockFromIterator(const IteratorRaw<TypeData>& a_prev) const noexcept;
-    template <typename TypeData>
-    inline void RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
+    inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
     // do not use below function to manipulate hash directly
-    ConstCinternalHash_t getHash()const;
+    CinternalHashConst_t getConstHash()const;
 
 protected:
     bh::Hash_p* const   m_clhash_data_p;

@@ -170,6 +170,9 @@ static void TestTemplHash(void)
     iter = aHash.AddWithKnownHash(unHash, 1, 1);
     ::std::cout << "iter_04: " << iter << ::std::endl;
 
+    iter = aHash.AddOrReturnExisting(1, &unHash);
+    ::std::cout << "iter_04a: " << iter << ::std::endl;
+
     iter = aHash.AddEvenIfExist(1, 1);
     ::std::cout << "iter_05: " << iter << ::std::endl;
 
