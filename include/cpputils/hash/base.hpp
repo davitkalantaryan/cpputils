@@ -56,7 +56,7 @@ protected:
 template <typename TypeKey>
 struct SKeyExtBaseBase : public CKeyBase
 {
-protected:
+public:
     const TypeKey      rawKey;
 public:
     SKeyExtBaseBase(const TypeKey& a_rawKey, int32_t a_dataIndex);
@@ -148,6 +148,8 @@ public:
     virtual ~Item() override = default;
     template<typename... Targs>
     Item(Targs... a_args);
+    template <typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    const TypeKey& key() const noexcept;
 protected:
     Item() = default;
     Item(const Item&) = delete;
@@ -177,7 +179,6 @@ public:
     template <typename TypeData>
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    //inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     inline const Item<TypeData>* findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline const Item<TypeData>* find(const TypeKey& a_key)const noexcept;
@@ -195,8 +196,7 @@ public:
     inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
-    // do not use below function to manipulate hash directly
-    CinternalHashConst_t getConstHash()const;
+    CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
 protected:
     bh::Hash_p* const   m_clhash_data_p;

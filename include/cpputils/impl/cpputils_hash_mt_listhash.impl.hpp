@@ -18,51 +18,36 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-
-template <typename TypeData>
-void ListHash::MoveToStartNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept
-{
-    m_nsHash.template MoveToStart<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
-void ListHash::MoveToEndNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept
-{
-    m_nsHash.template MoveToEnd<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
-void ListHash::iterateBegToEnd(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept
+template <typename TypeData, typename TypeKey, typename TypeKeyExt>
+void ListHash::iterateBegToEnd(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc)const
 {
     bool bContinue = true;
-    IteratorRaw<TypeData> item, itemNext;
+    IteratorRaw<Iterator<TypeData> > item, itemNext;
 
     {  //  lock guard starts
         ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
         item = m_nsHash.template first<Iterator<TypeData> >();
         while (bContinue && item) {
-            itemNext = (IteratorRaw<TypeData>)item->next;
-            bContinue = a_iterFunc(item->data);
+            itemNext = (IteratorRaw<Iterator<TypeData> >)item->next;
+            bContinue = a_iterFunc(&(item->data.get()->data), item->data->key<TypeKey, TypeKeyExt>());
             item = itemNext;
         }  //  while (item) {
     }  //  lock guard ends
 }
 
 
-template <typename TypeData>
-void ListHash::iterateEndToBeg(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept
+template <typename TypeData, typename TypeKey, typename TypeKeyExt>
+void ListHash::iterateEndToBeg(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc)const
 {
     bool bContinue = true;
-    IteratorRaw<TypeData> item, itemPrev;
+    IteratorRaw<Iterator<TypeData> > item, itemPrev;
 
     {  //  lock guard starts
         ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
         item = m_nsHash.template last<Iterator<TypeData> >();
         while (bContinue && item) {
-            itemPrev = (IteratorRaw<TypeData>)item->prev;
-            bContinue = a_iterFunc(item->data);
+            itemPrev = (IteratorRaw<Iterator<TypeData> >)item->prev;
+            bContinue = a_iterFunc(&(item->data.get()->data), item->data->key<TypeKey, TypeKeyExt>());
             item = itemPrev;
         }  //  while (item) {
     }  //  lock guard ends
@@ -70,31 +55,17 @@ void ListHash::iterateEndToBeg(const TypeIterFunc<TypeData>& a_iterFunc)const no
 
 
 template <typename TypeData>
-size_t ListHash::count()const noexcept
-{
-    size_t unCount;
-
-    {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        unCount = m_nsHash.template count<Iterator<TypeData> >();
-    }  //  lock guard ends
-
-    return unCount;
-}
-
-
-template <typename TypeData>
 void ListHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
 {
     bool bContinue = true;
-    IteratorRaw<TypeData> item, itemNext;
+    IteratorRaw<Iterator<TypeData> > item, itemNext;
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
         item = m_nsHash.template first<Iterator<TypeData> >();
         while (bContinue && item) {
-            itemNext = (IteratorRaw<TypeData>)item->next;
-            bContinue = a_iterFunc(item);
+            itemNext = (IteratorRaw<Iterator<TypeData> >)item->next;
+            bContinue = a_iterFunc(item->data);
             item = itemNext;
         }  //  while (item) {
     }  //  lock guard ends
@@ -105,53 +76,17 @@ template <typename TypeData>
 void ListHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
 {
     bool bContinue = true;
-    IteratorRaw<TypeData> item, itemPrev;
+    IteratorRaw<Iterator<TypeData> > item, itemPrev;
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
         item = m_nsHash.template last<Iterator<TypeData> >();
         while (bContinue && item) {
-            itemPrev = (IteratorRaw<TypeData>)item->prev;
-            bContinue = a_iterFunc(item);
+            itemPrev = (IteratorRaw<Iterator<TypeData> >)item->prev;
+            bContinue = a_iterFunc(item->data);
             item = itemPrev;
         }  //  while (item) {
     }  //  lock guard ends
-}
-
-
-template <typename TypeData>
-typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
-{
-    const ItemRaw<Iterator<TypeData> >* itemRaw;
-    Iterator<TypeData> retIter;
-
-    {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        itemRaw = m_nsHash.template first<Iterator<TypeData> >();
-        if (itemRaw) {
-            retIter = itemRaw->data;
-        }
-    }  //  lock guard ends
-
-    return retIter;
-}
-
-
-template <typename TypeData>
-typename ListHash::Iterator<TypeData> ListHash::last()const noexcept
-{
-    const ItemRaw<Iterator<TypeData> >* itemRaw;
-    Iterator<TypeData> retIter;
-
-    {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        itemRaw = m_nsHash.template last<Iterator<TypeData> >();
-        if (itemRaw) {
-            retIter = itemRaw->data;
-        }
-    }  //  lock guard ends
-
-    return retIter;
 }
 
 

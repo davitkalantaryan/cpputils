@@ -7,15 +7,15 @@
 //
 
 #pragma once
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_VECTHASH_IMPL_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_VECTHASH_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_VECTHASH_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_VECTHASH_IMPL_HPP
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_VECTHASH_HPP
-#include <cpputils/hash/vecthash.hpp>
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_NL_VECTHASH_HPP
+#include <cpputils/hash/nl/vecthash.hpp>
 #endif
 
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 
 namespace vh{
@@ -52,10 +52,10 @@ private:
     Hash_p(Hash_p&&) = delete;
     Hash_p& operator=(const Hash_p&) = delete;
     Hash_p& operator=(Hash_p&&) = delete;
-    friend class ::cpputils::hash::VectHash;
+    friend class ::cpputils::hash::nl::VectHash;
 };
 
-}  //  namespace lh{
+}  //  namespace vh{
 
 
 template <typename TypeData>
@@ -122,7 +122,7 @@ size_t VectHash::count()const noexcept
 }
 
 
-}}  //  namespace cpputils { namespace collectionhash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{
 
 
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_VECTHASH_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_VECTHASH_IMPL_HPP

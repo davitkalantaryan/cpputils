@@ -9,10 +9,10 @@
 #pragma once
 
 #include <cpputils/export_symbols.h>
-#include <cpputils/hash/base.hpp>
+#include <cpputils/hash/nl/base.hpp>
 
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 
 class Cph {
@@ -30,7 +30,7 @@ public:
 };
 
 
-class CPPUTILS_EXPORT PureHash : public Base<Cph>
+class CPPUTILS_EXPORT PureHash : public hash::nl::BaseNl<Cph>
 {
 public:
     PureHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
@@ -43,4 +43,4 @@ protected:
 };
 
 
-}}  //  namespace cpputils { namespace hash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{

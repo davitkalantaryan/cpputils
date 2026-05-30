@@ -13,7 +13,7 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/mt/base.hpp>
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <functional>
 #include <cinternal/undisable_compiler_warnings.h>
@@ -22,36 +22,20 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-class CPPUTILS_EXPORT ListHash : public mt::Base<hash::ListHash>
+class CPPUTILS_EXPORT ListHash : public hash::mt::BaseMtListAndVect<hash::nl::ListHash>
 {
 public:
-    template <typename TypeData>
-    using TypeIterFunc = ::std::function<bool(const Iterator<TypeData>&)>;  // true -> continue, false stop
-    template <typename TypeData>
-    using TypeIterFuncChng = ::std::function<bool(const IteratorRaw<TypeData>&)>;  // true -> continue, false stop
+    using mt::BaseMtListAndVect<hash::nl::ListHash>::BaseMtListAndVect;
 
-public:
-    using Base<hash::ListHash>::Base;
-
-    template <typename TypeData>
-    void MoveToStartNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
-    template <typename TypeData>
-    void MoveToEndNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept;
-    template <typename TypeData>
-    void iterateBegToEnd(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept;
-    template <typename TypeData>
-    void iterateEndToBeg(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept;
-    template <typename TypeData>
-    size_t count()const noexcept;
-    void AllocateListsInAdvance(int32_t a_numberOfLists);
+    // mt specific
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    void iterateBegToEnd(const TypeIterFunc<TypeData,TypeKey>& a_iterFunc)const;
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    void iterateEndToBeg(const TypeIterFunc<TypeData,TypeKey>& a_iterFunc)const;
     template <typename TypeData>
     void IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc);
     template <typename TypeData>
     void IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc);
-    template <typename TypeData>
-    Iterator<TypeData> first()const noexcept;
-    template <typename TypeData>
-    Iterator<TypeData> last()const noexcept;
 
 protected:
     ListHash(const ListHash&) = delete;

@@ -7,15 +7,15 @@
 //
 
 #pragma once
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_LISTHASH_IMPL_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_LISTHASH_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_LISTHASH_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_LISTHASH_IMPL_HPP
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_LISTHASH_HPP
-#include <cpputils/hash/listhash.hpp>
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_NL_LISTHASH_HPP
+#include <cpputils/hash/nl/listhash.hpp>
 #endif
 
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 
 namespace lh{
@@ -51,7 +51,7 @@ private:
     Hash_p(Hash_p&&) = delete;
     Hash_p& operator=(const Hash_p&) = delete;
     Hash_p& operator=(Hash_p&&) = delete;
-    friend class ::cpputils::hash::ListHash;
+    friend class ::cpputils::hash::nl::ListHash;
 };
 
 }  //  namespace lh{
@@ -110,7 +110,7 @@ size_t ListHash::count()const noexcept
 }
 
 
-}}  //  namespace cpputils { namespace collectionhash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{
 
 
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_PUREHASH_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_LISTHASH_IMPL_HPP

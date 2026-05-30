@@ -7,13 +7,13 @@
 //
 
 
-#include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/nl/purehash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
 #include <stdlib.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 
 namespace ph{
@@ -25,7 +25,7 @@ static bh::Hash_p* CreateCollectionHash_p(size_t a_numberOfBaskets, TypeCinterna
 
 PureHash::PureHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    Base(ph::CreateCollectionHash_p(a_numberOfBaskets,a_allocator,a_deallocator))
+    BaseNl(ph::CreateCollectionHash_p(a_numberOfBaskets,a_allocator,a_deallocator))
 {
 }
 
@@ -50,4 +50,4 @@ static bh::Hash_p* CreateCollectionHash_p(size_t a_numberOfBaskets, TypeCinterna
 }  //  namespace ph{
 
 
-}}  //  namespace cpputils { namespace hash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{
