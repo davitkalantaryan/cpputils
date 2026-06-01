@@ -148,8 +148,6 @@ public:
     virtual ~Item() override = default;
     template<typename... Targs>
     Item(Targs... a_args);
-    template <typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    const TypeKey& key() const noexcept;
 protected:
     Item() = default;
     Item(const Item&) = delete;
@@ -196,6 +194,8 @@ public:
     inline void RemoveEx(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData, typename TypeKey,  typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key) noexcept;
+    template <typename TypeData,typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    inline const TypeKey& key(const Iterator<TypeData>& a_iter, bool* a_isValid_p=nullptr) const noexcept;
     CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
 protected:

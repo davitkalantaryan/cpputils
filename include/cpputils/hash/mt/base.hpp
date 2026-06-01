@@ -69,6 +69,8 @@ public:
     inline void RemoveEx(const Iterator<TypeData>& a_iter);
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key);
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    inline TypeKey key(const Iterator<TypeData>& a_iter, bool* a_isValid_p=nullptr) const;
     CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
     // specific
@@ -97,8 +99,6 @@ public:
         mutable TypeData        data;
         template <typename... Targs>
         Item(Targs&&... a_args) : data(::std::forward<Targs>(a_args)...), iter(nullptr) {}
-        template <typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-        const TypeKey& key() const noexcept;
     private:
         template <typename TypeData>
         using IteratorNL = typename TypeHash::template Iterator<Iterator<TypeData> >;

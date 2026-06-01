@@ -200,6 +200,27 @@ inline bool BaseMt<TypeHash>::Remove(const TypeKey& a_key)
 
 
 template <typename TypeHash>
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+inline TypeKey BaseMt<TypeHash>::key(const Iterator<TypeData>& a_iter, bool* a_isValid_p) const
+{
+    const ItemRaw<Iterator<TypeData> >* itemRaw;
+
+    {  //  lock guard starts
+        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        itemRaw = a_iter->iter;
+        if (itemRaw) {
+            return m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(itemRaw, a_isValid_p);
+        }
+    }  //  lock guard ends
+
+    if (a_isValid_p) {
+        *a_isValid_p = false;
+    }
+    return TypeKey();
+}
+
+
+template <typename TypeHash>
 CinternalHashConstBasic_t BaseMt<TypeHash>::getConstHashBase()const noexcept
 {
     return m_hashBs;
@@ -315,15 +336,6 @@ void BaseMtListAndVect<TypeHash>::MoveToEndNoLockFromIterator(const Iterator<Typ
     if (pItem->iter) {
         hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToEnd<Iterator<TypeData> >(pItem->iter);
     }  //  if (pItem->iter) {
-}
-
-
-template <typename TypeHash>
-template <typename TypeData>
-template <typename TypeKey, typename TypeKeyExt >
-const TypeKey& BaseMt<TypeHash>::Item<TypeData>::key() const noexcept
-{
-    return this->iter->template key<TypeKey, TypeKeyExt>();
 }
 
 

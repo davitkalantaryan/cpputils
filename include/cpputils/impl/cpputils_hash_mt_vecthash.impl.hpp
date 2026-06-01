@@ -30,7 +30,7 @@ void VectHash::iterateBegToEnd(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
         const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
         for (size_t i(0); bContinue && (i < (vectData.m_count)); ++i) {
             item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
-            bContinue = a_iterFunc(&(item->data.get()->data), item->data->key<TypeKey, TypeKeyExt>());
+            bContinue = a_iterFunc(&(item->data.get()->data), m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(item));
         }  //  for (size_t i(0); i < (m_vects_p[a_dataIndex].m_count); ++i) {
     }  //  lock guard ends
 }
@@ -50,7 +50,7 @@ void VectHash::iterateEndToBeg(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
         unCountMin1 = (ptrdiff_t)(vectData.m_count) - 1;
         for (ptrdiff_t i(unCountMin1); bContinue && (i >= 0); --i) { 
             item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
-            bContinue = a_iterFunc(&(item->data.get()->data), item->data->key<TypeKey, TypeKeyExt>());
+            bContinue = a_iterFunc(&(item->data.get()->data), m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(item));
         }  //  for (size_t i(0); i < (m_vects_p[a_dataIndex].m_count); ++i) {
     }  //  lock guard ends
 }

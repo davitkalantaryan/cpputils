@@ -252,6 +252,18 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
 }
 
 
+template <typename TypeIterCont>
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+inline const TypeKey& Base<TypeIterCont>::key(const Iterator<TypeData>& a_iter, bool* a_isValid_p) const noexcept
+{
+    const TypeKeyExt* const pKey = (const TypeKeyExt*)(a_iter->hashIter->key);
+    if (a_isValid_p) {
+        *a_isValid_p = true;
+    }
+    return pKey->rawKey;
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 namespace bh {
@@ -361,15 +373,6 @@ Item<TypeBase,TypeData>::Item(Targs... a_args)
     :
     data(a_args...)
 {
-}
-
-
-template <typename TypeBase, typename TypeData>
-template <typename TypeKey, typename TypeKeyExt >
-const TypeKey& Item<TypeBase, TypeData>::key() const noexcept
-{
-    const TypeKeyExt* const pKey = (const TypeKeyExt*)(this->hashIter->key);
-    return pKey->rawKey;
 }
 
 

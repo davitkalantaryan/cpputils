@@ -76,7 +76,8 @@ static void TestHash()
     ::std::cout << "iter_01b: " << iter << ::std::endl;
 
     if (iter) {
-        const int cnkey = iter->key<int>();
+        bool isValid;
+        const int cnkey = aMap.key<int,int>(iter,&isValid);
         ::std::cout << "cnkey: " << cnkey << ::std::endl;
         iter = aMap.template findNextTheSame<int>(iter);
         ::std::cout << "iter_01c: " << iter << ::std::endl;
@@ -176,13 +177,13 @@ static void TestHash()
 
         nIter = 0;
         aMap.template IterateBegToEnd<int>([&nIter](const TypeIterInt& a_iter)->bool {
-            ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_iter->key<int>() << ::std::endl;
+            ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_iter << ::std::endl;
             return true;
         });
         
         nIter = 0;
         aMap.template IterateEndToBeg<int>([&nIter](const TypeIterInt& a_iter)->bool {
-            ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "):" << a_iter->key<int>() << ::std::endl;
+            ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "):" << a_iter << ::std::endl;
             return true;
         });
     }  //  if constexpr ( ::std::is_same_v<TypeHash, ::cpputils::hash::mt::MtListHash>) {

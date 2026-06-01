@@ -28,8 +28,8 @@ void ListHash::iterateBegToEnd(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
         ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
         item = m_nsHash.template first<Iterator<TypeData> >();
         while (bContinue && item) {
-            itemNext = (IteratorRaw<Iterator<TypeData> >)item->next;
-            bContinue = a_iterFunc(&(item->data.get()->data), item->data->key<TypeKey, TypeKeyExt>());
+            itemNext = (IteratorRaw<Iterator<TypeData> >)item->next; 
+            bContinue = a_iterFunc(&(item->data.get()->data), m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(item));
             item = itemNext;
         }  //  while (item) {
     }  //  lock guard ends
@@ -47,7 +47,7 @@ void ListHash::iterateEndToBeg(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
         item = m_nsHash.template last<Iterator<TypeData> >();
         while (bContinue && item) {
             itemPrev = (IteratorRaw<Iterator<TypeData> >)item->prev;
-            bContinue = a_iterFunc(&(item->data.get()->data), item->data->key<TypeKey, TypeKeyExt>());
+            bContinue = a_iterFunc(&(item->data.get()->data), m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(item));
             item = itemPrev;
         }  //  while (item) {
     }  //  lock guard ends
