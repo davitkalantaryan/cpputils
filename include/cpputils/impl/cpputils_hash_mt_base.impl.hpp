@@ -201,7 +201,8 @@ inline bool BaseMt<TypeHash>::Remove(const TypeKey& a_key)
 
 template <typename TypeHash>
 template <typename TypeData, typename TypeKey, typename TypeKeyExt >
-inline TypeKey BaseMt<TypeHash>::key(const Iterator<TypeData>& a_iter, bool* a_isValid_p) const
+inline typename BaseMt<TypeHash>::template TypeKeyFncRet<TypeKey> 
+BaseMt<TypeHash>::key(const Iterator<TypeData>& a_iter, bool* a_isValid_p) const
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;
 

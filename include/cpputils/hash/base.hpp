@@ -168,6 +168,9 @@ public:
     using Item = typename TypeIterCont::template Item<TypeData>;
     template <typename TypeData>
     using Iterator = const Item<TypeData>*;
+    template <typename TypeKey>
+    using TypeKeyFncRet = const TypeKey&;
+    static constexpr bool is_some_funcs_noexcept = true;
 
 public:
     ~Base() noexcept;

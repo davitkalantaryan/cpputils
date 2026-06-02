@@ -22,16 +22,18 @@ template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeKe
 class Base
 {
 public:
-    using Iterator = typename TypeHash::template Iterator<TypeData>;
     using TypeRawHash = TypeHash;
+    using Iterator = typename TypeHash::template Iterator<TypeData>;
+    using TypeKeyFncRet = typename TypeHash::template TypeKeyFncRet<TypeKey>;
+    static constexpr bool is_some_funcs_noexcept = TypeHash::is_some_funcs_noexcept;
 
 public:
     Base(TypeHash* CPPUTILS_ARG_NN a_hash_p);
 
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
-    inline Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const;
-    inline Iterator find(const TypeKey& a_key)const;
-    inline Iterator findNextTheSame(const Iterator& a_prev) const;
+    inline Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept(is_some_funcs_noexcept);
+    inline Iterator find(const TypeKey& a_key)const noexcept(is_some_funcs_noexcept);
+    inline Iterator findNextTheSame(const Iterator& a_prev) const noexcept(is_some_funcs_noexcept);
     template <typename... Targs>
     inline Iterator AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
     template <typename... Targs>
@@ -40,8 +42,9 @@ public:
     inline Iterator AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename... Targs>
     inline Iterator AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args);
-    inline void RemoveEx(const Iterator& a_iter);
-    inline bool Remove(const TypeKey& a_key);
+    inline void RemoveEx(const Iterator& a_iter) noexcept(is_some_funcs_noexcept);
+    inline bool Remove(const TypeKey& a_key) noexcept(is_some_funcs_noexcept);
+    inline TypeKeyFncRet key(const Iterator& a_iter, bool* a_isValid_p = nullptr) const noexcept(is_some_funcs_noexcept);
     CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
 protected:

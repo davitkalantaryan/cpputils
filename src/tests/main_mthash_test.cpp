@@ -9,10 +9,52 @@
 
 //#define CPPUTILS_TEST_TEMPLATE_HASH
 
+
+
+//
+
+class A {
+    public:
+        typedef const int& TypeSomeFuncRet;
+        static constexpr bool is_some_funcs_noexcept = true;
+        int val;
+        const int& some_func() noexcept
+        {
+            return val;
+        }
+};
+
+
+class B {
+public:
+    typedef int TypeSomeFuncRet;
+    static constexpr bool is_some_funcs_noexcept = false;
+    int some_func()
+    {
+        return 1;
+    }
+};
+
+template <typename TypeCls>
+class TC {
+    TypeCls m_memb;
+public:
+    using TypeSomeFuncRet = typename TypeCls::TypeSomeFuncRet;
+    static constexpr bool is_some_funcs_noexcept = TypeCls::is_some_funcs_noexcept;
+    TypeSomeFuncRet some_func() noexcept(is_some_funcs_noexcept) {
+        return m_memb.some_func();
+    }
+};
+
+//
+
 #include <cpputils/hash/mt/listhash.hpp>
 #include <cpputils/hash/mt/purehash.hpp>
 #include <cpputils/hash/mt/vecthash.hpp>
 #include <cpputils/hash/mt/base.hpp>
+
+#include <cpputils/hash/templ/base.hpp>
+
 #ifdef CPPUTILS_TEST_TEMPLATE_HASH
 #include <cpputils/hash/templ/purehash.hpp>
 #include <cpputils/hash/templ/listhash.hpp>
@@ -40,6 +82,11 @@ int main(void)
     TestHash<::cpputils::hash::mt::ListHash>();
     TestHash<::cpputils::hash::mt::PureHash>();
     TestHash<::cpputils::hash::mt::VectHash>();
+
+    TC<A> a;
+    TC<B> b;
+    a.some_func();
+    b.some_func();
 
 #ifdef CPPUTILS_TEST_TEMPLATE_HASH
     TestTemplHash<::cpputils::hash::templ::MtPureHash<int, CPPUTILS_HASH_CHI(int)> >();

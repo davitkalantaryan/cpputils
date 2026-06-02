@@ -45,6 +45,9 @@ public:
     struct Item;
     template <typename TypeData>
     using Iterator = SharedPtr<const Item<TypeData> >;
+    template <typename TypeKey>
+    using TypeKeyFncRet = TypeKey;
+    static constexpr bool is_some_funcs_noexcept = false;
 
 public:
     BaseMt(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
@@ -70,7 +73,7 @@ public:
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
     inline bool Remove(const TypeKey& a_key);
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline TypeKey key(const Iterator<TypeData>& a_iter, bool* a_isValid_p=nullptr) const;
+    inline TypeKeyFncRet<TypeKey> key(const Iterator<TypeData>& a_iter, bool* a_isValid_p=nullptr) const;
     CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
     // specific
