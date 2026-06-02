@@ -124,7 +124,7 @@ static void TestHash()
 
     if (iter) {
         bool isValid;
-        const int cnkey = aMap.key<int,int>(iter,&isValid);
+        const int cnkey = aMap.template key<int,int>(iter,&isValid);
         ::std::cout << "cnkey: " << cnkey << ::std::endl;
         iter = aMap.template findNextTheSame<int>(iter);
         ::std::cout << "iter_01c: " << iter << ::std::endl;

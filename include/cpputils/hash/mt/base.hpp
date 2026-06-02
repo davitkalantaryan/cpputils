@@ -103,9 +103,8 @@ public:
         template <typename... Targs>
         Item(Targs&&... a_args) : data(::std::forward<Targs>(a_args)...), iter(nullptr) {}
     private:
-        template <typename TypeData>
         using IteratorNL = typename TypeHash::template Iterator<Iterator<TypeData> >;
-        IteratorNL<TypeData>    iter;
+        IteratorNL    iter;
         Item(const Item&) = delete;
         Item(Item&&) = delete;
         Item& operator=(const Item&) = delete;

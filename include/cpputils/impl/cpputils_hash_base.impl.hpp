@@ -245,7 +245,7 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
     size_t unHash;
     const Item<TypeData>* const pItemToDelete = findEx<TypeData, TypeKey, TypeKeyExt>(a_key,&unHash);
     if (pItemToDelete) {
-        RemoveExNoLockFromIterator<TypeData>(pItemToDelete);
+        RemoveEx<TypeData>(pItemToDelete);
         return true;
     }
     return false;

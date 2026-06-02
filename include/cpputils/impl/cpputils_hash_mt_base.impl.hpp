@@ -232,7 +232,7 @@ template <typename TypeHash>
 template <typename TypeData >
 inline void BaseMt<TypeHash>::RemoveExNoLockFromIterator(const Iterator<TypeData>& a_iter)
 {
-    Item* const pItem = const_cast<Item*>(a_iter.get());
+    Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
     if (pItem->iter) {
         m_nsHash.template RemoveEx<Iterator<TypeData> >(pItem->iter);
         pItem->iter = nullptr;
@@ -322,7 +322,7 @@ template <typename TypeHash>
 template <typename TypeData>
 void BaseMtListAndVect<TypeHash>::MoveToStartNoLockFromIterator(const Iterator<TypeData>& a_iter) noexcept
 {
-    Item* const pItem = const_cast<Item*>(a_iter.get());
+    Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
     if (pItem->iter) {
         hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToStart<Iterator<TypeData> >(pItem->iter);
     }  //  if (pItem->iter) {
@@ -333,7 +333,7 @@ template <typename TypeHash>
 template <typename TypeData>
 void BaseMtListAndVect<TypeHash>::MoveToEndNoLockFromIterator(const Iterator<TypeData>& a_iter) noexcept
 {
-    Item* const pItem = const_cast<Item*>(a_iter.get());
+    Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
     if (pItem->iter) {
         hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToEnd<Iterator<TypeData> >(pItem->iter);
     }  //  if (pItem->iter) {
