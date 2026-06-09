@@ -10,19 +10,18 @@
 
 
 #include <cpputils/export_symbols.h>
-#include <cpputils/hash/templ/base.hpp>
-#include <cpputils/hash/purehash.hpp>
-#include <cpputils/hash/mt/purehash.hpp>
+#include <cpputils/hash/templ/nl/base.hpp>
+#include <cpputils/hash/nl/purehash.hpp>
 
 
-namespace cpputils { namespace hash{ namespace templ{
+namespace cpputils { namespace hash{ namespace templ{ namespace nl{
 
+
+template <typename TypeNlHash, typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+using PureHashBase = hash::templ::nl::BaseTemplNl<TypeNlHash, TypeData, TypeKey, TypeKeyExt>;
 
 template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-using MtPureHash = templ::MtBase<hash::mt::PureHash,TypeData, TypeKey, TypeKeyExt>;
-
-template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-using PureHash = Base<hash::PureHash, TypeData, TypeKey, TypeKeyExt>;
+using PureHash = hash::templ::nl::PureHashBase<hash::nl::PureHash, TypeData, TypeKey, TypeKeyExt>;
 
 
-}}}  //  namespace cpputils { namespace hash{ namespace templ{
+}}}}  //  namespace cpputils { namespace hash{ namespace templ{ namespace nl{

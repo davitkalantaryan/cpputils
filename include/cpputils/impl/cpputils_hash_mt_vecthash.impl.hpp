@@ -95,7 +95,7 @@ void VectHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
 
 
 template <typename TypeData>
-typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
+typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;
     Iterator<TypeData> retIter;

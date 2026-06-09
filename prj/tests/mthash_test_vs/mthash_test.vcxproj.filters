@@ -92,9 +92,6 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_base.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp">
-      <Filter>Header Files\include\cpputils\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\hash\mt\base.hpp">
       <Filter>Header Files\include\cpputils\hash\mt</Filter>
     </ClInclude>
@@ -105,9 +102,6 @@
       <Filter>Header Files\include\cpputils\hash\mt</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_vecthash.impl.hpp">
-      <Filter>Header Files\include\cpputils\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_vecthash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp">
@@ -163,6 +157,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\nl\vecthash.hpp">
       <Filter>Header Files\include\cpputils\hash\templ\nl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_mt_base.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_deadlockfreemutexes.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_orderedcalls.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_nl_base.impl.hpp">
+      <Filter>Header Files\include\cpputils\impl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

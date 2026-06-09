@@ -39,7 +39,7 @@ public:
     
     // vector specific
     template <typename TypeData>
-    Iterator<TypeData> at(size_t a_index)const noexcept;
+    Iterator<TypeData> at(size_t a_index)const;
 
 protected:
     VectHash(const VectHash&) = delete;

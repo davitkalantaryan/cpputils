@@ -19,16 +19,19 @@ namespace cpputils { namespace hash{ namespace templ{
 
 
 template <typename TypeHash,typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-class Base
+class BaseTempl
 {
 public:
     using TypeRawHash = TypeHash;
+    using TypeDataT = TypeData;
+    using TypeKeyT = TypeKey;
+    using TypeKeyExtT = TypeKeyExt;
     using Iterator = typename TypeHash::template Iterator<TypeData>;
     using TypeKeyFncRet = typename TypeHash::template TypeKeyFncRet<TypeKey>;
     static constexpr bool is_some_funcs_noexcept = TypeHash::is_some_funcs_noexcept;
 
 public:
-    Base(TypeHash* CPPUTILS_ARG_NN a_hash_p);
+    BaseTempl(TypeHash* CPPUTILS_ARG_NN a_hash_p);
 
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
     inline Iterator findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept(is_some_funcs_noexcept);
@@ -51,31 +54,45 @@ protected:
     TypeHash* const m_hash_p;
 
 protected:
-    Base(const Base&) = delete;
-    Base(Base&&) = delete;
-    Base& operator=(const Base&) = delete;
-    Base& operator=(Base&&) = delete;
+    BaseTempl(const BaseTempl&) = delete;
+    BaseTempl(BaseTempl&&) = delete;
+    BaseTempl& operator=(const BaseTempl&) = delete;
+    BaseTempl& operator=(BaseTempl&&) = delete;
 };
 
 
-template <typename TypeMtHash,typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-class MtBase : public templ::Base<TypeMtHash, TypeData, TypeKey, TypeKeyExt>
+template <typename TypeBaseCls >
+class BaseTemplListAndVect : public TypeBaseCls
 {
 public:
-    using FncRawHashCaller = typename TypeMtHash::FncRawHashCaller;
-    using FncRawConstHashCaller = typename TypeMtHash::FncRawConstHashCaller;
+    using Iterator = typename TypeBaseCls::Iterator;
+    using TypeDataT = typename TypeBaseCls::TypeDataT;
+    static constexpr bool is_some_funcs_noexcept = TypeBaseCls::is_some_funcs_noexcept;
 
 public:
-    using Base<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::Base;
+    using TypeBaseCls::TypeBaseCls;
 
-    void CallRawHashFunc(const FncRawHashCaller& a_rawHash);
-    void callConstRawHashFunc(const FncRawConstHashCaller& a_rawHash)const;
+    Iterator first()const noexcept(is_some_funcs_noexcept);
+    Iterator last()const noexcept(is_some_funcs_noexcept);
+    size_t count()const noexcept;
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
+    void MoveToStart(const Iterator& a_iter) noexcept(is_some_funcs_noexcept);
+    void MoveToEnd(const Iterator& a_iter) noexcept(is_some_funcs_noexcept);
+};
 
-protected:
-    MtBase(const MtBase&) = delete;
-    MtBase(MtBase&&) = delete;
-    MtBase& operator=(const MtBase&) = delete;
-    MtBase& operator=(MtBase&&) = delete;
+
+template <typename TypeBaseCls >
+class BaseTemplVect : public hash::templ::BaseTemplListAndVect<TypeBaseCls>
+{
+public:
+    using Iterator = typename hash::templ::BaseTemplListAndVect<TypeBaseCls>::Iterator;
+    using TypeDataT = typename hash::templ::BaseTemplListAndVect<TypeBaseCls>::TypeDataT;
+    static constexpr bool is_some_funcs_noexcept = hash::templ::BaseTemplListAndVect<TypeBaseCls>::is_some_funcs_noexcept;
+
+public:
+    using hash::templ::BaseTemplListAndVect<TypeBaseCls>::BaseTemplListAndVect;
+
+    Iterator at(size_t a_index)const noexcept(is_some_funcs_noexcept);
 };
 
 

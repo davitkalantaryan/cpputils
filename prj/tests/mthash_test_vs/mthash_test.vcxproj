@@ -296,6 +296,7 @@
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\nl\listhash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\nl\purehash.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\hash\templ\nl\vecthash.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_deadlockfreemutexes.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_base.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_mt_listhash.impl.hpp" />
@@ -304,8 +305,10 @@
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_nl_listhash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_nl_vecthash.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_base.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_listhash.impl.hpp" />
-    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_vecthash.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_mt_base.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_nl_base.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_named_types.impl.hpp" />
+    <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_orderedcalls.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\sharedptr.impl.hpp" />
     <ClInclude Include="..\..\..\include\cpputils\type_traits.hpp" />

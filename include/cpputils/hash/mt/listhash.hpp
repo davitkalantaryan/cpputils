@@ -22,7 +22,7 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-class CPPUTILS_EXPORT ListHash : public hash::mt::BaseMtListAndVect<hash::nl::ListHash>
+class ListHash : public hash::mt::BaseMtListAndVect<hash::nl::ListHash>
 {
 public:
     using mt::BaseMtListAndVect<hash::nl::ListHash>::BaseMtListAndVect;
