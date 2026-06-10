@@ -26,6 +26,7 @@ public:
     using TypeDataT = TypeData;
     using TypeKeyT = TypeKey;
     using TypeKeyExtT = TypeKeyExt;
+    using Item = typename TypeHash::template Item<TypeData>;
     using Iterator = typename TypeHash::template Iterator<TypeData>;
     using TypeKeyFncRet = typename TypeHash::template TypeKeyFncRet<TypeKey>;
     static constexpr bool is_some_funcs_noexcept = TypeHash::is_some_funcs_noexcept;
