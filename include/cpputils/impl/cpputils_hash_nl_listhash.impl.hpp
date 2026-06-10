@@ -58,26 +58,6 @@ private:
 
 
 template <typename TypeData>
-void ListHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
-    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-}
-
-
-template <typename TypeData>
-void ListHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
-    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-    ((lh::Hash_p*)m_clhash_data_p)->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
-}
-
-
-template <typename TypeData>
 typename ListHash::Iterator<TypeData> ListHash::first()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
@@ -107,6 +87,26 @@ size_t ListHash::count()const noexcept
         return ((lh::Hash_p*)m_clhash_data_p)->m_lists_p[dataIndex].m_count;
     }
     return 0;
+}
+
+
+template <typename TypeData>
+void ListHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
+{
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+}
+
+
+template <typename TypeData>
+void ListHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
+{
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    ((lh::Hash_p*)m_clhash_data_p)->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
 }
 
 

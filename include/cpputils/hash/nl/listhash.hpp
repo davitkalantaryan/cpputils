@@ -22,10 +22,10 @@ namespace lh{
 class CPPUTILS_EXPORT Hash_p;
 }
 
-class Clh {
+class CPPUTILS_EXPORT Clh {
 public:
 
-    struct ItemBase : public bh::ItemBase {
+    struct CPPUTILS_EXPORT ItemBase : public bh::ItemBase {
         const struct ItemBase* prev, * next;
     protected:
         virtual ~ItemBase() override = default;
@@ -57,13 +57,13 @@ public:
     ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
     // list& vector specific
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
     template <typename TypeData>
     Iterator<TypeData> first()const noexcept;
     template <typename TypeData>
     Iterator<TypeData> last()const noexcept;
     template <typename TypeData>
     size_t count()const noexcept;
-    void AllocateListsInAdvance(int32_t a_numberOfLists);
     template <typename TypeData>
     void MoveToStart(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData>

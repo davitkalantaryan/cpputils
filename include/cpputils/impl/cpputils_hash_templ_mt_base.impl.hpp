@@ -25,6 +25,13 @@ void BaseTemplMt<TypeMtHash,TypeData,TypeKey,TypeKeyExt>::RemoveExNoLockFromIter
 }
 
 
+template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
+void BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash) const
+{
+    hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->callConstRawHashFunc(a_rawHash);
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >

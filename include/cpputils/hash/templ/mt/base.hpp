@@ -45,7 +45,6 @@ class BaseTemplMtListAndVect : public hash::templ::BaseTemplListAndVect<hash::te
 {
 public:
     using Iterator = typename BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::Iterator;
-    // using Iterator = typename TypeHash::template Iterator<TypeData>;
     using TypeIterFunc = typename TypeMtHash::template TypeIterFunc<TypeData, TypeKey>;
     using TypeIterFuncChng = typename TypeMtHash::template TypeIterFuncChng<TypeData>;
 

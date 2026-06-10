@@ -19,7 +19,7 @@ namespace cpputils { namespace hash{ namespace nl{
 
 
 template <typename TypeIterCont>
-class CPPUTILS_EXPORT BaseNl : public hash::Base<TypeIterCont>
+class BaseNl : public hash::Base<TypeIterCont>
 {
 public:
     using hash::Base<TypeIterCont>::Base;

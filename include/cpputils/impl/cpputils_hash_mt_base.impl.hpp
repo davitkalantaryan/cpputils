@@ -158,7 +158,7 @@ BaseMt<TypeHash>::AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args)
 
     {  //  lock guard starts
         ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        pNewItem->iter = m_nsHash.template AddIfNotExist<Iterator<TypeData>, TypeKey, TypeKeyExt, const Iterator<TypeData>& >(a_key, newData);
+        pNewItem->iter = m_nsHash.template AddOrReturnExisting<Iterator<TypeData>, TypeKey, TypeKeyExt, const Iterator<TypeData>& >(a_key, newData);
         if (pNewItem->iter) {
             return newData;
         }

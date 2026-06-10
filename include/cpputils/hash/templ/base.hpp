@@ -72,10 +72,10 @@ public:
 public:
     using TypeBaseCls::TypeBaseCls;
 
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
     Iterator first()const noexcept(is_some_funcs_noexcept);
     Iterator last()const noexcept(is_some_funcs_noexcept);
     size_t count()const noexcept;
-    void AllocateListsInAdvance(int32_t a_numberOfLists);
     void MoveToStart(const Iterator& a_iter) noexcept(is_some_funcs_noexcept);
     void MoveToEnd(const Iterator& a_iter) noexcept(is_some_funcs_noexcept);
 };

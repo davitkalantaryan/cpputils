@@ -70,13 +70,6 @@ Base<TypeIterCont>::Base(bh::Hash_p* CPPUTILS_ARG_NN a_clhash_data_p)
 
 
 template <typename TypeIterCont>
-CinternalHashConstBasic_t Base<TypeIterCont>::getConstHashBase()const noexcept
-{
-    return m_clhash_data_p->m_hashBs;
-}
-
-
-template <typename TypeIterCont>
 template <typename TypeData>
 inline int32_t Base<TypeIterCont>::reserveUniqueIdForDataInline(void) const noexcept {
     static int32_t dataIndex = bh::Hash_p::getNextDataIndex();
@@ -261,6 +254,13 @@ inline const TypeKey& Base<TypeIterCont>::key(const Iterator<TypeData>& a_iter, 
         *a_isValid_p = true;
     }
     return pKey->rawKey;
+}
+
+
+template <typename TypeIterCont>
+CinternalHashConstBasic_t Base<TypeIterCont>::getConstHashBase()const noexcept
+{
+    return m_clhash_data_p->m_hashBs;
 }
 
 

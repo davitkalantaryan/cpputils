@@ -161,7 +161,7 @@ protected:
 
 
 template <typename TypeIterCont>
-class CPPUTILS_EXPORT Base
+class Base
 {
 public:
     template <typename TypeData>

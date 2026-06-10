@@ -94,16 +94,16 @@ BaseTempl<TypeHash,TypeData,TypeKey,TypeKeyExt>::AddOrReturnExisting(const TypeK
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
-bool BaseTempl<TypeHash,TypeData,TypeKey,TypeKeyExt>::Remove(const TypeKey& a_key) noexcept(is_some_funcs_noexcept)
+inline void BaseTempl<TypeHash,TypeData,TypeKey,TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept(is_some_funcs_noexcept)
 {
-    return m_hash_p->template Remove<TypeData,TypeKey,TypeKeyExt>(a_key);
+    this->m_hash_p->template RemoveEx<TypeData>(a_iter);
 }
 
 
 template <typename TypeHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
-inline void BaseTempl<TypeHash,TypeData,TypeKey,TypeKeyExt>::RemoveEx(const Iterator& a_iter) noexcept(is_some_funcs_noexcept)
+bool BaseTempl<TypeHash, TypeData, TypeKey, TypeKeyExt>::Remove(const TypeKey& a_key) noexcept(is_some_funcs_noexcept)
 {
-    this->m_hash_p->template RemoveEx<TypeData>(a_iter);
+    return m_hash_p->template Remove<TypeData, TypeKey, TypeKeyExt>(a_key);
 }
 
 
@@ -125,6 +125,13 @@ CinternalHashConstBasic_t BaseTempl<TypeHash,TypeData,TypeKey,TypeKeyExt>::getCo
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeBaseCls >
+void BaseTemplListAndVect<TypeBaseCls>::AllocateListsInAdvance(int32_t a_numberOfLists)
+{
+    TypeBaseCls::m_hash_p->AllocateListsInAdvance(a_numberOfLists);
+}
+
+
+template <typename TypeBaseCls >
 typename BaseTemplListAndVect<TypeBaseCls>::Iterator BaseTemplListAndVect<TypeBaseCls>::first()const noexcept(is_some_funcs_noexcept)
 {
     return TypeBaseCls::m_hash_p->template first<TypeDataT>();
@@ -142,13 +149,6 @@ template <typename TypeBaseCls >
 size_t BaseTemplListAndVect<TypeBaseCls>::count()const noexcept
 {
     return TypeBaseCls::m_hash_p->template count<TypeDataT>();
-}
-
-
-template <typename TypeBaseCls >
-void BaseTemplListAndVect<TypeBaseCls>::AllocateListsInAdvance(int32_t a_numberOfLists)
-{
-    TypeBaseCls::m_hash_p->AllocateListsInAdvance(a_numberOfLists);
 }
 
 

@@ -45,13 +45,13 @@ public:
     VectHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
     // list& vector specific
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
     template <typename TypeData>
     Iterator<TypeData> first()const noexcept;
     template <typename TypeData>
     Iterator<TypeData> last()const noexcept;
     template <typename TypeData>
     size_t count()const noexcept;
-    void AllocateListsInAdvance(int32_t a_numberOfLists);
     template <typename TypeData>
     void MoveToStart(const Iterator<TypeData>& a_iter) noexcept;
     template <typename TypeData>

@@ -60,26 +60,6 @@ private:
 
 
 template <typename TypeData>
-void VectHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
-    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-}
-
-
-template <typename TypeData>
-void VectHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
-    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-    ((vh::Hash_p*)m_clhash_data_p)->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
-}
-
-
-template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::first()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
@@ -102,6 +82,37 @@ typename VectHash::Iterator<TypeData> VectHash::last()const noexcept
 
 
 template <typename TypeData>
+size_t VectHash::count()const noexcept
+{
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    if (dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
+        return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count;
+    }
+    return 0;
+}
+
+
+template <typename TypeData>
+void VectHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
+{
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+}
+
+
+template <typename TypeData>
+void VectHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
+{
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    ((vh::Hash_p*)m_clhash_data_p)->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
+}
+
+
+template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
@@ -117,17 +128,6 @@ const vh::SVectData& VectHash::getVectDataForTypeData()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
     return getVectDataForTypeDataRaw(dataIndex);
-}
-
-
-template <typename TypeData>
-size_t VectHash::count()const noexcept
-{
-    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    if (dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
-        return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count;
-    }
-    return 0;
 }
 
 

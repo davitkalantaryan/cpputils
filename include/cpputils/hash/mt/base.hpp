@@ -26,10 +26,10 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 template <typename TypeHash>
-class CPPUTILS_EXPORT BaseMtListAndVect;
+class BaseMtListAndVect;
 
 template <typename TypeHash>
-class CPPUTILS_EXPORT BaseMt
+class BaseMt
 {
 public:
 #ifdef CPPUTILS_USE_CPPUTILS_SHARED_PTR
@@ -77,9 +77,9 @@ public:
     CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
     // specific
+    void callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const;
     template <typename TypeData >
     inline void RemoveExNoLockFromIterator(const Iterator<TypeData>& a_iter);
-    void callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const;
 
 protected:
     template <typename TypeData>
@@ -116,7 +116,7 @@ public:
 
 
 template <typename TypeHash>
-class CPPUTILS_EXPORT BaseMtListAndVect : public hash::mt::BaseMt<TypeHash>
+class BaseMtListAndVect : public hash::mt::BaseMt<TypeHash>
 {
 public:
     template <typename TypeData>
@@ -131,13 +131,13 @@ public:
 public:
     using BaseMt<TypeHash>::BaseMt;
 
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
     template <typename TypeData>
     Iterator<TypeData> first()const;
     template <typename TypeData>
     Iterator<TypeData> last()const;
     template <typename TypeData>
     size_t count()const noexcept;
-    void AllocateListsInAdvance(int32_t a_numberOfLists);
     template <typename TypeData>
     void MoveToStart(const Iterator<TypeData>& a_iter);
     template <typename TypeData>
