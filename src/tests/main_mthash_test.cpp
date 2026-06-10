@@ -201,7 +201,7 @@ static void TestHash()
 
     if constexpr (::std::is_same<TypeHash, ::cpputils::hash::nl::VectHash>::value) {
         const size_t countOfTheType = aMap.template count<int>();
-        const ::cpputils::hash::nl::vh::SVectData& vectData = aMap.getVectDataForTypeDataRaw(aMap.reserveUniqueIdForDataInline<int>());
+        const ::cpputils::hash::nl::vh::SVectData& vectData = aMap.getVectDataForTypeDataRaw(aMap.template reserveUniqueIdForDataInline<int>());
         ::std::cout << "countOfTheTypeVect: " << countOfTheType << ::std::endl;
         size_t i;
         for (i = 0; i < countOfTheType; ++i) {
