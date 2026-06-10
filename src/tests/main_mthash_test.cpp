@@ -125,16 +125,16 @@ static void TestHash()
     iter = aMap.template find<int, int>(1);
     ::std::cout << "iter_01b: " << iter << ::std::endl;
 
+    iter = aMap.template AddWithKnownHash<int, int>(unHash, 1, 1);
+    ::std::cout << "iter_02: " << iter << ::std::endl;
+
     if (iter) {
         bool isValid;
-        const int cnkey = aMap.template key<int,int>(iter,&isValid);
+        const int cnkey = aMap.template key<int, int>(iter, &isValid);
         ::std::cout << "cnkey: " << cnkey << ::std::endl;
         iter = aMap.template findNextTheSame<int>(iter);
         ::std::cout << "iter_01c: " << iter << ::std::endl;
     }
-
-    iter = aMap.template AddWithKnownHash<int, int>(unHash, 1, 1);
-    ::std::cout << "iter_02: " << iter << ::std::endl;
 
     iter = aMap.template AddEvenIfExist<int, int>(1, 1);
     ::std::cout << "iter_02b: " << iter << ::std::endl;
@@ -201,13 +201,12 @@ static void TestHash()
 
     if constexpr (::std::is_same<TypeHash, ::cpputils::hash::nl::VectHash>::value) {
         const size_t countOfTheType = aMap.template count<int>();
-        // aMap.reserveUniqueIdForDataInline<int>()
-        const ::cpputils::hash::nl::vh::SVectData& vectData = aMap.getVectDataForTypeDataRaw(0);
+        const ::cpputils::hash::nl::vh::SVectData& vectData = aMap.getVectDataForTypeDataRaw(aMap.reserveUniqueIdForDataInline<int>());
         ::std::cout << "countOfTheTypeVect: " << countOfTheType << ::std::endl;
         size_t i;
         for (i = 0; i < countOfTheType; ++i) {
             iter = aMap.template at<int>(i);
-            ::std::cout << "iter_vect: " << "  iter:" << iter << "vectData.m_items_p[" << i << "]:"<<vectData.m_items_p[i] << ::std::endl;
+            ::std::cout << "iter_vect: " << "  iter:" << iter << ", vectData.m_items_p[" << i << "]:"<<vectData.m_items_p[i] << ::std::endl;
         }  //  for (i = 0; i < countOfTheType; ++i) {
 
     }  //  if constexpr ( ::std::is_same<TypeHash, ::cpputils::hash::VectHash>::value ){
@@ -279,16 +278,16 @@ static void TestTemplHash(void)
     iter = aMapTemp.find(1);
     ::std::cout << "iter_01b: " << iter << ::std::endl;
 
+    iter = aMapTemp.AddWithKnownHash(unHash, 1, 1);
+    ::std::cout << "iter_02: " << iter << ::std::endl;
+
     if (iter) {
         bool isValid;
-        const int cnkey = aMapTemp.key(iter,&isValid);
+        const int cnkey = aMapTemp.key(iter, &isValid);
         ::std::cout << "cnkey: " << cnkey << ::std::endl;
         iter = aMapTemp.findNextTheSame(iter);
         ::std::cout << "iter_01c: " << iter << ::std::endl;
     }
-
-    iter = aMapTemp.AddWithKnownHash(unHash, 1, 1);
-    ::std::cout << "iter_02: " << iter << ::std::endl;
 
     iter = aMapTemp.AddEvenIfExist(1, 1);
     ::std::cout << "iter_02b: " << iter << ::std::endl;
@@ -360,7 +359,7 @@ static void TestTemplHash(void)
         size_t i;
         for (i = 0; i < countOfTheType; ++i) {
             iter = aMapTemp.at(i);
-            ::std::cout << "iter_vect: " << "  iter:" << iter << "vectData.m_items_p[" << i << "]:" << vectData.m_items_p[i] << ::std::endl;
+            ::std::cout << "iter_vect: " << "  iter:" << iter << ", vectData.m_items_p[" << i << "]:" << vectData.m_items_p[i] << ::std::endl;
         }  //  for (i = 0; i < countOfTheType; ++i) {
     }  //  if constexpr ( ::std::is_same<TypeHash, ::cpputils::hash::VectHash>::value ){
     
