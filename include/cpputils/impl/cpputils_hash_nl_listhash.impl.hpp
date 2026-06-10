@@ -22,9 +22,9 @@ namespace lh{
 
 
 struct SListData {
-    Clh::ItemBase*  m_first;
-    Clh::ItemBase*  m_last;
-    size_t          m_count;
+    const Clh::ItemBase*    m_first;
+    const Clh::ItemBase*    m_last;
+    size_t                  m_count;
 };
 
 

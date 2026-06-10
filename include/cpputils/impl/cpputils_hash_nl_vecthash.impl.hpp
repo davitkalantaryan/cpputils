@@ -20,11 +20,12 @@ namespace cpputils { namespace hash{ namespace nl{
 
 namespace vh{
 
+typedef const bh::ItemBase* ConstItemBasePtr;
 
 struct SVectData {
-    bh::ItemBase**  m_items_p;
-    size_t          m_count;
-    size_t          m_allocated;
+    ConstItemBasePtr*   m_items_p;
+    size_t              m_count;
+    size_t              m_allocated;
 };
 
 
@@ -108,6 +109,14 @@ typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
         return (Iterator<TypeData>)((bh::ItemBase*)((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_items_p[a_index]);
     }
     return CPPUTILS_NULL;
+}
+
+
+template <typename TypeData>
+const vh::SVectData& VectHash::getVectDataForTypeData()const noexcept
+{
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    return getVectDataForTypeDataRaw(dataIndex);
 }
 
 

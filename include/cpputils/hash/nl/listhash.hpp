@@ -26,7 +26,7 @@ class Clh {
 public:
 
     struct ItemBase : public bh::ItemBase {
-        struct ItemBase* prev, * next;
+        const struct ItemBase* prev, * next;
     protected:
         virtual ~ItemBase() override = default;
         ItemBase() = default;

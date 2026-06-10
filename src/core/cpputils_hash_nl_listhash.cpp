@@ -42,7 +42,7 @@ namespace lh {
 
 Hash_p::~Hash_p() noexcept
 {
-    Clh::ItemBase* pItemNext, * pItem;
+    const Clh::ItemBase* pItemNext, * pItem;
 
     for (int32_t i(0); i < m_numberOfAllocatedDataTypes; ++i) {
         pItem = m_lists_p[i].m_first;
@@ -50,7 +50,7 @@ Hash_p::~Hash_p() noexcept
             pItemNext = pItem->next;
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
             pItem->~ItemBase();
-            (*(m_hashBs->deallocator))(pItem);
+            (*(m_hashBs->deallocator))((void*)pItem);
             pItem = pItemNext;
         }  //  while(pItem){
     }  //  for (size_t i(0); i < m_clmp_data_p->m_numberOfTypes; ++i) {
@@ -94,7 +94,7 @@ void Hash_p::AddItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN
 
     Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(m_lists_p[a_dataIndex].m_first){
-        m_lists_p[a_dataIndex].m_first->prev = pItemBool;
+        ((Clh::ItemBase*)m_lists_p[a_dataIndex].m_first)->prev = pItemBool;
     }
     else{
         m_lists_p[a_dataIndex].m_last = pItemBool;
@@ -112,7 +112,7 @@ void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_
 
     Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(m_lists_p[a_dataIndex].m_last){
-        m_lists_p[a_dataIndex].m_last->next = pItemBool;
+        ((Clh::ItemBase*)m_lists_p[a_dataIndex].m_last)->next = pItemBool;
     }
     else{
         m_lists_p[a_dataIndex].m_first = pItemBool;
@@ -128,14 +128,14 @@ void Hash_p::RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG
 {
     Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(pItemBool->prev){
-        pItemBool->prev->next = pItemBool->next;
+        ((Clh::ItemBase*)pItemBool->prev)->next = pItemBool->next;
     }
     else{
         m_lists_p[a_dataIndex].m_first = pItemBool->next;
     }
 
     if(pItemBool->next){
-        pItemBool->next->prev = pItemBool->prev;
+        ((Clh::ItemBase*)pItemBool->next)->prev = pItemBool->prev;
     }
     else{
         m_lists_p[a_dataIndex].m_last = pItemBool->prev;

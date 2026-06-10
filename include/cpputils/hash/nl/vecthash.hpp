@@ -62,7 +62,9 @@ public:
     Iterator<TypeData> at(size_t a_index)const noexcept;
 
     // vector specific no lock specific
-    const vh::SVectData& getVectDataForTypeData(const int32_t a_dataIndex)const noexcept;
+    const vh::SVectData& getVectDataForTypeDataRaw(const int32_t a_dataIndex)const noexcept;
+    template <typename TypeData>
+    const vh::SVectData& getVectDataForTypeData()const noexcept;
 
 protected:
     VectHash(const VectHash&) = delete;

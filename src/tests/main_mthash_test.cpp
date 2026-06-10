@@ -201,12 +201,15 @@ static void TestHash()
 
     if constexpr (::std::is_same<TypeHash, ::cpputils::hash::nl::VectHash>::value) {
         const size_t countOfTheType = aMap.template count<int>();
+        // aMap.reserveUniqueIdForDataInline<int>()
+        const ::cpputils::hash::nl::vh::SVectData& vectData = aMap.getVectDataForTypeDataRaw(0);
         ::std::cout << "countOfTheTypeVect: " << countOfTheType << ::std::endl;
         size_t i;
         for (i = 0; i < countOfTheType; ++i) {
             iter = aMap.template at<int>(i);
-            ::std::cout << "iter_vect: " << i << "  " << iter << ::std::endl;
+            ::std::cout << "iter_vect: " << "  iter:" << iter << "vectData.m_items_p[" << i << "]:"<<vectData.m_items_p[i] << ::std::endl;
         }  //  for (i = 0; i < countOfTheType; ++i) {
+
     }  //  if constexpr ( ::std::is_same<TypeHash, ::cpputils::hash::VectHash>::value ){
     
     if constexpr ( 
@@ -226,9 +229,11 @@ static void TestHash()
         });
 
         nIter = 0;
-        aMap.template IterateBegToEnd<int>([&nIter](const TypeIterInt& a_iter)->bool {
+        aMap.template IterateBegToEnd<int>([&nIter,&aMap](const TypeIterInt& a_iter)->bool {
             ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_iter << ::std::endl;
-            return true;
+            aMap.template MoveToStartNoLockFromIterator<int>(a_iter);
+            aMap.template MoveToEndNoLockFromIterator<int>(a_iter);
+            return false;
         });
         
         nIter = 0;
@@ -350,11 +355,12 @@ static void TestTemplHash(void)
 
     if constexpr (::std::is_same<TypeHash, ::cpputils::hash::nl::VectHash>::value) {
         const size_t countOfTheType = aMapTemp.count();
+        const ::cpputils::hash::nl::vh::SVectData& vectData = aMapTemp.getVectDataForTypeData();
         ::std::cout << "countOfTheTypeVect: " << countOfTheType << ::std::endl;
         size_t i;
         for (i = 0; i < countOfTheType; ++i) {
             iter = aMapTemp.at(i);
-            ::std::cout << "iter_vect: " << i << "  " << iter << ::std::endl;
+            ::std::cout << "iter_vect: " << "  iter:" << iter << "vectData.m_items_p[" << i << "]:" << vectData.m_items_p[i] << ::std::endl;
         }  //  for (i = 0; i < countOfTheType; ++i) {
     }  //  if constexpr ( ::std::is_same<TypeHash, ::cpputils::hash::VectHash>::value ){
     
@@ -375,9 +381,11 @@ static void TestTemplHash(void)
         });
 
         nIter = 0;
-        aMapTemp.IterateBegToEnd([&nIter](const TypeIterInt& a_iter)->bool {
+        aMapTemp.IterateBegToEnd([&nIter,&aMapTemp](const TypeIterInt& a_iter)->bool {
             ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_iter << ::std::endl;
-            return true;
+            aMapTemp.MoveToStartNoLockFromIterator(a_iter);
+            aMapTemp.MoveToEndNoLockFromIterator(a_iter);
+            return false;
         });
         
         nIter = 0;

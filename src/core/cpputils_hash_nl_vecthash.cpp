@@ -36,7 +36,7 @@ void VectHash::AllocateListsInAdvance(int32_t a_numberOfLists)
 }
 
 
-const vh::SVectData& VectHash::getVectDataForTypeData(const int32_t a_dataIndex)const noexcept
+const vh::SVectData& VectHash::getVectDataForTypeDataRaw(const int32_t a_dataIndex)const noexcept
 {
     ((vh::Hash_p*)m_clhash_data_p)->MakeSureHasEnoughLists(a_dataIndex);
     return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[a_dataIndex];
@@ -55,7 +55,7 @@ Hash_p::~Hash_p() noexcept
     for (int32_t i(0); i < m_numberOfAllocatedDataTypes; ++i) {
         unCount = m_vects_p[i].m_count;
         for (j = 0; j < unCount; ++j) {
-            pItem = m_vects_p[i].m_items_p[j];
+            pItem = const_cast<bh::ItemBase*>(m_vects_p[i].m_items_p[j]);
             bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)pItem;
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
             pItemBaseToDelete->~ItemBase();
@@ -101,8 +101,8 @@ inline void Hash_p::MakeSureCanAddItemToVector(int32_t a_dataIndex)
 {
     const size_t unNewCount = m_vects_p[a_dataIndex].m_count + 1;
     if ((m_vects_p[a_dataIndex].m_allocated) < unNewCount) {
-        bh::ItemBase** const items_p = m_vects_p[a_dataIndex].m_items_p;
-        m_vects_p[a_dataIndex].m_items_p = (bh::ItemBase**)(*(m_hashBs->allocator))(unNewCount * sizeof(bh::ItemBase*));
+        ConstItemBasePtr* const items_p = m_vects_p[a_dataIndex].m_items_p;
+        m_vects_p[a_dataIndex].m_items_p = (ConstItemBasePtr*)(*(m_hashBs->allocator))(unNewCount * sizeof(bh::ItemBase*));
         if (!(m_vects_p[a_dataIndex].m_items_p)) {
             m_vects_p[a_dataIndex].m_items_p = items_p;
             throw ::std::bad_alloc();

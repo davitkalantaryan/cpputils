@@ -15,13 +15,17 @@
 #endif
 
 
-namespace cpputils { namespace hash{ namespace templ{
+namespace cpputils { namespace hash{ namespace templ{ namespace nl{
 
 
+template <typename TypeNlHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
+CinternalHashConst_t BaseTemplNl<TypeNlHash,TypeData,TypeKey,TypeKeyExt>::getConstHash() const noexcept
+{
+    return hash::templ::BaseTempl<TypeNlHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->getConstHash();
+}
 
 
+}}}}  //  namespace cpputils { namespace hash{ namespace templ{ namespace nl{
 
-}}}  //  namespace cpputils { namespace hash{ namespace templ{
 
-
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_BASE_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_TEMPL_NL_BASE_IMPL_HPP
