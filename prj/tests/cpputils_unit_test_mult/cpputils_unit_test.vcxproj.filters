@@ -146,14 +146,14 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_base.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_listhash.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_nl_listhash.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_mt_listhash.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_nl_purehash.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\cpputils_hash_purehash.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\src\core\cpputils_hash_nl_vecthash.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

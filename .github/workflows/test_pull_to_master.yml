@@ -41,8 +41,9 @@ jobs:
               uses: microsoft/setup-msbuild@v3
 
             - name: Setup developer command prompt
-              uses: ilammy/msvc-dev-cmd@v1
-              #with:
+              uses: TheMrMilchmann/setup-msvc-dev@v4
+              with:
+                arch: x64
               #    toolset: v142
 
             - name: Preparing windows host

@@ -8,39 +8,39 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 #include <cinternal/unit_test.h>
-#include <cpputils/hash/purehash.hpp>
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/purehash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 
 
 TEST(f_0009_new_hash, t0001_Hash)
 {
-	cpputils::hash::PureHash aHash(1024);
+	cpputils::hash::nl::PureHash aHash(1024);
 
-	cpputils::hash::PureHash::Iterator<int> iter = aHash.AddEvenIfExist<int,int>(1,1);
+	cpputils::hash::nl::PureHash::Iterator<int> iter = aHash.AddEvenIfExist<int,int>(1,1);
 
 	ASSERT_EQ((aHash.find<int,int>(1)->data),1);
 	
-    ASSERT_EQ(aHash.getHash()->count, size_t(1));
-    aHash.RemoveExNoLockFromIterator(iter);
+    ASSERT_EQ(CinternalHashGetBasic(aHash.getConstHash())->count, size_t(1));
+    aHash.RemoveEx(iter);
     iter = aHash.find<int, int>(1);
 	ASSERT_EQ(iter, CPPUTILS_NULL);
-    ASSERT_EQ(aHash.getHash()->count, size_t(0));
+    ASSERT_EQ(CinternalHashGetBasic(aHash.getConstHash())->count, size_t(0));
 }
 
 
 TEST(f_0009_new_hash, t0002_LHash)
 {
-    cpputils::hash::ListHash aHash(1024);
+    cpputils::hash::nl::ListHash aHash(1024);
 
-    cpputils::hash::ListHash::Iterator<int> iter = aHash.AddEvenIfExist<int,int>(1, 1);
+    cpputils::hash::nl::ListHash::Iterator<int> iter = aHash.AddEvenIfExist<int,int>(1, 1);
     aHash.AddEvenIfExist<int,int>(1, 1);
 
     ASSERT_EQ(aHash.count<int>(), size_t(2));
     ASSERT_EQ(aHash.count<double>(), size_t(0));
     ASSERT_EQ((aHash.find<int, int>(1)->data), 1);
-    aHash.RemoveExNoLockFromIterator(iter);
+    aHash.RemoveEx(iter);
     ASSERT_EQ(aHash.count<int>(), size_t(1));
-    ASSERT_EQ(aHash.getHash()->count, size_t(1));
+    ASSERT_EQ(CinternalHashGetBasic(aHash.getConstHash())->count, size_t(1));
 }
 
 

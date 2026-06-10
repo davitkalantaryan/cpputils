@@ -14,9 +14,9 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 #ifdef TRY_LISTHASH
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 #else
-#include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/nl/purehash.hpp>
 #endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <string>
@@ -25,11 +25,11 @@
 
 #ifdef TRY_LISTHASH
 
-typedef ::cpputils::hash::ListHash  MapToTest;
+typedef ::cpputils::hash::nl::ListHash  MapToTest;
 
 #else
 
-typedef ::cpputils::hash::PureHash  MapToTest;
+typedef ::cpputils::hash::nl::PureHash  MapToTest;
 
 #endif
 
@@ -42,7 +42,7 @@ TEST(f_0012_hash_dllhash, t0001)
     MapToTest::Iterator<int> iter;
     MapToTest::Iterator<double> iterD;
 
-    const ConstCinternalHash_t rawHash = aMap.getHash();
+    const CinternalHashConst_t rawHash = aMap.getConstHash();
     ::std::cout << "rawHash: " << rawHash << ::std::endl;
     ASSERT_TRUE(rawHash);
 
@@ -61,7 +61,7 @@ TEST(f_0012_hash_dllhash, t0001)
     ::std::cout << "iter_04: " << iter << ::std::endl;
 
     if (iter) {
-        iter = aMap.findNextTheSameNoLockFromIterator<int>(iter);
+        iter = aMap.findNextTheSame<int>(iter);
         ::std::cout << "iter_05: " << iter << ::std::endl;
     }
 
@@ -82,7 +82,7 @@ TEST(f_0012_hash_dllhash, t0001)
     ::std::cout << "iter_10: " << iter << ::std::endl;
     int i = 0;
     while (iter) {
-        iter = aMap.findNextTheSameNoLockFromIterator<int>(iter);
+        iter = aMap.findNextTheSame<int>(iter);
         ::std::cout << "iter_11: " << (++i) << "  " << iter << ::std::endl;
     }  //  while(iter){
 
@@ -101,7 +101,7 @@ TEST(f_0012_hash_dllhash, t0001)
         aMap.MoveToStart(iter);
         aMap.MoveToEnd(iter);
 #endif
-        aMap.RemoveExNoLockFromIterator(iter);
+        aMap.RemoveEx(iter);
     }
 }
 

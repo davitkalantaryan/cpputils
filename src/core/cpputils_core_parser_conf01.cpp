@@ -6,7 +6,7 @@
 //
 
 #include <cpputils/parser/conf01.hpp>
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 #include <cinternal/wrapper.h>
 #include <cinternal/disable_compiler_warnings.h>
 #include <string>
@@ -17,7 +17,7 @@
 
 namespace cpputils{ namespace parser{
 
-typedef ::cpputils::hash::ListHash        TypeResults;
+typedef ::cpputils::hash::nl::ListHash        TypeResults;
 
 class CPPUTILS_DLL_PRIVATE Conf01_p
 {
