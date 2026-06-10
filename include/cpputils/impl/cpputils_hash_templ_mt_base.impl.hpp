@@ -21,7 +21,7 @@ namespace cpputils { namespace hash{ namespace templ{ namespace mt{
 template <typename TypeMtHash,typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMt<TypeMtHash,TypeData,TypeKey,TypeKeyExt>::RemoveExNoLockFromIterator(const Iterator& a_iter)
 {
-    hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->RemoveExNoLockFromIterator<TypeData>(a_iter);
+    hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->template RemoveExNoLockFromIterator<TypeData>(a_iter);
 }
 
 
@@ -30,42 +30,42 @@ void BaseTemplMt<TypeMtHash,TypeData,TypeKey,TypeKeyExt>::RemoveExNoLockFromIter
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMtListAndVect<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::iterateBegToEnd(const TypeIterFunc& a_iterFunc) const
 {
-    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->iterateBegToEnd<TypeData, TypeKey, TypeKeyExt>(a_iterFunc);
+    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->template iterateBegToEnd<TypeData, TypeKey, TypeKeyExt>(a_iterFunc);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMtListAndVect<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::iterateEndToBeg(const TypeIterFunc& a_iterFunc) const
 {
-    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->iterateEndToBeg<TypeData, TypeKey, TypeKeyExt>(a_iterFunc);
+    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->template iterateEndToBeg<TypeData, TypeKey, TypeKeyExt>(a_iterFunc);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMtListAndVect<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::IterateBegToEnd(const TypeIterFuncChng& a_iterFunc)
 {
-    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->IterateBegToEnd<TypeData>(a_iterFunc);
+    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->template IterateBegToEnd<TypeData>(a_iterFunc);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMtListAndVect<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::IterateEndToBeg(const TypeIterFuncChng& a_iterFunc)
 {
-    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->IterateEndToBeg<TypeData>(a_iterFunc);
+    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->template IterateEndToBeg<TypeData>(a_iterFunc);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMtListAndVect<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::MoveToStartNoLockFromIterator(const Iterator& a_iter) noexcept
 {
-    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->MoveToStartNoLockFromIterator<TypeData>(a_iter);
+    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->template MoveToStartNoLockFromIterator<TypeData>(a_iter);
 }
 
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 void BaseTemplMtListAndVect<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::MoveToEndNoLockFromIterator(const Iterator& a_iter) noexcept
 {
-    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->MoveToEndNoLockFromIterator<TypeData>(a_iter);
+    hash::templ::BaseTemplListAndVect<hash::templ::mt::BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt> >::m_hash_p->template MoveToEndNoLockFromIterator<TypeData>(a_iter);
 }
 
 

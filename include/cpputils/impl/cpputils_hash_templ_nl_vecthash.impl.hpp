@@ -21,7 +21,7 @@ namespace cpputils { namespace hash{ namespace templ{ namespace nl{
 template <typename TypeNlHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
 const hash::nl::vh::SVectData& VectHashBase<TypeNlHash, TypeData, TypeKey, TypeKeyExt>::getVectDataForTypeData() const noexcept
 {
-    return hash::templ::nl::BaseTemplNlVect<TypeNlHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->getVectDataForTypeData<TypeData>();
+    return hash::templ::nl::BaseTemplNlVect<TypeNlHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->template getVectDataForTypeData<TypeData>();
 }
 
 
