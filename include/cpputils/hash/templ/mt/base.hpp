@@ -22,6 +22,7 @@ template <typename TypeMtHash,typename TypeData, typename TypeKey, typename Type
 class BaseTemplMt : public hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>
 {
 public:
+    using RawHash = typename TypeMtHash::RawHash;
     using FncConstRawHashCaller = typename TypeMtHash::FncConstRawHashCaller;
     using FncRawHashCaller = typename TypeMtHash::FncRawHashCaller;
     using Iterator = typename BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::Iterator;
