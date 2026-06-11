@@ -41,6 +41,7 @@ public:
 #endif
     typedef TypeHash  RawHash;
     typedef ::std::function<void(const RawHash&)> FncConstRawHashCaller;
+    typedef ::std::function<void(RawHash&)> FncRawHashCaller;
     template <typename TypeData>
     struct Item;
     template <typename TypeData>
@@ -78,6 +79,7 @@ public:
 
     // specific
     void callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const;
+    void CallRawHashFunc(const FncRawHashCaller& a_rawHash);
     template <typename TypeData >
     inline void RemoveExNoLockFromIterator(const Iterator<TypeData>& a_iter);
 

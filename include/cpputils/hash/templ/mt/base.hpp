@@ -23,6 +23,7 @@ class BaseTemplMt : public hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey,
 {
 public:
     using FncConstRawHashCaller = typename TypeMtHash::FncConstRawHashCaller;
+    using FncRawHashCaller = typename TypeMtHash::FncRawHashCaller;
     using Iterator = typename BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::Iterator;
     static constexpr bool is_some_funcs_noexcept = TypeMtHash::is_some_funcs_noexcept;
 
@@ -31,6 +32,7 @@ public:
 
     void RemoveExNoLockFromIterator(const Iterator& a_iter);
     void callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const;
+    void CallRawHashFunc(const FncRawHashCaller& a_rawHash);
 
 protected:
     BaseTemplMt(const BaseTemplMt&) = delete;

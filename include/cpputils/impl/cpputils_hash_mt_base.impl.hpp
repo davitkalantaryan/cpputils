@@ -250,6 +250,16 @@ void BaseMt<TypeHash>::callConstRawHashFunc(const FncConstRawHashCaller& a_rawHa
 }
 
 
+template <typename TypeHash>
+void BaseMt<TypeHash>::CallRawHashFunc(const FncRawHashCaller& a_rawHash)
+{
+    {  //  lock guard starts
+        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        a_rawHash(m_nsHash);
+    }  //  lock guard ends
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeHash>

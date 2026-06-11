@@ -32,6 +32,13 @@ void BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::callConstRawHashFun
 }
 
 
+template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
+void BaseTemplMt<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::CallRawHashFunc(const FncRawHashCaller& a_rawHash)
+{
+    hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::m_hash_p->CallRawHashFunc(a_rawHash);
+}
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 template <typename TypeMtHash, typename TypeData, typename TypeKey, typename TypeKeyExt >
