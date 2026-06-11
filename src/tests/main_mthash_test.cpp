@@ -216,14 +216,14 @@ static void TestHash()
         ::std::is_same<TypeHash, ::cpputils::hash::mt::VectHash>::value  )
     {
         int nIter = 0;
-        aMap.template iterateBegToEnd<int,int>([&nIter](int* a_data_p, const int& a_key)->bool {
-            ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "): key:" << a_key << ", data: "<< *a_data_p << ::std::endl;
+        aMap.template iterateBegToEnd<int,int>([&nIter](int& a_data, const int& a_key)->bool {
+            ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "): key:" << a_key << ", data: "<< a_data << ::std::endl;
             return true;
         });
         
         nIter = 0;
-        aMap.template iterateEndToBeg<int,int>([&nIter](int* a_data_p, const int& a_key)->bool {
-            ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "): key:" << a_key << ", data: " << *a_data_p << ::std::endl;
+        aMap.template iterateEndToBeg<int,int>([&nIter](int& a_data, const int& a_key)->bool {
+            ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "): key:" << a_key << ", data: " << a_data << ::std::endl;
             return true;
         });
 
@@ -368,14 +368,14 @@ static void TestTemplHash(void)
         ::std::is_same<TypeHash, ::cpputils::hash::mt::VectHash>::value  )
     {
         int nIter = 0;
-        aMapTemp.iterateBegToEnd([&nIter](int* a_data_p, const int& a_key)->bool {
-            ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "): key:" << a_key << ", data: "<< *a_data_p << ::std::endl;
+        aMapTemp.iterateBegToEnd([&nIter](int& a_data, const int& a_key)->bool {
+            ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "): key:" << a_key << ", data: "<< a_data << ::std::endl;
             return true;
         });
         
         nIter = 0;
-        aMapTemp.iterateEndToBeg([&nIter](int* a_data_p, const int& a_key)->bool {
-            ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "): key:" << a_key << ", data: " << *a_data_p << ::std::endl;
+        aMapTemp.iterateEndToBeg([&nIter](int& a_data, const int& a_key)->bool {
+            ::std::cout << "dataEndToBeg(iter:" << (++nIter) << "): key:" << a_key << ", data: " << a_data << ::std::endl;
             return true;
         });
 

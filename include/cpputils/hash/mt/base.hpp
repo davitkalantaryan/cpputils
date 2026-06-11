@@ -126,7 +126,7 @@ public:
     template <typename TypeData>
     using Item = typename BaseMt<TypeHash>::template Item<TypeData>;
     template <typename TypeData, typename TypeKey>
-    using TypeIterFunc = ::std::function<bool(TypeData*,const TypeKey&)>;  // true -> continue, false stop
+    using TypeIterFunc = ::std::function<bool(TypeData&,const TypeKey&)>;  // true -> continue, false stop
     template <typename TypeData>
     using TypeIterFuncChng = ::std::function<bool(const Iterator<TypeData>&)>;  // true -> continue, false stop
 
