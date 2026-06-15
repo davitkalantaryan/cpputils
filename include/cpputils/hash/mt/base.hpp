@@ -13,12 +13,13 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/nl/base.hpp>
+#include <cpputils/recursive_rwlock.hpp>
 #ifdef CPPUTILS_USE_CPPUTILS_SHARED_PTR
 #include <cpputils/sharedptr.hpp>
 #endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <shared_mutex>
-#include <type_traits>
+#include <mutex>
 #include <functional>
 #include <cinternal/undisable_compiler_warnings.h>
 
@@ -40,8 +41,7 @@ public:
     using SharedPtr = ::std::shared_ptr<TypeData>;
 #endif
     typedef TypeHash  RawHash;
-    typedef ::std::function<void(const RawHash&)> FncConstRawHashCaller;
-    typedef ::std::function<void(RawHash&)> FncRawHashCaller;
+    typedef ::std::function<void()> FncLockedCaller;
     template <typename TypeData>
     struct Item;
     template <typename TypeData>
@@ -78,10 +78,8 @@ public:
     CinternalHashConstBasic_t getConstHashBase()const noexcept;
 
     // specific
-    void callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const;
-    void CallRawHashFunc(const FncRawHashCaller& a_rawHash);
-    template <typename TypeData >
-    inline void RemoveExNoLockFromIterator(const Iterator<TypeData>& a_iter);
+    void callConstHashFuncs(const FncLockedCaller& a_sharedLockedCalee)const;
+    void CallHashFuncs(const FncLockedCaller& a_uniqueLockedCalee);
 
 protected:
     template <typename TypeData>
@@ -90,7 +88,7 @@ protected:
 protected:
     TypeHash                            m_nsHash;
     const CinternalHashConstBasic_t     m_hashBs;
-    mutable ::std::shared_mutex         m_mutex;
+    mutable ::cpputils::RecursiveRWLock m_mutex;
 
 protected:
     BaseMt(const BaseMt&) = delete;
@@ -145,12 +143,6 @@ public:
     template <typename TypeData>
     void MoveToEnd(const Iterator<TypeData>& a_iter);
     
-    // mt specific
-    template <typename TypeData>
-    void MoveToStartNoLockFromIterator(const Iterator<TypeData>& a_iter) noexcept;
-    template <typename TypeData>
-    void MoveToEndNoLockFromIterator(const Iterator<TypeData>& a_iter) noexcept;
-
 protected:
     template <typename TypeData>
     using IteratorRaw = typename TypeHash::template Iterator<TypeData>;

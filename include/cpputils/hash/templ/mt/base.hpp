@@ -23,17 +23,15 @@ class BaseTemplMt : public hash::templ::BaseTempl<TypeMtHash, TypeData, TypeKey,
 {
 public:
     using RawHash = typename TypeMtHash::RawHash;
-    using FncConstRawHashCaller = typename TypeMtHash::FncConstRawHashCaller;
-    using FncRawHashCaller = typename TypeMtHash::FncRawHashCaller;
+    using FncLockedCaller = typename TypeMtHash::FncLockedCaller;
     using Iterator = typename BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::Iterator;
     static constexpr bool is_some_funcs_noexcept = TypeMtHash::is_some_funcs_noexcept;
 
 public:
     using BaseTempl<TypeMtHash, TypeData, TypeKey, TypeKeyExt>::BaseTempl;
 
-    void RemoveExNoLockFromIterator(const Iterator& a_iter);
-    void callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const;
-    void CallRawHashFunc(const FncRawHashCaller& a_rawHash);
+    void callConstHashFuncs(const FncLockedCaller& a_sharedLockedCalee)const;
+    void CallHashFuncs(const FncLockedCaller& a_uniqueLockedCalee);
 
 protected:
     BaseTemplMt(const BaseTemplMt&) = delete;
@@ -59,9 +57,6 @@ public:
     void iterateEndToBeg(const TypeIterFunc& a_iterFunc)const;
     void IterateBegToEnd(const TypeIterFuncChng& a_iterFunc);
     void IterateEndToBeg(const TypeIterFuncChng& a_iterFunc);
-
-    void MoveToStartNoLockFromIterator(const Iterator& a_iter) noexcept;
-    void MoveToEndNoLockFromIterator(const Iterator& a_iter) noexcept;
 };
 
 

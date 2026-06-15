@@ -25,7 +25,7 @@ void ListHash::iterateBegToEnd(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
     IteratorRaw<Iterator<TypeData> > item, itemNext;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         item = m_nsHash.template first<Iterator<TypeData> >();
         while (bContinue && item) {
             itemNext = (IteratorRaw<Iterator<TypeData> >)item->next; 
@@ -43,7 +43,7 @@ void ListHash::iterateEndToBeg(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
     IteratorRaw<Iterator<TypeData> > item, itemPrev;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         item = m_nsHash.template last<Iterator<TypeData> >();
         while (bContinue && item) {
             itemPrev = (IteratorRaw<Iterator<TypeData> >)item->prev;
@@ -61,7 +61,7 @@ void ListHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
     IteratorRaw<Iterator<TypeData> > item, itemNext;
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         item = m_nsHash.template first<Iterator<TypeData> >();
         while (bContinue && item) {
             itemNext = (IteratorRaw<Iterator<TypeData> >)item->next;
@@ -79,7 +79,7 @@ void ListHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
     IteratorRaw<Iterator<TypeData> > item, itemPrev;
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         item = m_nsHash.template last<Iterator<TypeData> >();
         while (bContinue && item) {
             itemPrev = (IteratorRaw<Iterator<TypeData> >)item->prev;

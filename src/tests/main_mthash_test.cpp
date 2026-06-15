@@ -230,8 +230,8 @@ static void TestHash()
         nIter = 0;
         aMap.template IterateBegToEnd<int>([&nIter,&aMap](const TypeIterInt& a_iter)->bool {
             ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_iter << ::std::endl;
-            aMap.template MoveToStartNoLockFromIterator<int>(a_iter);
-            aMap.template MoveToEndNoLockFromIterator<int>(a_iter);
+            aMap.template MoveToStart<int>(a_iter);
+            aMap.template MoveToEnd<int>(a_iter);
             return false;
         });
         
@@ -382,8 +382,8 @@ static void TestTemplHash(void)
         nIter = 0;
         aMapTemp.IterateBegToEnd([&nIter,&aMapTemp](const TypeIterInt& a_iter)->bool {
             ::std::cout << "dataBegToEnd(iter:" << (++nIter) << "):" << a_iter << ::std::endl;
-            aMapTemp.MoveToStartNoLockFromIterator(a_iter);
-            aMapTemp.MoveToEndNoLockFromIterator(a_iter);
+            aMapTemp.MoveToStart(a_iter);
+            aMapTemp.MoveToEnd(a_iter);
             return false;
         });
         

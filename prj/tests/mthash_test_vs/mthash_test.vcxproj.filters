@@ -63,6 +63,12 @@
     <ClCompile Include="..\..\..\src\core\cpputils_hash_nl_purehash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\cpputils_recursive_rwlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\cinternal\src\core\cinternal_core_recursive_rwlock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\cpputils\export_symbols.h">
@@ -175,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\cpputils\impl\cpputils_hash_templ_nl_vecthash.impl.hpp">
       <Filter>Header Files\include\cpputils\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\cpputils\recursive_rwlock.hpp">
+      <Filter>Header Files\include\cpputils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,7 +26,7 @@ void VectHash::iterateBegToEnd(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         for (size_t i(0); bContinue && (i < (vectData.m_count)); ++i) {
             item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
@@ -45,7 +45,7 @@ void VectHash::iterateEndToBeg(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         unCountMin1 = (ptrdiff_t)(vectData.m_count) - 1;
         for (ptrdiff_t i(unCountMin1); bContinue && (i >= 0); --i) { 
@@ -64,7 +64,7 @@ void VectHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         for (size_t i(0); bContinue && (i < (vectData.m_count)); ++i) {
             item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
@@ -83,7 +83,7 @@ void VectHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         unCountMin1 = (ptrdiff_t)(vectData.m_count) - 1;
         for (ptrdiff_t i(unCountMin1); bContinue && (i >=0); --i) {
@@ -101,7 +101,7 @@ typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const
     Iterator<TypeData> retIter;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         itemRaw = m_nsHash.template at<Iterator<TypeData> >(a_index);
         if (itemRaw) {
             retIter = itemRaw->data;

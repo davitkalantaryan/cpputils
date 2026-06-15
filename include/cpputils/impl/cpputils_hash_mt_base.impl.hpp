@@ -46,7 +46,7 @@ inline typename BaseMt<TypeHash>::template Iterator<TypeData> BaseMt<TypeHash>::
     Iterator<TypeData> retIter;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         itemRaw = m_nsHash.template findEx<Iterator<TypeData>, TypeKey, TypeKeyExt>(a_key, a_pHash);
         if (itemRaw) {
             retIter = itemRaw->data;
@@ -75,7 +75,7 @@ inline typename BaseMt<TypeHash>::template Iterator<TypeData> BaseMt<TypeHash>::
 
     {  //  lock guard starts
         const ItemRaw<Iterator<TypeData> >* itemRaw = nullptr;
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         if (pItem->iter) {
             itemRaw = m_nsHash.template findNextTheSame<Iterator<TypeData> >(pItem->iter);
             if (itemRaw) {
@@ -97,7 +97,7 @@ BaseMt<TypeHash>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&.
     const Iterator<TypeData> newData(pNewItem);
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         pNewItem->iter = m_nsHash.template AddWithKnownHash<Iterator<TypeData>, TypeKey, TypeKeyExt, const Iterator<TypeData>& >(a_hash,a_key, newData);
         if (pNewItem->iter) {
             return newData;
@@ -117,7 +117,7 @@ BaseMt<TypeHash>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
     const Iterator<TypeData> newData(pNewItem);
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         pNewItem->iter = m_nsHash.template AddEvenIfExist<Iterator<TypeData>, TypeKey, TypeKeyExt, const Iterator<TypeData>& >(a_key, newData);
         if (pNewItem->iter) {
             return newData;
@@ -137,7 +137,7 @@ BaseMt<TypeHash>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
     const Iterator<TypeData> newData(pNewItem);
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         pNewItem->iter = m_nsHash.template AddIfNotExist<Iterator<TypeData>, TypeKey, TypeKeyExt, const Iterator<TypeData>& >(a_key, newData);
         if (pNewItem->iter) {
             return newData;
@@ -157,7 +157,7 @@ BaseMt<TypeHash>::AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args)
     const Iterator<TypeData> newData(pNewItem);
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         pNewItem->iter = m_nsHash.template AddOrReturnExisting<Iterator<TypeData>, TypeKey, TypeKeyExt, const Iterator<TypeData>& >(a_key, newData);
         if (pNewItem->iter) {
             return newData;
@@ -175,7 +175,7 @@ inline void BaseMt<TypeHash>::RemoveEx(const Iterator<TypeData>& a_iter)
     Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         if (pItem->iter) {
             m_nsHash.template RemoveEx<Iterator<TypeData> >(pItem->iter);
             pItem->iter = nullptr;
@@ -191,7 +191,7 @@ inline bool BaseMt<TypeHash>::Remove(const TypeKey& a_key)
     bool bRet;
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
         bRet = m_nsHash.template Remove<Iterator<TypeData>, TypeKey, TypeKeyExt>(a_key);
     }  //  lock guard ends
 
@@ -207,7 +207,7 @@ BaseMt<TypeHash>::key(const Iterator<TypeData>& a_iter, bool* a_isValid_p) const
     const ItemRaw<Iterator<TypeData> >* itemRaw;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         itemRaw = a_iter->iter;
         if (itemRaw) {
             return m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(itemRaw, a_isValid_p);
@@ -229,33 +229,21 @@ CinternalHashConstBasic_t BaseMt<TypeHash>::getConstHashBase()const noexcept
 
 
 template <typename TypeHash>
-template <typename TypeData >
-inline void BaseMt<TypeHash>::RemoveExNoLockFromIterator(const Iterator<TypeData>& a_iter)
-{
-    Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
-    if (pItem->iter) {
-        m_nsHash.template RemoveEx<Iterator<TypeData> >(pItem->iter);
-        pItem->iter = nullptr;
-    }  //  if (pItem->iter) {
-}
-
-
-template <typename TypeHash>
-void BaseMt<TypeHash>::callConstRawHashFunc(const FncConstRawHashCaller& a_rawHash)const
+void BaseMt<TypeHash>::callConstHashFuncs(const FncLockedCaller& a_sharedLockedCalee)const
 {
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        a_rawHash(m_nsHash);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
+        a_sharedLockedCalee();
     }  //  lock guard ends
 }
 
 
 template <typename TypeHash>
-void BaseMt<TypeHash>::CallRawHashFunc(const FncRawHashCaller& a_rawHash)
+void BaseMt<TypeHash>::CallHashFuncs(const FncLockedCaller& a_uniqueLockedCalee)
 {
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        a_rawHash(m_nsHash);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
+        a_uniqueLockedCalee();
     }  //  lock guard ends
 }
 
@@ -267,7 +255,7 @@ template <typename TypeData>
 typename BaseMtListAndVect<TypeHash>::template Iterator<TypeData>
 BaseMtListAndVect<TypeHash>::first()const
 {
-    ::std::shared_lock<::std::shared_mutex>  shGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
+    ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
     return hash::mt::BaseMt<TypeHash>::m_nsHash.template first<Iterator<TypeData> >();
 }
 
@@ -277,7 +265,7 @@ template <typename TypeData>
 typename BaseMtListAndVect<TypeHash>::template Iterator<TypeData>
 BaseMtListAndVect<TypeHash>::last()const
 {
-    ::std::shared_lock<::std::shared_mutex>  shGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
+    ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
     return hash::mt::BaseMt<TypeHash>::m_nsHash.template last<Iterator<TypeData> >();
 }
 
@@ -293,7 +281,7 @@ size_t BaseMtListAndVect<TypeHash>::count()const noexcept
 template <typename TypeHash>
 void BaseMtListAndVect<TypeHash>::AllocateListsInAdvance(int32_t a_numberOfLists)
 {
-    ::std::lock_guard<::std::shared_mutex>  unGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
+    ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
     hash::mt::BaseMt<TypeHash>::m_nsHash.AllocateListsInAdvance(a_numberOfLists);
 }
 
@@ -305,7 +293,7 @@ void BaseMtListAndVect<TypeHash>::MoveToStart(const Iterator<TypeData>& a_iter)
     Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
         if (pItem->iter) {
             hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToStart<Iterator<TypeData> >(pItem->iter);
         }  //  if (pItem->iter) {
@@ -320,33 +308,11 @@ void BaseMtListAndVect<TypeHash>::MoveToEnd(const Iterator<TypeData>& a_iter)
     Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(hash::mt::BaseMt<TypeHash>::m_mutex);
         if (pItem->iter) { 
             hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToEnd<Iterator<TypeData> >(pItem->iter);
         }  //  if (pItem->iter) {
     }  //  lock guard ends
-}
-
-
-template <typename TypeHash>
-template <typename TypeData>
-void BaseMtListAndVect<TypeHash>::MoveToStartNoLockFromIterator(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
-    if (pItem->iter) {
-        hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToStart<Iterator<TypeData> >(pItem->iter);
-    }  //  if (pItem->iter) {
-}
-
-
-template <typename TypeHash>
-template <typename TypeData>
-void BaseMtListAndVect<TypeHash>::MoveToEndNoLockFromIterator(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItem = const_cast<Item<TypeData>*>(a_iter.get());
-    if (pItem->iter) {
-        hash::mt::BaseMt<TypeHash>::m_nsHash.template MoveToEnd<Iterator<TypeData> >(pItem->iter);
-    }  //  if (pItem->iter) {
 }
 
 
