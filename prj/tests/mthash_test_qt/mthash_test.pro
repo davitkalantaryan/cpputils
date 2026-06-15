@@ -25,7 +25,9 @@ win32{
 
 SOURCES	+= "$${PWD}/../../../src/tests/main_mthash_test.cpp"
 SOURCES += $$files($${cpputilsRepoRoot}/src/core/cpputils_hash_*.cpp,false)
+SOURCES += "$${cpputilsRepoRoot}/src/core/cpputils_recursive_rwlock.cpp"
 SOURCES += "$${cinternalRepoRoot}/src/core/cinternal_core_hash.c"
+SOURCES += "$${cinternalRepoRoot}/src/core/cinternal_core_recursive_rwlock.c"
 	
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
 HEADERS += $$files($${cpputilsRepoRoot}/include/cpputils/hash/*.hpp,true)
