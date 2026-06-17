@@ -4,12 +4,12 @@
 //
 
 #include <cinternal/unit_test.h>
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 
 
 TEST(f_0001_hash, t0001_base)
 {
-    cpputils::hash::ListHash aHash(1024);
+    cpputils::hash::nl::ListHash aHash(1024);
 
     aHash.AddIfNotExist<int,int>(1, 1);
     aHash.AddEvenIfExist<int,int>(1, 1);

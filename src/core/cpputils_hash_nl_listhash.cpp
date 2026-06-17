@@ -7,14 +7,14 @@
 //
 
 
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
 #include <stdlib.h>
 #include <string.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 namespace lh{
 
@@ -25,7 +25,7 @@ static bh::Hash_p* CreateCollectionHash_p(size_t a_numberOfBaskets, TypeCinterna
 
 ListHash::ListHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    Base(lh::CreateCollectionHash_p(a_numberOfBaskets,a_allocator,a_deallocator))
+    BaseNl(lh::CreateCollectionHash_p(a_numberOfBaskets,a_allocator,a_deallocator))
 {
 }
 
@@ -42,7 +42,7 @@ namespace lh {
 
 Hash_p::~Hash_p() noexcept
 {
-    Clh::ItemBase* pItemNext, * pItem;
+    const Clh::ItemBase* pItemNext, * pItem;
 
     for (int32_t i(0); i < m_numberOfAllocatedDataTypes; ++i) {
         pItem = m_lists_p[i].m_first;
@@ -50,12 +50,12 @@ Hash_p::~Hash_p() noexcept
             pItemNext = pItem->next;
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
             pItem->~ItemBase();
-            (*(m_hash->deallocator))(pItem);
+            (*(m_hashBs->deallocator))((void*)pItem);
             pItem = pItemNext;
         }  //  while(pItem){
     }  //  for (size_t i(0); i < m_clmp_data_p->m_numberOfTypes; ++i) {
 
-    (*(m_hash->deallocator))(m_lists_p);
+    (*(m_hashBs->deallocator))(m_lists_p);
 }
 
 
@@ -73,7 +73,7 @@ inline void Hash_p::MakeSureHasEnoughLists(int32_t a_dataIndex)
     if (a_dataIndex >= m_numberOfAllocatedDataTypes) {
         const int32_t numberOfAllocatedTablesNew = a_dataIndex+1;
         lh::SListData* const lists_p = m_lists_p;
-        m_lists_p = (lh::SListData*)(*(m_hash->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(lh::SListData)));
+        m_lists_p = (lh::SListData*)(*(m_hashBs->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(lh::SListData)));
         if (!m_lists_p) {
             m_lists_p = lists_p;
             throw ::std::bad_alloc();
@@ -94,7 +94,7 @@ void Hash_p::AddItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN
 
     Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(m_lists_p[a_dataIndex].m_first){
-        m_lists_p[a_dataIndex].m_first->prev = pItemBool;
+        ((Clh::ItemBase*)m_lists_p[a_dataIndex].m_first)->prev = pItemBool;
     }
     else{
         m_lists_p[a_dataIndex].m_last = pItemBool;
@@ -112,7 +112,7 @@ void Hash_p::AddItemToEndOfList(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_
 
     Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(m_lists_p[a_dataIndex].m_last){
-        m_lists_p[a_dataIndex].m_last->next = pItemBool;
+        ((Clh::ItemBase*)m_lists_p[a_dataIndex].m_last)->next = pItemBool;
     }
     else{
         m_lists_p[a_dataIndex].m_first = pItemBool;
@@ -128,14 +128,14 @@ void Hash_p::RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG
 {
     Clh::ItemBase* const pItemBool = (Clh::ItemBase*)a_item;
     if(pItemBool->prev){
-        pItemBool->prev->next = pItemBool->next;
+        ((Clh::ItemBase*)pItemBool->prev)->next = pItemBool->next;
     }
     else{
         m_lists_p[a_dataIndex].m_first = pItemBool->next;
     }
 
     if(pItemBool->next){
-        pItemBool->next->prev = pItemBool->prev;
+        ((Clh::ItemBase*)pItemBool->next)->prev = pItemBool->prev;
     }
     else{
         m_lists_p[a_dataIndex].m_last = pItemBool->prev;
@@ -163,4 +163,4 @@ static bh::Hash_p* CreateCollectionHash_p(size_t a_numberOfBaskets, TypeCinterna
 }  //  namespace lh{
 
 
-}}  //  namespace cpputils { namespace hash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{

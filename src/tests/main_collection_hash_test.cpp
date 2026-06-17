@@ -55,7 +55,7 @@ int main(void)
     ::std::cout << "iter_04: " << iter << ::std::endl;
 
     if(iter){
-        iter = aMap.findNextTheSame<int>(iter);
+        iter = aMap.findNextTheSameNoLockFromIterator<int>(iter);
         ::std::cout << "iter_05: " << iter << ::std::endl;
     }
 
@@ -76,7 +76,7 @@ int main(void)
     ::std::cout << "iter_10: " << iter << ::std::endl;
     int i=0;
     while(iter){
-        iter = aMap.findNextTheSame<int>(iter);
+        iter = aMap.findNextTheSameNoLockFromIterator<int>(iter);
         ::std::cout << "iter_11: " <<(++i)<<"  "<< iter << ::std::endl;
     }  //  while(iter){
 
@@ -95,7 +95,7 @@ int main(void)
         aMap.MoveToStart(iter);
         aMap.MoveToEnd(iter);
 #endif
-        aMap.RemoveEx(iter);
+        aMap.RemoveExNoLockFromIterator(iter);
     }
 
 	return 0;

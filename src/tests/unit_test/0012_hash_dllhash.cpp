@@ -14,9 +14,9 @@
 #ifdef CPPUTILS_CPP_11_DEFINED
 
 #ifdef TRY_LISTHASH
-#include <cpputils/hash/listhash.hpp>
+#include <cpputils/hash/nl/listhash.hpp>
 #else
-#include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/nl/purehash.hpp>
 #endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <string>
@@ -25,11 +25,11 @@
 
 #ifdef TRY_LISTHASH
 
-typedef ::cpputils::hash::ListHash  MapToTest;
+typedef ::cpputils::hash::nl::ListHash  MapToTest;
 
 #else
 
-typedef ::cpputils::hash::PureHash  MapToTest;
+typedef ::cpputils::hash::nl::PureHash  MapToTest;
 
 #endif
 
@@ -42,7 +42,7 @@ TEST(f_0012_hash_dllhash, t0001)
     MapToTest::Iterator<int> iter;
     MapToTest::Iterator<double> iterD;
 
-    const ConstCinternalHash_t rawHash = aMap.getHash();
+    const CinternalHashConst_t rawHash = aMap.getConstHash();
     ::std::cout << "rawHash: " << rawHash << ::std::endl;
     ASSERT_TRUE(rawHash);
 

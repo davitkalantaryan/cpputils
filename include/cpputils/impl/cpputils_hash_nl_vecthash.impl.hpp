@@ -7,24 +7,25 @@
 //
 
 #pragma once
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_VECTHASH_IMPL_HPP
-#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_VECTHASH_IMPL_HPP
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_VECTHASH_IMPL_HPP
+#define CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_VECTHASH_IMPL_HPP
 
-#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_VECTHASH_HPP
-#include <cpputils/hash/vecthash.hpp>
+#ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_NL_VECTHASH_HPP
+#include <cpputils/hash/nl/vecthash.hpp>
 #endif
 
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 
 namespace vh{
 
+typedef const bh::ItemBase* ConstItemBasePtr;
 
 struct SVectData {
-    bh::ItemBase**  m_items_p;
-    size_t          m_count;
-    size_t          m_allocated;
+    ConstItemBasePtr*   m_items_p;
+    size_t              m_count;
+    size_t              m_allocated;
 };
 
 
@@ -52,30 +53,10 @@ private:
     Hash_p(Hash_p&&) = delete;
     Hash_p& operator=(const Hash_p&) = delete;
     Hash_p& operator=(Hash_p&&) = delete;
-    friend class ::cpputils::hash::VectHash;
+    friend class ::cpputils::hash::nl::VectHash;
 };
 
-}  //  namespace lh{
-
-
-template <typename TypeData>
-void VectHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
-    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-}
-
-
-template <typename TypeData>
-void VectHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
-{
-    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
-    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
-    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
-    ((vh::Hash_p*)m_clhash_data_p)->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
-}
+}  //  namespace vh{
 
 
 template <typename TypeData>
@@ -101,6 +82,37 @@ typename VectHash::Iterator<TypeData> VectHash::last()const noexcept
 
 
 template <typename TypeData>
+size_t VectHash::count()const noexcept
+{
+    const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
+    if (dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
+        return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count;
+    }
+    return 0;
+}
+
+
+template <typename TypeData>
+void VectHash::MoveToStart(const Iterator<TypeData>& a_iter) noexcept
+{
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    m_clhash_data_p->AddItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+}
+
+
+template <typename TypeData>
+void VectHash::MoveToEnd(const Iterator<TypeData>& a_iter) noexcept
+{
+    Item<TypeData>* const pItemToMove = (Item<TypeData>*)a_iter;
+    bh::CKeyBase* const pKeyExt = (bh::CKeyBase*)(pItemToMove->hashIter->key);
+    m_clhash_data_p->RemoveItemExtraPart(pKeyExt->dataIndex, pItemToMove);
+    ((vh::Hash_p*)m_clhash_data_p)->AddItemToEndOfList(pKeyExt->dataIndex, pItemToMove);
+}
+
+
+template <typename TypeData>
 typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
@@ -112,17 +124,14 @@ typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
 
 
 template <typename TypeData>
-size_t VectHash::count()const noexcept
+const vh::SVectData& VectHash::getVectDataForTypeData()const noexcept
 {
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
-    if (dataIndex < (((vh::Hash_p*)m_clhash_data_p)->m_numberOfAllocatedDataTypes)) {
-        return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[dataIndex].m_count;
-    }
-    return 0;
+    return getVectDataForTypeDataRaw(dataIndex);
 }
 
 
-}}  //  namespace cpputils { namespace collectionhash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{
 
 
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_VECTHASH_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_IMPL_NL_VECTHASH_IMPL_HPP

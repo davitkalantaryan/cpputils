@@ -10,13 +10,13 @@
 
 #include <cpputils/export_symbols.h>
 #include <cpputils/hash/mt/base.hpp>
-#include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/nl/purehash.hpp>
 
 
 namespace cpputils { namespace hash{ namespace mt{
 
 
-typedef mt::Base<PureHash> PureHash;
+typedef hash::mt::BaseMt<hash::nl::PureHash> PureHash;
 
 
 }}}  //  namespace cpputils { namespace hash{ namespace mt{

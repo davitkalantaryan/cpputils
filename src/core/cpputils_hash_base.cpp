@@ -47,15 +47,15 @@ Hash_p::~Hash_p() noexcept
 
 Hash_p::Hash_p(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    m_hash(CPPUTILS_NULL)
-{
-    m_hash = CInternalHashCreateAnyEx(
+    m_hash(CInternalHashCreateAnyEx(
         a_numberOfBaskets,
         &HasherStatic,
         &IsKeysTheSameStatic,
         &StoreKeyStatic,
         &UnstoreStatic,
-        a_allocator, a_deallocator);
+        a_allocator, a_deallocator)),
+    m_hashBs(CinternalHashGetBasic(m_hash))
+{
     if (!m_hash) {
         throw ::std::bad_alloc();
     }

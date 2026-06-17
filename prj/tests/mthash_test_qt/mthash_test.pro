@@ -24,13 +24,11 @@ win32{
 }
 
 SOURCES	+= "$${PWD}/../../../src/tests/main_mthash_test.cpp"
-SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_base.cpp"
-SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_purehash.cpp"
-SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_listhash.cpp"
-SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_vecthash.cpp"
-SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_mt_listhash.cpp"
-SOURCES	+= "$${cpputilsRepoRoot}/src/core/cpputils_hash_mt_vecthash.cpp"
+SOURCES += $$files($${cpputilsRepoRoot}/src/core/cpputils_hash_*.cpp,false)
+SOURCES += "$${cpputilsRepoRoot}/src/core/cpputils_recursive_rwlock.cpp"
 SOURCES += "$${cinternalRepoRoot}/src/core/cinternal_core_hash.c"
+SOURCES += "$${cinternalRepoRoot}/src/core/cinternal_core_recursive_rwlock.c"
 	
 HEADERS += $$files($${cpputilsRepoRoot}/include/*.h,true)
-HEADERS += $$files($${cpputilsRepoRoot}/include/*.hpp,true)
+HEADERS += $$files($${cpputilsRepoRoot}/include/cpputils/hash/*.hpp,true)
+HEADERS += $$files($${cpputilsRepoRoot}/include/cpputils/impl/*.hpp,false)

@@ -18,80 +18,57 @@
 namespace cpputils { namespace hash{ namespace mt{
 
 
-
-template <typename TypeData>
-void VectHash::MoveToStartNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept
+template <typename TypeData, typename TypeKey, typename TypeKeyExt>
+void VectHash::iterateBegToEnd(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc)const
 {
-    m_nsHash.template MoveToStart<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
-void VectHash::MoveToEndNoLockFromIterator(const IteratorRaw<TypeData>& a_iter) noexcept
-{
-    m_nsHash.template MoveToEnd<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
-void VectHash::iterateBegToEnd(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept
-{
+    IteratorRaw<Iterator<TypeData> > item;
     bool bContinue = true;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
+        const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         for (size_t i(0); bContinue && (i < (vectData.m_count)); ++i) {
-            bContinue = a_iterFunc(((IteratorRaw<TypeData>)vectData.m_items_p[i])->data);
+            item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
+            bContinue = a_iterFunc(item->data.get()->data, m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(item));
         }  //  for (size_t i(0); i < (m_vects_p[a_dataIndex].m_count); ++i) {
     }  //  lock guard ends
 }
 
 
-template <typename TypeData>
-void VectHash::iterateEndToBeg(const TypeIterFunc<TypeData>& a_iterFunc)const noexcept
+template <typename TypeData, typename TypeKey, typename TypeKeyExt>
+void VectHash::iterateEndToBeg(const TypeIterFunc<TypeData, TypeKey>& a_iterFunc)const
 {
+    IteratorRaw<Iterator<TypeData> > item;
     bool bContinue = true;
     ptrdiff_t unCountMin1;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
+        const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         unCountMin1 = (ptrdiff_t)(vectData.m_count) - 1;
-        for (ptrdiff_t i(unCountMin1); bContinue && (i >= 0); --i) {
-            bContinue = a_iterFunc(((IteratorRaw<TypeData>)vectData.m_items_p[i])->data);
+        for (ptrdiff_t i(unCountMin1); bContinue && (i >= 0); --i) { 
+            item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
+            bContinue = a_iterFunc(item->data.get()->data, m_nsHash.template key<Iterator<TypeData>, TypeKey, TypeKeyExt>(item));
         }  //  for (size_t i(0); i < (m_vects_p[a_dataIndex].m_count); ++i) {
     }  //  lock guard ends
-}
-
-
-template <typename TypeData>
-size_t VectHash::count()const noexcept
-{
-    size_t unCount;
-
-    {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        unCount = m_nsHash.template count<Iterator<TypeData> >();
-    }  //  lock guard ends
-
-    return unCount;
 }
 
 
 template <typename TypeData>
 void VectHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
 {
+    IteratorRaw<Iterator<TypeData> > item;
     bool bContinue = true;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
+        const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         for (size_t i(0); bContinue && (i < (vectData.m_count)); ++i) {
-            bContinue = a_iterFunc((IteratorRaw<TypeData>)vectData.m_items_p[i]);
+            item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
+            bContinue = a_iterFunc(item->data);
         }  //  for (size_t i(0); i < (m_vects_p[a_dataIndex].m_count); ++i) {
     }  //  lock guard ends
 }
@@ -100,72 +77,31 @@ void VectHash::IterateBegToEnd(const TypeIterFuncChng<TypeData>& a_iterFunc)
 template <typename TypeData>
 void VectHash::IterateEndToBeg(const TypeIterFuncChng<TypeData>& a_iterFunc)
 {
+    IteratorRaw<Iterator<TypeData> > item;
     bool bContinue = true;
     ptrdiff_t unCountMin1;
     const int32_t dataIndex = m_nsHash.template reserveUniqueIdForDataInline<Iterator<TypeData> >();
 
     {  //  lock guard starts
-        ::std::lock_guard<::std::shared_mutex>  unGuard(m_mutex);
-        const vh::SVectData& vectData = m_nsHash.getVectDataForTypeData(dataIndex);
+        ::std::lock_guard<::cpputils::RecursiveRWLock>  unGuard(m_mutex);
+        const nl::vh::SVectData& vectData = m_nsHash.getVectDataForTypeDataRaw(dataIndex);
         unCountMin1 = (ptrdiff_t)(vectData.m_count) - 1;
         for (ptrdiff_t i(unCountMin1); bContinue && (i >=0); --i) {
-            bContinue = a_iterFunc((IteratorRaw<TypeData>)vectData.m_items_p[i]);
+            item = (IteratorRaw<Iterator<TypeData> >)vectData.m_items_p[i];
+            bContinue = a_iterFunc(item->data);
         }  //  for (size_t i(0); i < (m_vects_p[a_dataIndex].m_count); ++i) {
     }  //  lock guard ends    
 }
 
 
 template <typename TypeData>
-inline void VectHash::RemoveExNoLockFromIterator(const IteratorRaw<TypeData>& CPPUTILS_ARG_NN a_iter) noexcept
-{
-    m_nsHash.template RemoveEx<Iterator<TypeData> >(a_iter);
-}
-
-
-template <typename TypeData>
-typename VectHash::Iterator<TypeData> VectHash::first()const noexcept
+typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const
 {
     const ItemRaw<Iterator<TypeData> >* itemRaw;
     Iterator<TypeData> retIter;
 
     {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        itemRaw = m_nsHash.template first<Iterator<TypeData> >();
-        if (itemRaw) {
-            retIter = itemRaw->data;
-        }
-    }  //  lock guard ends
-
-    return retIter;
-}
-
-
-template <typename TypeData>
-typename VectHash::Iterator<TypeData> VectHash::last()const noexcept
-{
-    const ItemRaw<Iterator<TypeData> >* itemRaw;
-    Iterator<TypeData> retIter;
-
-    {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
-        itemRaw = m_nsHash.template last<Iterator<TypeData> >();
-        if (itemRaw) {
-            retIter = itemRaw->data;
-        }
-    }  //  lock guard ends
-
-    return retIter;
-}
-
-
-template <typename TypeData>
-typename VectHash::Iterator<TypeData> VectHash::at(size_t a_index)const noexcept
-{
-    const ItemRaw<Iterator<TypeData> >* itemRaw;
-    Iterator<TypeData> retIter;
-
-    {  //  lock guard starts
-        ::std::shared_lock<::std::shared_mutex>  shGuard(m_mutex);
+        ::std::shared_lock<::cpputils::RecursiveRWLock>  shGuard(m_mutex);
         itemRaw = m_nsHash.template at<Iterator<TypeData> >(a_index);
         if (itemRaw) {
             retIter = itemRaw->data;

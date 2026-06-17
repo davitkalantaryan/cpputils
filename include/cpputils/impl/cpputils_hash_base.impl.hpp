@@ -37,7 +37,8 @@ public:
     virtual void RemoveItemExtraPart(int32_t a_dataIndex, bh::ItemBase* CPPUTILS_ARG_NN a_item) noexcept;
 
 public:
-    ConstCinternalHash_t    m_hash;
+    const CinternalHash_t               m_hash;
+    const CinternalHashConstBasic_t     m_hashBs;
 
 private:
     Hash_p(const Hash_p&) = delete;
@@ -54,7 +55,7 @@ private:
 template <typename TypeIterCont>
 Base<TypeIterCont>::~Base() noexcept
 {
-    const TypeCinternalDeallocator aDeallocator = m_clhash_data_p->m_hash->deallocator;
+    const TypeCinternalDeallocator aDeallocator = m_clhash_data_p->m_hashBs->deallocator;
     m_clhash_data_p->~Hash_p();
     (*aDeallocator)(m_clhash_data_p);
 }
@@ -65,13 +66,6 @@ Base<TypeIterCont>::Base(bh::Hash_p* CPPUTILS_ARG_NN a_clhash_data_p)
     :
     m_clhash_data_p(a_clhash_data_p)
 {
-}
-
-
-template <typename TypeIterCont>
-ConstCinternalHash_t Base<TypeIterCont>::getHash()const
-{
-    return m_clhash_data_p->m_hash;
 }
 
 
@@ -93,7 +87,7 @@ Base<TypeIterCont>::findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash
     const CinternalHashItem_t iter = CInternalHashFindEx(m_clhash_data_p->m_hash, (const void*)&extKey, sizeof(TypeKeyExt), a_pHash);
     if (iter) {
         const bh::ItemBase* const pNewItem = (const bh::ItemBase*)iter->data;
-        return (const Base<TypeIterCont>::Item<TypeData>*)pNewItem;
+        return (const Item<TypeData>*)pNewItem;
     }
     return nullptr;
 }
@@ -112,7 +106,7 @@ Base<TypeIterCont>::find(const TypeKey& a_key)const noexcept
 template <typename TypeIterCont>
 template <typename TypeData>
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
-Base<TypeIterCont>::findNextTheSame(const Base<TypeIterCont>::Iterator<TypeData>& a_prev ) const noexcept
+Base<TypeIterCont>::findNextTheSame(const Iterator<TypeData>& a_prev) const noexcept
 {
     const bh::ItemBase* const itemPrevVoid_p = (const bh::ItemBase*)a_prev;
     const CinternalHashItem_t hsIter = CInternalHashFindNextTheSame(m_clhash_data_p->m_hash, itemPrevVoid_p->hashIter);
@@ -129,7 +123,7 @@ template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... 
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args)
 {
-    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hashBs->allocator))(sizeof(Item<TypeData>)));
     if (!pNewItem) {
         throw ::std::bad_alloc();
     }
@@ -142,7 +136,7 @@ Base<TypeIterCont>::AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&
     pNewItem->hashIter = CInternalHashAddDataWithKnownHash(m_clhash_data_p->m_hash, pNewItem, (const void*)&extKey, sizeof(TypeKeyExt), a_hash);
     if (!(pNewItem->hashIter)) {
         pNewItem->~Item<TypeData>();
-        (*(m_clhash_data_p->m_hash->deallocator))(pNewItem);
+        (*(m_clhash_data_p->m_hashBs->deallocator))(pNewItem);
         throw ::std::bad_alloc();
     }
 
@@ -157,7 +151,7 @@ template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... 
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
 {
-    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hashBs->allocator))(sizeof(Item<TypeData>)));
     if (!pNewItem) {
         throw ::std::bad_alloc();
     }
@@ -170,7 +164,7 @@ Base<TypeIterCont>::AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args)
     pNewItem->hashIter = CInternalHashAddDataEvenIfExist(m_clhash_data_p->m_hash, pNewItem, (const void*)&extKey, sizeof(TypeKeyExt));
     if (!(pNewItem->hashIter)) {
         pNewItem->~Item<TypeData>();
-        (*(m_clhash_data_p->m_hash->deallocator))(pNewItem);
+        (*(m_clhash_data_p->m_hashBs->deallocator))(pNewItem);
         throw ::std::bad_alloc();
     }
 
@@ -185,7 +179,7 @@ template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... 
 inline const typename Base<TypeIterCont>::template Item<TypeData>*
 Base<TypeIterCont>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
 {
-    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hash->allocator))(sizeof(Item<TypeData>)));
+    Item<TypeData>* const pNewItem = (Item<TypeData>*)((*(m_clhash_data_p->m_hashBs->allocator))(sizeof(Item<TypeData>)));
     if (!pNewItem) {
         throw ::std::bad_alloc();
     }
@@ -198,13 +192,28 @@ Base<TypeIterCont>::AddIfNotExist(const TypeKey& a_key, Targs&&... a_args)
     pNewItem->hashIter = CInternalHashAddDataIfNotExists(m_clhash_data_p->m_hash, pNewItem, (const void*)&extKey, sizeof(TypeKeyExt));
     if (!(pNewItem->hashIter)) {
         pNewItem->~Item<TypeData>();
-        (*(m_clhash_data_p->m_hash->deallocator))(pNewItem);
+        (*(m_clhash_data_p->m_hashBs->deallocator))(pNewItem);
         return nullptr;
     }
 
     m_clhash_data_p->AddItemExtraPart(dataIndex, pNewItem);
 
     return (const Item<TypeData>*)pNewItem;
+}
+
+
+template <typename TypeIterCont>
+template <typename TypeData, typename TypeKey, typename TypeKeyExt, typename... Targs >
+inline const typename Base<TypeIterCont>::template Item<TypeData>*
+Base<TypeIterCont>::AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args)
+{
+    size_t unHash;
+    const Item<TypeData>* const pFoundItem = findEx < TypeData, TypeKey, TypeKeyExt>(a_key, &unHash);
+    if (pFoundItem) {
+        return pFoundItem;
+    }
+
+    return AddWithKnownHash<TypeData, TypeKey, TypeKeyExt, Targs...>(unHash, a_key, ::std::forward<Targs>(a_args)...);
 }
 
 
@@ -217,7 +226,7 @@ inline void Base<TypeIterCont>::RemoveEx(const Iterator<TypeData>& a_iter) noexc
     const int32_t dataIndex = reserveUniqueIdForDataInline<TypeData>();
     m_clhash_data_p->RemoveItemExtraPart(dataIndex, pItemBaseToDelete);
     pItemBaseToDelete->~ItemBase();
-    (*(m_clhash_data_p->m_hash->deallocator))(pItemBaseToDelete);
+    (*(m_clhash_data_p->m_hashBs->deallocator))(pItemBaseToDelete);
     CInternalHashRemoveDataEx(m_clhash_data_p->m_hash,hashIter);
 }
 
@@ -233,6 +242,25 @@ inline bool Base<TypeIterCont>::Remove(const TypeKey& a_key) noexcept
         return true;
     }
     return false;
+}
+
+
+template <typename TypeIterCont>
+template <typename TypeData, typename TypeKey, typename TypeKeyExt >
+inline const TypeKey& Base<TypeIterCont>::key(const Iterator<TypeData>& a_iter, bool* a_isValid_p) const noexcept
+{
+    const TypeKeyExt* const pKey = (const TypeKeyExt*)(a_iter->hashIter->key);
+    if (a_isValid_p) {
+        *a_isValid_p = true;
+    }
+    return pKey->rawKey;
+}
+
+
+template <typename TypeIterCont>
+CinternalHashConstBasic_t Base<TypeIterCont>::getConstHashBase()const noexcept
+{
+    return m_clhash_data_p->m_hashBs;
 }
 
 
@@ -354,4 +382,4 @@ Item<TypeBase,TypeData>::Item(Targs... a_args)
 }}  //  namespace cpputils { namespace collectionhash{
 
 
-#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_PUREHASH_IMPL_HPP
+#endif  //  #ifndef CPPUTILS_INCLUDE_CPPUTILS_HASH_BASE_IMPL_HPP

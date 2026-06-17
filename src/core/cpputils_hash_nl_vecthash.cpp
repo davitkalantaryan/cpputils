@@ -7,14 +7,14 @@
 //
 
 
-#include <cpputils/hash/vecthash.hpp>
+#include <cpputils/hash/nl/vecthash.hpp>
 #include <cinternal/disable_compiler_warnings.h>
 #include <new>
 #include <stdlib.h>
 #include <string.h>
 #include <cinternal/undisable_compiler_warnings.h>
 
-namespace cpputils { namespace hash{
+namespace cpputils { namespace hash{ namespace nl{
 
 namespace vh{
 
@@ -25,7 +25,7 @@ static bh::Hash_p* CreateCollectionHash_p(size_t a_numberOfBaskets, TypeCinterna
 
 VectHash::VectHash(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator, TypeCinternalDeallocator a_deallocator)
     :
-    Base(vh::CreateCollectionHash_p(a_numberOfBaskets,a_allocator,a_deallocator))
+    BaseNl(vh::CreateCollectionHash_p(a_numberOfBaskets,a_allocator,a_deallocator))
 {
 }
 
@@ -36,7 +36,7 @@ void VectHash::AllocateListsInAdvance(int32_t a_numberOfLists)
 }
 
 
-const vh::SVectData& VectHash::getVectDataForTypeData(const int32_t a_dataIndex)const noexcept
+const vh::SVectData& VectHash::getVectDataForTypeDataRaw(const int32_t a_dataIndex)const noexcept
 {
     ((vh::Hash_p*)m_clhash_data_p)->MakeSureHasEnoughLists(a_dataIndex);
     return ((vh::Hash_p*)m_clhash_data_p)->m_vects_p[a_dataIndex];
@@ -55,15 +55,15 @@ Hash_p::~Hash_p() noexcept
     for (int32_t i(0); i < m_numberOfAllocatedDataTypes; ++i) {
         unCount = m_vects_p[i].m_count;
         for (j = 0; j < unCount; ++j) {
-            pItem = m_vects_p[i].m_items_p[j];
+            pItem = const_cast<bh::ItemBase*>(m_vects_p[i].m_items_p[j]);
             bh::ItemBase* const pItemBaseToDelete = (bh::ItemBase*)pItem;
             CInternalHashRemoveDataEx(m_hash, pItem->hashIter);
             pItemBaseToDelete->~ItemBase();
-            (*(m_hash->deallocator))(pItem);
+            (*(m_hashBs->deallocator))(pItem);
         }
     }  //  for (size_t i(0); i < m_clmp_data_p->m_numberOfTypes; ++i) {
 
-    (*(m_hash->deallocator))(m_vects_p);
+    (*(m_hashBs->deallocator))(m_vects_p);
 }
 
 
@@ -81,7 +81,7 @@ inline void Hash_p::MakeSureHasEnoughLists(int32_t a_dataIndex)
     if (a_dataIndex >= m_numberOfAllocatedDataTypes) {
         const int32_t numberOfAllocatedTablesNew = a_dataIndex+1;
         vh::SVectData* const vects_p = m_vects_p;
-        m_vects_p = (vh::SVectData*)(*(m_hash->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(vh::SVectData)));
+        m_vects_p = (vh::SVectData*)(*(m_hashBs->allocator))((size_t)(numberOfAllocatedTablesNew * sizeof(vh::SVectData)));
         if (!m_vects_p) {
             m_vects_p = vects_p;
             throw ::std::bad_alloc();
@@ -101,8 +101,8 @@ inline void Hash_p::MakeSureCanAddItemToVector(int32_t a_dataIndex)
 {
     const size_t unNewCount = m_vects_p[a_dataIndex].m_count + 1;
     if ((m_vects_p[a_dataIndex].m_allocated) < unNewCount) {
-        bh::ItemBase** const items_p = m_vects_p[a_dataIndex].m_items_p;
-        m_vects_p[a_dataIndex].m_items_p = (bh::ItemBase**)(*(m_hash->allocator))(unNewCount * sizeof(bh::ItemBase*));
+        ConstItemBasePtr* const items_p = m_vects_p[a_dataIndex].m_items_p;
+        m_vects_p[a_dataIndex].m_items_p = (ConstItemBasePtr*)(*(m_hashBs->allocator))(unNewCount * sizeof(bh::ItemBase*));
         if (!(m_vects_p[a_dataIndex].m_items_p)) {
             m_vects_p[a_dataIndex].m_items_p = items_p;
             throw ::std::bad_alloc();
@@ -166,7 +166,7 @@ static bh::Hash_p* CreateCollectionHash_p(size_t a_numberOfBaskets, TypeCinterna
     return pClHsData;
 }
 
-}  //  namespace lh{
+}  //  namespace vh{
 
 
-}}  //  namespace cpputils { namespace hash{
+}}}  //  namespace cpputils { namespace hash{ namespace nl{

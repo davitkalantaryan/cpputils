@@ -12,75 +12,140 @@
 
 
 #include <cpputils/export_symbols.h>
-#include <cpputils/hash/purehash.hpp>
+#include <cpputils/hash/nl/base.hpp>
+#include <cpputils/recursive_rwlock.hpp>
 #ifdef CPPUTILS_USE_CPPUTILS_SHARED_PTR
 #include <cpputils/sharedptr.hpp>
 #endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <shared_mutex>
-#include <type_traits>
+#include <mutex>
+#include <functional>
 #include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils { namespace hash{ namespace mt{
 
+template <typename TypeHash>
+class BaseMtListAndVect;
 
 template <typename TypeHash>
-class CPPUTILS_EXPORT Base
+class BaseMt
 {
 public:
 #ifdef CPPUTILS_USE_CPPUTILS_SHARED_PTR
     template <typename TypeData>
-    using Iterator = cpputils::SharedPtr<TypeData>;
+    using SharedPtr = cpputils::SharedPtr<TypeData>;
 #else
     template <typename TypeData>
-    using Iterator = ::std::shared_ptr<TypeData>;
+    using SharedPtr = ::std::shared_ptr<TypeData>;
 #endif
+    typedef TypeHash  RawHash;
+    typedef ::std::function<void()> FncLockedCaller;
     template <typename TypeData>
-    using IteratorRaw = typename TypeHash::template Iterator<Iterator<TypeData> >;
+    struct Item;
+    template <typename TypeData>
+    using Iterator = SharedPtr<const Item<TypeData> >;
+    template <typename TypeKey>
+    using TypeKeyFncRet = TypeKey;
+    static constexpr bool is_some_funcs_noexcept = false;
 
 public:
-    Base(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
+    BaseMt(size_t a_numberOfBaskets, TypeCinternalAllocator a_allocator = nullptr, TypeCinternalDeallocator a_deallocator = nullptr);
 
     template <typename TypeData>
     inline int32_t reserveUniqueIdForDataInline(void) const noexcept;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const noexcept;
+    inline Iterator<TypeData> findEx(const TypeKey& a_key, size_t* CPPUTILS_ARG_NN a_pHash)const;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline Iterator<TypeData> find(const TypeKey& a_key)const noexcept;
-    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline void AddWithKnownHashIt(size_t a_hash, const TypeKey& a_key, const Iterator<TypeData>& a_iter);
-    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline void AddEvenIfExistIt(const TypeKey& a_key, const Iterator<TypeData>& a_iter);
-    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline Iterator<TypeData> AddIfNotExistIt(const TypeKey& a_key, const Iterator<TypeData>& a_iter);
+    inline Iterator<TypeData> find(const TypeKey& a_key)const;
+    template <typename TypeData>
+    inline Iterator<TypeData> findNextTheSame(const Iterator<TypeData>& a_prev) const;
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
-    inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
-        AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
+    inline Iterator<TypeData> AddWithKnownHash(size_t a_hash, const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
-    inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
-        AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
+    inline Iterator<TypeData> AddEvenIfExist(const TypeKey& a_key, Targs&&... a_args);
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
-    inline typename ::std::enable_if< ::std::is_constructible<TypeData, Targs&&...>::value, typename Base<TypeHash>::template Iterator<TypeData> >::type
-        AddIfNotExist(const TypeKey& a_key, Targs&&... a_args);
+    inline Iterator<TypeData> AddIfNotExist(const TypeKey& a_key, Targs&&... a_args); 
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey>, typename... Targs>
+    inline Iterator<TypeData> AddOrReturnExisting(const TypeKey& a_key, Targs&&... a_args);
+    template <typename TypeData >
+    inline void RemoveEx(const Iterator<TypeData>& a_iter);
     template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
-    inline bool Remove(const TypeKey& a_key) noexcept;
-    // do not use below function to manipulate hash directly
-    ConstCinternalHash_t getHash()const;
+    inline bool Remove(const TypeKey& a_key);
+    template <typename TypeData, typename TypeKey, typename TypeKeyExt = bh::SKeyAny<TypeKey> >
+    inline TypeKeyFncRet<TypeKey> key(const Iterator<TypeData>& a_iter, bool* a_isValid_p=nullptr) const;
+    CinternalHashConstBasic_t getConstHashBase()const noexcept;
+
+    // specific
+    void callConstHashFuncs(const FncLockedCaller& a_sharedLockedCalee)const;
+    void CallHashFuncs(const FncLockedCaller& a_uniqueLockedCalee);
 
 protected:
     template <typename TypeData>
     using ItemRaw = typename TypeHash::template Item<TypeData>;
 
 protected:
-    TypeHash                    m_nsHash;
-    mutable ::std::shared_mutex m_mutex;
+    TypeHash                            m_nsHash;
+    const CinternalHashConstBasic_t     m_hashBs;
+    mutable ::cpputils::RecursiveRWLock m_mutex;
 
 protected:
-    Base(const Base&) = delete;
-    Base(Base&&) = delete;
-    Base& operator=(const Base&) = delete;
-    Base& operator=(Base&&) = delete;
+    BaseMt(const BaseMt&) = delete;
+    BaseMt(BaseMt&&) = delete;
+    BaseMt& operator=(const BaseMt&) = delete;
+    BaseMt& operator=(BaseMt&&) = delete;
+
+public:
+    template <typename TypeData>
+    struct Item {
+        mutable TypeData        data;
+        template <typename... Targs>
+        Item(Targs&&... a_args) : data(::std::forward<Targs>(a_args)...), iter(nullptr) {}
+    private:
+        using IteratorNL = typename TypeHash::template Iterator<Iterator<TypeData> >;
+        IteratorNL    iter;
+        Item(const Item&) = delete;
+        Item(Item&&) = delete;
+        Item& operator=(const Item&) = delete;
+        Item& operator=(Item&&) = delete;
+        friend class BaseMt;
+        friend class BaseMtListAndVect<TypeHash>;
+    };
+};
+
+
+template <typename TypeHash>
+class BaseMtListAndVect : public hash::mt::BaseMt<TypeHash>
+{
+public:
+    template <typename TypeData>
+    using Iterator = typename BaseMt<TypeHash>::template Iterator<TypeData>;
+    template <typename TypeData>
+    using Item = typename BaseMt<TypeHash>::template Item<TypeData>;
+    template <typename TypeData, typename TypeKey>
+    using TypeIterFunc = ::std::function<bool(TypeData&,const TypeKey&)>;  // true -> continue, false stop
+    template <typename TypeData>
+    using TypeIterFuncChng = ::std::function<bool(const Iterator<TypeData>&)>;  // true -> continue, false stop
+
+public:
+    using BaseMt<TypeHash>::BaseMt;
+
+    void AllocateListsInAdvance(int32_t a_numberOfLists);
+    template <typename TypeData>
+    Iterator<TypeData> first()const;
+    template <typename TypeData>
+    Iterator<TypeData> last()const;
+    template <typename TypeData>
+    size_t count()const noexcept;
+    template <typename TypeData>
+    void MoveToStart(const Iterator<TypeData>& a_iter);
+    template <typename TypeData>
+    void MoveToEnd(const Iterator<TypeData>& a_iter);
+    
+protected:
+    template <typename TypeData>
+    using IteratorRaw = typename TypeHash::template Iterator<TypeData>;
 };
 
 
