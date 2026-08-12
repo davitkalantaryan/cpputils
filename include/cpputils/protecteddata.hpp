@@ -10,49 +10,42 @@
 
 
 #include <cpputils/export_symbols.h>
-#include <cinternal/disable_compiler_warnings.h>
-#include <stddef.h>
-#include <mutex>
-#include <cinternal/undisable_compiler_warnings.h>
+#include <cpputils/recursive_rwlock.hpp>
 
 
 namespace cpputils {
 
-template <typename DataType, typename Mutex=::std::mutex>
+
+template <typename DataType, typename RwMutex=::cpputils::RecursiveRWLock>
 class ProtectedData
 {
 public:
-    template<typename... Targs>
-    ProtectedData(Targs... a_args);
-    template<typename... Targs>
-    ProtectedData(Mutex* a_pMutex, Targs... a_args);
+    ~ProtectedData();
+    ProtectedData();
+    ProtectedData(RwMutex* CPPUTILS_ARG_NN a_pMutex);
+    ProtectedData(const DataType& a_data);
+    ProtectedData(const DataType& a_data, RwMutex* CPPUTILS_ARG_NN a_pMutex);
+    ProtectedData(DataType&& a_data);
+    ProtectedData(DataType&& a_data, RwMutex* CPPUTILS_ARG_NN a_pMutex);
+    ProtectedData(const ProtectedData& a_cM);
+    ProtectedData(ProtectedData&& a_mM);
 
-    virtual ~ProtectedData();
-
-    ProtectedData& operator=(const ProtectedData& a_data);
-    ProtectedData& operator=(ProtectedData&& a_data);
+    ProtectedData& operator=(const ProtectedData& a_cM);
+    ProtectedData& operator=(ProtectedData&& a_mM);
+    ProtectedData& operator=(const DataType& a_data);
+    ProtectedData& operator=(DataType&& a_data);
     operator DataType()const;
 
-    void lock()const;
-    void unlock()const;
-    const DataType& dataNoLock()const;
-    DataType& dataNoLock();
-    void SetDataC(const DataType& a_data);
-    void SetDataM(DataType& a_data);
-    void SetDataM(DataType&& a_data);
-    DataType data()const;
-
-protected:
-    Mutex* const            m_pMutex;
+private:
+    RwMutex* const          m_pMutex;
     DataType                m_data;
-    const bool              m_bOwnerOfMutex;
+    bool                    m_bOwnerOfMutex;
 };
-
 
 }  // namespace cpputils {
 
 #ifndef CPPUTILS_INCLUDE_PROTECTEDDATA_IMPL_HPP
-#include "protecteddata.impl.hpp"
+#include <cpputils/protecteddata.impl.hpp>
 #endif
 
 
