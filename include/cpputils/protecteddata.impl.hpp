@@ -9,155 +9,162 @@
 #define CPPUTILS_INCLUDE_PROTECTEDDATA_IMPL_HPP
 
 #ifndef CPPUTILS_INCLUDE_PROTECTEDDATA_HPP
-#include "protecteddata.hpp"
+#include <cpputils/protecteddata.hpp>
 #endif
 #include <cinternal/disable_compiler_warnings.h>
 #include <utility>
+#include <mutex>
+#include <shared_mutex>
 #include <cinternal/undisable_compiler_warnings.h>
 
 
 namespace cpputils {
 
 
-template <typename DataType, typename Mutex>
-template<typename... Targs>
-ProtectedData<DataType,Mutex>::ProtectedData(Targs... a_args)
-    :
-    m_pMutex(new Mutex()),
-    m_data(a_args...),
-    m_bOwnerOfMutex(true)
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::~ProtectedData()
 {
-}
-
-
-template <typename DataType, typename Mutex>
-template<typename... Targs>
-ProtectedData<DataType, Mutex>::ProtectedData(Mutex* a_pMutex, Targs... a_args)
-    :
-    m_pMutex(a_pMutex ? a_pMutex : (new Mutex())),
-    m_data(a_args...),
-    m_bOwnerOfMutex(a_pMutex ? false : true)
-{
-}
-
-
-template <typename DataType, typename Mutex>
-ProtectedData<DataType, Mutex>::~ProtectedData()
-{
-    if (m_bOwnerOfMutex) {
+    if(m_bOwnerOfMutex){
         delete m_pMutex;
     }
 }
 
 
-template <typename DataType, typename Mutex>
-ProtectedData<DataType,Mutex>& ProtectedData<DataType,Mutex>::operator=(const ProtectedData& a_data)
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData()
+    :
+    m_pMutex(new RwMutex()),
+    m_bOwnerOfMutex(true)
 {
-    DataType otherData;
-    {
-        ::std::lock_guard<Mutex> aGuard(*(a_data.m_pMutex));
-        otherData = a_data.m_data;
-    }
+}
 
-    {
-        ::std::lock_guard<Mutex> aGuard(*(m_pMutex));
-        m_data = ::std::move(otherData);
-    }
 
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(RwMutex* CPPUTILS_ARG_NN a_pMutex)
+    :
+    m_pMutex(a_pMutex),
+    m_bOwnerOfMutex(false)
+{
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(const DataType& a_data)
+    :
+    m_pMutex(new RwMutex()),
+    m_data(a_data),
+    m_bOwnerOfMutex(true)
+{
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(const DataType& a_data, RwMutex* CPPUTILS_ARG_NN a_pMutex)
+    :
+    m_pMutex(a_pMutex),
+    m_data(a_data),
+    m_bOwnerOfMutex(false)
+{
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(DataType&& a_data)
+    :
+    m_pMutex(new RwMutex()),
+    m_data(::std::move(a_data)),
+    m_bOwnerOfMutex(true)
+{
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(DataType&& a_data, RwMutex* CPPUTILS_ARG_NN a_pMutex)
+    :
+    m_pMutex(a_pMutex),
+    m_data(::std::move(a_data)),
+    m_bOwnerOfMutex(false)
+{
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(const ProtectedData& a_cM)
+    :
+    m_pMutex(a_cM.m_bOwnerOfMutex ? (new RwMutex()) : a_cM.m_pMutex),
+    m_data(a_cM.m_data),
+    m_bOwnerOfMutex(a_cM.m_bOwnerOfMutex)
+{
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::ProtectedData(ProtectedData&& a_mM)
+    :
+    m_pMutex(a_mM.m_pMutex),
+    m_data(::std::move(a_mM.m_data)),
+    m_bOwnerOfMutex(a_mM.m_bOwnerOfMutex)
+{
+    a_mM.m_bOwnerOfMutex = false;
+}
+
+
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>& ProtectedData<DataType,RwMutex>::operator=(const ProtectedData& a_cM)
+{
+    {  //  lock guard 1
+        ::std::lock_guard<RwMutex> unGuard(*m_pMutex);
+        {  //  lock guard 2
+            ::std::shared_lock<RwMutex> shGuard(*(a_cM.m_pMutex));
+            m_data = a_cM.m_data;
+        }  //  end of lock guard 2
+    }  //  end of lock guard 1
     return *this;
 }
 
 
-template <typename DataType, typename Mutex>
-ProtectedData<DataType,Mutex>& ProtectedData<DataType,Mutex>::operator=(ProtectedData&& a_data)
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>& ProtectedData<DataType,RwMutex>::operator=(ProtectedData&& a_mM)
 {
-    DataType otherData;
-    {
-        ::std::lock_guard<Mutex> aGuard(*(a_data.m_pMutex));
-        otherData = ::std::move(a_data.m_data);
-    }
-
-    {
-        ::std::lock_guard<Mutex> aGuard(*(m_pMutex));
-        m_data = ::std::move(otherData);
-    }
-
+    {  //  lock guard
+        ::std::lock_guard<RwMutex> unGuard(*m_pMutex);
+        m_data = ::std::move(a_mM.m_data);
+    }  //  end of lock guard
     return *this;
 }
 
 
-template <typename DataType, typename Mutex>
-ProtectedData<DataType,Mutex>::operator DataType()const
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>& ProtectedData<DataType,RwMutex>::operator=(const DataType& a_data)
 {
-    DataType retData;
-    {
-        ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-        retData = m_data;
-    }
-    return retData;
+    {  //  lock guard
+        ::std::lock_guard<RwMutex> unGuard(*m_pMutex);
+        m_data = a_data;
+    }  //  end of lock guard
+    return *this;
 }
 
 
-template <typename DataType, typename Mutex>
-void ProtectedData<DataType,Mutex>::lock()const
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>& ProtectedData<DataType,RwMutex>::operator=(DataType&& a_data)
 {
-    m_pMutex->lock();
+    {  //  lock guard
+        ::std::lock_guard<RwMutex> unGuard(*m_pMutex);
+        m_data = ::std::move(a_data);
+    }  //  end of lock guard
+    return *this;
 }
 
 
-template <typename DataType, typename Mutex>
-void ProtectedData<DataType,Mutex>::unlock()const
+template <typename DataType, typename RwMutex>
+ProtectedData<DataType,RwMutex>::operator DataType()const
 {
-    m_pMutex->unlock();
-}
-
-template <typename DataType, typename Mutex>
-const DataType& ProtectedData<DataType,Mutex>::dataNoLock()const
-{
-    return m_data;
-}
-
-
-template <typename DataType, typename Mutex>
-DataType& ProtectedData<DataType,Mutex>::dataNoLock()
-{
-    return m_data;
-}
-
-
-template <typename DataType, typename Mutex>
-void ProtectedData<DataType,Mutex>::SetDataC(const DataType& a_data)
-{
-    ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-    m_data = a_data;
-}
-
-
-template <typename DataType, typename Mutex>
-void ProtectedData<DataType,Mutex>::SetDataM(DataType& a_data)
-{
-    ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-    m_data = ::std::move(a_data);
-}
-
-
-template <typename DataType, typename Mutex>
-void ProtectedData<DataType,Mutex>::SetDataM(DataType&& a_data)
-{
-    ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-    m_data = ::std::move(a_data);
-}
-
-
-template <typename DataType, typename Mutex>
-DataType ProtectedData<DataType,Mutex>::data()const
-{
-    DataType retData;
-    {
-        ::std::lock_guard<Mutex> aGuard(*m_pMutex);
-        retData = m_data;
-    }
-    return retData;
+    DataType aData;
+    {  //  lock guard
+        ::std::shared_lock<RwMutex> shGuard(*m_pMutex);
+        aData = m_data;
+    }  //  end of lock guard
+    return aData;
 }
 
 
